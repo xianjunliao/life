@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="1800">
+	<properties>
+		<property name="LOG_HOME">D:/rccms-log/</property>
+		<property name="ERROR_LOG_NAME">rccms_web_error</property>
+		<property name="INFO_LOG_NAME">rccms_web_info</property>
+		<property name="DEBUG_LOG_NAME">rccms_web_debug</property>
+		<property name="log_pattern">%d %-5p (%F:%L) - %m%n</property>
+	</properties>
+
+	<Appenders>
+		<!-- <File name="ApplicationLog" fileName="${web:rootDir}/app.log" /> -->
+
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${log_pattern}" />
+		</Console>
+
+		<RollingRandomAccessFile name="errorLog"
+			fileName="${LOG_HOME}/${ERROR_LOG_NAME}.log" filePattern="${LOG_HOME}/${ERROR_LOG_NAME}.log.%d{yyyy-MM-dd}.gz">
+			<PatternLayout pattern="${log_pattern}" />
+				<ThresholdFilter level="error" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="infoLog"
+			fileName="${LOG_HOME}/${INFO_LOG_NAME}.log" filePattern="${LOG_HOME}/${INFO_LOG_NAME}.log.%d{yyyy-MM-dd}.gz">
+			<PatternLayout pattern="${log_pattern}" />
+			<Filters>
+			    <!-- 优先级从低到高为：ALL<TRACE<DEBUG<INFO<WARN<ERROR<FATAL<OFF -->
+				<ThresholdFilter level="info" onMatch="ACCEPT"
+					onMismatch="DENY"/>
+			</Filters>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+		
+		<RollingRandomAccessFile name="debugLog"
+			fileName="${LOG_HOME}/${DEBUG_LOG_NAME}.log" filePattern="${LOG_HOME}/${DEBUG_LOG_NAME}.log.%d{yyyy-MM-dd}.gz">
+			<PatternLayout pattern="${log_pattern}" />
+			<Filters>
+			    <!-- 优先级从低到高为：ALL<TRACE<DEBUG<INFO<WARN<ERROR<FATAL<OFF -->
+				<ThresholdFilter level="debug" onMatch="ACCEPT"
+					onMismatch="DENY"/>
+			</Filters>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<!-- 3rdparty Loggers -->
+		<logger name="org.springframework" level="INFO"></logger>
+		<logger name="org.mybatis" level="DEBUG"></logger>
+		<!-- 经销商模块SQL -->
+		<Logger name="com.bqrzzl.rccms" level="TRACE" additivity="false"> 
+	      <AppenderRef ref="Console"/>  
+	    </Logger>
+	   
+		<root level="info" includeLocation="true">
+			<appender-ref ref="debugLog" />
+			<appender-ref ref="infoLog" />
+			<appender-ref ref="errorLog" />
+			<appender-ref ref="Console" />
+		</root>
+	</Loggers>
+</Configuration>
