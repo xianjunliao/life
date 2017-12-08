@@ -714,7 +714,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>${name}-${version}</finalName>
+		<finalName>life</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

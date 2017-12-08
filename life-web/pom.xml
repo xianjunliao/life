@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>life-web</artifactId>
 	<packaging>war</packaging>
-	<name>rccms-web Maven Webapp</name>
+	<name>life</name>
 	<url>http://maven.apache.org</url>
 	<build>  
     <plugins>  
