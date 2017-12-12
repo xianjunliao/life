@@ -82,7 +82,7 @@
 	}
 
 	function welcomeTo(m) {
-		var t = 1000;
+		var t = 1500;
 		var d = [];
 		for (i = 0; i < m.length; i++) {
 			if (i == 0) {
