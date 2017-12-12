@@ -115,8 +115,9 @@
 	}
 	
 	function playMp3(songName){
-		$('#music').append('<audio style="height: 30px;float:right;" id="audio" src="${base}/music/'+songName+'" controls="controls"></audio>');	
+		$('#music').append('<audio style="height: 30px;" id="audio" src="${base}/music/'+songName+'"></audio>');	
 		var myAuto = document.getElementById('audio');
+		myAuto.controls=true;
 		myAuto.play();
 	}
 </script>
@@ -129,7 +130,7 @@
 	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;">
 		<div data-options="region:'north',border:false" style="width: 100%;height: 50px"></div>
 		<div data-options="region:'south',split:false,border:false" style="width: 100%;height: 30px;overflow: hidden;">
-		 <div id="music"></div>
+		 <div id="music" style="float:right;"></div>
 		</div>
 		<div data-options="region:'west',split:false,border:false" style="width: 200px;"></div>
 		<div data-options="region:'center',title:'',iconCls:'icon-ok',border:false">
