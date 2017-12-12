@@ -7,10 +7,12 @@
 	<result column="create_time" property="createTime" jdbcType="VARCHAR" />
 	<result column="user_role" property="userRole" jdbcType="VARCHAR" />
 	<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+	<result column="user_motto" property="userMotto" jdbcType="VARCHAR" />
+	<result column="user_music" property="userMusic" jdbcType="VARCHAR" />
 </resultMap>
   
-  <select id="checkEnterCode" parameterType="com.life.model.LifeUserModel">
-  select count(1) from life_user where user_code=#{userCode}
+  <select id="checkEnterCode" parameterType="com.life.model.LifeUserModel"  resultType="com.life.model.LifeUserModel" >
+  select user_code,user_motto,create_time,user_role,update_time,user_music from life_user where user_code=#{code}
   </select>
  
 </mapper>

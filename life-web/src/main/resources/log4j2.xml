@@ -63,7 +63,7 @@
 		<logger name="org.springframework" level="INFO"></logger>
 		<logger name="org.mybatis" level="DEBUG"></logger>
 		<!-- 经销商模块SQL -->
-		<Logger name="com.bqrzzl.rccms" level="TRACE" additivity="false"> 
+		<Logger name="com.life" level="TRACE" additivity="false"> 
 	      <AppenderRef ref="Console"/>  
 	    </Logger>
 	   

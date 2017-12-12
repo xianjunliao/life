@@ -1,9 +1,11 @@
 package com.life.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.life.model.LifeUserModel;
 
 public interface LifeUserDao {
 
-	public long checkEnterCode(LifeUserModel userModel);
+	public LifeUserModel checkEnterCode(@Param("code")String code);
 	
 }

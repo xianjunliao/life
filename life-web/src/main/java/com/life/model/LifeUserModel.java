@@ -11,6 +11,15 @@ public class LifeUserModel implements Serializable{
 	private String createTime;//创建时间
 	private String userRole;//用户角色
 	private String updateTime;//修改时间
+	private String userMotto;//座右铭
+	private String userMusic;//音乐名称
+	
+	public String getUserMotto() {
+		return userMotto;
+	}
+	public void setUserMotto(String userMotto) {
+		this.userMotto = userMotto;
+	}
 	public String getUserCode() {
 		return userCode;
 	}
@@ -34,10 +43,18 @@ public class LifeUserModel implements Serializable{
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+
+	}
+	public String getUserMusic() {
+		return userMusic;
+	}
+	public void setUserMusic(String userMusic) {
+		this.userMusic = userMusic;
 	}
 	@Override
 	public String toString() {
 		return "LifeUserModel [userCode=" + userCode + ", createTime=" + createTime + ", userRole=" + userRole
-				+ ", updateTime=" + updateTime + "]";
+				+ ", updateTime=" + updateTime + ", userMotto=" + userMotto + ", userMusic=" + userMusic + "]";
 	}
+	
 }
