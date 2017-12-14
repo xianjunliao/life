@@ -10,8 +10,8 @@
 	}
 </script>
 </head>
-<body>
-	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;">
+<body style="margin: 0px;overflow: hidden;">
+	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;overflow: hidden;">
 		<div data-options="region:'north',border:true" style="width: 100%; height: 50px"></div>
 		<div data-options="region:'south',split:false,border:true" style="width: 100%; height: 20px; overflow: hidden;">
 			<div id="music" style="float: right;">

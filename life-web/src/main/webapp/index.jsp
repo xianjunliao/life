@@ -115,7 +115,7 @@
 	}
 </script>
 </head>
-<body style="margin: 0px;">
+<body style="margin: 0px;overflow: hidden;">
 	<div id="entrance" class="easyui-dialog" title="" data-options="iconCls:'icon-save',closable: true,border:false " style="width: 370px; height: 45px; padding: 5px">
 		<input class="easyui-textbox" id="code" data-options="prompt:'Please enter your code...'" style="width: 358px; height: 34px">
 	</div>
@@ -123,7 +123,7 @@
 	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;">
 		<div data-options="region:'south',split:false,border:false" style="width: 100%; height: 30px; overflow: hidden;">
 			<div id="but" style="float: left;"></div>
-			<div id="music" style="float: right;">
+			<div id="music" style="float: right; overflow: hidden;">
 				<table>
 					<tr>
 						<td><div id="world"></div></td>

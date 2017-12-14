@@ -3,6 +3,7 @@
 	<name>life</name>
 	<comment></comment>
 	<projects>
+		<project>life-web</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
