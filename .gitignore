@@ -1,2 +1,5 @@
 /.settings
 /life-web/.settings
+/*.project
+/life-web/*.project
+/life-web/*.classpath
