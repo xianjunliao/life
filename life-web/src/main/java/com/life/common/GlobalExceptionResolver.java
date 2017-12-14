@@ -9,30 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
-/******************************************************************************
-* Copyright © 2014 billionscredit.com
-* All Rights Reserved.
-* 本软件为佰仟融资租赁有限公司�?发研制�?�未经本公司正式书面同意，其他任何个人�?�团体不得使用�??
-* 复制、修改或发布本软�?.
-***********************************************************com.life.common
-package com.bqrzzl.rccms.core;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
-/**
- * 异常全局处理
- * 
- * @author 卢赛
- * @since  1.0
- * @version 2017�?9�?8�? 卢赛
- */
 public class GlobalExceptionResolver extends SimpleMappingExceptionResolver {
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,

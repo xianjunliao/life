@@ -3,7 +3,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="edge" />
 <style>
 </style>
 <script type="text/javascript">
@@ -18,7 +17,7 @@
 							//提交数据的类型 POST GET
 							type : "POST",
 							//提交的网址
-							url : "${base}/entrance/enterCode",
+							url : "${base}/enterCode",
 							//提交的数据
 							data : {
 								code : v
@@ -110,7 +109,7 @@
 	}
 
 	function intoWorld(v) {
-		self.location.href = "${base}entrance/main";
+		self.location.href = "${base}RSSFeed";
 
 	}
 </script>

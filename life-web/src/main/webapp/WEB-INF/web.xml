@@ -77,7 +77,6 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
 	<!-- 使用tomcat的defaultServlet处理静态资源 -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

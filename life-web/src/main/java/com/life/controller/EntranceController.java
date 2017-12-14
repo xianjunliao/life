@@ -20,7 +20,7 @@ import com.life.service.LifeUserService;
 import com.life.util.StringUtil;
 
 @Controller
-@RequestMapping("entrance")
+//@RequestMapping("entrance")
 public class EntranceController {
 
 	@Autowired

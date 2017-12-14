@@ -10,12 +10,12 @@
 	}
 </script>
 </head>
-<body style="margin: 0px;overflow: hidden;">
-	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;overflow: hidden;">
+<body style="margin:10px;overflow: hidden;">
+	<div id="main" class="easyui-layout" style="width: 100%; height: 98%;">
 		<div data-options="region:'north',border:true" style="width: 100%; height: 50px"></div>
-		<div data-options="region:'south',split:false,border:true" style="width: 100%; height: 20px; overflow: hidden;">
+		<div data-options="region:'south',split:false,border:true" style="width: 100%; height: 35px; overflow: hidden;">
 			<div id="music" style="float: right;">
-				<a href="javascript:void(0)" onclick="outWorld()" style="mmargin-bottom: 5px; text-decoration: underline;font-size: 18px"><b>out your world </b></a>
+				<a href="javascript:void(0)" onclick="outWorld()" style="text-decoration: underline;font-size:24px"><b>out your world</b></a><span>&nbsp;&nbsp;</span>
 			</div>
 		</div>
 		<div data-options="region:'west',split:false,border:true" style="width: 200px;"></div>

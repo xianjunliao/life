@@ -1,0 +1,12 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,com.life.util.*"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+	response.setHeader("X-Frame-Options", "ALLOW-FROM");
+	String xml = "https://cn.engadget.com/rss.xml";
+	String json = RSSUtil.xmlToJson(xml);
+	out.println(json);
+	// 	System.out.println(json);
+%>
