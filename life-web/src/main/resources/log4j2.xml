@@ -2,9 +2,9 @@
 <Configuration status="off" monitorInterval="1800">
 	<properties>
 		<property name="LOG_HOME">D:/life-log/</property>
-		<property name="ERROR_LOG_NAME">rccms_web_error</property>
-		<property name="INFO_LOG_NAME">rccms_web_info</property>
-		<property name="DEBUG_LOG_NAME">rccms_web_debug</property>
+		<property name="ERROR_LOG_NAME">life_web_error</property>
+		<property name="INFO_LOG_NAME">life_web_info</property>
+		<property name="DEBUG_LOG_NAME">life_web_debug</property>
 		<property name="log_pattern">%d %-5p (%F:%L) - %m%n</property>
 	</properties>
 
