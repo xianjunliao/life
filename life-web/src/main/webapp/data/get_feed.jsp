@@ -5,7 +5,7 @@
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
-	String xml = "https://cn.engadget.com/rss.xml";
+	String xml = "https://www.zhihu.com/rss";
 	String json = RSSUtil.xmlToJson(xml);
 	out.println(json);
 	// 	System.out.println(json);

@@ -1,6 +1,7 @@
 package com.life.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,27 +16,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.model.LifeUserModel;
-import com.life.service.LifeUserService;
+import com.life.model.TreeModel;
+import com.life.service.TreeService;
 
 @Controller
-//@RequestMapping("entrance")
-public class EntranceController {
+ @RequestMapping("tree")
+public class TreeController {
 
 	@Autowired
-	private LifeUserService lifeUserService;
+	private TreeService treeService;
 	/**
 	 * 模板存放目录
 	 */
-	private final static String FTL_DIR = "/";
+	private final static String FTL_DIR = "tree/";
 
 	@ResponseBody
-	@RequestMapping("enterCode")
-	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
-		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-		request.getSession().setMaxInactiveInterval(3600);
-		return lifeUserModel;
+	@RequestMapping("tree1")
+	public List<TreeModel> enterCode(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		treeModel.setUserCode(attribute.getUserCode());
+		List<TreeModel> tree = treeService.getTree(treeModel);
+		return tree;
 	}
 
 	/**
@@ -52,9 +53,7 @@ public class EntranceController {
 	 * @throws ServletException
 	 */
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params,
-			ModelMap model, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		if (null == attribute) {
 			return "error/500.jsp";
@@ -62,5 +61,5 @@ public class EntranceController {
 		model.put("code", attribute);
 		return FTL_DIR + pageName + ".jsp";
 	}
-	
+
 }
