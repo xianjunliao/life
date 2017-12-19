@@ -8,8 +8,8 @@
 <body> 
 <div>
 <h1>500</h1>
-<h2>服务器出现异常；1.身份信息过期 ，2.服务器出现异常，3.15889303913 联系电话</h2>
-<h6><a style="text-decoration: underline;" href="${base}">回到入口......</a></h6>
+<h6>服务器出现异常；1.身份信息过期 ，2.服务器出现异常</h6>
+<h6><a style="text-decoration: underline;" href="${base}"> 刷新  </a></h6>
 </div>
 </body>
 </html>

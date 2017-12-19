@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.life.model.LifeUserModel;
 import com.life.model.TreeModel;
 import com.life.service.TreeService;
+import com.life.util.RSSUtil;
 
 @Controller
  @RequestMapping("tree")
@@ -31,14 +32,31 @@ public class TreeController {
 	private final static String FTL_DIR = "tree/";
 
 	@ResponseBody
-	@RequestMapping("tree1")
-	public List<TreeModel> enterCode(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping("panentTree")
+	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
+		treeModel.setPid("0");
 		List<TreeModel> tree = treeService.getTree(treeModel);
 		return tree;
 	}
 
+	@ResponseBody
+	@RequestMapping("getChildNode")
+	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		treeModel.setUserCode(attribute.getUserCode());
+		List<TreeModel> tree = treeService.getChildNode2(treeModel);
+		return tree;
+	}
+	
+	@ResponseBody
+	@RequestMapping("getUrlData")
+	public String getUrlData(String url, HttpServletRequest request, HttpServletResponse response){
+		String json = RSSUtil.xmlToJson(url);
+		return json;
+	}
+	
 	/**
 	 * 页面跳转
 	 *

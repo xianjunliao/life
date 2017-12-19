@@ -6,8 +6,17 @@ public class RSS {
 	*/
 	private String title;
 	private String link;
+	private String descriptionLong;
 	private String description;
 	private String pubdate;
+
+	public String getDescriptionLong() {
+		return descriptionLong;
+	}
+
+	public void setDescriptionLong(String descriptionLong) {
+		this.descriptionLong = descriptionLong;
+	}
 
 	public RSS() {
 	// TODO Auto-generated constructor stub
@@ -63,7 +72,6 @@ public class RSS {
 
 	@Override
 	public String toString() {
-	return "RSS [title=" + title + ", link=" + link + ", description="
-	+ description + ", pubdate=" + pubdate + "]";
+		return "RSS [title=" + title + ", link=" + link + ", descriptionLong=" + descriptionLong + ", description=" + description + ", pubdate=" + pubdate + "]";
 	}
 }
