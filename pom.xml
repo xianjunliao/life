@@ -7,6 +7,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>life-web</module>
+		<module>life-common</module>
+		<module>life-api</module>
 	</modules>
 	<repositories>
 		<repository>

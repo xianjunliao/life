@@ -28,7 +28,7 @@
 		<property name="mapperLocations">
 			<list value-type="">
 				<value>
-					classpath*:META-INF/sqlmapper/**/*Mapper.xml
+					classpath*:sqlmapper/**/*Mapper.xml
 				</value>
 			</list>
 		</property>

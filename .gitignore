@@ -3,3 +3,9 @@
 /*.project
 /life-web/*.project
 /life-web/*.classpath
+/life-api/*.classpath
+/life-api/*.project
+/life-common/*.classpath
+/life-common/*.project
+/life-api/.settings
+/life-common/.settings

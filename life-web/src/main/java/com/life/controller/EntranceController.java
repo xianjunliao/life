@@ -2,11 +2,11 @@ package com.life.controller;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,7 +21,7 @@ import com.life.service.LifeUserService;
 //@RequestMapping("entrance")
 public class EntranceController {
 
-	@Autowired
+	@Resource(name="lifeUserService")
 	private LifeUserService lifeUserService;
 	/**
 	 * 模板存放目录

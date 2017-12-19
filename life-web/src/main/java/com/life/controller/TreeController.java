@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.life.common.util.RSSUtil;
 import com.life.model.LifeUserModel;
 import com.life.model.TreeModel;
 import com.life.service.TreeService;
-import com.life.util.RSSUtil;
 
 @Controller
  @RequestMapping("tree")
