@@ -34,15 +34,13 @@ $(function() {
 						title : n.text,
 						iconCls : n.iconCls,
 						selected : true,
-						state:true,
 						content : '<div style="padding:10px"><ul name="' + n.text + '"></ul></div>',
 					});
 				} else {
 					$('#left_content').accordion('add', {
 						title : n.text,
 						iconCls : n.iconCls,
-						selected :false,
-						state:false,
+						selected : false,
 						content : '<div style="padding:10px"><ul name="' + n.text + '"></ul></div>',
 					});
 				}
@@ -63,17 +61,18 @@ $(function() {
 					text : title
 				},
 				animate : true,
-				// lines : true,//显示虚线效果
 				onClick : function(node) {
 					if (node.url == null || node.url == "") {
 						return;
 					}
 					if (node.readMode == 'web') {
-//						$('#content').layout();
-						$('#content').layout('remove','north');
+						// $('#content').layout();
+						// $('#content').layout('remove','north');
+						$('#content').layout('collapse', 'north');
 						$('#rss').attr('src', node.url);
 					} else if (node.readMode == 'rss') {
-						addPanel();
+						// addPanel();
+						$('#content').layout('expand', 'north');
 						rss(node.url);
 					} else {
 
@@ -88,11 +87,12 @@ $(function() {
 						return;
 					}
 					if (readMode == 'web') {
-						$('#content').layout('remove','north');
-						$('#rss').attr('src',url);
+						$('#content').layout('collapse', 'north');
+						$('#rss').attr('src', url);
 					}
 					if (readMode == 'rss') {
-						addPanel();
+						// addPanel();
+						$('#content').layout('expand', 'north');
 						rss(url);
 					} else {
 
@@ -102,17 +102,18 @@ $(function() {
 		}
 	});
 });
-function addPanel(){
-	var region = 'north';
-	var options = {
-		region: region
-	};
-		options.height = 200;
-		options.split = true;
-		options.title="  " ;
-		options.border=false;
-	$('#content').layout('add', options);
-	$('#content').html('<table id="dg"></table>');
+function addPanel() {
+	// var region = 'north';
+	// var options = {
+	// region: region
+	// };
+	// options.height = 200;
+	// options.split = true;
+	// options.title=" " ;
+	// options.border=false;
+	// $('#content').layout('add', options);
+	// $('#content').html('<div region="north" split="true" title=" "
+	// border="false" style="height: 200px"><table id="dg"></table></div>');
 }
 function rss(url) {
 	var url = basePath + "tree/getUrlData?url=" + url;

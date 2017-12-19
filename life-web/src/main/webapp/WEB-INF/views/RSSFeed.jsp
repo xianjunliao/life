@@ -18,7 +18,7 @@
 	</div>
 	<div id="most" region="center" border="false">
 		<div  id="content" class="easyui-layout" fit="true">
-			<div  region="north" split="true" title="  " border="false" style="height: 200px">
+			<div  id="north" region="north" split="true" title="  " border="false" style="height: 200px">
 				<table id="dg"></table>
 			</div>
 			<div region="center" border="false" style="overflow: auto;">
