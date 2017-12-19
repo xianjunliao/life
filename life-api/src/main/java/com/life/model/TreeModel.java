@@ -26,9 +26,9 @@ public class TreeModel implements java.io.Serializable {
 	/** text */
 	private String text;
 	/** 状态 */
-	private String state = "open";// open,closed
+	private String state;// open,closed
 	/** 是否选中 */
-	private boolean checked = false;
+	private boolean checked;
 	/** 属性 */
 	private Object attributes;
 	/** 子节点 */
