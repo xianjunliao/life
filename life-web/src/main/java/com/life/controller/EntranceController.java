@@ -38,29 +38,22 @@ public class EntranceController {
 		return lifeUserModel;
 	}
 
-	/**
-	 * 页面跳转
-	 *
-	 * @param pageName
-	 *            页面名称
-	 * @param id
-	 *            主键
-	 * @param model
-	 *            ModelMap
-	 * @return 页面路径
-	 * @throws IOException
-	 * @throws ServletException
-	 */
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params,
 			ModelMap model, HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		if (null == attribute) {
-			return "error/500.jsp";
+			return "index.jsp";
 		}
 		model.put("code", attribute);
 		return FTL_DIR + pageName + ".jsp";
 	}
 	
+	@RequestMapping("/delUser")
+	public String delUser( HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getSession().removeAttribute("lifeUserModel");
+		return "index.jsp";
+	}
 }

@@ -1,15 +1,15 @@
 /*
     JQuery EasyUI 1.5.x of Insdep Theme 1.0.0
-    演示地址：https://www.insdep.com/example/
-    下载地址：https://www.insdep.com
-    问答地址：https://bbs.insdep.com
+    婕旂ず鍦板潃锛歨ttps://www.insdep.com/example/
+    涓嬭浇鍦板潃锛歨ttps://www.insdep.com
+    闂瓟鍦板潃锛歨ttps://bbs.insdep.com
 
-    项目地址：http://git.oschina.net/weavors/JQuery-EasyUI-1.5.x-Of-Insdep-Theme
+    椤圭洰鍦板潃锛歨ttp://git.oschina.net/weavors/JQuery-EasyUI-1.5.x-Of-Insdep-Theme
 
-    QQ交流群：184075694 （优先发布更新主题及内测包）
+    QQ浜ゆ祦缇わ細184075694 锛堜紭鍏堝彂甯冩洿鏂颁富棰樺強鍐呮祴鍖咃級
 */
 
-/*滚动条样式，仅支持webkit内核浏览器*/
+/*婊氬姩鏉℃牱寮忥紝浠呮敮鎸亀ebkit鍐呮牳娴忚鍣�*/
 *{margin:0; padding:0}
 *::-webkit-scrollbar{width:10px;height:10px;}
 *::-webkit-scrollbar-button{width:0px; height:0px;}
@@ -399,7 +399,7 @@
   margin:3px 15px 3px 30px;
 }
 .l-btn-icon-left .l-btn-icon {
-  left: 10px;
+  left: 7px;
 }
 .l-btn-icon-right .l-btn-text {
   margin:3px 30px;
@@ -492,12 +492,12 @@
 .l-btn-plain{
   border-radius:3px;
 }
-/*按钮按下时的效果*/
+/*鎸夐挳鎸変笅鏃剁殑鏁堟灉*/
 .l-btn:active,
 .l-btn-plain:active {
   background: #d4d4d4;
 }
-/*按钮被禁用时的效果*/
+/*鎸夐挳琚鐢ㄦ椂鐨勬晥鏋�*/
 .l-btn-disabled,
 .l-btn-disabled:hover {
   opacity: 0.5;
@@ -506,7 +506,7 @@
   color: #444;
   background-repeat: repeat-x;
 }
-/*按钮被禁用时文字跟图标的效果*/
+/*鎸夐挳琚鐢ㄦ椂鏂囧瓧璺熷浘鏍囩殑鏁堟灉*/
 .l-btn-disabled .l-btn-text,
 .l-btn-disabled .l-btn-icon {
   filter: alpha(opacity=50);
@@ -516,7 +516,7 @@
   background: transparent;
   filter: alpha(opacity=50);
 }
-/*按钮被选择时的效果*/
+/*鎸夐挳琚�夋嫨鏃剁殑鏁堟灉*/
 .l-btn-selected,
 .l-btn-selected:hover,
 .l-btn-plain-selected,
@@ -767,7 +767,7 @@
 }
 
 
-/*额外修正*/
+/*棰濆淇*/
 .combo-p {
   box-shadow: 1px 10px 25px 0 rgba(0,0,0,.2);
   margin: -1px 0 0 0;
@@ -783,7 +783,7 @@
   padding: 2px 0;
 }
 .combobox-item{ cursor:pointer;}
-/*end 额外修正*/
+/*end 棰濆淇*/
 
 .combobox-item,
 .combobox-stick {
@@ -2029,10 +2029,10 @@
 .calendar-day {
 }
 .calendar-sunday {
-  /*color: #CC2222;周日的颜色*/
+  /*color: #CC2222;鍛ㄦ棩鐨勯鑹�*/
 }
 .calendar-saturday {
-  /*color: #008800;周六的颜色*/
+  /*color: #008800;鍛ㄥ叚鐨勯鑹�*/
 }
 .calendar-today {
   color: #58b319;
@@ -2265,7 +2265,7 @@
 }
 .searchbox .textbox-addon-right{ border-left:1px solid #ccc;}
 .searchbox .textbox-addon-left{ border-right:1px solid #ccc;}
-/*searchbox的下拉面板修复*/
+/*searchbox鐨勪笅鎷夐潰鏉夸慨澶�*/
 .search-panel.menu{margin:0 0 0 -1px;}
 .search-panel.menu + .menu-shadow{margin:0 0 0 -1px;}
 
@@ -2964,7 +2964,7 @@
 .switchbutton-readonly {
   cursor: default;
 }
-/*补充样式*/
+/*琛ュ厖鏍峰紡*/
 .datagrid-cell .l-btn-text{margin: 0 10px;}
 .datagrid-cell .l-btn-icon-left .l-btn-text{margin:0 15px 0 30px;}
 .datagrid-cell .l-btn-left .l-btn-empty{margin:0 10px 0 20px}
@@ -2972,16 +2972,16 @@
 .tree-title .badge{padding: 0 8px; line-height: 12px; height: 12px;}
 
 
-/*按钮组样式*/
+/*鎸夐挳缁勬牱寮�*/
 .button-group .l-btn{ border: none; border-radius:0; margin: 0; border-right: 1px solid #c5c5c5; }
 .button-group .l-btn:last-child{border: none;}
-/*按钮组样式结束*/
+/*鎸夐挳缁勬牱寮忕粨鏉�*/
 
 
 
-/*主题开始*/
+/*涓婚寮�濮�*/
 
-/*设置面板圆角*/
+/*璁剧疆闈㈡澘鍦嗚*/
 .theme-border-radius {
   border-radius: 3px;
 }
@@ -2991,39 +2991,39 @@
 .theme-border-radius .panel-body {
   border-radius: 0 0 3px 3px;
 }
-/*禁用面板圆角*/
+/*绂佺敤闈㈡澘鍦嗚*/
 .theme-border-unradius, .theme-border-unradius .panel-header, .theme-border-unradius .panel-body {
   border-radius: 0;
 }
-/*禁用边框*/
+/*绂佺敤杈规*/
 .theme-unborder {
   border: 0;
 }
-/*禁用header边框*/
+/*绂佺敤header杈规*/
 .theme-header-unborder .panel-header, .theme-header-unborder .window-header {
   border-bottom: 0;
 }
-/*禁用header背景*/
+/*绂佺敤header鑳屾櫙*/
 .theme-header-unbackground .panel-header, .theme-header-unbackground .window-header {
   background: #fff;
 }
-/*强制设置去除header高度*/
+/*寮哄埗璁剧疆鍘婚櫎header楂樺害*/
 .theme-header-unheight .panel-title {
   height: auto !important;
 }
 .theme-header-unheight .panel-icon, .theme-header-unheight .panel-tool, .theme-header-unheight .window-header .panel-icon, .theme-header-unheight .window-header .panel-tool {
   margin-top: -18px;
 }
-/*表单圆角*/
+/*琛ㄥ崟鍦嗚*/
 .theme-textbox-radius + .textbox ,.theme-textbox-radius + .textbox .textbox-text {
   border-radius:2px;
 }
-/*主题颜色*/
-/*默认主题*/
+/*涓婚棰滆壊*/
+/*榛樿涓婚*/
 .theme-panel-default .panel-header {
   background-color: #f8f8f8;
 }
-/*默认红色主题*/
+/*榛樿绾㈣壊涓婚*/
 .theme-panel-red .panel-header, .theme-panel-red.window {
   border-color: #d03724;
 }
@@ -3036,7 +3036,7 @@
 .theme-panel-red .panel-header .panel-title span, .theme-panel-red .panel-header .panel-title p {
   color: #f6978b;
 }
-/*默认橙色主题*/
+/*榛樿姗欒壊涓婚*/
 .theme-panel-orange .panel-header, .theme-panel-orange.window {
   border-color: #f2711c;
 }
@@ -3049,7 +3049,7 @@
 .theme-panel-orange .panel-header .panel-title span, .theme-panel-orange .panel-header .panel-title p {
   color: #ffbb8d;
 }
-/*默认绿色主题*/
+/*榛樿缁胯壊涓婚*/
 .theme-panel-green .panel-header, .theme-panel-green.window {
   border-color: #1d9c30;
 }
@@ -3062,7 +3062,7 @@
 .theme-panel-green .panel-header .panel-title span, .theme-panel-green .panel-header .panel-title p {
   color: #4ed964;
 }
-/*默认蓝色主题*/
+/*榛樿钃濊壊涓婚*/
 .theme-panel-blue .panel-header, .theme-panel-blue.window {
   border-color: #1b8cf2;
 }
@@ -3075,7 +3075,7 @@
 .theme-panel-blue .panel-header .panel-title span, .theme-panel-blue .panel-header .panel-title p {
   color: #80c3ff;
 }
-/*默认深蓝色主题*/
+/*榛樿娣辫摑鑹蹭富棰�*/
 .theme-panel-deepblue .panel-header, .theme-panel-deepblue.window {
   border-color: #337ab7;
 }
@@ -3088,7 +3088,7 @@
 .theme-panel-deepblue .panel-header .panel-title span, .theme-panel-deepblue .panel-header .panel-title p {
   color: #84beef;
 }
-/*默认深黑色主题*/
+/*榛樿娣遍粦鑹蹭富棰�*/
 .theme-panel-black .panel-header, .theme-panel-black.window {
   border-color: #343536;
 }
@@ -3101,7 +3101,7 @@
 .theme-panel-black .panel-header .panel-title span, .theme-panel-black .panel-header .panel-title p {
   color: #7c7c7c;
 }
-/*默认简约主题*/
+/*榛樿绠�绾︿富棰�*/
 .theme-panel-simple .panel-header {
   background-color: #fff;
 }
@@ -3123,7 +3123,7 @@
 .theme-panel-red .panel-tool-close, .theme-panel-red .panel-tool-collapse, .theme-panel-red .panel-tool-min, .theme-panel-red .panel-tool-max, .theme-panel-orange .panel-tool-close, .theme-panel-orange .panel-tool-collapse, .theme-panel-orange .panel-tool-min, .theme-panel-orange .panel-tool-max, .theme-panel-green .panel-tool-close, .theme-panel-green .panel-tool-collapse, .theme-panel-green .panel-tool-min, .theme-panel-green .panel-tool-max, .theme-panel-blue .panel-tool-close, .theme-panel-blue .panel-tool-collapse, .theme-panel-blue .panel-tool-min, .theme-panel-blue .panel-tool-max, .theme-panel-deepblue .panel-tool-close, .theme-panel-deepblue .panel-tool-collapse, .theme-panel-deepblue .panel-tool-min, .theme-panel-deepblue .panel-tool-max, .theme-panel-black .panel-tool-close, .theme-panel-black .panel-tool-collapse, .theme-panel-black .panel-tool-min, .theme-panel-black .panel-tool-max {
   background-image: url('images/panel_tools_white.png');
 }
-/*标题下划线主题*/
+/*鏍囬涓嬪垝绾夸富棰�*/
 .theme-title-lines-red .panel-header .panel-title b {
   border-bottom: 4px solid #d03724;
 }
@@ -3152,7 +3152,7 @@
 .theme-title-lines-red .panel-header .panel-title span, .theme-title-lines-orange .panel-header .panel-title span, .theme-title-lines-green .panel-header .panel-title span, .theme-title-lines-blue .panel-header .panel-title span, .theme-title-lines-deepblue .panel-header .panel-title span, .theme-title-lines-black .panel-header .panel-title span {
   margin: 0 10px;
 }
-/*标题块主题*/
+/*鏍囬鍧椾富棰�*/
 
 .theme-title-block-red .panel-header .panel-title b {
   border-left: 15px solid #d03724;
@@ -3183,7 +3183,7 @@
   margin: 0 10px;
 }
 
-/*tab主题*/
+/*tab涓婚*/
 .tabs-header-left .tabs{ height:inherit !important;}
 .tabs-header-right .tabs{ height:inherit !important;}
 .tabs-header-bottom .tabs{ height:inherit !important;}
@@ -3461,7 +3461,7 @@
 
 
 
-/*switchbutton样式*/
+/*switchbutton鏍峰紡*/
 .switchbutton-red + .switchbutton {
   background: #f33425;
   border: 2px solid #f33425;
@@ -3604,7 +3604,7 @@ position:relative;
 .alert-info .alert-icons+b+p{ padding:0 0 0 20px;}
 
 
-.label,.badge{ padding:2px 6px; color:#fff; background:#777777; font-style:normal; font-family:Arial,"Microsoft YaHei","微软雅黑"; font-size: 12px; line-height: 14px; }
+.label,.badge{ padding:2px 6px; color:#fff; background:#777777; font-style:normal; font-family:Arial,"Microsoft YaHei","寰蒋闆呴粦"; font-size: 12px; line-height: 14px; }
 .badge{border-radius:15px; }
 .l-btn-text .label,
 .l-btn-text .badge
@@ -3724,7 +3724,7 @@ position:relative;
 .color-black:active,.button-black:active,.button-inverse:active,.color-inverse:active
 { background-color:#343637 !important;}
 
-/*按钮样式*/
+/*鎸夐挳鏍峰紡*/
 
 .button-default, .button-primary, .button-success, .button-info, .button-warning, .button-danger, .button-inverse,
 .button-red,
@@ -3885,19 +3885,19 @@ position:relative;
 }
 
 .window {
-  animation-name: window-fadeIn; /*动画名称*/
-  animation-duration: 0.3s; /*动画持续时间*/
-  animation-iteration-count: 1; /*动画次数*/
-  animation-delay: 0s; /*延迟时间*/
+  animation-name: window-fadeIn; /*鍔ㄧ敾鍚嶇О*/
+  animation-duration: 0.3s; /*鍔ㄧ敾鎸佺画鏃堕棿*/
+  animation-iteration-count: 1; /*鍔ㄧ敾娆℃暟*/
+  animation-delay: 0s; /*寤惰繜鏃堕棿*/
 }
 .window-proxy-mask,.window-mask {
-  animation-name: window-mask-fadeIn; /*动画名称*/
-  animation-duration: 0.5s; /*动画持续时间*/
-  animation-iteration-count: 1; /*动画次数*/
-  animation-delay: 0s; /*延迟时间*/
+  animation-name: window-mask-fadeIn; /*鍔ㄧ敾鍚嶇О*/
+  animation-duration: 0.5s; /*鍔ㄧ敾鎸佺画鏃堕棿*/
+  animation-iteration-count: 1; /*鍔ㄧ敾娆℃暟*/
+  animation-delay: 0s; /*寤惰繜鏃堕棿*/
 }
 
-/*进度条动画*/
+/*杩涘害鏉″姩鐢�*/
 @keyframes animation-progressbar {
   0% {
     opacity: 0.3;
@@ -3920,7 +3920,7 @@ position:relative;
     animation: animation-progressbar 2s ease infinite;
 }
 
-/*加载按钮动画*/
+/*鍔犺浇鎸夐挳鍔ㄧ敾*/
 @keyframes animation-button-loading {
   from {
     transform: rotate(0deg);
