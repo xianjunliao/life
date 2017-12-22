@@ -1,5 +1,7 @@
 package com.life.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class LifeUserServiceImpl implements LifeUserService {
 	@Override
 	public LifeUserModel checkEnterCode(String code) {
 		return lifeUserDao.checkEnterCode(code);
+	}
+	@Override
+	public List<LifeUserModel> getAll() {
+		return lifeUserDao.getAll();
 	}
 
 }

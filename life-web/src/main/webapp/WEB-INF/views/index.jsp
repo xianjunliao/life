@@ -40,17 +40,20 @@ body {
 			</div>
 		</div>
 		<div data-options="region:'center',title:'',iconCls:'icon-ok',border:false">
-			<div id="main_2" class="easyui-layout" fit="true">
-				<div id="north" region="west" split="false" border="false" style="width: 30%">
-					<div>
-						<div id="times"><h3>Welcome to here......</h3></div>
-					</div>
-				</div>
-				<div region="center" border="false" style="overflow: auto;">
-					<iframe id="main_html" scrolling="auto" frameborder="0" style="width: 100%; height: 100%"> </iframe>
-				</div>
+			<!-- 			<div id="main_2" class="easyui-layout" fit="true"> -->
+			<!-- 				<div id="north" region="west" split="false" border="false" style="width: 30%"> -->
+			<!-- 					<div> -->
+			<!-- 						<div id="times"><h3>Welcome to here......</h3></div> -->
+			<%-- 						<div><img alt="" width="100%" height="100%" src="${base}static/images/kekeersitao.jpg"></div> --%>
+			<!-- 					</div> -->
+			<!-- 				</div> -->
+			<!-- 				<div region="center" border="false" style="overflow: auto;"> -->
+			<!-- 					<iframe id="main_html" scrolling="auto" frameborder="0" style="width: 100%; height: 100%"> </iframe> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
+			<div>
+				<img alt="" width="100%" height="100%" src="${base}static/images/bj2.jpg">
 			</div>
-
 		</div>
 	</div>
 </body>

@@ -1,6 +1,7 @@
 package com.life.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -55,5 +56,12 @@ public class EntranceController {
 			throws ServletException, IOException {
 		request.getSession().removeAttribute("lifeUserModel");
 		return "index.jsp";
+	}
+	@ResponseBody
+	@RequestMapping("/getAll")
+	public List<LifeUserModel> getAll( HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<LifeUserModel> all = lifeUserService.getAll();
+		return all;
 	}
 }

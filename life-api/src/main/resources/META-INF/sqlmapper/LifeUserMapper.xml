@@ -17,4 +17,7 @@
 		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from life_user where user_code=#{code}
 	</select>
 
+	<select id="getAll" resultType="com.life.model.LifeUserModel">
+		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from life_user
+	</select>
 </mapper>
