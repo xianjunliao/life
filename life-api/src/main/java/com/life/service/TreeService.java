@@ -10,4 +10,6 @@ public interface TreeService {
 	List<TreeModel> getTreeByText(TreeModel treeModel);
 	
 	List<TreeModel> getChildNode2(TreeModel treeModel);
+	
+	TreeModel geTreeModelByid(String id);
 }

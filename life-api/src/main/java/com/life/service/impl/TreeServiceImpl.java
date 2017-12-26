@@ -47,5 +47,8 @@ public class TreeServiceImpl implements TreeService {
 		}
 		return treeNew;
 	}
-
+	@Override
+	public TreeModel geTreeModelByid(String id) {
+		return treeDao.geTreeModelByid(id);
+	}
 }

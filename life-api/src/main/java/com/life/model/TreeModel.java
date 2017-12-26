@@ -1,21 +1,7 @@
-/******************************************************************************
-* Copyright © 2014 billionscredit.com
-* All Rights Reserved.
-* 本软件为佰仟融资租赁有限公司开发研制。未经本公司正式书面同意，其他任何个人、团体不得使用、
-* 复制、修改或发布本软件.
-*****************************************************************************/
-
 package com.life.model;
 
 import java.util.List;
 
-/**
- * TreeVO
- * 
- * @author lusai
- * @since 1.0
- * @version 2017年9月13日 lusai
- */
 public class TreeModel implements java.io.Serializable {
 
 	/** FIXME */

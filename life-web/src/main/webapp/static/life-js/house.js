@@ -1,8 +1,12 @@
 $(function() {
 	$("#quite").hide();
+	$("#showTree").hide();
 	var btn = document.getElementById('btn');
 	var content = document.getElementById('most');
 	var exitHouse = document.getElementById('exitHouse');
+	var hideTree = document.getElementById('hideTree');
+	var showTree = document.getElementById('showTree');
+	
 	var isFull = false;
 	btn.onclick = function() {
 		$("#btn").hide();
@@ -23,20 +27,16 @@ $(function() {
 		}
 		window.location.href = basePath;
 	}
-	$('#dg').datagrid({
-		onSelect : function(index, row) {
-			var url = row.link;
-			$('#rss').attr('src', url);
-			// $('#description').html(row.description);
-		},
-		onLoadSuccess : function() {
-			var rows = $(this).datagrid('getRows');
-			if (rows.length) {
-				$(this).datagrid('selectRow', 0);
-			}
-		}
-	});
-
+	hideTree.onclick = function() {
+		$("#showTree").show();
+		$("#hideTree").hide();
+		$('#most').layout('collapse', 'west');
+	}
+	showTree.onclick = function() {
+		$("#hideTree").show();
+		$("#showTree").hide();
+		$('#most').layout('expand', 'west');
+	}
 	$.ajax({
 		type : 'POST',
 		dataType : "json",
@@ -67,54 +67,45 @@ $(function() {
 		}
 	});
 	// 异步加载子节点，即二级菜单
-	$('#left_content').accordion({
-		onSelect : function(title, index) {
-			$("ul[name='" + title + "']").tree({
-				url : basePath + 'tree/getChildNode',
-				queryParams : {
-					text : title
-				},
-				animate : true,
-				onClick : function(node) {
-					if (node.url == null || node.url == "") {
-						return;
-					}
-					if (node.readMode == 'web') {
-						// $('#content').layout();
-						// $('#content').layout('remove','north');
-						$('#content').layout('collapse', 'north');
-						$('#rss').attr('src', node.url);
-					} else if (node.readMode == 'rss') {
-						// addPanel();
-						$('#content').layout('expand', 'north');
-						rss(node.url);
-					} else {
+	$('#left_content').accordion(
+			{
+				onSelect : function(title, index) {
+					$("ul[name='" + title + "']").tree(
+							{
+								url : basePath + 'tree/getChildNode',
+								queryParams : {
+									text : title
+								},
+								animate : true,
+								onClick : function(node) {
+									var contentUrl = "";
+									if (node.url == null || node.url == "") {
+										return;
+									}
+									if (node.readMode == 'web') {
+										contentUrl=basePath+'openWeb/addWeb?id='+node.id;
+									} else if (node.readMode == 'rss') {
+										contentUrl=basePath+'openWeb/addRss?id='+node.id;
+									} else {
 
-					}
-
-				},
-				onLoadSuccess : function(node, data) {
-					$("ul[name='" + title + "'] li:eq(0) ul li:eq(0)").find("div").addClass("tree-node-selected"); // 设置第一个节点高亮
-					var readMode = data[0].children[0].readMode;
-					var url = data[0].children[0].url;
-					if (url == null || url == "") {
-						return;
-					}
-					if (readMode == 'web') {
-						$('#content').layout('collapse', 'north');
-						$('#rss').attr('src', url);
-					}
-					if (readMode == 'rss') {
-						// addPanel();
-						$('#content').layout('expand', 'north');
-						rss(url);
-					} else {
-
-					}
+									}
+									if($('#tt').tabs('exists',node.text)){
+				                        $('#tt').tabs('select',node.text);
+				                    }else{
+									var tab = $('#tt').tabs('getSelected');
+									console.log(tab);
+									$('#tt').tabs('add', {
+										title : node.text,
+										href : contentUrl,
+										closable : true,
+										tools : []
+									});
+				                    }
+							
+								}
+							});
 				}
 			});
-		}
-	});
 });
 function addPanel() {
 	// var region = 'north';

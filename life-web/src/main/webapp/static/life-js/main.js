@@ -3,27 +3,7 @@ $(function() {
 	$('#inputCode').keydown(function(e) {
 		if (e.keyCode == 13) {
 			var v = $('#code').val();
-			$.ajax({
-				type : "POST",
-				url : basePath + "enterCode",
-				data : {
-					code : v
-				},
-				datatype : "json",
-				success : function(data) {
-					if (data != null && data != "") {
-						$("#code").textbox('setValue','Your code:'+v);
-						$('#code').textbox('textbox').attr('readonly',true); 
-						$('#code').textbox().next('span').width(100);
-						result = $.parseJSON(data);
-						playMp3(result.userMusic);
-						welcomeTo(result);
-					} else {
-						showMsg("Your code is wrong !");
-						$('#code').textbox().next('span').find('input').select();
-					}
-				}
-			});
+			self.location.href = basePath + "house?userCode="+v;
 		}
 	});
 });
@@ -83,10 +63,25 @@ function playMp3(songName) {
 }
 
 function intoWorld() {
-	self.location.href = basePath + "house";
+	var v = $('#code').val();
+	self.location.href = basePath + "house?userCode="+v;
 
 }
 
 function exitHouse() {
 	window.location.href =  basePath + "delUser";
+}
+
+function cornfield() {
+	var url = basePath + "static/video/Cornfield Chase.mp4"
+	var x = document.createElement("VIDEO");
+	x.setAttribute("width", "100%");
+	x.setAttribute("height", "100%");
+	x.setAttribute("controls", "controls");
+	x.setAttribute("src", url);
+	x.play();
+	$('#cornfield').append(x);
+	$('#xjcy').hide();
+//	var myAuto = document.getElementById('chase');
+//	myAuto.play();
 }

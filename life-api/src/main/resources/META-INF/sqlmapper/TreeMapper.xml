@@ -25,5 +25,7 @@
     <select id="getTreeByText" parameterType="com.life.model.TreeModel" resultMap="treeMapper">
        select id,text,iconCls,checked,state,pid,url,read_mode,sort_no from tree where text=#{text} order by sort_no
     </select>
-     
+    <select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
+    select id,text,iconCls,checked,state,pid,url,read_mode,sort_no from tree where id=#{id}
+    </select> 
 </mapper>
