@@ -8,7 +8,7 @@
 			request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/");
 // 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
 %>
-<title>人的一生，最大的成功就是能做主自己的生活.</title>
+<title>Your life,your way.</title>
 <link rel="shortcut icon" href="${base}/static/images/life-1.png" />
 <link href="${base}static/ui/insdep/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/insdep/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">

@@ -3,6 +3,7 @@ package com.life.common.util;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -76,5 +77,40 @@ public class RSSUtil {
 			e.printStackTrace();
 		}
 		return jsona.toString();
+	}
+	
+	
+	/**
+	 * 
+	 * @param xmlurl
+	 * @return json
+	 */
+	public static List<RSS> xmlToList(String xmlurl) {
+		URL xml;
+		List<RSS> rss = new Vector<RSS>();
+		List<RSS> newRss=new ArrayList<>();
+		try {
+			xml = new URL(xmlurl);
+			HttpURLConnection conn = (HttpURLConnection) xml.openConnection();
+			SAXReader reader = new SAXReader();
+			Document doc = reader.read(conn.getInputStream());
+			Element root = doc.getRootElement();
+			getRSSs(rss, root);
+			for (RSS r : rss) {
+				r.setDescriptionLong(r.getDescription());
+				SimpleDateFormat nowTime = new SimpleDateFormat("EEE,dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+				Date date = nowTime.parse(r.getPubdate());
+				r.setPubdate(DateUtil.formatDate(date));
+				r.setDescription(r.getDescription().replace("img", "a"));
+				if (r.getDescription().length() >= 100) {
+					r.setDescription(r.getDescription().substring(0, 100) + "........");
+				}
+				newRss.add(r);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newRss;
 	}
 }
