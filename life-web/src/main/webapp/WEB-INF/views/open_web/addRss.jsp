@@ -11,7 +11,7 @@
 <body class="easyui-layout" style="width: 100%; height: 100%">
 	<div id="north" region="north" border="false"  >
 	<table id="dg" class="easyui-datagrid"  style="height: 200px"
-			data-options="singleSelect:true,collapsible:true,method:'get',idField:'title',title:'North Title',split:true">
+			data-options="singleSelect:true,collapsible:true,method:'get',idField:'title',title:' ',split:true">
 		<thead>
 			<tr>
 				<th data-options="field:'title',width:'24%'">标题</th>

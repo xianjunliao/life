@@ -6,7 +6,7 @@ $(function() {
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
-	
+	var uploadFile = document.getElementById('uploadFile');
 	var isFull = false;
 	btn.onclick = function() {
 		$("#btn").hide();
@@ -36,6 +36,14 @@ $(function() {
 		$("#hideTree").show();
 		$("#showTree").hide();
 		$('#most').layout('expand', 'west');
+	}
+	uploadFile.onclick = function() {
+		$('#tt').tabs('add', {
+			title : '上传文件',
+			href : basePath+'file/upLoad',
+			closable : true,
+			tools : []
+		});
 	}
 	$.ajax({
 		type : 'POST',

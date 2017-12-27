@@ -21,7 +21,7 @@
 				<table>
 					<tr>
 						<td><div id="inputCode" style="margin-top: 1px;">
-								<input class="easyui-textbox" id="code" data-options="prompt:'Please enter your code...'" style="width: 200px; height: 25px;">
+								<input class="easyui-textbox" type="password" id="code" data-options="prompt:'Please enter your code...'" style="width: 200px; height: 25px;">
 							</div></td>
 						<td><div id="audios"></div></td>
 						<td>
@@ -36,25 +36,8 @@
 				</table>
 			</div>
 		</div>
-		<div data-options="region:'center',title:'',iconCls:'icon-ok',border:false">
-			<!-- 			<div id="main_2" class="easyui-layout" fit="true"> -->
-			<!-- 				<div id="north" region="west" split="false" border="false" style="width: 30%"> -->
-			<!-- 					<div> -->
-			<!-- 						<div id="times"><h3>Welcome to here......</h3></div> -->
-			<%-- 						<div><img alt="" width="100%" height="100%" src="${base}static/images/kekeersitao.jpg"></div> --%>
-			<!-- 					</div> -->
-			<!-- 				</div> -->
-			<!-- 				<div region="center" border="false" style="overflow: auto;"> -->
-			<!-- 					<iframe id="main_html" scrolling="auto" frameborder="0" style="width: 100%; height: 100%"> </iframe> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
-
-
-			<div class="vid-wrappper" id="cornfield">
-<%-- 				<iframe id="main_html" scrolling="auto" frameborder="0" style="width: 100%; height: 100%" src="${base}static/video/Cornfield Chase2.mkv"> </iframe> --%>
-<%-- 				<video  width="100%" loop="loop" autoplay="autoplay" style="" controls="controls" src="${base}static/video/Cornfield Chase.mp4"> --%>
-<!-- 				</video> -->
-			</div>
+		<div data-options="region:'center',border:false">
+		<img alt="" src="${base}/static/images/xjcy2.jpg"  style="width: 100%; height: 100%;">
 		</div>
 	</div>
 </body>
