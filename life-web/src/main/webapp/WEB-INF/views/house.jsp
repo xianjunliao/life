@@ -12,11 +12,11 @@
 <style>
 </style>
 </head>
-<body id="most" class="easyui-layout" style="width: 100%; height: 100%;">
-	<div region="west" split="false" border="false" style="width: 200px; background: #EAFDFF;">
+<body id="most" class="easyui-layout" style="width: 100%; height: 100%;" >
+	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
 		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true"></div>
 	</div>
-	<div region="center" border="false">
+	<div id="center" region="center" border="false" style="overflow: hidden;">
 
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;"></div>
 

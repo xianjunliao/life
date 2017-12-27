@@ -2,7 +2,7 @@ $(function() {
 	$("#quite").hide();
 	$("#showTree").hide();
 	var btn = document.getElementById('btn');
-	var content = document.getElementById('most');
+	var content = document.getElementById('tt');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
@@ -27,16 +27,29 @@ $(function() {
 		}
 		window.location.href = basePath;
 	}
+	var left_control_status=true;
+	 var left_control_panel=$("#most").layout("panel",'west');
 	hideTree.onclick = function() {
 		$("#showTree").show();
 		$("#hideTree").hide();
-		$('#most').layout('collapse', 'west');
+		left_control_panel.hide(500,function () {
+	           left_control_panel.panel('resize',{width:0});
+	           $("#most").layout('resize', {width:'100%'})
+	    });
+		
+	
 	}
 	showTree.onclick = function() {
 		$("#hideTree").show();
 		$("#showTree").hide();
-		$('#most').layout('expand', 'west');
+		left_control_panel.show(500,function () {
+			left_control_panel.panel('resize',{width:200});
+	        $("#most").layout('resize', {width:'100%'})
+	    });
+		
 	}
+	
+	
 	uploadFile.onclick = function() {
 		$('#tt').tabs('add', {
 			title : '上传文件',
