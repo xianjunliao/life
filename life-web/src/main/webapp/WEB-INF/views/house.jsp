@@ -10,6 +10,7 @@
 <script type="text/javascript" src="${base}static/life-js/house.js"></script>
 <script type="text/javascript" src="${base}static/life-js/common.js"></script>
 <style>
+*{margin: 0;padding: 0;}
 </style>
 </head>
 <body id="most" class="easyui-layout" style="width: 100%; height: 100%;" >

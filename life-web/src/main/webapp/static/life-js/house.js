@@ -2,7 +2,7 @@ $(function() {
 	$("#quite").hide();
 	$("#showTree").hide();
 	var btn = document.getElementById('btn');
-	var content = document.getElementById('tt');
+	var content = document.getElementById('most');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
@@ -32,7 +32,7 @@ $(function() {
 	hideTree.onclick = function() {
 		$("#showTree").show();
 		$("#hideTree").hide();
-		left_control_panel.hide(500,function () {
+		left_control_panel.hide('fast',function () {
 	           left_control_panel.panel('resize',{width:0});
 	           $("#most").layout('resize', {width:'100%'})
 	    });
@@ -42,7 +42,7 @@ $(function() {
 	showTree.onclick = function() {
 		$("#hideTree").show();
 		$("#showTree").hide();
-		left_control_panel.show(500,function () {
+		left_control_panel.show('fast',function () {
 			left_control_panel.panel('resize',{width:200});
 	        $("#most").layout('resize', {width:'100%'})
 	    });
