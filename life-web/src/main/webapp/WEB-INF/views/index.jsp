@@ -56,7 +56,7 @@ img {
 </head>
 <body style="margin: 0px; overflow: hidden;">
 	<div id="main" class="easyui-layout" style="width: 100%; height: 100%;">
-		<div data-options="region:'south',split:false" style="height: 30px">
+		<div data-options="region:'south',split:false" style="height: 35px">
 			<div style="float: left; margin-top: 2px; margin-right: 3px;">
 				<table>
 					<tr>
@@ -97,7 +97,7 @@ img {
 				</div>
 				<div data-options="region:'center',border:true" style="width: 100%; height: 100%; overflow: hidden; margin-top: 1px; padding-right: 2px;">
 					<div id="text">
-					 <div id="info" style="width: 100%;height: 80%;margin: 15px"></div>
+					 <div id="info" style="width: 100%;height: 100%;left:50px;margin-bottom: 2px;"></div>
 					</div>
 					<audio id="audio" loop="loop" src="${base }static/music/Cornfield Chase.mp3">
 					</audio>
