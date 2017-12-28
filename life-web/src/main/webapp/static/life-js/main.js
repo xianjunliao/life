@@ -6,6 +6,8 @@ $(function() {
 			self.location.href = basePath + "house?userCode="+v;
 		}
 	});
+	var myAuto = document.getElementById('audio');
+	myAuto.play();
 });
 
 function showMsg(msg) {
@@ -23,43 +25,33 @@ function showMsg(msg) {
 		}
 	});
 }
-function welcomeTo(m) {
-	var t = m.waitTime;
+function welcomeTo(waitTime,userMotto,intervalTime) {
+	var t = waitTime;
 	var d = [];
-	for (i = 0; i < m.userMotto.length; i++) {
+	for (i = 0; i < userMotto.length; i++) {
 		if (i == 0) {
 			d.push('<br />')
 			d.push('&nbsp;&nbsp;&nbsp;&nbsp;')
 		}
-		if (m.userMotto.charAt(i - 1) == '.' || m.userMotto.charAt(i - 1) == '?' || m.userMotto.charAt(i - 1) == '!') {
+		if (userMotto.charAt(i - 1) == '.' || userMotto.charAt(i - 1) == '?' || userMotto.charAt(i - 1) == '!') {
 			d.push('<br />')
 			d.push('<br />')
 			d.push('&nbsp;&nbsp;&nbsp;&nbsp;')
 		}
-		d.push(m.userMotto.charAt(i))
+		d.push(userMotto.charAt(i));
 	}
 	var arr = new Array();
 	var size = 18;
 	for (j = 0; j < d.length; j++) {
 		arr.push(d[j]);
 		setTimeout("enterCode('" + arr.join("") + "'," + size + ")", t);
-		t += m.intervalTime;
+		t += intervalTime;
 	}
 }
 function enterCode(code, size) {
-
-	$('#times').css('font-size', size);
-	$('#times').html("<b>" + code + "</b>");
-	$("div").scrollTop($('#times').outerHeight());
-}
-function playMp3(songName) {
-	// console.log(songName);
-	var url = basePath + "static/music/" + songName;
-	// $('#audio').attr('src', url);
-	$('#audios').append('<audio id="audio" style="height: 18px;margin-top: 5px;padding-top: 8px" src="' + url + '">'+songName+'</audio>');
-	var myAuto = document.getElementById('audio');
-	myAuto.controls = true;
-	myAuto.play();
+	$('#info').css('font-size', size);
+	$('#info').html(code);
+	$("div").scrollTop($('#text').outerHeight());
 }
 
 function intoWorld() {
@@ -70,18 +62,4 @@ function intoWorld() {
 
 function exitHouse() {
 	window.location.href =  basePath + "delUser";
-}
-
-function cornfield() {
-	var url = basePath + "static/video/Cornfield Chase.mp4"
-	var x = document.createElement("VIDEO");
-	x.setAttribute("width", "100%");
-	x.setAttribute("height", "100%");
-	x.setAttribute("controls", "controls");
-	x.setAttribute("src", url);
-	x.play();
-	$('#cornfield').append(x);
-	$('#xjcy').hide();
-//	var myAuto = document.getElementById('chase');
-//	myAuto.play();
 }

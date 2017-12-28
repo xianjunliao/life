@@ -65,6 +65,12 @@ public class EntranceController {
 		request.getSession().removeAttribute("lifeUserModel");
 		return "index.jsp";
 	}
+	
+	@RequestMapping("/test")
+	public String test( HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		return "error/test.jsp";
+	}
 	@ResponseBody
 	@RequestMapping("/getAll")
 	public List<LifeUserModel> getAll( HttpServletRequest request, HttpServletResponse response)
