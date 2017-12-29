@@ -13,6 +13,7 @@ $(function() {
 	var test = document.getElementById('test');
 	var play = document.getElementById('play');
 	var stop = document.getElementById('stop');
+	var play_info = document.getElementById('play_info');
 	var myAuto = document.getElementById('audio');
 	var myAuto2 = document.getElementById('audio2');
 	myAuto.play();
@@ -26,17 +27,23 @@ $(function() {
     	flag = false;
     }
 	nextAudio.onclick = function() {
+
+		$('#play').hide();
+		$('#stop').show();
 		if (flag) {
 			myAuto2.pause();
 			myAuto.play();
 			myAuto.currentTime=0;
+			$('#songName').html("Do Not Go Gentle Into That Good Night");
 			flag = false;
 		} else {
 			myAuto.pause();
 			myAuto2.currentTime=0;
 			myAuto2.play();
+			$('#songName').html("Cornfield Chase");
 			flag = true;
 		}
+		$('#infoPlaying').html("正在播放中");
 	}
 	play.onclick = function() {
 		$('#play').hide();
@@ -46,6 +53,7 @@ $(function() {
 		} else {
 			myAuto.play();
 		}
+		$('#infoPlaying').html("正在播放中");
 	}
 	stop.onclick = function() {
 		$('#play').show();
@@ -55,6 +63,7 @@ $(function() {
 		} else {
 			myAuto.pause();
 		}
+		$('#infoPlaying').html("播放已停止");
 	}
 	test.onclick = function() {
 		window.open(basePath + "test");

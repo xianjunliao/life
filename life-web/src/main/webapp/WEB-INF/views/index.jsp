@@ -65,7 +65,10 @@ img {
 						<a title="播放" id="play"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'play'"></a>
 						<a title="暂停" id="stop"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'stop'"></a>
 						</td>
-						<td><a title="播放下一首" id="nextAudio"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'next'"></a></td>
+						<td>
+						<a title="播放下一首" id="nextAudio"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'next'"></a>
+						</td>
+						<td><a id="play_info"  style="height: 25px; width: 31px" ><span id="infoPlaying">正在播放中</span>:<span id="songName">Do Not Go Gentle Into That Good Night</span>......</a></td>
 					</tr>
 				</table>
 			</div>
