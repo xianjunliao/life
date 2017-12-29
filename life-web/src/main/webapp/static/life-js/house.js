@@ -27,36 +27,46 @@ $(function() {
 		}
 		window.location.href = basePath;
 	}
-	var left_control_status=true;
-	 var left_control_panel=$("#most").layout("panel",'west');
+	var left_control_status = true;
+	var left_control_panel = $("#most").layout("panel", 'west');
 	hideTree.onclick = function() {
 		$("#showTree").show();
 		$("#hideTree").hide();
-		left_control_panel.hide('fast',function () {
-	           left_control_panel.panel('resize',{width:0});
-	           $("#most").layout('resize', {width:'100%'})
-	    });
-		
-	
+		left_control_panel.hide('fast', function() {
+			left_control_panel.panel('resize', {
+				width : 0
+			});
+			$("#most").layout('resize', {
+				width : '100%'
+			})
+		});
+
 	}
 	showTree.onclick = function() {
 		$("#hideTree").show();
 		$("#showTree").hide();
-		left_control_panel.show('fast',function () {
-			left_control_panel.panel('resize',{width:200});
-	        $("#most").layout('resize', {width:'100%'})
-	    });
-		
-	}
-	
-	
-	uploadFile.onclick = function() {
-		$('#tt').tabs('add', {
-			title : '上传文件',
-			href : basePath+'file/upLoad',
-			closable : true,
-			tools : []
+		left_control_panel.show('fast', function() {
+			left_control_panel.panel('resize', {
+				width : 200
+			});
+			$("#most").layout('resize', {
+				width : '100%'
+			})
 		});
+
+	}
+
+	uploadFile.onclick = function() {
+		if ($('#tt').tabs('exists', '上传文件')) {
+			$('#tt').tabs('select', '上传文件');
+		} else {
+			$('#tt').tabs('add', {
+				title : '上传文件',
+				href : basePath + 'file/upLoad',
+				closable : true,
+				tools : []
+			});
+		}
 	}
 	$.ajax({
 		type : 'POST',
@@ -88,45 +98,43 @@ $(function() {
 		}
 	});
 	// 异步加载子节点，即二级菜单
-	$('#left_content').accordion(
-			{
-				onSelect : function(title, index) {
-					$("ul[name='" + title + "']").tree(
-							{
-								url : basePath + 'tree/getChildNode',
-								queryParams : {
-									text : title
-								},
-								animate : true,
-								onClick : function(node) {
-									var contentUrl = "";
-									if (node.url == null || node.url == "") {
-										return;
-									}
-									if (node.readMode == 'web') {
-										contentUrl=basePath+'openWeb/addWeb?id='+node.id;
-									} else if (node.readMode == 'rss') {
-										contentUrl=basePath+'openWeb/addRss?id='+node.id;
-									} else {
+	$('#left_content').accordion({
+		onSelect : function(title, index) {
+			$("ul[name='" + title + "']").tree({
+				url : basePath + 'tree/getChildNode',
+				queryParams : {
+					text : title
+				},
+				animate : true,
+				onClick : function(node) {
+					var contentUrl = "";
+					if (node.url == null || node.url == "") {
+						return;
+					}
+					if (node.readMode == 'web') {
+						contentUrl = basePath + 'openWeb/addWeb?id=' + node.id;
+					} else if (node.readMode == 'rss') {
+						contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
+					} else {
 
-									}
-									if($('#tt').tabs('exists',node.text)){
-				                        $('#tt').tabs('select',node.text);
-				                    }else{
-									var tab = $('#tt').tabs('getSelected');
-									console.log(tab);
-									$('#tt').tabs('add', {
-										title : node.text,
-										href : contentUrl,
-										closable : true,
-										tools : []
-									});
-				                    }
-							
-								}
-							});
+					}
+					if ($('#tt').tabs('exists', node.text)) {
+						$('#tt').tabs('select', node.text);
+					} else {
+						var tab = $('#tt').tabs('getSelected');
+						console.log(tab);
+						$('#tt').tabs('add', {
+							title : node.text,
+							href : contentUrl,
+							closable : true,
+							tools : []
+						});
+					}
+
 				}
 			});
+		}
+	});
 });
 function addPanel() {
 	// var region = 'north';

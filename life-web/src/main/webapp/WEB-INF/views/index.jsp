@@ -60,7 +60,12 @@ img {
 			<div style="float: left; margin-top: 2px; margin-right: 3px;">
 				<table>
 					<tr>
-						<td><a title="跳转到测试页面" id="test" href="${bser}test" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'test'"></a></td>
+						<td><a title="跳转到测试页面" id="test" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'test'"></a></td>
+						<td>
+						<a title="播放" id="play"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'play'"></a>
+						<a title="暂停" id="stop"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'stop'"></a>
+						</td>
+						<td><a title="播放下一首" id="nextAudio"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'next'"></a></td>
 					</tr>
 				</table>
 			</div>
@@ -99,8 +104,8 @@ img {
 					<div id="text">
 					 <div id="info" style="width: 100%;height: 100%;left:50px;margin-bottom: 2px;"></div>
 					</div>
-					<audio id="audio" loop="loop" src="${base }static/music/Cornfield Chase.mp3">
-					</audio>
+					<audio id="audio2"  src="${base }static/music/Cornfield Chase.mp3" ></audio>
+					<audio id="audio"  src="${base }static/music/Do Not Go Gentle Into That Good Night.mp3"> </audio>
 				</div>
 			</div>
 			<script>
@@ -129,8 +134,6 @@ img {
 					oDiv.addEventListener('mousemove', function() {
 						clearInterval(timer);//鼠标移入清除定时器
 					}, false);
-					var info = 'Do not go gentle into that good night,Old age should burn and rave at close of day,Rage rage against the dying of the light.Though wise men at their end know dark is right,Because their words had forked no lightning they,Do not go gentle into that good night.Good men,the last wave by, crying how bright,Their frail deeds might have danced in a green bay,Rage rage against the dying of the light.Wild men who caught and sang the sun in flight,And learn,too late,they grieved it on its way,Do not go gentle into that good night.Grave men, near death,who see with blinding sight,Blind eyes could blaze like meteors and be gay,Rage, rage against the dying of the light.And you, my,father,there on the sad height,Curse,bless me now with your fierce tears,I pray,Do not go gentle into that good night.Rage rage against the dying of the light.';
-					welcomeTo(1000, info, 80);
 				}
 			</script>
 		</div>

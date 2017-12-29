@@ -1,0 +1,27 @@
+{
+    "songData": [
+        {
+            "albumName": "星际穿越",
+            "albumCoverMax": "static/images/xjcy1.jpg",
+            "albumSong": [
+                {
+                    "musicName": "星际穿越-Cornfield Chase",
+                    "musicSinger": "汉斯·季默",
+                    "musicLink": "static/music/Cornfield Chase.mp3",
+                    "lyricsLink": "",
+                    "musicTime": "02:47",
+                    "albumCoverMin": "static/images/xjcy2.jpg"
+                },
+                {
+                    "musicName": "星际穿越-Do Not Go Gentle Into That Good Night",
+                    "musicSinger": "狄兰·托马斯",
+                    "musicLink": "static/music/Do Not Go Gentle Into That Good Night.mp3",
+                    "lyricsLink": "",
+                    "musicTime": "01:39",
+                    "albumCoverMin": "static/images/xjcy6.jpg"
+                }              
+            ]
+        }      
+    ],
+    "songNum": 2
+}

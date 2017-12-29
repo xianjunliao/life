@@ -199,3 +199,13 @@ QQ交流群：184075694 （优先发布更新主题及内测包）
 .test{
 	background:url('self_icon/test.png') no-repeat center center;
 }
+.next{
+	background:url('self_icon/next.png') no-repeat center center;
+}
+.play{
+	background:url('self_icon/play.png') no-repeat center center;
+}
+.stop{
+	background:url('self_icon/stop.png') no-repeat center center;
+}
+

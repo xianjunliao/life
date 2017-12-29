@@ -14,7 +14,7 @@
 			<table>
 				<tr>
 					<td>类型：</td>
-					<td><select class="easyui-combobox" name="fileType" style="width:30%;">
+					<td><select class="easyui-combobox" name="fileType" style="width:100%;">
 					<option value="img">图片</option>
 					<option value="audio">音频</option>
 					<option value="vudio">视频</option>
