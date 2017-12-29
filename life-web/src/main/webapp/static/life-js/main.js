@@ -21,9 +21,13 @@ $(function() {
     myAuto.onended=function(){
     	myAuto2.play();
     	flag = true;
+    	$('#infoPlaying').html("正在播放中");
+    	$('#songName').html("Cornfield Chase");
     }
     myAuto2.onended=function(){
     	myAuto.play();
+    	$('#infoPlaying').html("正在播放中");
+    	$('#songName').html("Do Not Go Gentle Into That Good Night");
     	flag = false;
     }
 	nextAudio.onclick = function() {
