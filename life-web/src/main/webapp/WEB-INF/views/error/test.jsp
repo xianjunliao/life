@@ -85,7 +85,7 @@ cite {
 
 					<div id="musicFunction" class="m-function clearfix">
 						<a href="javascript:void(0);" id="albumLists" class="album-lists album-lists-hover" title="关闭专辑列表"></a> <a href="javascript:void(0);" id="lyrics" class="lyrics lyrics-hover" title="关闭歌词"></a>
-						<!-- <a href="javascript:void(0);" id="favorites" class="favorites" title="打开收藏夹"></a> -->
+						<a href="javascript:void(0);" id="favorites" class="favorites" title="打开收藏夹"></a>
 					</div>
 				</div>
 			</div>
