@@ -44,3 +44,23 @@ function reurl() {
 	}
 }
 
+function refreshTab(distTabTitle, url) {
+    var currentTab = null;
+    if(isUndefined(distTabTitle) || isBlank(distTabTitle)) {
+    	currentTab = $('#tt').tabs('getSelected');
+    } else {
+    	currentTab = $('#tt').tabs("getTab", distTabTitle);
+    }
+	
+	var tabOptions = {};
+	if(!isUndefined(url) && !isBlank(url)){
+		tabOptions = {
+				href: url
+		};
+	}
+    $('#tt').tabs('update', {
+        tab: currentTab,
+        options: tabOptions
+    });
+    currentTab.panel('refresh');
+}

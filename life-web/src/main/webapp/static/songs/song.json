@@ -2,7 +2,7 @@
     "songData": [
         {
             "albumName": "星际穿越",
-            "albumCoverMax": "static/images/xjcy1.jpg",
+            "albumCoverMax": "static/interstellar_imgs/xjcy1.jpg",
             "albumSong": [
                 {
                     "musicName": "星际穿越-Cornfield Chase",
@@ -10,7 +10,7 @@
                     "musicLink": "static/music/Cornfield Chase.mp3",
                     "lyricsLink": "",
                     "musicTime": "02:47",
-                    "albumCoverMin": "static/images/xjcy2.jpg"
+                    "albumCoverMin": "static/interstellar_imgs/xjcy2.jpg"
                 },
                 {
                     "musicName": "星际穿越-Do Not Go Gentle Into That Good Night",
@@ -18,7 +18,7 @@
                     "musicLink": "static/music/Do Not Go Gentle Into That Good Night.mp3",
                     "lyricsLink": "",
                     "musicTime": "01:39",
-                    "albumCoverMin": "static/images/xjcy6.jpg"
+                    "albumCoverMin": "static/interstellar_imgs/xjcy6.jpg"
                 }              
             ]
         }      

@@ -151,6 +151,50 @@ public class FileUtils {
 			return null;
 		return null;
 	}
+	/**
+	 * user stream type save files
+	 * 
+	 * @param request
+	 *            HttpServletRequest
+	 * @param multipartFile
+	 *            MultipartFile support CommonsMultipartFile file
+	 * @param filePath
+	 *            filePath example "/files/Upload"
+	 * @return
+	 */
+	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath,String fileType) {
+		if (multipartFile != null) {
+			// get files suffix
+			String suffix = multipartFile.getOriginalFilename()
+					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+			// filePath+fileName the complex file Name
+			String savePath = filePath + fileType;// example:F:/qixiao/files/Upload/20160912/
+			checkDirs(savePath);// check if the path has exist if not create it
+			String absolutePath = savePath + getUUIDName(suffix);
+			// return relative Path
+			String relativePath = getRelativePath(filePath, suffix);
+			try {
+				InputStream inputStream = multipartFile.getInputStream();
+				FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
+				byte buffer[] = new byte[4096]; // create a buffer
+				long fileSize = multipartFile.getSize();
+				if (fileSize <= buffer.length) {// if fileSize < buffer
+					buffer = new byte[(int) fileSize];
+				}
+				int line = 0;
+				while ((line = inputStream.read(buffer)) > 0) {
+					fileOutputStream.write(buffer, 0, line);
+				}
+				fileOutputStream.close();
+				inputStream.close();
+				return relativePath;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else
+			return null;
+		return null;
+	}
 
 	/**
 	 * @param request

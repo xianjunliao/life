@@ -74,7 +74,7 @@ cite {
 	<div id="musicPlayerWrap" class="m-player-wrap" style="left: 0px;">
 		<div id="musicPlayer" class="m-player">
 			<div id="musicInfo" class="m-info">
-				<img src="${base}static/images/xjcy2.jpg" alt="" id="albumFrontCover" class="album-front-cover">
+				<img src="${base}static/interstellar_imgs/xjcy2.jpg" alt="" id="albumFrontCover" class="album-front-cover">
 				<div class="front-cover-mask" title=""></div>
 				<div id="infoWrap" class="info-wrap">
 					<dl>

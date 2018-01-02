@@ -68,7 +68,7 @@ img {
 						<td>
 						<a title="播放下一首" id="nextAudio"  style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'next'"></a>
 						</td>
-						<td><a id="play_info"  style="height: 25px; width: 31px" ><span id="infoPlaying">正在播放中</span>:<span id="songName">Do Not Go Gentle Into That Good Night</span>......</a></td>
+						<td><a id="play_info"  style="height: 25px; width: 31px" ><span id="infoPlaying">正在播放中</span>:<span id="songName">Do Not Go Gentle Into That Good Night</span><span id="sixPoints">......</span></a></td>
 					</tr>
 				</table>
 			</div>
@@ -94,12 +94,15 @@ img {
 				<div id="" data-options="region:'north',border:false" style="width: 100%; height: 212px; overflow: hidden; margin-top: 2px; padding-right: 2px;">
 					<div id=imgsDiv>
 						<ul id="imgs">
-							<li><img src="${base}/static/images/xjcy1.jpg" border="0" /></li>
-							<li><img src="${base}/static/images/xjcy2.jpg" border="0" /></li>
-							<li><img src="${base}/static/images/xjcy3.jpg" border="0" /></li>
-							<li><img src="${base}/static/images/xjcy4.jpg" border="0" /></li>
-							<li><img src="${base}/static/images/xjcy5.jpg" border="0" /></li>
-							<li><img src="${base}/static/images/xjcy6.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy1.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy2.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy3.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy4.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy5.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy6.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy7.png" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy8.jpg" border="0" /></li>
+							<li><img src="${base}/static/interstellar_imgs/xjcy9.jpg" border="0" /></li>
 						</ul>
 					</div>
 				</div>

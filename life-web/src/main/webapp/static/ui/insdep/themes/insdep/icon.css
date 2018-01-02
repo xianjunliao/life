@@ -208,4 +208,9 @@ QQ交流群：184075694 （优先发布更新主题及内测包）
 .stop{
 	background:url('self_icon/stop.png') no-repeat center center;
 }
-
+.refresh{
+	background:url('self_icon/refresh.png') no-repeat center center;
+}
+.close{
+	background:url('self_icon/close.png') no-repeat center center;
+}

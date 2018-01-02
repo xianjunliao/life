@@ -55,16 +55,105 @@ $(function() {
 		});
 
 	}
+	$('#tt').tabs({
+		onContextMenu : function(e, title, index) {
+			$('#tt').tabs('select', title);
+			if ('首页' != title) {
+				$('#menu').menu('show', {
+					left : e.pageX,
+					top : e.pageY
+				});
+			}
+		}
+	});
+
+	// 刷新
+	$("#m-refresh").click(function() {
+		refreshTab();
+	});
+
+	// 关闭所有
+	$("#m-closeall").click(function() {
+		$(".tabs li").each(function(i, n) {
+			var title = $(n).text();
+			if (title != '首页') {
+				$('#tt').tabs('close', title);
+			}
+		});
+	});
+
+	// 除当前之外关闭所有
+	$("#m-closeother").click(function() {
+		var currTab = $('#tt').tabs('getSelected');
+		var currTitle = currTab.panel('options').title;
+		$(".tabs li").each(function(i, n) {
+			var title = $(n).text();
+
+			if (currTitle != title) {
+				if (title != '首页') {
+					$('#tt').tabs('close', title);
+				}
+			}
+		});
+		$('#tt').tabs('select', currTitle);
+	});
+
+	// 关闭当前
+	$("#m-close").click(function() {
+		var currentTab = $('#tt').tabs('getSelected');
+		var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
+		$('#tt').tabs('close', currentTabIndex);
+	});
+	$("#m-closeLeft").click(function() {
+		var currTab = $('#tt').tabs('getSelected');
+		var currTitle = currTab.panel('options').title;
+		var currentTabIndex = $('#tt').tabs('getTabIndex', currTab);
+		$(".tabs li").each(function(i, n) {
+			var title = $(n).text();
+			if (i < currentTabIndex) {
+				if (title != '首页') {
+					$('#tt').tabs('close', title);
+				}
+			}
+		});
+		$('#tt').tabs('select', currTitle);
+	});
+	$("#m-closeRight").click(function() {
+		var currTab = $('#tt').tabs('getSelected');
+		var currTitle = currTab.panel('options').title;
+		var currentTabIndex = $('#tt').tabs('getTabIndex', currTab);
+		$(".tabs li").each(function(i, n) {
+			var title = $(n).text();
+			if (i > currentTabIndex) {
+				$('#tt').tabs('close', title);
+			}
+		});
+		$('#tt').tabs('select', currTitle);
+	});
 
 	uploadFile.onclick = function() {
-		if ($('#tt').tabs('exists', '上传文件')) {
-			$('#tt').tabs('select', '上传文件');
+		var title = "上传文件";
+		if ($('#tt').tabs('exists', title)) {
+			$('#tt').tabs('select', title);
 		} else {
 			$('#tt').tabs('add', {
-				title : '上传文件',
+				title : title,
 				href : basePath + 'file/upLoad',
-				closable : true,
-				tools : []
+				closable : false,
+				tools : [ {
+					iconCls : 'refresh',
+					handler : function() {
+						$('#tt').tabs('select', title);
+						refreshTab();
+					}
+				}, {
+					iconCls : 'close',
+					handler : function() {
+						var currentTab = $('#tt').tabs('getSelected');
+						var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
+						$('#tt').tabs('close', currentTabIndex);
+					}
+				} ]
 			});
 		}
 	}
@@ -126,8 +215,21 @@ $(function() {
 						$('#tt').tabs('add', {
 							title : node.text,
 							href : contentUrl,
-							closable : true,
-							tools : []
+							closable : false,
+							tools : [ {
+								iconCls : 'refresh',
+								handler : function() {
+									$('#tt').tabs('select', title);
+									refreshTab();
+								}
+							}, {
+								iconCls : 'close',
+								handler : function() {
+									var currentTab = $('#tt').tabs('getSelected');
+									var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
+									$('#tt').tabs('close', currentTabIndex);
+								}
+							} ]
 						});
 					}
 
@@ -136,18 +238,23 @@ $(function() {
 		}
 	});
 });
-function addPanel() {
-	// var region = 'north';
-	// var options = {
-	// region: region
-	// };
-	// options.height = 200;
-	// options.split = true;
-	// options.title=" " ;
-	// options.border=false;
-	// $('#content').layout('add', options);
-	// $('#content').html('<div region="north" split="true" title=" "
-	// border="false" style="height: 200px"><table id="dg"></table></div>');
+
+function mouseTab() {
+
+	var e = window.event;
+	if (e.button == "0") {
+		console.log("左键:" + e.pageX + "," + e.pageX);
+		$('#menu').menu('show', {
+			left : e.pageX + 500,
+			top : e.pageY + 500
+		});
+	} else {
+		console.log("右键:" + e.pageX + "," + e.pageX);
+		$('#menu').menu('show', {
+			left : e.pageX + 200,
+			top : e.pageY + 200
+		});
+	}
 }
 function rss(url) {
 	var url = basePath + "tree/getUrlData?url=" + url;
