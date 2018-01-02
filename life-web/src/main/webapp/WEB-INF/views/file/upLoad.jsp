@@ -54,7 +54,7 @@
 				</table>
 			</div>
 			<div style="text-align: center; padding: 25px; width: 85%; height: 350px;">
-				<table id="fileList" class="easyui-datagrid" title="文件列表" data-options="singleSelect:false,collapsible:true,url:'${base}file/getFiles',method:'post',toolbar:'#tb'">
+				<table id="fileList" class="easyui-datagrid" title="文件列表" data-options="singleSelect:true,collapsible:true,url:'${base}file/getFiles',method:'post',toolbar:'#tb'">
 					<thead>
 						<tr>
 							<th data-options="field:'',checkbox:true"></th>
