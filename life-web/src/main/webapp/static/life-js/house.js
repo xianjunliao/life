@@ -2,7 +2,7 @@ $(function() {
 	$("#quite").hide();
 	$("#showTree").hide();
 	var btn = document.getElementById('btn');
-	var content = document.getElementById('most');
+//	var content = document.getElementById('most');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
@@ -11,19 +11,19 @@ $(function() {
 	btn.onclick = function() {
 		$("#btn").hide();
 		$("#quite").show();
-		fullScreen(content);
+		fullScreen('most');
 		isFull = true;
 	}
 	var quite = document.getElementById('quite');
 	quite.onclick = function() {
 		$("#btn").show();
 		$("#quite").hide();
-		exitFullScreen();
+		exitFullScreen('most');
 		isFull = false;
 	}
 	exitHouse.onclick = function() {
 		if (!isFull) {
-			exitFullScreen();
+			exitFullScreen('most');
 		}
 		window.location.href = basePath;
 	}
@@ -104,6 +104,7 @@ $(function() {
 		var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
 		$('#tt').tabs('close', currentTabIndex);
 	});
+	//关闭左侧页
 	$("#m-closeLeft").click(function() {
 		var currTab = $('#tt').tabs('getSelected');
 		var currTitle = currTab.panel('options').title;
@@ -118,6 +119,7 @@ $(function() {
 		});
 		$('#tt').tabs('select', currTitle);
 	});
+	//关闭右侧页
 	$("#m-closeRight").click(function() {
 		var currTab = $('#tt').tabs('getSelected');
 		var currTitle = currTab.panel('options').title;
@@ -130,13 +132,33 @@ $(function() {
 		});
 		$('#tt').tabs('select', currTitle);
 	});
+	//全屏
+	$("#m-full-screen").click(function() {
+		var currTab = $('#tt').tabs('getSelected');
+		var id = currTab.panel('options').id;
+		fullScreen(id);
+	});
+	
+	
+	
 
 	uploadFile.onclick = function() {
 		var title = "上传文件";
 		if ($('#tt').tabs('exists', title)) {
 			$('#tt').tabs('select', title);
 		} else {
+			$("#showTree").show();
+			$("#hideTree").hide();
+			left_control_panel.hide('fast', function() {
+				left_control_panel.panel('resize', {
+					width : 0
+				});
+				$("#most").layout('resize', {
+					width : '100%'
+				})
+			});
 			$('#tt').tabs('add', {
+				id:"upload",
 				title : title,
 				href : basePath + 'file/upLoad',
 				closable : false,
@@ -213,6 +235,7 @@ $(function() {
 						var tab = $('#tt').tabs('getSelected');
 						console.log(tab);
 						$('#tt').tabs('add', {
+							id:node.id,
 							title : node.text,
 							href : contentUrl,
 							closable : false,
@@ -256,6 +279,8 @@ function mouseTab() {
 		});
 	}
 }
+
+
 function rss(url) {
 	var url = basePath + "tree/getUrlData?url=" + url;
 	$('#dg').datagrid({

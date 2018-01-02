@@ -1,7 +1,5 @@
 package com.life.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class FileUserModel implements java.io.Serializable {
 
 	/**
@@ -18,7 +16,7 @@ public class FileUserModel implements java.io.Serializable {
 	private String uploadTime;//上传时间
 	private String uploadUser;//上传用户
 	private String sortNo;//排序号
-	
+	private String fileSum;
 	public String getId() {
 		return id;
 	}
@@ -79,9 +77,18 @@ public class FileUserModel implements java.io.Serializable {
 	public void setFileOriginalFilename(String fileOriginalFilename) {
 		this.fileOriginalFilename = fileOriginalFilename;
 	}
+	public String getFileSum() {
+		return fileSum;
+	}
+	public void setFileSum(String fileSum) {
+		this.fileSum = fileSum;
+	}
 	@Override
 	public String toString() {
-		return "FileUserModel [id=" + id + ", fileName=" + fileName + ", fileOriginalFilename=" + fileOriginalFilename + ", fileType=" + fileType + ", filePath=" + filePath + ", fileUrl=" + fileUrl + ", fileSize=" + fileSize + ", uploadTime=" + uploadTime + ", uploadUser=" + uploadUser + ", sortNo=" + sortNo + "]";
+		return "FileUserModel [id=" + id + ", fileName=" + fileName + ", fileOriginalFilename=" + fileOriginalFilename
+				+ ", fileType=" + fileType + ", filePath=" + filePath + ", fileUrl=" + fileUrl + ", fileSize="
+				+ fileSize + ", uploadTime=" + uploadTime + ", uploadUser=" + uploadUser + ", sortNo=" + sortNo
+				+ ", fileSum=" + fileSum + "]";
 	}
 	
 }

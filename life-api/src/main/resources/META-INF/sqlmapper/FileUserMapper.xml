@@ -14,26 +14,44 @@
 		<result column="upload_user" property="uploadUser" jdbcType="VARCHAR" />
 		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
 	</resultMap>
-    
-    
-    <insert id="save"  parameterType="com.life.model.FileUserModel" >
-    insert into file_user (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no)
-    values(
-    #{id,jdbcType=VARCHAR},#{fileOriginalFilename,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR},
-    #{fileUrl,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},#{uploadUser,jdbcType=VARCHAR},
-    #{sortNo,jdbcType=VARCHAR}
-    )
-    </insert>
-    
-    <select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
-    select id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
-    </select>
-    
-    <select id="getMaxSortNo" resultType="java.lang.Long">
-    select max(sort_no)+1 from file_user
-    </select>
-    
-     <select id="getFileTypes" resultType="com.life.model.FileUserModel">
-    select DISTINCT file_type from file_user
-    </select>
+
+
+	<insert id="save" parameterType="com.life.model.FileUserModel">
+		insert into file_user (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no)
+		values(
+		#{id,jdbcType=VARCHAR},#{fileOriginalFilename,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR},
+		#{fileUrl,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},#{uploadUser,jdbcType=VARCHAR},
+		#{sortNo,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
+		order by sort_no desc
+	</select>
+
+	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
+		select count(1) fileSum,file_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
+	</select>
+
+	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no from file_user where id=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getFilesByTypeAndUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
+		and file_type=#{fileType,jdbcType=VARCHAR}
+		order by sort_no desc
+	</select>
+
+	<select id="getMaxSortNo" resultType="java.lang.Long">
+		select max(sort_no)+1 from file_user
+	</select>
+
+	<select id="getFileTypes" resultType="com.life.model.FileUserModel">
+		select DISTINCT file_type from file_user
+	</select>
 </mapper>

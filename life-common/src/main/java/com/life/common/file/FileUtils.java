@@ -151,6 +151,7 @@ public class FileUtils {
 			return null;
 		return null;
 	}
+
 	/**
 	 * user stream type save files
 	 * 
@@ -162,20 +163,21 @@ public class FileUtils {
 	 *            filePath example "/files/Upload"
 	 * @return
 	 */
-	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath,String fileType) {
+	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath, String userCode,
+			String fileType) {
 		if (multipartFile != null) {
-			// get files suffix
 			String suffix = multipartFile.getOriginalFilename()
 					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
-			// filePath+fileName the complex file Name
-			String savePath = filePath + fileType;// example:F:/qixiao/files/Upload/20160912/
-			checkDirs(savePath);// check if the path has exist if not create it
+			String savePath = filePath + userCode + "/" + fileType + "/";// example:F:/qixiao/files/Upload/20160912/
+			checkDirs(savePath);
 			String absolutePath = savePath + getUUIDName(suffix);
 			// return relative Path
-			String relativePath = getRelativePath(filePath, suffix);
+//			String relativePath = getRelativePath2(filePath, suffix);
 			try {
+
 				InputStream inputStream = multipartFile.getInputStream();
 				FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
+
 				byte buffer[] = new byte[4096]; // create a buffer
 				long fileSize = multipartFile.getSize();
 				if (fileSize <= buffer.length) {// if fileSize < buffer
@@ -187,7 +189,7 @@ public class FileUtils {
 				}
 				fileOutputStream.close();
 				inputStream.close();
-				return relativePath;
+				return absolutePath;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -347,6 +349,10 @@ public class FileUtils {
 	// “/filePath/DataPath/UUIDName”filePath example "/files/Upload"
 	public static String getRelativePath(String filePath, String suffix) {
 		return filePath + File.separator + getDataPath() + File.separator + getUUIDName(suffix);// example:/files/Upload/20160912/
+	}
+
+	public static String getRelativePath2(String filePath, String suffix) {
+		return filePath + getUUIDName(suffix);// example:/files/Upload/20160912/
 	}
 
 	/**

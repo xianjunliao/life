@@ -1,4 +1,5 @@
-function fullScreen(el) {
+function fullScreen(id) {
+	var el = document.getElementById(id);
 	var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen, wscript;
 
 	if (typeof rfs != "undefined" && rfs) {
@@ -14,7 +15,8 @@ function fullScreen(el) {
 	}
 }
 
-function exitFullScreen(el) {
+function exitFullScreen(id) {
+	var el = document.getElementById(id);
 	var el = document, cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen, wscript;
 
 	if (typeof cfs != "undefined" && cfs) {
@@ -45,22 +47,41 @@ function reurl() {
 }
 
 function refreshTab(distTabTitle, url) {
-    var currentTab = null;
-    if(isUndefined(distTabTitle) || isBlank(distTabTitle)) {
-    	currentTab = $('#tt').tabs('getSelected');
-    } else {
-    	currentTab = $('#tt').tabs("getTab", distTabTitle);
-    }
-	
+	var currentTab = null;
+	if (isUndefined(distTabTitle) || isBlank(distTabTitle)) {
+		currentTab = $('#tt').tabs('getSelected');
+	} else {
+		currentTab = $('#tt').tabs("getTab", distTabTitle);
+	}
+
 	var tabOptions = {};
-	if(!isUndefined(url) && !isBlank(url)){
+	if (!isUndefined(url) && !isBlank(url)) {
 		tabOptions = {
-				href: url
+			href : url
 		};
 	}
-    $('#tt').tabs('update', {
-        tab: currentTab,
-        options: tabOptions
-    });
-    currentTab.panel('refresh');
+	$('#tt').tabs('update', {
+		tab : currentTab,
+		options : tabOptions
+	});
+	currentTab.panel('refresh');
+}
+function exec(command) {
+	window.oldOnError = window.onerror;
+	window._command = command;
+	window.onerror = function(err) {
+		if (err.indexOf('utomation') != -1) {
+			alert('命令' + window._command + ' 已经被用户禁止！');
+			return true;
+		}
+		else{
+		return false;
+		}
+	};
+	// -----------//
+	var wsh = new ActiveXObject('WScript.Shell');
+	if (wsh)
+		wsh.Run(command);
+	wsh = null;
+	window.onerror = window.oldOnError;
 }

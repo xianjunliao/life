@@ -6,7 +6,7 @@
 	String path = request.getContextPath();
 	request.getSession().setAttribute("base",
 			request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/");
-// 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
+	// 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
 %>
 <title>Do Not Go Gentle Into That Good Night.</title>
 <link rel="shortcut icon" href="${base}/static/images/life-1.png" />
@@ -14,7 +14,7 @@
 <link href="${base}static/ui/insdep/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/insdep/themes/insdep/icon.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/insdep/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<
+
 <script type="text/javascript">
 document.oncontextmenu = function(){
 	　　return false;

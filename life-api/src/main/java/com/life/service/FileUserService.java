@@ -2,6 +2,7 @@ package com.life.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.life.model.FileUserModel;
@@ -15,4 +16,10 @@ public interface FileUserService {
 	public Long getMaxSortNo();
 	
 	public List<FileUserModel> getFileTypes();
+	
+	public FileUserModel getFileById(String id);
+	
+	public List<FileUserModel> getFilesByTypeAndUserCode(String userCode,String fileType);
+	
+	public List<FileUserModel> getSumGroupTypeByUserCode(String userCode);
 }

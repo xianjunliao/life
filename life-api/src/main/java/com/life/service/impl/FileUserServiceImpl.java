@@ -21,10 +21,9 @@ public class FileUserServiceImpl implements FileUserService {
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		String filePath = "D:/life_files/";
 		String fileType = fileUserModel.getFileType().replace(".", "");
-		String dataPath = "D:/life_files/" + fileType + "/" + file.getOriginalFilename();
-		fileUserModel.setFilePath(dataPath);
-		fileUserModel.setFileUrl(dataPath);
-		FileUtils.FilesUpload_stream(file, filePath, fileType);
+		String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath,fileUserModel.getUploadUser(), fileType);
+		fileUserModel.setFilePath(filesUpload_stream);
+		fileUserModel.setFileUrl(filesUpload_stream);
 		fileUserDao.save(fileUserModel);
 	}
 
@@ -41,6 +40,21 @@ public class FileUserServiceImpl implements FileUserService {
 	@Override
 	public List<FileUserModel> getFileTypes() {
 		return fileUserDao.getFileTypes();
+	}
+
+	@Override
+	public FileUserModel getFileById(String id) {
+		return fileUserDao.getFileById(id);
+	}
+
+	@Override
+	public List<FileUserModel> getFilesByTypeAndUserCode(String userCode, String fileType) {
+		return fileUserDao.getFilesByTypeAndUserCode(userCode, fileType);
+	}
+
+	@Override
+	public List<FileUserModel> getSumGroupTypeByUserCode(String userCode) {
+		return fileUserDao.getSumGroupTypeByUserCode(userCode);
 	}
 
 }

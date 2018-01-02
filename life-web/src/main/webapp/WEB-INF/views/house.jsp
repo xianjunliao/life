@@ -32,8 +32,13 @@
 		<div style="float: left; margin-top: 3px; margin-right: 3px;">
 			<table>
 				<tr>
-					<td><a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a> <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton"
-						data-options="plain:false,iconCls:'full-screen'"></a> <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a></td>
+					<td>
+					<a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a>
+				    <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> 
+				    <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a>
+				    <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> 
+				    <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a>
+				    </td>
 				</tr>
 			</table>
 		</div>
@@ -56,6 +61,7 @@
 	</div>
 	<div id="menu" class="easyui-menu" style="width: 150px;">
 		<div id="m-refresh">刷新</div>
+		<div id="m-full-screen">全屏</div>
 		<div class="menu-sep"></div>
 		<div id="m-closeall">全部关闭</div>
 		<div id="m-closeother">除此之外全部关闭</div>
