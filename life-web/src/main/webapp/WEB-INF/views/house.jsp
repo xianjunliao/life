@@ -23,8 +23,9 @@
 	<div id="center" region="center" border="false" style="overflow: hidden;">
 
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
-			<div title="首页" style="padding: 20px; display: none;">首页
-			
+			<div title="My player" style="padding: 10px;">
+				<%-- 			<iframe scrolling="auto" frameborder="0" src="${base }musicPlayer/player" style="width: 100%; height: 100%;"></iframe> --%>
+				<iframe scrolling="auto" frameborder="0" src="//music.163.com/outchain/player?//music.163.com/outchain/player?type=0&id=2021729747&auto=1&height=430" style="width: 100%; height: 100%;"></iframe>
 			</div>
 		</div>
 
@@ -34,14 +35,10 @@
 		<div style="float: left; margin-top: 3px; margin-right: 3px;">
 			<table>
 				<tr>
-					<td>
-					<a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a>
-				    <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> 
-				    <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a>
-				    <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> 
-				    <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a>
-				    <a style="height: 25px; width: 31px" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a>
-				    </td>
+					<td><a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a> <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px"
+						class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a> <a
+						style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton"
+						data-options="plain:false,iconCls:'upload'"></a> <a style="height: 25px; width: 31px" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
 				</tr>
 			</table>
 		</div>
@@ -65,8 +62,8 @@
 		<div class="menu-sep"></div>
 		<div id="m-close">关闭</div>
 	</div>
-	
-	
+
+
 	<div id="treeMenu" class="easyui-menu" style="width: 150px;">
 		<div id="m-level1" data-options="iconCls:'tree-add1'">新增一级菜单</div>
 		<div id="m-level2" data-options="iconCls:'tree-add1'">新增二级级菜单</div>

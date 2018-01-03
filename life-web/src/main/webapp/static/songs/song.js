@@ -7,7 +7,7 @@ function XMLHttpData(){
     var xmlhttp,
         song;
 
-    loadXMLDoc("static/songs/song.json");
+    loadXMLDoc("songs/song.json");
 
     function loadXMLDoc(url){
         xmlhttp = null;
