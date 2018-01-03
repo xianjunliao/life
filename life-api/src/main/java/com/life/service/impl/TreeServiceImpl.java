@@ -51,4 +51,19 @@ public class TreeServiceImpl implements TreeService {
 	public TreeModel geTreeModelByid(String id) {
 		return treeDao.geTreeModelByid(id);
 	}
+
+	@Override
+	public List<TreeModel> getTreesByLevel(String userCode, String level,String pid) {
+		return treeDao.getTreesByLevel(userCode, level,pid);
+	}
+
+	@Override
+	public void addTree(TreeModel treeModel) {
+		treeDao.addTree(treeModel);
+	}
+
+	@Override
+	public long getMaxSortNo(String level) {
+		return treeDao.getMaxSortNo(level);
+	}
 }

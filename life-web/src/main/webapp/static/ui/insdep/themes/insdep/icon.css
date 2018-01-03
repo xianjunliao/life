@@ -8,212 +8,288 @@ JQuery EasyUI 1.5.x of Insdep Theme 1.0.0
 
 QQ浜ゆ祦缇わ細184075694 锛堜紭鍏堝彂甯冩洿鏂颁富棰樺強鍐呮祴鍖咃級
 */
-.icon-blank{
-	background:url('icons/blank.gif') no-repeat center center;
-}
-.icon-add{
-	background:url('icons/edit_add.png') no-repeat center center;
-}
-.icon-edit{
-	background:url('icons/pencil.png') no-repeat center center;
-}
-.icon-clear{
-	background:url('icons/clear.png') no-repeat center center;
-}
-.icon-remove{
-	background:url('icons/edit_remove.png') no-repeat center center;
-}
-.icon-save{
-	background:url('icons/filesave.png') no-repeat center center;
-}
-.icon-cut{
-	background:url('icons/cut.png') no-repeat center center;
-}
-.icon-ok{
-	background:url('icons/ok.png') no-repeat center center;
-}
-.icon-no{
-	background:url('icons/no.png') no-repeat center center;
-}
-.icon-cancel{
-	background:url('icons/cancel.png') no-repeat center center;
-}
-.icon-reload{
-	background:url('icons/reload.png') no-repeat center center;
-}
-.icon-search{
-	background:url('icons/search.png') no-repeat center center;
-}
-.icon-print{
-	background:url('icons/print.png') no-repeat center center;
-}
-.icon-help{
-	background:url('icons/help.png') no-repeat center center;
-}
-.icon-undo{
-	background:url('icons/undo.png') no-repeat center center;
-}
-.icon-redo{
-	background:url('icons/redo.png') no-repeat center center;
-}
-.icon-back{
-	background:url('icons/back.png') no-repeat center center;
-}
-.icon-sum{
-	background:url('icons/sum.png') no-repeat center center;
-}
-.icon-tip{
-	background:url('icons/tip.png') no-repeat center center;
-}
-.icon-filter{
-	background:url('icons/filter.png') no-repeat center center;
-}
-.icon-man{
-	background:url('icons/man.png') no-repeat center center;
-}
-.icon-lock{
-	background:url('icons/lock.png') no-repeat center center;
-}
-.icon-more{
-	background:url('icons/more.png') no-repeat center center;
-}
-.icon-set{
-	background:url('icons/set.png') no-repeat center center;
-}
-.icon-cog{
-	background:url('icons/cog.png') no-repeat center center;
-}
-.icon-lock-password{
-	background:url('icons/lock_password.png') no-repeat center center;
-}
-.icon-lock-go{
-	background:url('icons/lock_go.png') no-repeat center center;
-}
-.icon-refresh{
-	background:url('icons/arrow_refresh.png') no-repeat center center;
-}
-.icon-sort{
-	background:url('icons/sort_number.png') no-repeat center center;
-}
-.icon-repair{
-	background:url('icons/wrench.png') no-repeat center center;
+.icon-blank {
+	background: url('icons/blank.gif') no-repeat center center;
 }
 
-.icon-folder-search{
-	background:url('icons/folder_search.png') no-repeat center center;
-}
-.icon-user-config{
-	background:url('icons/user_config.png') no-repeat center center;
-}
-.icon-recover-deleted-items{
-	background:url('icons/recover_deleted_items.png') no-repeat center center;
+.icon-add {
+	background: url('icons/edit_add.png') no-repeat center center;
 }
 
-
-.icon-mini-add{
-	background:url('icons/mini-append.png') no-repeat center center;
-}
-.icon-mini-edit{
-	background:url('icons/mini-pencil.png') no-repeat center center;
-}
-.icon-mini-refresh{
-	background:url('icons/mini-reload.png') no-repeat center center;
+.icon-edit {
+	background: url('icons/pencil.png') no-repeat center center;
 }
 
-.icon-large-picture{
-	background:url('icons/large_picture.png') no-repeat center center;
+.icon-clear {
+	background: url('icons/clear.png') no-repeat center center;
 }
-.icon-large-clipart{
-	background:url('icons/large_clipart.png') no-repeat center center;
+
+.icon-remove {
+	background: url('icons/edit_remove.png') no-repeat center center;
 }
-.icon-large-shapes{
-	background:url('icons/large_shapes.png') no-repeat center center;
+
+.icon-save {
+	background: url('icons/filesave.png') no-repeat center center;
 }
-.icon-large-smartart{
-	background:url('icons/large_smartart.png') no-repeat center center;
+
+.icon-cut {
+	background: url('icons/cut.png') no-repeat center center;
 }
-.icon-large-chart{
-	background:url('icons/large_chart.png') no-repeat center center;
+
+.icon-ok {
+	background: url('icons/ok.png') no-repeat center center;
+}
+
+.icon-no {
+	background: url('icons/no.png') no-repeat center center;
+}
+
+.icon-cancel {
+	background: url('icons/cancel.png') no-repeat center center;
+}
+
+.icon-reload {
+	background: url('icons/reload.png') no-repeat center center;
+}
+
+.icon-search {
+	background: url('icons/search.png') no-repeat center center;
+}
+
+.icon-print {
+	background: url('icons/print.png') no-repeat center center;
+}
+
+.icon-help {
+	background: url('icons/help.png') no-repeat center center;
+}
+
+.icon-undo {
+	background: url('icons/undo.png') no-repeat center center;
+}
+
+.icon-redo {
+	background: url('icons/redo.png') no-repeat center center;
+}
+
+.icon-back {
+	background: url('icons/back.png') no-repeat center center;
+}
+
+.icon-sum {
+	background: url('icons/sum.png') no-repeat center center;
+}
+
+.icon-tip {
+	background: url('icons/tip.png') no-repeat center center;
+}
+
+.icon-filter {
+	background: url('icons/filter.png') no-repeat center center;
+}
+
+.icon-man {
+	background: url('icons/man.png') no-repeat center center;
+}
+
+.icon-lock {
+	background: url('icons/lock.png') no-repeat center center;
+}
+
+.icon-more {
+	background: url('icons/more.png') no-repeat center center;
+}
+
+.icon-set {
+	background: url('icons/set.png') no-repeat center center;
+}
+
+.icon-cog {
+	background: url('icons/cog.png') no-repeat center center;
+}
+
+.icon-lock-password {
+	background: url('icons/lock_password.png') no-repeat center center;
+}
+
+.icon-lock-go {
+	background: url('icons/lock_go.png') no-repeat center center;
+}
+
+.icon-refresh {
+	background: url('icons/arrow_refresh.png') no-repeat center center;
+}
+
+.icon-sort {
+	background: url('icons/sort_number.png') no-repeat center center;
+}
+
+.icon-repair {
+	background: url('icons/wrench.png') no-repeat center center;
+}
+
+.icon-folder-search {
+	background: url('icons/folder_search.png') no-repeat center center;
+}
+
+.icon-user-config {
+	background: url('icons/user_config.png') no-repeat center center;
+}
+
+.icon-recover-deleted-items {
+	background: url('icons/recover_deleted_items.png') no-repeat center
+		center;
+}
+
+.icon-mini-add {
+	background: url('icons/mini-append.png') no-repeat center center;
+}
+
+.icon-mini-edit {
+	background: url('icons/mini-pencil.png') no-repeat center center;
+}
+
+.icon-mini-refresh {
+	background: url('icons/mini-reload.png') no-repeat center center;
+}
+
+.icon-large-picture {
+	background: url('icons/large_picture.png') no-repeat center center;
+}
+
+.icon-large-clipart {
+	background: url('icons/large_clipart.png') no-repeat center center;
+}
+
+.icon-large-shapes {
+	background: url('icons/large_shapes.png') no-repeat center center;
+}
+
+.icon-large-smartart {
+	background: url('icons/large_smartart.png') no-repeat center center;
+}
+
+.icon-large-chart {
+	background: url('icons/large_chart.png') no-repeat center center;
 }
 /*自定义图标*/
-.icon-export{
-	background:url('icons/export.png') no-repeat center center;
+.icon-export {
+	background: url('icons/export.png') no-repeat center center;
 }
-.icon-downLoad{
-	background:url('icons/downLoad.png') no-repeat center center;
+
+.icon-downLoad {
+	background: url('icons/downLoad.png') no-repeat center center;
 }
-.icon-downLoad_t{
-	background:url('icons/downLoad_t.png') no-repeat center center;
+
+.icon-downLoad_t {
+	background: url('icons/downLoad_t.png') no-repeat center center;
 }
-.tree-rss-box{
-	background:url('icons/rss-box.png') no-repeat center center;
+
+.tree-rss-box {
+	background: url('icons/rss-box.png') no-repeat center center;
 }
-.tree-music-p{
-	background:url('icons/music_p.png') no-repeat center center;
+
+.tree-music-p {
+	background: url('icons/music_p.png') no-repeat center center;
 }
-.tree-zhihu{
-	background:url('icons/zhihu.png') no-repeat center center;
+
+.tree-zhihu {
+	background: url('icons/zhihu.png') no-repeat center center;
 }
-.tree-life{
-	background:url('icons/life.png') no-repeat center center;
+
+.tree-life {
+	background: url('icons/life.png') no-repeat center center;
 }
-.tree-life2{
-	background:url('icons/life2.png') no-repeat center center;
+
+.tree-life2 {
+	background: url('icons/life2.png') no-repeat center center;
 }
-.tree-life3{
-	background:url('icons/life3.png') no-repeat center center;
+
+.tree-life3 {
+	background: url('icons/life3.png') no-repeat center center;
 }
-.tree-listen{
-	background:url('icons/listen.png') no-repeat center center;
+
+.tree-listen {
+	background: url('icons/listen.png') no-repeat center center;
 }
-.full-screen{
-	background:url('icons/full_screen.png') no-repeat center center;
+
+.full-screen {
+	background: url('icons/full_screen.png') no-repeat center center;
 }
-.exit-full-screen{
-	background:url('icons/exitMax.png') no-repeat center center;
+
+.exit-full-screen {
+	background: url('icons/exitMax.png') no-repeat center center;
 }
-.main-house{
-	background:url('icons/house.png') no-repeat center center;
+
+.main-house {
+	background: url('icons/house.png') no-repeat center center;
 }
-.main-exit{
-	background:url('icons/exit.png') no-repeat center center;
+
+.main-exit {
+	background: url('icons/exit.png') no-repeat center center;
 }
-.main-index{
-	background:url('icons/main.png') no-repeat center center;
+
+.main-index {
+	background: url('icons/main.png') no-repeat center center;
 }
-.xiaomai{
-	background:url('icons/xiaomai.png') no-repeat center center;
+
+.xiaomai {
+	background: url('icons/xiaomai.png') no-repeat center center;
 }
-.showTree{
-	background:url('icons/showTree.png') no-repeat center center;
+
+.showTree {
+	background: url('icons/showTree.png') no-repeat center center;
 }
-.hideTree{
-	background:url('icons/hideTree.png') no-repeat center center;
+
+.hideTree {
+	background: url('icons/hideTree.png') no-repeat center center;
 }
-.upload{
-	background:url('self_icon/upload.png') no-repeat center center;
+
+.upload {
+	background: url('self_icon/upload.png') no-repeat center center;
 }
-.tree-tv{
-	background:url('self_icon/tv.png') no-repeat center center;
+
+.tree-tv {
+	background: url('self_icon/tv.png') no-repeat center center;
 }
-.test{
-	background:url('self_icon/test.png') no-repeat center center;
+
+.test {
+	background: url('self_icon/test.png') no-repeat center center;
 }
-.next{
-	background:url('self_icon/next.png') no-repeat center center;
+
+.next {
+	background: url('self_icon/next.png') no-repeat center center;
 }
-.play{
-	background:url('self_icon/play.png') no-repeat center center;
+
+.play {
+	background: url('self_icon/play.png') no-repeat center center;
 }
-.stop{
-	background:url('self_icon/stop.png') no-repeat center center;
+
+.stop {
+	background: url('self_icon/stop.png') no-repeat center center;
 }
-.refresh{
-	background:url('self_icon/refresh.png') no-repeat center center;
+
+.refresh {
+	background: url('self_icon/refresh.png') no-repeat center center;
 }
-.close{
-	background:url('self_icon/close.png') no-repeat center center;
+
+.close {
+	background: url('self_icon/close.png') no-repeat center center;
 }
-.wangyiyun{
-	background:url('self_icon/wangyiyun.png') no-repeat center center;
+
+.wangyiyun {
+	background: url('self_icon/wangyiyun.png') no-repeat center center;
+}
+
+.setting {
+	background: url('self_icon/setting.png') no-repeat center center;
+}
+.first-tab {
+	background: url('self_icon/first.png') no-repeat center center;
+}
+.tree-setting {
+	background: url('self_icon/tree_setting.png') no-repeat center center;
+}
+.tree-add1 {
+	background: url('self_icon/add1.png') no-repeat center center;
 }

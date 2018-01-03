@@ -13,12 +13,12 @@
 </head>
 <body>
 	<div class="easyui-layout" style="width: 100%; height: 100%;">
-		<div data-options="region:'west',split:false,border:true" style="width: 25%; height: 100%;">
+		<div data-options="region:'west',split:false,border:true" style="width: 30%; height: 100%;">
 			<input type="hidden" id="hideNo" value="${sortNo }" />
 			<form id="upLoadFileForm" class="easyui-form" style="width: 100%;" method="post" enctype="multipart/form-data">
 				<table cellpadding="5" style="width: 85%; padding-top: 20px;">
 					<tr style="width: 100%;">
-						<td style="width: 25%" align="right"><span style="width: 10%">类型：</span></td>
+						<td style="width: 25%" align="right"><span style="width: 20%">类型：</span></td>
 						<td style="width: 75%;"><select style="width: 100%;" class="easyui-combobox" name="fileType" data-options="prompt:'请选择文件类型...'">
 								<option></option>
 								<c:forEach items="${fileTypes}" var="type">
@@ -27,15 +27,15 @@
 						</select></td>
 					</tr>
 					<tr style="width: 100%;">
-						<td style="width: 25%" align="right"><span style="width: 10%">名称：</span></td>
+						<td style="width: 25%" align="right"><span style="width: 20%">名称：</span></td>
 						<td style="width: 75%;"><input style="width: 100%;" class="easyui-textbox" name="fileName" data-options="prompt:'请输入文件名称...'"></td>
 					</tr>
 					<tr style="width: 100%;">
-						<td style="width: 25%;" align="right"><span style="width: 10%">文件：</span></td>
+						<td style="width: 25%;" align="right"><span style="width: 20%">文件：</span></td>
 						<td style="width: 75%;"><input style="width: 100%;" class="easyui-filebox" name="file" data-options="prompt:'选择你要上传的文件...'"></td>
 					</tr>
 					<tr style="width: 100%;">
-						<td style="width: 25%;" align="right"><span style="width: 10%">序号：</span></td>
+						<td style="width: 25%;" align="right"><span style="width: 20%">序号：</span></td>
 						<td style="width: 75%;"><input style="width: 100%;" class="easyui-textbox" id="sortNo" name="sortNo" data-options="prompt:'界面显示的顺序号。。。'" value="${sortNo}"></td>
 					</tr>
 				</table>

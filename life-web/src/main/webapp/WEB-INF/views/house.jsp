@@ -23,7 +23,9 @@
 	<div id="center" region="center" border="false" style="overflow: hidden;">
 
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
-			<div title="首页" style="padding: 20px; display: none;">首页</div>
+			<div title="首页" style="padding: 20px; display: none;">首页
+			
+			</div>
 		</div>
 
 	</div>
@@ -38,6 +40,7 @@
 				    <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a>
 				    <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> 
 				    <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a>
+				    <a style="height: 25px; width: 31px" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a>
 				    </td>
 				</tr>
 			</table>
@@ -47,14 +50,6 @@
 			<table>
 				<tr>
 					<td></td>
-					<!-- 					<td> -->
-					<!-- 					<span style="margin-top: 1px; height: 25px;">阅读模式：</span> -->
-					<!-- 					<select id="readMode" class="easyui-combobox" name="readMode" style="width: 100px; margin-top: 1px; height: 25px;"> -->
-					<!-- 							<option value="web">网页</option> -->
-					<!-- 							<option value="text">文本</option> -->
-					<!-- 							<option value="window">弹窗</option> -->
-					<!-- 					</select> -->
-					<!-- 					</td> -->
 					<td><a style="height: 25px; width: 31px" title="退出" id="exitHouse" class="easyui-linkbutton" data-options="plain:false,iconCls:'main-exit'"></a></td>
 			</table>
 		</div>
@@ -70,5 +65,13 @@
 		<div class="menu-sep"></div>
 		<div id="m-close">关闭</div>
 	</div>
+	
+	
+	<div id="treeMenu" class="easyui-menu" style="width: 150px;">
+		<div id="m-level1" data-options="iconCls:'tree-add1'">新增一级菜单</div>
+		<div id="m-level2" data-options="iconCls:'tree-add1'">新增二级级菜单</div>
+		<div id="m-level3" data-options="iconCls:'tree-add1'">新增三级级菜单</div>
+	</div>
+	<div id="dialog"></div>
 </body>
 </html>

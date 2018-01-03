@@ -1,6 +1,7 @@
 package com.life.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,13 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.life.common.ResponseMessage;
+import com.life.common.Str;
+import com.life.common.Util;
+import com.life.common.time.DateUtil;
 import com.life.common.util.RSSUtil;
 import com.life.model.LifeUserModel;
 import com.life.model.TreeModel;
 import com.life.service.TreeService;
 
 @Controller
- @RequestMapping("tree")
+@RequestMapping("tree")
 public class TreeController {
 
 	@Autowired
@@ -49,14 +54,14 @@ public class TreeController {
 		List<TreeModel> tree = treeService.getChildNode2(treeModel);
 		return tree;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("getUrlData")
-	public String getUrlData(String url, HttpServletRequest request, HttpServletResponse response){
+	public String getUrlData(String url, HttpServletRequest request, HttpServletResponse response) {
 		String json = RSSUtil.xmlToJson(url);
 		return json;
 	}
-	
+
 	/**
 	 * 页面跳转
 	 *
@@ -71,13 +76,47 @@ public class TreeController {
 	 * @throws ServletException
 	 */
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		if (null == attribute) {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			model.put("code", attribute);
+			String level = params.getLevel();
+			String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
+			List<TreeModel> treesByLevel = new ArrayList<>();
+			String id = Long.valueOf(level) == 2 ? "0" : params.getId();
+			treesByLevel = treeService.getTreesByLevel(attribute.getUserCode(), levelL, id);
+			model.put("level", params.getLevel());
+			model.put("trees", treesByLevel);
+			model.put("id", params.getId());
+		} catch (Exception e) {
 			return "error/500.jsp";
 		}
-		model.put("code", attribute);
 		return FTL_DIR + pageName + ".jsp";
 	}
 
+	@RequestMapping("/save")
+	@ResponseBody
+	public ResponseMessage<TreeModel> save(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) {
+		ResponseMessage<TreeModel> responseMessage = new ResponseMessage<>();
+		try {
+			responseMessage = new ResponseMessage<>();
+			long maxSortNo = treeService.getMaxSortNo(treeModel.getLevel());
+			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			treeModel.setSortNo(String.valueOf(maxSortNo));
+			treeModel.setUserCode(attribute.getUserCode());
+			treeModel.setId(Util.getUUId16());
+			if (Str.isEmpty(treeModel.getPid())) {
+				treeModel.setPid("0");
+			}
+			treeModel.setStatus("0");
+			treeModel.setCreateTime(DateUtil.getNow());
+			treeService.addTree(treeModel);
+			responseMessage.setCode("200");
+			responseMessage.setMessage("新增成功");
+		} catch (Exception e) {
+			responseMessage.setCode("500");
+			responseMessage.setMessage("新增失败");
+		}
+		return responseMessage;
+	}
 }

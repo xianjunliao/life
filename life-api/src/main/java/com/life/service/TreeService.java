@@ -12,4 +12,10 @@ public interface TreeService {
 	List<TreeModel> getChildNode2(TreeModel treeModel);
 	
 	TreeModel geTreeModelByid(String id);
+	
+	List<TreeModel> getTreesByLevel(String userCode,String level,String pid);
+	
+	void addTree(TreeModel treeModel);
+	
+	long getMaxSortNo(String level);
 }
