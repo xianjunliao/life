@@ -17,5 +17,5 @@ public interface TreeService {
 	
 	void addTree(TreeModel treeModel);
 	
-	long getMaxSortNo(String level);
+	long getMaxSortNo(String userCode,String level);
 }

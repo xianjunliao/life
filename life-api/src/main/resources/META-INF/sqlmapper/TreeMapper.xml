@@ -38,7 +38,7 @@
 
 	</select>
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
-		select max(sort_no)+1 from tree where level=#{level}
+		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from tree where user_code=#{userCode} and level=#{level}
 	</select>
 	<insert id="addTree" parameterType="com.life.model.TreeModel">
 		insert into tree

@@ -76,7 +76,7 @@ img {
 				<table>
 					<tr>
 						<td><div id="inputCode" style="margin-top: 1px;">
-								<input class="easyui-textbox" type="password" id="code" data-options="prompt:'Please enter your code...'" style="width: 200px; height: 25px;">
+								<span style="font-size: 14px;color: red;">输入你的编码：</span><input class="easyui-textbox" type="password" id="code" style="width: 200px; height: 25px;">
 							</div></td>
 						<td><div id="audios"></div></td>
 						<td>

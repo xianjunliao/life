@@ -8,9 +8,9 @@
 <body>
 	<div id="cc" class="easyui-layout" style="width: 100%; height: 100%; border: none;">
 		<div data-options="region:'center',border:false">
-			<form id="treeLevelForm" method="post">
-			<input type="hidden" name="level" value="${level}" />
-				<table cellpadding="5" style="width: 99%;">
+			<form id="treeLevelForm" method="post" data-options="novalidate:true">
+				<input type="hidden" name="level" value="${level}" />
+				<table cellpadding="5" style="width: 99%;" >
 					<tr>
 						<td align="right"><span>菜单名称:</span></td>
 						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="text" data-options="required:true"></input></td>
@@ -29,11 +29,11 @@
 					</tr>
 					<tr>
 						<td align="right">菜单url:</td>
-						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="url" <c:if test="${level!='1'}">data-options="required:true"</c:if>></input></td>
+						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="url" <c:if test="${level=='3'}">data-options="required:true"</c:if>></input></td>
 					</tr>
 					<tr>
 						<td align="right">打开方式:</td>
-						<td><select class="easyui-combobox" name="readMode" style="width: 100%;" <c:if test="${level!='1'}">data-options="required:true"</c:if>>
+						<td><select class="easyui-combobox" name="readMode" style="width: 100%;" <c:if test="${level=='3'}">data-options="required:true"</c:if>>
 								<option value=""></option>
 								<option value="web">网页</option>
 								<option value="rss">rss</option>
@@ -42,16 +42,18 @@
 
 					<tr>
 						<td align="right">上级菜单:</td>
-						<td><select class="easyui-combobox" name="pid" style="width: 100%;" <c:if test="${level!='1'}">data-options="required:true"</c:if>>
+						<td><select class="easyui-combobox" name="pid" style="width: 100%;" data-options="required:true<c:if test="${level=='1'}">,disabled:true</c:if>">
 								<option value=""></option>
 								<c:forEach items="${trees}" var="tree">
-									<option <c:if test="${id==tree.id}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
+									<option <c:if test="${id==tree.id ||(tree.sortNo=='1'&&level=='3')}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
+
 								</c:forEach>
 						</select></td>
 					</tr>
 				</table>
 			</form>
 		</div>
+		<input id="htext" type="hidden" value="${text}" />
 	</div>
 	<script type="text/javascript">
 		$(function() {
@@ -70,6 +72,10 @@
 					result = $.parseJSON(result);
 					if (result.code == '200') {
 						$('#dialog').dialog('close');
+						location.reload(true);
+						var text = $("#htext").val();
+						console.log(text);
+						$('#left_content').accordion('select', text);
 						$.messager.alert('提示', result.message, 'info');
 					} else {
 						$.messager.alert("提示", result.message, "warning");

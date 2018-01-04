@@ -18,14 +18,18 @@
 </head>
 <body id="most" class="easyui-layout" style="width: 100%; height: 100%;">
 	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
-		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true"></div>
+		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true" >
+			<div >
+				<div style="text-align: center;margin-top: 300px;" id="m-level1" data-options="iconCls:'tree-add1'"><a style="font-size: 18px;">新增菜单</a></div>
+			</div>
+		</div>
 	</div>
 	<div id="center" region="center" border="false" style="overflow: hidden;">
 
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
-			<div title="My player" style="padding: 10px;">
+			<div title="Home page" style="padding: 10px;">
 				<%-- 			<iframe scrolling="auto" frameborder="0" src="${base }musicPlayer/player" style="width: 100%; height: 100%;"></iframe> --%>
-				<iframe scrolling="auto" frameborder="0" src="//music.163.com/outchain/player?//music.163.com/outchain/player?type=0&id=2021729747&auto=1&height=430" style="width: 100%; height: 100%;"></iframe>
+				<iframe scrolling="auto" frameborder="0" src="https://www.baidu.com/" style="width: 100%; height: 100%;"></iframe>
 			</div>
 		</div>
 
@@ -39,6 +43,7 @@
 						class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a> <a
 						style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton"
 						data-options="plain:false,iconCls:'upload'"></a> <a style="height: 25px; width: 31px" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
+						<td><span style="font-size: 14px;color: red;">左侧处鼠标右键可添加1、2、3级菜单</span></td>
 				</tr>
 			</table>
 		</div>

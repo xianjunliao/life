@@ -38,7 +38,8 @@ public class TreeController {
 
 	@ResponseBody
 	@RequestMapping("panentTree")
-	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		treeModel.setPid("0");
@@ -48,7 +49,8 @@ public class TreeController {
 
 	@ResponseBody
 	@RequestMapping("getChildNode")
-	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		List<TreeModel> tree = treeService.getChildNode2(treeModel);
@@ -76,7 +78,9 @@ public class TreeController {
 	 * @throws ServletException
 	 */
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params,
+			ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 			model.put("code", attribute);
@@ -85,9 +89,13 @@ public class TreeController {
 			List<TreeModel> treesByLevel = new ArrayList<>();
 			String id = Long.valueOf(level) == 2 ? "0" : params.getId();
 			treesByLevel = treeService.getTreesByLevel(attribute.getUserCode(), levelL, id);
+			TreeModel treeModel = treeService.geTreeModelByid(params.getId());
 			model.put("level", params.getLevel());
 			model.put("trees", treesByLevel);
 			model.put("id", params.getId());
+			if (null != treeModel) {
+				model.put("text", treeModel.getText());
+			}
 		} catch (Exception e) {
 			return "error/500.jsp";
 		}
@@ -96,12 +104,14 @@ public class TreeController {
 
 	@RequestMapping("/save")
 	@ResponseBody
-	public ResponseMessage<TreeModel> save(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseMessage<TreeModel> save(TreeModel treeModel, HttpServletRequest request,
+			HttpServletResponse response) {
 		ResponseMessage<TreeModel> responseMessage = new ResponseMessage<>();
 		try {
 			responseMessage = new ResponseMessage<>();
-			long maxSortNo = treeService.getMaxSortNo(treeModel.getLevel());
+			String level = treeModel.getLevel();
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			long maxSortNo = treeService.getMaxSortNo(attribute.getUserCode(),level);
 			treeModel.setSortNo(String.valueOf(maxSortNo));
 			treeModel.setUserCode(attribute.getUserCode());
 			treeModel.setId(Util.getUUId16());

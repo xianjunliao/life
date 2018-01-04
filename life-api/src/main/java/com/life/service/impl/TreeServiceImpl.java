@@ -62,8 +62,9 @@ public class TreeServiceImpl implements TreeService {
 		treeDao.addTree(treeModel);
 	}
 
+
 	@Override
-	public long getMaxSortNo(String level) {
-		return treeDao.getMaxSortNo(level);
+	public long getMaxSortNo(String userCode, String level) {
+		return treeDao.getMaxSortNo(userCode,level);
 	}
 }

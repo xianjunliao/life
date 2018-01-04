@@ -1,4 +1,7 @@
 $(function() {
+	$("html").bind("contextmenu", function(e) {
+		return false;
+	});
 	$("#quite").hide();
 	$("#showTree").hide();
 	var btn = document.getElementById('btn');
@@ -59,7 +62,7 @@ $(function() {
 	$('#tt').tabs({
 		onContextMenu : function(e, title, index) {
 			$('#tt').tabs('select', title);
-			if ('首页' != title) {
+			if ('Home page' != title) {
 				$('#menu').menu('show', {
 					left : e.pageX,
 					top : e.pageY
@@ -77,7 +80,7 @@ $(function() {
 	$("#m-closeall").click(function() {
 		$(".tabs li").each(function(i, n) {
 			var title = $(n).text();
-			if (title != '首页') {
+			if (title != 'Home page') {
 				$('#tt').tabs('close', title);
 			}
 		});
@@ -91,7 +94,7 @@ $(function() {
 			var title = $(n).text();
 
 			if (currTitle != title) {
-				if (title != '首页') {
+				if (title != 'Home page') {
 					$('#tt').tabs('close', title);
 				}
 			}
@@ -113,7 +116,7 @@ $(function() {
 		$(".tabs li").each(function(i, n) {
 			var title = $(n).text();
 			if (i < currentTabIndex) {
-				if (title != '首页') {
+				if (title != 'Home page') {
 					$('#tt').tabs('close', title);
 				}
 			}
@@ -221,30 +224,22 @@ $(function() {
 		url : basePath + 'tree/panentTree',
 		success : function(data) {
 			$.each(data, function(i, n) {// 加载父类节点即一级菜单
-				if (i == 0) {// 显示第一个一级菜单下的二级菜单
-					$('#left_content').accordion('add', {
-						id : n.id,
-						title : n.text,
-						iconCls : n.iconCls,
-						selected : true,
-						tools : [],
-						content : '<div style="padding:10px" ><ul name="' + n.text + '"></ul></div>',
-					});
-				} else {
-					$('#left_content').accordion('add', {
-						id : n.id,
-						title : n.text,
-						iconCls : n.iconCls,
-						selected : false,
-						tools : [],
-						content : '<div style="padding:10px"><ul name="' + n.text + '"></ul></div>',
-					});
-				}
+
+				$('#left_content').accordion('add', {
+					id : n.id,
+					title : n.text,
+					iconCls : n.iconCls,
+					selected : false,
+					tools : [],
+					content : '<div style="padding:10px"><ul name="' + n.text + '"></ul></div>',
+				});
 				// 屏蔽左下角出现"javascript:;;"
 				$("#left_content>.panel .panel-tool>a").removeAttr("href");
 				// alert($("#left_content>.panel
 				// .panel-tool>a").length);
-
+				if (n.sortNo == '1') {
+					$('#left_content').accordion('select', n.text);
+				}
 			});
 		}
 	});
@@ -252,6 +247,7 @@ $(function() {
 	$('#left_content').accordion({
 		onSelect : function(title, index) {
 			$("ul[name='" + title + "']").tree({
+				id : 'aa',
 				url : basePath + 'tree/getChildNode',
 				queryParams : {
 					text : title
@@ -300,14 +296,13 @@ $(function() {
 			});
 		}
 	});
-	$('#left_content').bind('contextmenu', function(e) {
+	$('#left_west').bind('contextmenu', function(e) {
 		e.preventDefault();
 		$('#treeMenu').menu('show', {
 			left : e.pageX,
 			top : e.pageY
 		});
 	});
-
 	$("#m-level1").click(function() {
 		openDialog("新增一级菜单", "1", 0)
 	});

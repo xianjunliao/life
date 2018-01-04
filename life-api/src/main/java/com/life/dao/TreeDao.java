@@ -17,5 +17,5 @@ public interface TreeDao {
 	
 	void addTree(TreeModel treeModel);
 	
-	long getMaxSortNo(@Param("level")String level);
+	long getMaxSortNo(@Param("userCode")String userCode,@Param("level")String level);
 }
