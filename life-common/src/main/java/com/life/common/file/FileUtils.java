@@ -41,12 +41,10 @@ public class FileUtils {
 	 *            filePath example "/files/Upload"
 	 * @return
 	 */
-	public static String FilesUpload_transferTo_spring(HttpServletRequest request, MultipartFile multipartFile,
-			String filePath) {
+	public static String FilesUpload_transferTo_spring(HttpServletRequest request, MultipartFile multipartFile, String filePath) {
 		if (multipartFile != null) {
 			// get files suffix
-			String suffix = multipartFile.getOriginalFilename()
-					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+			String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
 			// filePath+fileName the complex file Name
 			String absolutePath = getAndSetAbsolutePath(request, filePath, suffix);
 			// return relative Path
@@ -78,8 +76,7 @@ public class FileUtils {
 	public static String FilesUpload_stream(HttpServletRequest request, MultipartFile multipartFile, String filePath) {
 		if (multipartFile != null) {
 			// get files suffix
-			String suffix = multipartFile.getOriginalFilename()
-					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+			String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
 			// filePath+fileName the complex file Name
 			String absolutePath = getAndSetAbsolutePath(request, filePath, suffix);
 			// return relative Path
@@ -121,8 +118,7 @@ public class FileUtils {
 	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath) {
 		if (multipartFile != null) {
 			// get files suffix
-			String suffix = multipartFile.getOriginalFilename()
-					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
+			String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
 			// filePath+fileName the complex file Name
 			String savePath = filePath + File.separator + getDataPath() + File.separator;// example:F:/qixiao/files/Upload/20160912/
 			checkDirs(savePath);// check if the path has exist if not create it
@@ -163,16 +159,11 @@ public class FileUtils {
 	 *            filePath example "/files/Upload"
 	 * @return
 	 */
-	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath, String userCode,
-			String fileType) {
+	public static String FilesUpload_stream(MultipartFile multipartFile, String filePath, String userCode, String fileType, String fileName) {
 		if (multipartFile != null) {
-			String suffix = multipartFile.getOriginalFilename()
-					.substring(multipartFile.getOriginalFilename().lastIndexOf("."));
 			String savePath = filePath + userCode + "/" + fileType + "/";// example:F:/qixiao/files/Upload/20160912/
 			checkDirs(savePath);
-			String absolutePath = savePath + getUUIDName(suffix);
-			// return relative Path
-//			String relativePath = getRelativePath2(filePath, suffix);
+			String absolutePath = savePath + fileName;
 			try {
 
 				InputStream inputStream = multipartFile.getInputStream();
@@ -207,7 +198,7 @@ public class FileUtils {
 	 *            文件的相对路径
 	 * @return
 	 */
-	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath) {
+	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath,String fileType) {
 		File file = new File(filePath);
 		String filenames = file.getName();
 		InputStream inputStream;
@@ -218,11 +209,10 @@ public class FileUtils {
 			inputStream.close();
 			response.reset();
 			// 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
-			response.addHeader("Content-Disposition",
-					"attachment;filename=" + new String(filenames.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
+			response.addHeader("Content-Disposition", "attachment;filename=" + new String(filenames.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
 			response.addHeader("Content-Length", "" + file.length());
 			OutputStream os = new BufferedOutputStream(response.getOutputStream());
-			response.setContentType("application/octet-stream");
+			response.setContentType(fileType);
 			os.write(buffer);// 输出文件
 			os.flush();
 			os.close();
@@ -245,18 +235,13 @@ public class FileUtils {
 			conn.setRequestMethod("GET");
 			conn.setConnectTimeout(5 * 1000);
 			conn.setRequestProperty("Accept",
-					"image/gif, image/jpeg, image/pjpeg, image/pjpeg, "
-							+ "application/x-shockwave-flash, application/xaml+xml, "
-							+ "application/vnd.ms-xpsdocument, application/x-ms-xbap, "
-							+ "application/x-ms-application, application/vnd.ms-excel, "
-							+ "application/vnd.ms-powerpoint, application/msword, */*");
+					"image/gif, image/jpeg, image/pjpeg, image/pjpeg, " + "application/x-shockwave-flash, application/xaml+xml, " + "application/vnd.ms-xpsdocument, application/x-ms-xbap, " + "application/x-ms-application, application/vnd.ms-excel, " + "application/vnd.ms-powerpoint, application/msword, */*");
 			conn.setRequestProperty("Accept-Language", "zh-CN");
 			conn.setRequestProperty("Charset", "UTF-8");
 			InputStream inStream = conn.getInputStream();// 通过输入流获取图片数据
 			byte[] btImg = readInputStream(inStream);// 得到图片的二进制数据
 			response.setHeader("Content-Type", "application/octet-stream");
-			response.setHeader("Content-Disposition",
-					"attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
+			response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1"));
 			response.getOutputStream().write(btImg);
 			response.getOutputStream().flush();
 			response.getOutputStream().close();

@@ -12,7 +12,7 @@ public interface FileUserDao {
 	
 	public List<FileUserModel> getFilesByUserCode(@Param("userCode")String userCode);
 	
-	public Long getMaxSortNo();
+	public Long getMaxSortNo(@Param("userCode")String userCode);
 	
 	public List<FileUserModel> getFileTypes();
 	
@@ -21,4 +21,6 @@ public interface FileUserDao {
 	public List<FileUserModel> getFilesByTypeAndUserCode(@Param("userCode")String userCode,@Param("fileType")String fileType);
 	
 	public List<FileUserModel> getSumGroupTypeByUserCode(@Param("userCode")String userCode);
+	
+	public FileUserModel getFileByName(@Param("userCode")String userCode,@Param("fileName")String fileName);
 }

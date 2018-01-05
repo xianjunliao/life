@@ -43,7 +43,7 @@ public class OpenWebController {
 		TreeModel treeModel = treeService.geTreeModelByid(params.getId());
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		if (null == attribute) {
-			return "index.jsp";
+			return "error/500.jsp";
 		}
 		model.put("treeModel", treeModel);
 		model.put("rss", RSSUtil.xmlToList(treeModel.getUrl()));

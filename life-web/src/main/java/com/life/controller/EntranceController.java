@@ -15,15 +15,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.life.common.Str;
+import com.life.common.ResponseMessage;
 import com.life.model.LifeUserModel;
 import com.life.service.LifeUserService;
 
 @Controller
-//@RequestMapping("entrance")
+// @RequestMapping("entrance")
 public class EntranceController {
 
-	@Resource(name="lifeUserService")
+	@Resource(name = "lifeUserService")
 	private LifeUserService lifeUserService;
 	/**
 	 * 模板存放目录
@@ -32,8 +32,7 @@ public class EntranceController {
 
 	@ResponseBody
 	@RequestMapping("enterCode")
-	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
 		request.getSession().setMaxInactiveInterval(3600);
@@ -41,40 +40,59 @@ public class EntranceController {
 	}
 
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params,
-			ModelMap model, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String userCode = params.getUserCode();
-		if(Str.isEmpty(userCode)) {
-			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			userCode=attribute.getUserCode();
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		if (null == attribute || null == params) {
+			return "error/500.jsp";
 		}
-		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(userCode);
-		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-		request.getSession().setMaxInactiveInterval(3600);
-		if (null == lifeUserModel) {
-			return "index.jsp";
-		}
-		model.put("code", lifeUserModel);
 		return FTL_DIR + pageName + ".jsp";
 	}
-	
-	@RequestMapping("/delUser")
-	public String delUser( HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getSession().removeAttribute("lifeUserModel");
-		return "index.jsp";
+
+	@ResponseBody
+	@RequestMapping("/enter")
+	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		try {
+			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
+			if (lifeUserModel == null) {
+				outMSG.setCode("202");
+				outMSG.setMessage("输入的编码不存在，请联系网站管理员获取登陆编码！");
+			} else {
+				request.getSession().setAttribute("lifeUserModel", lifeUserModel);
+				request.getSession().setMaxInactiveInterval(3600);
+				outMSG.setCode("200");
+				outMSG.setMessage("验证成功！");
+			}
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("验证失败！");
+		}
+		return outMSG;
 	}
-	
+
+	@ResponseBody
+	@RequestMapping("/exit")
+	public ResponseMessage<LifeUserModel> exit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		try {
+			request.getSession().removeAttribute("lifeUserModel");
+			outMSG.setCode("200");
+			outMSG.setMessage("退出成功！");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("退出失败！");
+		}
+		return outMSG;
+	}
+
 	@RequestMapping("/test")
-	public String test( HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return "error/test.jsp";
 	}
+
 	@ResponseBody
 	@RequestMapping("/getAll")
-	public List<LifeUserModel> getAll( HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public List<LifeUserModel> getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<LifeUserModel> all = lifeUserService.getAll();
 		return all;
 	}

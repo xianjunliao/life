@@ -19,9 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.life.common.ResponseMessage;
 import com.life.common.Str;
-import com.life.common.StringUtil;
 import com.life.common.Util;
-import com.life.common.file.FileUtil;
 import com.life.common.file.FileUtils;
 import com.life.common.time.DateUtil;
 import com.life.model.FileUserModel;
@@ -40,93 +38,80 @@ public class FileUserController {
 	private final static String FTL_DIR = "file/";
 
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request)
-			throws ServletException, IOException {
-		try {
-			Long maxSortNo = fileUserService.getMaxSortNo();
-			// LifeUserModel attribute = (LifeUserModel)
-			// request.getSession().getAttribute("lifeUserModel");
-			if (maxSortNo == null) {
-				maxSortNo = 1L;
-			}
-			List<FileUserModel> fileTypes = fileUserService.getFileTypes();
-			// List<FileUserModel> sumGroupTypeByUserCode =
-			// fileUserService.getSumGroupTypeByUserCode(attribute.getUserCode());
-			model.put("sortNo", maxSortNo);
-			model.put("fileTypes", fileTypes);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
+		LifeUserModel lifeUserModel = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		if (null == lifeUserModel) {
+			throw new NullPointerException();
 		}
 		return FTL_DIR + pageName + ".jsp";
 	}
 
 	@RequestMapping(path = { "add/uploadFile" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<FileUserModel> uploadFile(@RequestParam("file") MultipartFile file,
-			HttpServletResponse response, HttpServletRequest request) {
-		ResponseMessage<FileUserModel> outMSG = null;
+	public ResponseMessage<FileUserModel> uploadFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<FileUserModel> outMSG = new ResponseMessage<>();
 		try {
+			if (null == file || 0 == file.getSize()) {
+				outMSG.setCode("201");
+				outMSG.setMessage("请选择需要上传的文件！");
+				return outMSG;
+			}
+			String message = "上传成功！";
 			FileUserModel fileUserModel = new FileUserModel();
-			String fileName = request.getParameter("fileName");
-			String originalFilename = file.getOriginalFilename().substring(0,
-					file.getOriginalFilename().lastIndexOf("."));
-			String newType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."))
-					.replace(".", "");
-			String fileType = request.getParameter("fileType");
-			String sortNo = request.getParameter("sortNo");
-			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			String id = Util.getUUId16();
+			String originalFilename = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
+
+			LifeUserModel lifeUserModel = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			String userCode = lifeUserModel.getUserCode();
+			Long maxSortNo = fileUserService.getMaxSortNo(userCode);
+			FileUserModel oldFileModel = fileUserService.getFileByName(userCode, originalFilename);
+			if (oldFileModel != null) {
+				message = "上传成功，服务器中此文件名称已存在，系统自动更改了文件名称。";
+				originalFilename = originalFilename + "" + System.currentTimeMillis();
+			}
 			fileUserModel.setFileName(originalFilename);
-			fileUserModel.setFileType(newType);
-			if (!StringUtil.isBlank(fileName)) {
-				fileUserModel.setFileName(fileName);
-			}
-			if (!StringUtil.isBlank(fileType)) {
-				fileUserModel.setFileType(fileType);
-			}
-			fileUserModel.setFileOriginalFilename(originalFilename);
-			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "M");
-			fileUserModel.setId(Util.getUUId16());
+			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/" + "file/fileDownload?id=" + id);
+			fileUserModel.setFileType(file.getContentType());
+			fileUserModel.setFileOriginalFilename(file.getOriginalFilename());
+			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
+			fileUserModel.setId(id);
 			fileUserModel.setUploadTime(DateUtil.getNow());
-			fileUserModel.setUploadUser(attribute.getUserCode());
-			fileUserModel.setSortNo(sortNo);
+			fileUserModel.setUploadUser(userCode);
+			fileUserModel.setSortNo(maxSortNo == null ? "1" : maxSortNo.toString());
 			fileUserService.save(file, fileUserModel);
-			outMSG = new ResponseMessage<>();
 			outMSG.setData(fileUserModel);
 			outMSG.setCode("200");
-			outMSG.setMessage("上传成功！");
+			outMSG.setMessage(message);
 		} catch (Exception e) {
-			e.printStackTrace();
+			outMSG.setCode("209");
+			outMSG.setMessage("上传失败，出现未知异常！");
 		}
 		return outMSG;
 	}
+
 	@RequestMapping(path = { "/getFiles" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public List<FileUserModel> getFiles(String type, HttpServletResponse response, HttpServletRequest request) {
+	public List<FileUserModel> getFiles(String type, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
 		List<FileUserModel> files = null;
-		try {
-			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			String userCode = attribute.getUserCode();
-			if (Str.isEmpty(type)) {
-				files = fileUserService.getFilesByUserCode(userCode);
-			} else {
-				files = fileUserService.getFilesByTypeAndUserCode(userCode, type);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		String userCode = attribute.getUserCode();
+		if (Str.isEmpty(type)) {
+			files = fileUserService.getFilesByUserCode(userCode);
+		} else {
+			files = fileUserService.getFilesByTypeAndUserCode(userCode, type);
 		}
 		return files;
 	}
-	
-	
+
 	@RequestMapping(path = { "/fileDownload" }, method = { RequestMethod.GET })
 	public void fileDownload(String id, HttpServletResponse response, HttpServletRequest request) {
 		FileUserModel fileById = fileUserService.getFileById(id);
-		FileUtils.FilesDownload_stream(request, response, fileById.getFilePath());
+		FileUtils.FilesDownload_stream(request, response, fileById.getFilePath(), fileById.getFileType());
 	}
 
 	@RequestMapping(path = { "/getSumGroupTypeByUserCode" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public List<FileUserModel> getSumGroupTypeByUserCode(HttpServletRequest request) {
+	public List<FileUserModel> getSumGroupTypeByUserCode(HttpServletRequest request) throws ServletException, IOException {
 		List<FileUserModel> sumGroupTypeByUserCode = null;
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");

@@ -13,7 +13,7 @@ public interface FileUserService {
 
 	public List<FileUserModel> getFilesByUserCode(String userCode);
 	
-	public Long getMaxSortNo();
+	public Long getMaxSortNo(String userCode);
 	
 	public List<FileUserModel> getFileTypes();
 	
@@ -22,4 +22,6 @@ public interface FileUserService {
 	public List<FileUserModel> getFilesByTypeAndUserCode(String userCode,String fileType);
 	
 	public List<FileUserModel> getSumGroupTypeByUserCode(String userCode);
+	
+	public FileUserModel getFileByName(String userCode,String fileName);
 }

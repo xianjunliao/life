@@ -19,12 +19,15 @@ public class FileUserServiceImpl implements FileUserService {
 
 	@Override
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
-		String filePath = "D:/life_files/";
-		String fileType = fileUserModel.getFileType().replace(".", "");
-		String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath,fileUserModel.getUploadUser(), fileType);
-		fileUserModel.setFilePath(filesUpload_stream);
-		fileUserModel.setFileUrl(filesUpload_stream);
-		fileUserDao.save(fileUserModel);
+		try {
+			String filePath = "D:/life_files/";
+			String fileType = fileUserModel.getFileType().replace(".", "");
+			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath,fileUserModel.getUploadUser(), fileType,fileUserModel.getFileOriginalFilename());
+			fileUserModel.setFilePath(filesUpload_stream);
+			fileUserDao.save(fileUserModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -33,8 +36,8 @@ public class FileUserServiceImpl implements FileUserService {
 	}
 
 	@Override
-	public Long getMaxSortNo() {
-		return fileUserDao.getMaxSortNo();
+	public Long getMaxSortNo(String userCode) {
+		return fileUserDao.getMaxSortNo(userCode);
 	}
 
 	@Override
@@ -55,6 +58,11 @@ public class FileUserServiceImpl implements FileUserService {
 	@Override
 	public List<FileUserModel> getSumGroupTypeByUserCode(String userCode) {
 		return fileUserDao.getSumGroupTypeByUserCode(userCode);
+	}
+
+	@Override
+	public FileUserModel getFileByName(String userCode, String fileName) {
+		return fileUserDao.getFileByName(userCode, fileName);
 	}
 
 }

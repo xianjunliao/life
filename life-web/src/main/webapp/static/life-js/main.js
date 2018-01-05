@@ -5,7 +5,11 @@ $(function() {
 	$('#inputCode').keydown(function(e) {
 		if (e.keyCode == 13) {
 			var v = $('#code').val();
-			self.location.href = basePath + "house?userCode=" + v;
+			if (v == null || '' == v || v == undefined) {
+				$.messager.alert("请输入你的编码！", result.message, "warning");
+			} else {
+				enter(v);
+			}
 		}
 	});
 	$('#play').hide();
@@ -14,25 +18,25 @@ $(function() {
 	var play = document.getElementById('play');
 	var stop = document.getElementById('stop');
 	var play_info = document.getElementById('play_info');
-	var sixPoints=document.getElementById('sixPoints');
+	var sixPoints = document.getElementById('sixPoints');
 	var myAuto = document.getElementById('audio');
 	var myAuto2 = document.getElementById('audio2');
 	myAuto.play();
-    welcomeTo(1000, info, 80);
-    myAuto.onended=function(){
-    	myAuto2.currentTime=0;
-    	myAuto2.play();
-    	flag = true;
-    	$('#infoPlaying').html("正在播放中");
-    	$('#songName').html("Cornfield Chase");
-    }
-    myAuto2.onended=function(){
-    	myAuto.currentTime=0;
-    	myAuto.play();
-    	$('#infoPlaying').html("正在播放中");
-    	$('#songName').html("Do Not Go Gentle Into That Good Night");
-    	flag = false;
-    }
+	welcomeTo(1000, info, 80);
+	myAuto.onended = function() {
+		myAuto2.currentTime = 0;
+		myAuto2.play();
+		flag = true;
+		$('#infoPlaying').html("正在播放中");
+		$('#songName').html("Cornfield Chase");
+	}
+	myAuto2.onended = function() {
+		myAuto.currentTime = 0;
+		myAuto.play();
+		$('#infoPlaying').html("正在播放中");
+		$('#songName').html("Do Not Go Gentle Into That Good Night");
+		flag = false;
+	}
 	nextAudio.onclick = function() {
 
 		$('#play').hide();
@@ -40,12 +44,12 @@ $(function() {
 		if (flag) {
 			myAuto2.pause();
 			myAuto.play();
-			myAuto.currentTime=0;
+			myAuto.currentTime = 0;
 			$('#songName').html("Do Not Go Gentle Into That Good Night");
 			flag = false;
 		} else {
 			myAuto.pause();
-			myAuto2.currentTime=0;
+			myAuto2.currentTime = 0;
 			myAuto2.play();
 			$('#songName').html("Cornfield Chase");
 			flag = true;
@@ -114,10 +118,10 @@ function welcomeTo(waitTime, userMotto, intervalTime) {
 	var arr = new Array();
 	var size = 18;
 	for (j = 0; j < d.length; j++) {
-	
-			arr.push(d[j]);
-			setTimeout("enterCode('" + arr.join("") + "'," + size + ")", t);
-			t += intervalTime;
+
+		arr.push(d[j]);
+		setTimeout("enterCode('" + arr.join("") + "'," + size + ")", t);
+		t += intervalTime;
 
 	}
 }
@@ -129,10 +133,49 @@ function enterCode(code, size) {
 
 function intoWorld() {
 	var v = $('#code').val();
-	self.location.href = basePath + "house?userCode=" + v;
+	if (v == null || '' == v || v == undefined) {
+		$.messager.alert("提示", "请输入你的编码！", "warning");
+	} else {
+		enter(v);
+	}
+}
+
+function enter(v) {
+	progressLoad("login......");
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : basePath + 'enter?code=' + v,
+		success : function(result) {
+			if (result.code == 200) {
+				self.location.href = basePath + "house";
+			} else {
+				$.messager.alert("提示", result.message, "warning");
+			}
+			progressClose();
+		}
+	});
+
+}
+
+function exit() {
+	progressLoad("exit......");
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : basePath + 'exit',
+		success : function(result) {
+			if (result.code == 200) {
+				self.location.href = basePath;
+			} else {
+				$.messager.alert("提示", result.message, "warning");
+			}
+			progressClose();
+		}
+	});
 
 }
 
 function exitHouse() {
-	window.location.href = basePath + "delUser";
+	exit();
 }

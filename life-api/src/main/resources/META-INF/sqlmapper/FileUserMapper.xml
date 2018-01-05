@@ -32,7 +32,7 @@
 	</select>
 
 	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
-		select count(1) fileSum,file_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
+		select count(1) fileSum,sum(file_size) fileSize,file_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
 	</select>
 
 	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
@@ -47,11 +47,15 @@
 		order by sort_no desc
 	</select>
 
-	<select id="getMaxSortNo" resultType="java.lang.Long">
-		select max(sort_no)+1 from file_user
+	<select id="getMaxSortNo" parameterType="java.lang.String" resultType="java.lang.Long">
+		select max(sort_no)+1 from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
 	</select>
 
 	<select id="getFileTypes" resultType="com.life.model.FileUserModel">
 		select DISTINCT file_type from file_user
+	</select>
+	
+	<select id="getFileByName" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
+	  select file_name from file_user where upload_user=#{userCode,jdbcType=VARCHAR} and file_name=#{fileName,jdbcType=VARCHAR}
 	</select>
 </mapper>

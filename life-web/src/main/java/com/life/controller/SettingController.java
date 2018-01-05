@@ -44,7 +44,7 @@ public class SettingController {
 			throws ServletException, IOException {
 		try {
 		} catch (Exception e) {
-			e.printStackTrace();
+			return "error/500.jsp";
 		}
 		return FTL_DIR + pageName + ".jsp";
 	}
