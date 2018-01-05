@@ -199,6 +199,8 @@ public class FileUtils {
 	 * @return
 	 */
 	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath,String fileType) {
+		System.out.println("start......");
+		long currentTimeMillis = System.currentTimeMillis();
 		File file = new File(filePath);
 		String filenames = file.getName();
 		InputStream inputStream;
@@ -214,11 +216,14 @@ public class FileUtils {
 			OutputStream os = new BufferedOutputStream(response.getOutputStream());
 			response.setContentType(fileType);
 			os.write(buffer);// 输出文件
-			os.flush();
-			os.close();
+//			os.flush();
+//			os.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			System.out.println("end:"+(System.currentTimeMillis()-currentTimeMillis)/1000);
 		}
+		
 	}
 
 	/**

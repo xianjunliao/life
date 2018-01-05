@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -11,8 +9,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
 
-	<bean
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<array>
 				<value>classpath:project.properties</value>
@@ -23,36 +20,30 @@
 	<context:annotation-config />
 
 	<!-- 自动扫描且只扫描@Controller -->
-	<context:component-scan base-package="com.life"
-		use-default-filters="false">
+	<context:component-scan base-package="com.life" use-default-filters="false">
 		<!-- <context:include-filter type="regex" expression=".controller.*" /> -->
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:include-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
 	<!-- @Controller注解的使用前提配置,相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean，配置一些messageconverter -->
 	<!-- <mvc:annotation-driven /> -->
 
 	<!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
 		<!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>
 
 	<!-- 类型转换及数据格式化 -->
-	<bean id="conversionService"
-		class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
 
 	<!-- 会自动注册了validator ConversionService -->
-	<mvc:annotation-driven validator="validator"
-		conversion-service="conversionService" content-negotiation-manager="contentNegotiationManager"
+	<mvc:annotation-driven validator="validator" conversion-service="conversionService" content-negotiation-manager="contentNegotiationManager"
 		enable-matrix-variables="true">
 		<!--enableMatrixVariables="true"> -->
-		<!-- 异步支持 默认30秒超时 <mvc:async-support default-timeout="30000" task-executor="executor"/> -->
+<!-- 		<mvc:async-support default-timeout="3000000000" task-executor="executor" /> -->
 
 		<mvc:message-converters register-defaults="true">
 			<!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
@@ -78,8 +69,7 @@
 			</bean>
 
 			<!-- 将Jackson2HttpMessageConverter的默认格式化输出设为true -->
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="prettyPrint" value="true" />
 				<property name="supportedMediaTypes">
 					<list>
@@ -106,12 +96,10 @@
 	</mvc:annotation-driven>
 
 	<!--1、首先检查路径扩展名（如my.pdf）；2、其次检查Parameter（如my?format=pdf）；3、检查Accept Header -->
-	<bean id="contentNegotiationManager"
-		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
 		<property name="favorPathExtension" value="true" />
-		<!-- 用于开启 /userinfo/123?format=json 的支持 <property name="favorParameter" 
-			value="true"/> -->
+		<!-- 用于开启 /userinfo/123?format=json 的支持 <property name="favorParameter" value="true"/> -->
 		<property name="parameterName" value="format" />
 		<!-- 是否忽略Accept Header -->
 		<property name="ignoreAcceptHeader" value="false" />
@@ -133,26 +121,22 @@
 	<!-- ################ 0. 内容协商视图解析器 ############################# -->
 	<!-- 根据客户端的不同的请求决定不同的 view进行响应, 如 /blog/1.json /blog/1.xml -->
 	<!-- 会自动根据解析的contentType来决定使用哪个视图解析器（默认使用整个web应用中的viewResolver） -->
-	<bean
-		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<property name="order" value="0" />
 		<!-- 内容协商管理器 用于决定media type -->
 		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
 		<!-- 默认视图 放在解析链最后 -->
 		<property name="defaultViews">
 			<list>
-				<bean
-					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- ################## 2. jsp视图解析器 ########################### -->
-	<bean id="jspViewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="order" value="2" />
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.InternalResourceView" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.InternalResourceView" />
 		<property name="contentType" value="text/html; charset=utf-8" />
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="viewNames" value="*.jsp" />
@@ -160,27 +144,20 @@
 	</bean>
 
 	<!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-		p:defaultEncoding="${fileUpload.defaultEncoding}" p:maxUploadSize="${fileUpload.maxUploadSize}"
-		p:uploadTempDir="${fileUpload.uploadTempDir}">
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="${fileUpload.defaultEncoding}"
+		p:maxUploadSize="${fileUpload.maxUploadSize}" p:uploadTempDir="${fileUpload.uploadTempDir}">
 	</bean>
 
 	<!-- 定义无需Controller的url<->view直接映射 -->
 	<mvc:view-controller path="/" view-name="index.jsp" />
 
 	<!-- ################## 处理静态资源 [BEGIN] ########################### -->
-	<!-- 处理静态资源(一) ,已使用tomcat的defaultServlet来进行处理 映射到ResourceHttpRequestHandler进行处理 
-		, location指定静态资源的位置.可以是web application根目录下、jar包里面，这样可以把静态资源压缩到jar包中 cache-period 
-		可以使得静态资源进行web cache -->
-	<mvc:resources mapping="/static/ui/**" location="/META-INF/resources/static/ui/"
-		cache-period="18000" />
-	<mvc:resources mapping="/static/js/**" location="/META-INF/resources/static/js/"
-		cache-period="18000" />
-	<mvc:resources mapping="/static/images/**"
-		location="/META-INF/resources/static/images/" cache-period="18000" />
-	<mvc:resources mapping="/static/css/**" location="/META-INF/resources/static/css/"
-		cache-period="18000" />
+	<!-- 处理静态资源(一) ,已使用tomcat的defaultServlet来进行处理 映射到ResourceHttpRequestHandler进行处理 , location指定静态资源的位置.可以是web application根目录下、jar包里面，这样可以把静态资源压缩到jar包中 cache-period 可以使得静态资源进行web 
+		cache -->
+	<mvc:resources mapping="/static/ui/**" location="/META-INF/resources/static/ui/" cache-period="18000" />
+	<mvc:resources mapping="/static/js/**" location="/META-INF/resources/static/js/" cache-period="18000" />
+	<mvc:resources mapping="/static/images/**" location="/META-INF/resources/static/images/" cache-period="18000" />
+	<mvc:resources mapping="/static/css/**" location="/META-INF/resources/static/css/" cache-period="18000" />
 
 	<!-- 处理静态资源(二)：容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
 	<mvc:default-servlet-handler />

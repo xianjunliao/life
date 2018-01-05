@@ -99,7 +99,7 @@
 								var fileName = result[i].fileName;
 								var type = result[i].fileType;
 								if (type == 'audio/mp3') {
-									context = "" + fileName + "<audio id="+i+" src="+url+" controls='controls' ></audio>";
+									context = "" + fileName + "<audio id="+i+" src="+url+" controls='controls'> ></audio>";
 								} else if (type == 'image/png' || type == 'image/jpeg') {
 									context = "" + fileName + "<a href="+url+"><b style='color:red'>下载</b><img id="+i+" src='"+url+"'></img> </a>";
 								} else {
@@ -131,6 +131,10 @@
 			// 				}
 			// 			});
 		});
+		function play(url) {
+			url="${base}file/fileDownload?id=1000001042946756";
+			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' ></audio>");
+		}
 	</script>
 </body>
 </html>
