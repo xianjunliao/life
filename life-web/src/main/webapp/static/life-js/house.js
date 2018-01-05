@@ -223,6 +223,13 @@ $(function() {
 		dataType : "json",
 		url : basePath + 'tree/panentTree',
 		success : function(data) {
+			if (data == null || data.length == 0) {
+				$("#m-level2").hide();
+				$("#m-level3").hide();
+			} else {
+				$("#m-level2").show();
+				$("#m-level3").show();
+			}
 			$.each(data, function(i, n) {// 加载父类节点即一级菜单
 
 				$('#left_content').accordion('add', {
@@ -303,8 +310,11 @@ $(function() {
 			top : e.pageY
 		});
 	});
+	$("#m-level1-1").click(function() {
+		openDialog("新增一级菜单", "1", 0);
+	});
 	$("#m-level1").click(function() {
-		openDialog("新增一级菜单", "1", 0)
+		openDialog("新增一级菜单", "1", 0);
 	});
 	$("#m-level2").click(function() {
 		var pp = $('#left_content').accordion('getSelected');
@@ -312,7 +322,7 @@ $(function() {
 		if (pp != null) {
 			id = pp.panel('options').id;
 		}
-		openDialog("新增二级菜单", "2", id)
+		openDialog("新增二级菜单", "2", id);
 	});
 	$("#m-level3").click(function() {
 		var pp = $('#left_content').accordion('getSelected');

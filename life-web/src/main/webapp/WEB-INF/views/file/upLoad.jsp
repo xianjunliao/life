@@ -92,20 +92,26 @@
 						dataType : "json",
 						url : url,
 						success : function(result) {
+							var j = 0;
 							for (var i = 0; i < result.length; i++) {
-								console.log(result[i]);
 								var context = null;
 								var url = result[i].fileUrl;
 								var fileName = result[i].fileName;
 								var type = result[i].fileType;
-								if (type == 'audio/mp3') {
-									context = "" + fileName + "<audio id="+i+" src="+url+" controls='controls'> ></audio>";
+								if (type == 'audio/mp3' || type == 'audio/mpeg') {
+									if (j == 0) {
+										context = "<audio id="+i+" src="+url+" controls='controls' autoplay='autoplay'></audio>" + fileName;
+									} else {
+										context = "<audio id="+i+" src="+url+" controls='controls'></audio>" + fileName;
+									}
+									j++;
 								} else if (type == 'image/png' || type == 'image/jpeg') {
+
 									context = "" + fileName + "<a href="+url+"><b style='color:red'>下载</b><img id="+i+" src='"+url+"'></img> </a>";
 								} else {
-									context = "" + fileName + "<a href="+url+" id="+i+">    <b style='color:red'>下载</b></a>";
+									context = "" + fileName + "<p></p><a href="+url+" id="+i+"> <b style='color:red'> 下载</b></a>";
 								}
-								$("#fileShow").append("</br>");
+								$("#fileShow").append("<p></p>");
 								$("#fileShow").append(context);
 							}
 						}
@@ -132,7 +138,7 @@
 			// 			});
 		});
 		function play(url) {
-			url="${base}file/fileDownload?id=1000001042946756";
+			url = "${base}file/fileDownload?id=1000001042946756";
 			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' ></audio>");
 		}
 	</script>
