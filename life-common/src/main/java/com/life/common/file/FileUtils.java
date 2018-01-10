@@ -163,7 +163,7 @@ public class FileUtils {
 		if (multipartFile != null) {
 			String savePath = filePath + userCode + "/" + fileType + "/";// example:F:/qixiao/files/Upload/20160912/
 			checkDirs(savePath);
-			String absolutePath = savePath + fileName;
+			String absolutePath = savePath + fileName + "." + fileType;
 			try {
 
 				InputStream inputStream = multipartFile.getInputStream();
@@ -198,7 +198,7 @@ public class FileUtils {
 	 *            文件的相对路径
 	 * @return
 	 */
-	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath,String fileType) {
+	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath, String fileType) {
 		System.out.println("start......");
 		long currentTimeMillis = System.currentTimeMillis();
 		File file = new File(filePath);
@@ -216,14 +216,14 @@ public class FileUtils {
 			OutputStream os = new BufferedOutputStream(response.getOutputStream());
 			response.setContentType(fileType);
 			os.write(buffer);// 输出文件
-//			os.flush();
-//			os.close();
+			// os.flush();
+			// os.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			System.out.println("end:"+(System.currentTimeMillis()-currentTimeMillis)/1000);
+		} finally {
+			System.out.println("end:" + (System.currentTimeMillis() - currentTimeMillis) / 1000);
 		}
-		
+
 	}
 
 	/**
@@ -343,6 +343,13 @@ public class FileUtils {
 
 	public static String getRelativePath2(String filePath, String suffix) {
 		return filePath + getUUIDName(suffix);// example:/files/Upload/20160912/
+	}
+
+	public static void deletePath(String path) {
+		File dir = new File(path);
+		if (dir.exists() || dir.isDirectory()) {
+			dir.delete();
+		}
 	}
 
 	/**

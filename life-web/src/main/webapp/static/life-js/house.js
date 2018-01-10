@@ -172,6 +172,7 @@ $(function() {
 				}, {
 					iconCls : 'close',
 					handler : function() {
+						$('#tt').tabs('select', title);
 						var currentTab = $('#tt').tabs('getSelected');
 						var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
 						$('#tt').tabs('close', currentTabIndex);
@@ -210,6 +211,7 @@ $(function() {
 				}, {
 					iconCls : 'close',
 					handler : function() {
+						$('#tt').tabs('select', title);
 						var currentTab = $('#tt').tabs('getSelected');
 						var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
 						$('#tt').tabs('close', currentTabIndex);
@@ -276,7 +278,6 @@ $(function() {
 						$('#tt').tabs('select', node.text);
 					} else {
 						var tab = $('#tt').tabs('getSelected');
-						console.log(tab);
 						$('#tt').tabs('add', {
 							id : node.id,
 							title : node.text,

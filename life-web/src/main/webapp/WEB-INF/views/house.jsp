@@ -31,7 +31,7 @@
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
 			<div title="Home page" style="padding: 10px;">
 				<%-- 			<iframe scrolling="auto" frameborder="0" src="${base }musicPlayer/player" style="width: 100%; height: 100%;"></iframe> --%>
-				<iframe scrolling="auto" frameborder="0" src="http://www.baidu.com/" style="width: 100%; height: 100%;"></iframe>
+<!-- 				<iframe scrolling="auto" frameborder="0" src="http://www.baidu.com/" style="width: 100%; height: 100%;"></iframe> -->
 			</div>
 		</div>
 

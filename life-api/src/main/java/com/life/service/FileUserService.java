@@ -24,4 +24,8 @@ public interface FileUserService {
 	public List<FileUserModel> getSumGroupTypeByUserCode(String userCode);
 	
 	public FileUserModel getFileByName(String userCode,String fileName);
+	
+	public void delete(String id);
+	
+	public void update(String id);
 }

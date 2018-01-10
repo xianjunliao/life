@@ -21,8 +21,7 @@ public class FileUserServiceImpl implements FileUserService {
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		try {
 			String filePath = "D:/life_files/";
-			String fileType = fileUserModel.getFileType().replace(".", "");
-			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath,fileUserModel.getUploadUser(), fileType,fileUserModel.getFileOriginalFilename());
+			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName());
 			fileUserModel.setFilePath(filesUpload_stream);
 			fileUserDao.save(fileUserModel);
 		} catch (Exception e) {
@@ -65,4 +64,20 @@ public class FileUserServiceImpl implements FileUserService {
 		return fileUserDao.getFileByName(userCode, fileName);
 	}
 
+	@Override
+	public void delete(String id) {
+		try {
+			FileUserModel fileUserModel = fileUserDao.getFileById(id);
+			FileUtils.deletePath(fileUserModel.getFilePath());
+			fileUserDao.delete(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void update(String id) {
+		// TODO Auto-generated method stub
+
+	}
 }

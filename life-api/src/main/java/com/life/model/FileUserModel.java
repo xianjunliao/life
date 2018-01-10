@@ -9,14 +9,16 @@ public class FileUserModel implements java.io.Serializable {
 	private String id;//文件id
 	private String fileName;//文件别名
 	private String fileOriginalFilename;//文件名称
-	private String fileType;//文件类型
+	private String fileType;//文件后缀
 	private String filePath;//文件上传的路径
 	private String fileUrl;//文件的访问url
 	private String fileSize;//文件大小
 	private String uploadTime;//上传时间
 	private String uploadUser;//上传用户
 	private String sortNo;//排序号
+	private String contentType;//文件类型
 	private String fileSum;
+	
 	public String getId() {
 		return id;
 	}
@@ -83,12 +85,16 @@ public class FileUserModel implements java.io.Serializable {
 	public void setFileSum(String fileSum) {
 		this.fileSum = fileSum;
 	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 	@Override
 	public String toString() {
-		return "FileUserModel [id=" + id + ", fileName=" + fileName + ", fileOriginalFilename=" + fileOriginalFilename
-				+ ", fileType=" + fileType + ", filePath=" + filePath + ", fileUrl=" + fileUrl + ", fileSize="
-				+ fileSize + ", uploadTime=" + uploadTime + ", uploadUser=" + uploadUser + ", sortNo=" + sortNo
-				+ ", fileSum=" + fileSum + "]";
+		return "FileUserModel [id=" + id + ", fileName=" + fileName + ", fileOriginalFilename=" + fileOriginalFilename + ", fileType=" + fileType + ", filePath=" + filePath + ", fileUrl=" + fileUrl + ", fileSize=" + fileSize + ", uploadTime=" + uploadTime + ", uploadUser=" + uploadUser + ", sortNo=" + sortNo
+				+ ", contentType=" + contentType + ", fileSum=" + fileSum + "]";
 	}
 	
 }

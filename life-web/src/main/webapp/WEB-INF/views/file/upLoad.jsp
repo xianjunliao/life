@@ -34,25 +34,19 @@
 					</thead>
 				</table>
 			</div>
-			<!-- 			<div style="width: 365px; margin-left: 5px; margin-top: 20px;"> -->
-			<%-- 				<table id="fileList" class="easyui-datagrid" title="文件列表" data-options="singleSelect:false,collapsible:true,url:'${base}file/getFiles',method:'post',toolbar:'#tb'"> --%>
-			<!-- 					<thead> -->
-			<!-- 						<tr> -->
-			<!-- 							<th data-options="field:'',checkbox:true"></th> -->
-			<!-- 							<th data-options="field:'id'">文件编号</th> -->
-			<!-- 							<th data-options="field:'fileName'">文件名称</th> -->
-			<!-- 							<th data-options="field:'fileType'">文件类型</th> -->
-			<!-- 							<th data-options="field:'fileSize',align:'right'">文件大小(M)</th> -->
-			<!-- 							<th data-options="field:'uploadTime'">上传时间</th> -->
-			<!-- 						</tr> -->
-			<!-- 					</thead> -->
-			<!-- 				</table> -->
-			<!-- 			</div> -->
 		</div>
 		<div data-options="region:'center',border:true">
-			<div id="fileShow" style="">
-				<!-- 				<audio id="mp3"  controls="controls"  > </audio> -->
+			<div class="easyui-layout" style="width: 100%; height: 100%;">
+				<div data-options="region:'north'" style="height: 200px;">
+					<table id="fileList" data-options="fit:true,border:false">
+					</table>
+				</div>
+				<div data-options="region:'center'" style="padding: 5px;">
+					<div id="fileShow" style=""></div>
+				</div>
 			</div>
+
+
 		</div>
 	</div>
 	<script type="text/javascript" src="${base}static/life-js/common.js"></script>
@@ -82,7 +76,59 @@
 				}
 			});
 		}
+		var dataGrid;
 		$(function() {
+
+			dataGrid = $('#fileList').datagrid({
+				title : '文件列表',
+				url : '${base}file/getFiles',
+				fit : true,
+				striped : true,
+				singleSelect : true,
+				checkOnSelect : true,
+				selectOnCheck : true,
+				idField : 'id',
+				border : false,
+				frozenColumns : [ [ {
+					title : 'id',
+					field : 'id',
+					width : 40,
+					hidden : true
+				} ] ],
+				columns : [ [ {
+					field : 'id',
+					title : '文件编号'
+				}, {
+					field : 'fileName',
+					title : '文件名称'
+				}, {
+					field : 'fileType',
+					title : '文件类型'
+				}, {
+					field : 'fileSize',
+					title : '文件大小(M)',
+					align : 'right'
+				}, {
+					field : 'uploadTime',
+					title : '上传时间'
+				}, {
+					field : ' ',
+					title : '操作',
+					formatter : function(value, row, index) {
+						var aStr = '';
+						var type = row.fileType;
+						if (type == 'mp3' || type == 'mp4' || type == 'ogg') {
+							aStr += '  <a onclick="play(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
+						} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
+							aStr += '  <a onclick="img(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">预览</b></a>';
+						}
+						aStr += '  <a onclick="detele(\'' + row.id + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">删除</b></a>';
+						aStr += '  <a href="' + row.fileUrl+ '" target="_blank" class="easyui-linkbutton"><b style="text-decoration: underline;">下载</b></a>';
+						return aStr;
+					}
+				} ] ]
+			});
+
 			$('#fileTypeSum').datagrid({
 				onSelect : function(index, row) {
 					var url = '${base}file/getFiles?type=' + row.fileType;
@@ -92,28 +138,15 @@
 						dataType : "json",
 						url : url,
 						success : function(result) {
-							var j = 0;
-							for (var i = 0; i < result.length; i++) {
-								var context = null;
-								var url = result[i].fileUrl;
-								var fileName = result[i].fileName;
-								var type = result[i].fileType;
-								if (type == 'audio/mp3' || type == 'audio/mpeg') {
-									if (j == 0) {
-										context = "<audio id="+i+" src="+url+" controls='controls' autoplay='autoplay'></audio>" + fileName;
-									} else {
-										context = "<audio id="+i+" src="+url+" controls='controls'></audio>" + fileName;
-									}
-									j++;
-								} else if (type == 'image/png' || type == 'image/jpeg') {
-
-									context = "" + fileName + "<a href="+url+"><b style='color:red'>下载</b><img id="+i+" src='"+url+"'></img> </a>";
-								} else {
-									context = "" + fileName + "<p></p><a href="+url+" id="+i+"> <b style='color:red'> 下载</b></a>";
-								}
-								$("#fileShow").append("<p></p>");
-								$("#fileShow").append(context);
-							}
+							var url = '${base}file/getFiles';
+							$('#fileList').datagrid({
+								url : url,
+								queryParams : {
+									type : row.fileType
+								},
+								method : "post"
+							});
+							console.log(url);
 						}
 					});
 				}
@@ -121,25 +154,48 @@
 
 			// 			$('#fileList').datagrid({
 			// 				onSelect : function(index, row) {
+			// 					$("#fileShow").empty();
 			// 					var url = row.fileUrl;
 			// 					var type = row.fileType;
 			// 					console.log(type);
 			// 					var context = null;
-			// 					if (type == 'audio/mp3') {
-			// 						context = "<audio src="+url+" controls='controls' ></audio><span>" + row.fileName + " </span>";
-			// 					} else if (type == 'image/png' || type == 'image/jpeg') {
-			// 						context = "" + row.fileName + "<a href="+url+"><b style='color:red'>下载</b><img src='"+url+"'></img> </a>";
+			// 					if (type == 'mp3') {
+			// 						context = "<audio src="+url+" controls='controls' ></audio>";
+			// 					} else if (type == 'mp4' || type == 'ogg') {
+			// 						context = "<video  src="+url+" controls='controls' ></video >";
+			// 					} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
+			// 						context = "<img src='"+url+"'></img>";
 			// 					} else {
-			// 						context = "" + row.fileName + "<a href="+url+">    <b style='color:red'>下载</b></a>";
+			// 						context = " <b style='color:red'>该文件类型不支持预览或播放</b>";
 			// 					}
-			// 					$("#fileShow").append("</br>");
 			// 					$("#fileShow").append(context);
 			// 				}
 			// 			});
 		});
 		function play(url) {
-			url = "${base}file/fileDownload?id=1000001042946756";
 			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' ></audio>");
+		}
+		function img(url) {
+			$("#fileShow").html("<img src='"+url+"'></img>");
+		}
+		function detele(id) {
+			progressLoad();
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				url : '${base}file/delete?id=' + id,
+				success : function(result) {
+					progressClose();
+					if (result.code == 200) {
+						$("#fileShow").empty();
+						$.messager.alert('提示', result.message, 'info');
+						$('#fileTypeSum').datagrid('reload');
+						$('#fileList').datagrid('reload');
+					} else {
+						$.messager.alert("提示", result.message, "warning");
+					}
+				}
+			});
 		}
 	</script>
 </body>
