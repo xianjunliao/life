@@ -271,7 +271,11 @@ $(function() {
 						contentUrl = basePath + 'openWeb/addWeb?id=' + node.id;
 					} else if (node.readMode == 'rss') {
 						contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
-					} else {
+					}else if (node.readMode == 'newWindow') {
+						window.open(node.url);
+						return ;
+					}
+					else {
 
 					}
 					if ($('#tt').tabs('exists', node.text)) {

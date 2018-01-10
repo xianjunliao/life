@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="easyui-layout" style="width: 100%; height: 100%;">
-		<div data-options="region:'west',split:false,border:true" style="width: 400; height: 100%;">
+		<div data-options="region:'west',split:false,border:true" style="width: 400px; height: 100%;">
 
 			<form id="upLoadFileForm" class="easyui-form" style="width: 100%;" method="post" enctype="multipart/form-data">
 				<table cellpadding="5" style="width: 350px; margin-left: 5px; margin-top: 20px;">
@@ -37,12 +37,14 @@
 		</div>
 		<div data-options="region:'center',border:true">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
-				<div data-options="region:'north'" style="height: 200px;">
+				<div data-options="region:'north',split:true" style="height: 200px;">
 					<table id="fileList" data-options="fit:true,border:false">
 					</table>
 				</div>
 				<div data-options="region:'center'" style="padding: 5px;">
-					<div id="fileShow" style=""></div>
+					<div id="fileShow" style="">
+						<span>播放时请使用IE或是IE内核的浏览器（暂只支持播放MP3和MP4格式的文件）</span>
+					</div>
 				</div>
 			</div>
 
@@ -55,7 +57,7 @@
 			submit("upLoadFileForm", {
 				url : "${base}file/add/uploadFile",
 				onSubmit : function() {
-					progressLoad();
+					progressLoadById('upLoadFileForm', '不要离开，正在上传。。。');
 					var isValid = $(this).form('enableValidation').form('validate');
 					if (!isValid) {
 						progressClose();
@@ -69,7 +71,7 @@
 						$.messager.alert('提示', result.message, 'info');
 						$('#fileTypeSum').datagrid('reload');
 						$('#fileList').datagrid('reload');
-						$('#upLoadFileForm').clear();
+						$("#upLoadFileForm").form('clear');
 					} else {
 						$.messager.alert("提示", result.message, "warning");
 					}
@@ -117,8 +119,10 @@
 					formatter : function(value, row, index) {
 						var aStr = '';
 						var type = row.fileType;
-						if (type == 'mp3' || type == 'mp4' || type == 'ogg') {
-							aStr += '  <a onclick="play(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
+						if (type == 'mp3') {
+							aStr += '  <a onclick="playAudio(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
+						} else if (type == 'mp4') {
+							aStr += '  <a onclick="playVideo(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
 						} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
 							aStr += '  <a onclick="img(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">预览</b></a>';
 						}
@@ -133,6 +137,7 @@
 				onSelect : function(index, row) {
 					var url = '${base}file/getFiles?type=' + row.fileType;
 					$("#fileShow").empty();
+					$("#fileShow").html('<span>播放时请使用IE或是IE内核的浏览器（暂只支持播放MP3和MP4格式的文件）</span>');
 					$.ajax({
 						type : 'POST',
 						dataType : "json",
@@ -152,40 +157,24 @@
 				}
 			});
 
-			// 			$('#fileList').datagrid({
-			// 				onSelect : function(index, row) {
-			// 					$("#fileShow").empty();
-			// 					var url = row.fileUrl;
-			// 					var type = row.fileType;
-			// 					console.log(type);
-			// 					var context = null;
-			// 					if (type == 'mp3') {
-			// 						context = "<audio src="+url+" controls='controls' ></audio>";
-			// 					} else if (type == 'mp4' || type == 'ogg') {
-			// 						context = "<video  src="+url+" controls='controls' ></video >";
-			// 					} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
-			// 						context = "<img src='"+url+"'></img>";
-			// 					} else {
-			// 						context = " <b style='color:red'>该文件类型不支持预览或播放</b>";
-			// 					}
-			// 					$("#fileShow").append(context);
-			// 				}
-			// 			});
+			
 		});
-		function play(url) {
-			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' ></audio>");
+		function playAudio(url) {
+			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' loop='loop'></audio>");
+		}
+		function playVideo(url) {
+			$("#fileShow").html("<video src="+url+" controls='controls' autoplay='autoplay' loop='loop'></video>");
 		}
 		function img(url) {
 			$("#fileShow").html("<img src='"+url+"'></img>");
 		}
 		function detele(id) {
-			progressLoad();
+			progressLoadById('fileList', '正在删除。。。');
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
 				url : '${base}file/delete?id=' + id,
 				success : function(result) {
-					progressClose();
 					if (result.code == 200) {
 						$("#fileShow").empty();
 						$.messager.alert('提示', result.message, 'info');
@@ -194,6 +183,7 @@
 					} else {
 						$.messager.alert("提示", result.message, "warning");
 					}
+					progressClose();
 				}
 			});
 		}

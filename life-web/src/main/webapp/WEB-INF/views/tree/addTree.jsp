@@ -35,8 +35,10 @@
 						<td align="right">打开方式:</td>
 						<td><select class="easyui-combobox" name="readMode" style="width: 100%;" <c:if test="${level=='3'}">data-options="required:true"</c:if>>
 								<option value=""></option>
-								<option value="web">网页</option>
-								<option value="rss">rss</option>
+								<option value="web">iframe网页嵌套</option>
+								<option value="rss">RSS订阅</option>
+								<option value="newWindow">新标签页打开</option>
+								
 						</select></td>
 					</tr>
 

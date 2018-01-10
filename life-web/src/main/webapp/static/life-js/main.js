@@ -12,7 +12,7 @@ $(function() {
 			}
 		}
 	});
-	$('#play').hide();
+	$('#stop').hide();
 	var nextAudio = document.getElementById('nextAudio');
 	var test = document.getElementById('test');
 	var play = document.getElementById('play');
@@ -21,7 +21,6 @@ $(function() {
 	var sixPoints = document.getElementById('sixPoints');
 	var myAuto = document.getElementById('audio');
 	var myAuto2 = document.getElementById('audio2');
-	myAuto.play();
 	welcomeTo(1000, info, 80);
 	myAuto.onended = function() {
 		myAuto2.currentTime = 0;

@@ -62,12 +62,12 @@ public class Util {
 		return machineId + String.format("%015d", hashCodeV);
 	}
 
-	public static Double getM(Double double1) {
+	public static String getM(Double double1) {
 		double size = double1;
 		double l = (size / 1024) / 1024;
 		BigDecimal bd = new BigDecimal(l);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
-		return bd.doubleValue();
+		return bd.toString();
 	}
 	public static Double getKB(Double double1) {
 		double size = double1;

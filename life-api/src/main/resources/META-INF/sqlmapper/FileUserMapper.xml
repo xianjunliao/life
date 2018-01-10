@@ -33,7 +33,7 @@
 	</select>
 
 	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
-		select count(1) fileSum,sum(file_size) fileSize,file_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
+		select count(1) fileSum,FORMAT(sum(file_size),2) fileSize,file_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
 	</select>
 
 	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
