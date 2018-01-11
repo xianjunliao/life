@@ -21,14 +21,17 @@
 	</resultMap>
 
 	<select id="getTree" parameterType="com.life.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where pid=#{pid} and user_code=#{userCode} and status='0' order by sort_no
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where
+		pid=#{pid} and user_code=#{userCode} and status='0' order by sort_no
 	</select>
 
 	<select id="getTreeByText" parameterType="com.life.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where text=#{text} and status='0' order by sort_no
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree
+		where text=#{text} and status='0' order by sort_no
 	</select>
 	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where id=#{id} and status='0'
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where
+		id=#{id} and status='0'
 	</select>
 	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
 		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where user_code=#{userCode} and level=#{level} and status='0'
@@ -37,12 +40,14 @@
 		</if>
 	</select>
 	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where user_code=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from tree where
+		user_code=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
 
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
-		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from tree where user_code=#{userCode} and level=#{level}
+		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from tree where
+		user_code=#{userCode} and level=#{level}
 	</select>
 	<delete id="detele" parameterType="com.life.model.TreeModel">
 		delete from tree where id=#{id,jdbcType=VARCHAR}
@@ -62,6 +67,9 @@
 			</if>
 			<if test="iconCls!=null">
 				iconCls = #{iconCls,jdbcType=VARCHAR},
+			</if>
+			<if test="readMode!=null">
+				read_mode = #{readMode,jdbcType=VARCHAR},
 			</if>
 			<if test="level!=null">
 				level = #{level,jdbcType=VARCHAR},
