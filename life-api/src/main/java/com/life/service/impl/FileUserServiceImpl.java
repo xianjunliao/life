@@ -76,8 +76,8 @@ public class FileUserServiceImpl implements FileUserService {
 	}
 
 	@Override
-	public void update(String id) {
-		// TODO Auto-generated method stub
+	public void update(String id,String fileName) {
+		fileUserDao.update(id, fileName);
 
 	}
 }

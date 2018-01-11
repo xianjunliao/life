@@ -47,14 +47,15 @@ public class TreeServiceImpl implements TreeService {
 		}
 		return treeNew;
 	}
+
 	@Override
 	public TreeModel geTreeModelByid(String id) {
 		return treeDao.geTreeModelByid(id);
 	}
 
 	@Override
-	public List<TreeModel> getTreesByLevel(String userCode, String level,String pid) {
-		return treeDao.getTreesByLevel(userCode, level,pid);
+	public List<TreeModel> getTreesByLevel(String userCode, String level, String pid) {
+		return treeDao.getTreesByLevel(userCode, level, pid);
 	}
 
 	@Override
@@ -62,9 +63,23 @@ public class TreeServiceImpl implements TreeService {
 		treeDao.addTree(treeModel);
 	}
 
-
 	@Override
 	public long getMaxSortNo(String userCode, String level) {
-		return treeDao.getMaxSortNo(userCode,level);
+		return treeDao.getMaxSortNo(userCode, level);
+	}
+
+	@Override
+	public void delete(TreeModel treeModel) {
+		treeDao.delete(treeModel);
+	}
+
+	@Override
+	public void update(TreeModel treeModel) {
+		treeDao.update(treeModel);
+	}
+
+	@Override
+	public List<TreeModel> getTreeByPid(String userCode, String pid) {
+		return treeDao.getTreeByPid(userCode, pid);
 	}
 }

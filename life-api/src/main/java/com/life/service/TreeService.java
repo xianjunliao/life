@@ -18,4 +18,10 @@ public interface TreeService {
 	void addTree(TreeModel treeModel);
 	
 	long getMaxSortNo(String userCode,String level);
+	
+	void delete(TreeModel treeModel);
+	
+	void update(TreeModel treeModel);
+	
+	List<TreeModel> getTreeByPid(String userCode, String pid);
 }

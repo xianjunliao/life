@@ -198,7 +198,7 @@ public class FileUtils {
 	 *            文件的相对路径
 	 * @return
 	 */
-	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String filePath, String fileType) {
+	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String fileName, String filePath, String fileType) {
 		System.out.println("start......");
 		long currentTimeMillis = System.currentTimeMillis();
 		File file = new File(filePath);
@@ -213,11 +213,11 @@ public class FileUtils {
 			// 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
 			response.addHeader("Content-Disposition", "attachment;filename=" + new String(filenames.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
 			response.addHeader("Content-Length", "" + file.length());
-			OutputStream os = new BufferedOutputStream(response.getOutputStream());
+			BufferedOutputStream os = new BufferedOutputStream(response.getOutputStream());
 			response.setContentType(fileType);
 			os.write(buffer);// 输出文件
-			// os.flush();
-			// os.close();
+			os.flush();
+			os.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

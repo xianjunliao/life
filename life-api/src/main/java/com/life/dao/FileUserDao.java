@@ -22,9 +22,9 @@ public interface FileUserDao {
 
 	public List<FileUserModel> getSumGroupTypeByUserCode(@Param("userCode") String userCode);
 
-	public FileUserModel getFileByName(@Param("userCode") String userCode, @Param("fileName") String fileName);
+	public FileUserModel getFileByName(@Param("userCode") String userCode, @Param("fileOriginalFilename") String fileOriginalFilename);
 
 	public void delete(@Param("id")String id);
 
-	public void update(@Param("id")String id);
+	public void update(@Param("id")String id,@Param("fileName") String fileName);
 }

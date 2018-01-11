@@ -37,12 +37,12 @@
 		</div>
 		<div data-options="region:'center',border:true">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
-				<div data-options="region:'north',split:true" style="height: 200px;">
+				<div data-options="region:'north',split:false,collapsible:true,title : '文件列表',border:false" style="height: 200px;">
 					<table id="fileList" data-options="fit:true,border:false">
 					</table>
 				</div>
-				<div data-options="region:'center'" style="padding: 5px;">
-					<div id="fileShow" style="">
+				<div data-options="region:'center',border:false">
+					<div id="fileShow" style="margin-top: 20px;">
 						<span>播放时请使用IE或是IE内核的浏览器（暂只支持播放MP3和MP4格式的文件）</span>
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 		$(function() {
 
 			dataGrid = $('#fileList').datagrid({
-				title : '文件列表',
+				// 				title : '文件列表',
 				url : '${base}file/getFiles',
 				fit : true,
 				striped : true,
@@ -91,18 +91,33 @@
 				selectOnCheck : true,
 				idField : 'id',
 				border : false,
+				fitColumns : true,
+				loadMsg : '正在加载数据。。。',
 				frozenColumns : [ [ {
-					title : 'id',
-					field : 'id',
-					width : 40,
-					hidden : true
+					title : '操作',
+					field : 'aStr',
+					formatter : function(value, row, index) {
+						var aStr = '';
+						var type = row.fileType;
+						if (type == 'mp3') {
+							aStr += '  <a  onclick="playAudio(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
+						} else if (type == 'mp4') {
+							aStr += '  <a onclick="playVideo(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
+						} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
+							aStr += '  <a onclick="img(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">预览</b></a>';
+						}
+						aStr += '  <a onclick="detele(\'' + row.id + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">删除</b></a>';
+						aStr += '  <a href="' + row.fileUrl+ '" target="_blank" class="easyui-linkbutton"><b style="text-decoration: underline;">下载</b></a>';
+						return aStr;
+					}
 				} ] ],
 				columns : [ [ {
 					field : 'id',
 					title : '文件编号'
 				}, {
 					field : 'fileName',
-					title : '文件名称'
+					title : '文件名称',
+					editor : 'text'
 				}, {
 					field : 'fileType',
 					title : '文件类型'
@@ -113,24 +128,59 @@
 				}, {
 					field : 'uploadTime',
 					title : '上传时间'
-				}, {
-					field : ' ',
-					title : '操作',
-					formatter : function(value, row, index) {
-						var aStr = '';
-						var type = row.fileType;
-						if (type == 'mp3') {
-							aStr += '  <a onclick="playAudio(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
-						} else if (type == 'mp4') {
-							aStr += '  <a onclick="playVideo(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">播放</b></a>';
-						} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
-							aStr += '  <a onclick="img(\'' + row.fileUrl + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">预览</b></a>';
-						}
-						aStr += '  <a onclick="detele(\'' + row.id + '\')" class="easyui-linkbutton"><b style="text-decoration: underline;">删除</b></a>';
-						aStr += '  <a href="' + row.fileUrl+ '" target="_blank" class="easyui-linkbutton"><b style="text-decoration: underline;">下载</b></a>';
-						return aStr;
+				} , {
+					field : 'fileUrl',
+					title : '文件下载地址'
+				} ] ],
+				onDblClickRow : function(rowIndex, rowData) {
+					var type = rowData.fileType;
+					var url = rowData.fileUrl;
+					if (type == 'mp3') {
+						playAudio(url);
+					} else if (type == 'mp4') {
+						playVideo(url)
+					} else if (type == 'png' || type == 'jpeg' || type == 'jpg') {
+						img(url);
+					} else {
+						cannotShow();
 					}
-				} ] ]
+
+				},
+				onDblClickCell : function(index, field, value) {
+					if (field == 'fileName') {
+						$('#fileList').datagrid('beginEdit', index);
+						var ed = $('#fileList').datagrid('getEditor', {
+							index : index,
+							field : field
+						});
+						$(ed.target).focus();
+						var id = $('#fileList').datagrid('getSelected').id;
+						console.log(id);
+						var newFileName = $(ed.target)[0].value;
+						$(ed.target).keydown(function(e) {
+							var newFileName = $(ed.target)[0].value;
+							if (e.keyCode == 13) {
+								console.log(newFileName);
+								$.ajax({
+									type : 'POST',
+									dataType : "json",
+									url : '${base}file/update?id=' + id + '&fileName=' + newFileName,
+									success : function(result) {
+										if (result.code == 200) {
+											$.messager.alert('提示', result.message, 'info');
+											$('#fileList').datagrid('reload');
+										} else {
+											$.messager.alert("提示", result.message, "warning");
+										}
+									}
+								});
+							}
+						});
+						$(ed.target).blur(function() {
+							$('#fileList').datagrid('reload');
+						});
+					}
+				}
 			});
 
 			$('#fileTypeSum').datagrid({
@@ -157,7 +207,6 @@
 				}
 			});
 
-			
 		});
 		function playAudio(url) {
 			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' loop='loop'></audio>");
@@ -167,6 +216,9 @@
 		}
 		function img(url) {
 			$("#fileShow").html("<img src='"+url+"'></img>");
+		}
+		function cannotShow() {
+			$("#fileShow").html("<span>该文件不支持预览</span>");
 		}
 		function detele(id) {
 			progressLoadById('fileList', '正在删除。。。');

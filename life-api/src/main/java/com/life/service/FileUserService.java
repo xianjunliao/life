@@ -27,5 +27,5 @@ public interface FileUserService {
 	
 	public void delete(String id);
 	
-	public void update(String id);
+	public void update(String id,String fileName);
 }

@@ -172,10 +172,7 @@ $(function() {
 				}, {
 					iconCls : 'close',
 					handler : function() {
-						$('#tt').tabs('select', title);
-						var currentTab = $('#tt').tabs('getSelected');
-						var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
-						$('#tt').tabs('close', currentTabIndex);
+						$('#tt').tabs('close', title);
 						$("#hideTree").show();
 						$("#showTree").hide();
 						left_control_panel.show('fast', function() {
@@ -211,10 +208,7 @@ $(function() {
 				}, {
 					iconCls : 'close',
 					handler : function() {
-						$('#tt').tabs('select', title);
-						var currentTab = $('#tt').tabs('getSelected');
-						var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
-						$('#tt').tabs('close', currentTabIndex);
+						$('#tt').tabs('close', title);
 					}
 				} ]
 			});
@@ -271,11 +265,10 @@ $(function() {
 						contentUrl = basePath + 'openWeb/addWeb?id=' + node.id;
 					} else if (node.readMode == 'rss') {
 						contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
-					}else if (node.readMode == 'newWindow') {
+					} else if (node.readMode == 'newWindow') {
 						window.open(node.url);
-						return ;
-					}
-					else {
+						return;
+					} else {
 
 					}
 					if ($('#tt').tabs('exists', node.text)) {
@@ -290,19 +283,26 @@ $(function() {
 							tools : [ {
 								iconCls : 'refresh',
 								handler : function() {
-									$('#tt').tabs('select', title);
+									$('#tt').tabs('select', node.text);
 									refreshTab();
 								}
 							}, {
 								iconCls : 'close',
 								handler : function() {
-									var currentTab = $('#tt').tabs('getSelected');
-									var currentTabIndex = $('#tt').tabs('getTabIndex', currentTab);
-									$('#tt').tabs('close', currentTabIndex);
+									$('#tt').tabs('close', node.text);
 								}
 							} ]
 						});
 					}
+
+				},
+				onDblClick : function(node) {
+					var pp = $('#left_content').accordion('getSelected');
+					var pid = pp.panel('options').id;
+					openUpdateDialog("修改菜单", node.level, node.id, pid);
+				},
+				onAfterEdit : function(node) {
+					// alert(node.id);
 
 				}
 			});
@@ -316,10 +316,10 @@ $(function() {
 		});
 	});
 	$("#m-level1-1").click(function() {
-		openDialog("新增一级菜单", "1", 0);
+		openAddDialog("新增一级菜单", "1", 0);
 	});
 	$("#m-level1").click(function() {
-		openDialog("新增一级菜单", "1", 0);
+		openAddDialog("新增一级菜单", "1", 0);
 	});
 	$("#m-level2").click(function() {
 		var pp = $('#left_content').accordion('getSelected');
@@ -327,7 +327,7 @@ $(function() {
 		if (pp != null) {
 			id = pp.panel('options').id;
 		}
-		openDialog("新增二级菜单", "2", id);
+		openAddDialog("新增二级菜单", "2", id);
 	});
 	$("#m-level3").click(function() {
 		var pp = $('#left_content').accordion('getSelected');
@@ -338,11 +338,11 @@ $(function() {
 		} else {
 			id = pp.panel('options').id;
 		}
-		openDialog("新增三级菜单", "3", id)
+		openAddDialog("新增三级菜单", "3", id)
 	});
 });
 
-function openDialog(title, level, id) {
+function openAddDialog(title, level, id) {
 	$('#dialog').dialog({
 		title : title,
 		width : 350,
@@ -384,6 +384,32 @@ function mouseTab() {
 			top : e.pageY + 200
 		});
 	}
+}
+
+function openUpdateDialog(title, level, id, pid) {
+	$('#dialog').dialog({
+		title : title,
+		width : 350,
+		height : 300,
+		closed : false,
+		cache : false,
+		href : basePath + 'tree/updateTree?level=' + level + '&id=' + id + '&pid=' + pid,
+		modal : true,
+		buttons : [ {
+			text : '确认',
+			iconCls : 'icon-add',
+			handler : function() {
+				$('#treeLevelForm').submit();
+				$('#dialog').dialog('close');
+			}
+		}, {
+			text : '取消',
+			iconCls : 'icon-cancel',
+			handler : function() {
+				$('#dialog').dialog('close');
+			}
+		} ]
+	});
 }
 
 function rss(url) {

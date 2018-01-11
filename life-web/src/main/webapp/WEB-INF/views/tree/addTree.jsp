@@ -10,7 +10,7 @@
 		<div data-options="region:'center',border:false">
 			<form id="treeLevelForm" method="post" data-options="novalidate:true">
 				<input type="hidden" name="level" value="${level}" />
-				<table cellpadding="5" style="width: 99%;" >
+				<table cellpadding="5" style="width: 99%;">
 					<tr>
 						<td align="right"><span>菜单名称:</span></td>
 						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="text" data-options="required:true"></input></td>
@@ -18,13 +18,10 @@
 					<tr>
 						<td align="right">菜单icon:</td>
 						<td><select class="easyui-combobox" name="iconCls" style="width: 100%;" data-options="required:true">
-								<option value=""></option>
-								<option value="tree-life">tree-life</option>
-								<option value="tree-life2">tree-life2</option>
+								<option></option>
 								<option value="tree-life3">tree-life3</option>
-								<option value="tree-listen">tree-listen</option>
-								<option value="xiaomai">xiaomai</option>
-								<option value="tree-tv">tree-tv</option>
+								<option value="tree-listen">tree-life2</option>
+								<option value="life-1">tree-life1</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -34,11 +31,10 @@
 					<tr>
 						<td align="right">打开方式:</td>
 						<td><select class="easyui-combobox" name="readMode" style="width: 100%;" <c:if test="${level=='3'}">data-options="required:true"</c:if>>
-								<option value=""></option>
+								<option></option>
 								<option value="web">iframe网页嵌套</option>
 								<option value="rss">RSS订阅</option>
 								<option value="newWindow">新标签页打开</option>
-								
 						</select></td>
 					</tr>
 

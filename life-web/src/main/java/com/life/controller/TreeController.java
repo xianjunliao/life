@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
@@ -38,8 +39,7 @@ public class TreeController {
 
 	@ResponseBody
 	@RequestMapping("panentTree")
-	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		treeModel.setPid("0");
@@ -49,8 +49,7 @@ public class TreeController {
 
 	@ResponseBody
 	@RequestMapping("getChildNode")
-	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		List<TreeModel> tree = treeService.getChildNode2(treeModel);
@@ -78,9 +77,7 @@ public class TreeController {
 	 * @throws ServletException
 	 */
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params,
-			ModelMap model, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 			model.put("code", attribute);
@@ -88,14 +85,21 @@ public class TreeController {
 			String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
 			List<TreeModel> treesByLevel = new ArrayList<>();
 			String id = Long.valueOf(level) == 2 ? "0" : params.getId();
-			treesByLevel = treeService.getTreesByLevel(attribute.getUserCode(), levelL, id);
 			TreeModel treeModel = treeService.geTreeModelByid(params.getId());
+			if (treeModel != null) {
+				String userCode = attribute.getUserCode();
+				treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);
+				List<TreeModel> updateModels = treeService.getTreesByLevel(userCode, levelL, params.getPid());
+				List<TreeModel> all1trees = treeService.getTreesByLevel(userCode, "1", null);
+				model.put("text", treeModel.getText());
+				model.put("uTrees", updateModels);
+				model.put("all1trees", all1trees);
+			}
 			model.put("level", params.getLevel());
 			model.put("trees", treesByLevel);
 			model.put("id", params.getId());
-			if (null != treeModel) {
-				model.put("text", treeModel.getText());
-			}
+			model.put("pid", params.getPid());
+			model.put("treeModel", treeModel);
 		} catch (Exception e) {
 			return "error/500.jsp";
 		}
@@ -104,14 +108,13 @@ public class TreeController {
 
 	@RequestMapping("/save")
 	@ResponseBody
-	public ResponseMessage<TreeModel> save(TreeModel treeModel, HttpServletRequest request,
-			HttpServletResponse response) {
+	public ResponseMessage<TreeModel> save(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) {
 		ResponseMessage<TreeModel> responseMessage = new ResponseMessage<>();
 		try {
 			responseMessage = new ResponseMessage<>();
 			String level = treeModel.getLevel();
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			long maxSortNo = treeService.getMaxSortNo(attribute.getUserCode(),level);
+			long maxSortNo = treeService.getMaxSortNo(attribute.getUserCode(), level);
 			treeModel.setSortNo(String.valueOf(maxSortNo));
 			treeModel.setUserCode(attribute.getUserCode());
 			treeModel.setId(Util.getUUId16());
@@ -128,5 +131,43 @@ public class TreeController {
 			responseMessage.setMessage("新增失败");
 		}
 		return responseMessage;
+	}
+
+	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> deleteTree(String id, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			outMSG.setCode("200");
+			outMSG.setMessage("删除成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("删除失败");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/update" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> updateTree(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			treeModel.setUpdateTime(DateUtil.getNow());
+			treeService.update(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("修改成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("修改失败");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/getTreeByPid" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public List<TreeModel> getTreeByPid(String pid, HttpServletRequest request) throws ServletException, IOException {
+		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		List<TreeModel> treesByLevel = treeService.getTreeByPid(attribute.getUserCode(), pid);
+		return treesByLevel;
 	}
 }
