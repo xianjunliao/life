@@ -51,7 +51,6 @@
 				</table>
 			</form>
 		</div>
-		<input id="htext" type="hidden" value="${text}" />
 	</div>
 	<script type="text/javascript">
 		$(function() {
@@ -70,10 +69,8 @@
 					result = $.parseJSON(result);
 					if (result.code == '200') {
 						$('#dialog').dialog('close');
-						location.reload(true);
-						var text = $("#htext").val();
-						console.log(text);
-						$('#left_content').accordion('select', text);
+						self.location.href = "${base}house";
+						$('#left_content').accordion('selected',false);
 						$.messager.alert('提示', result.message, 'info');
 					} else {
 						$.messager.alert("提示", result.message, "warning");

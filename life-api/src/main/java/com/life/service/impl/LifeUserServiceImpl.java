@@ -23,5 +23,10 @@ public class LifeUserServiceImpl implements LifeUserService {
 	public List<LifeUserModel> getAll() {
 		return lifeUserDao.getAll();
 	}
+	@Override
+	public void add(LifeUserModel lifeUserModel) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

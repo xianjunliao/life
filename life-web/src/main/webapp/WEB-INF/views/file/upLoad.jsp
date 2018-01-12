@@ -128,7 +128,7 @@
 				}, {
 					field : 'uploadTime',
 					title : '上传时间'
-				} , {
+				}, {
 					field : 'fileUrl',
 					title : '文件下载地址'
 				} ] ],
@@ -221,23 +221,26 @@
 			$("#fileShow").html("<span>该文件不支持预览</span>");
 		}
 		function detele(id) {
-			progressLoadById('fileList', '正在删除。。。');
-			$.ajax({
-				type : 'POST',
-				dataType : "json",
-				url : '${base}file/delete?id=' + id,
-				success : function(result) {
-					if (result.code == 200) {
-						$("#fileShow").empty();
-						$.messager.alert('提示', result.message, 'info');
-						$('#fileTypeSum').datagrid('reload');
-						$('#fileList').datagrid('reload');
-					} else {
-						$.messager.alert("提示", result.message, "warning");
-					}
-					progressClose();
+			$.messager.confirm('提示', '确定删除吗?', function(r) {
+				if (r) {
+					$.ajax({
+						type : 'POST',
+						dataType : "json",
+						url : '${base}file/delete?id=' + id,
+						success : function(result) {
+							if (result.code == 200) {
+								$("#fileShow").empty();
+								$.messager.alert('提示', result.message, 'info');
+								$('#fileTypeSum').datagrid('reload');
+								$('#fileList').datagrid('reload');
+							} else {
+								$.messager.alert("提示", result.message, "warning");
+							}
+						}
+					});
 				}
 			});
+
 		}
 	</script>
 </body>

@@ -284,12 +284,32 @@ QQ交流群：184075694 （优先发布更新主题及内测包）
 .setting {
 	background: url('self_icon/setting.png') no-repeat center center;
 }
+
 .first-tab {
 	background: url('self_icon/first.png') no-repeat center center;
 }
+
 .tree-setting {
 	background: url('self_icon/tree_setting.png') no-repeat center center;
 }
+
 .tree-add1 {
 	background: url('self_icon/add1.png') no-repeat center center;
+}
+
+.life-1 {
+	background: url('self_icon/life-1.png') no-repeat center center;
+}
+
+.add-code {
+	background: url('self_icon/zc.png') no-repeat center center;
+}
+.addTree{
+	background: url('self_icon/addTree.png') no-repeat center center;
+}
+.deleteTree{
+	background: url('self_icon/deleteTree.png') no-repeat center center;
+}
+.updateTree{
+	background: url('self_icon/updateTree.png') no-repeat center center;
 }

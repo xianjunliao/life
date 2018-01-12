@@ -10,4 +10,6 @@ public interface LifeUserService {
 	
 	List<LifeUserModel> getAll();
 	
+	void add(LifeUserModel lifeUserModel);
+	
 }

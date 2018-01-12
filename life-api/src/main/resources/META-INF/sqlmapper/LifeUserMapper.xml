@@ -20,4 +20,59 @@
 	<select id="getAll" resultType="com.life.model.LifeUserModel">
 		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from life_user
 	</select>
+	<insert id="add" parameterType="com.life.model.LifeUserModel">
+		insert into life_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userCode!=null">
+				user_code,
+			</if>
+			<if test="createTime!=null">
+				create_time,
+			</if>
+			<if test="userRole!=null">
+				user_role,
+			</if>
+			<if test="updateTime!=null">
+				update_time,
+			</if>
+			<if test="userMotto!=null">
+				user_motto,
+			</if>
+			<if test="userMusic!=null">
+				user_music,
+			</if>
+			<if test="waitTime!=null">
+				wait_time,
+			</if>
+			<if test="intervalTime!=null">
+				interval_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userCode!=null">
+				#{userCode,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime!=null">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole!=null">
+				#{userRole,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime!=null">
+				#{updateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="userMotto!=null">
+				#{userMotto,jdbcType=VARCHAR},
+			</if>
+			<if test="userMusic!=null">
+				#{userMusic,jdbcType=VARCHAR},
+			</if>
+			<if test="waitTime!=null">
+				#{waitTime,jdbcType=VARCHAR},
+			</if>
+			<if test="intervalTime!=null">
+				#{intervalTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
 </mapper>

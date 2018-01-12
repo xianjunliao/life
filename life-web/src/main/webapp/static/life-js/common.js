@@ -73,9 +73,8 @@ function exec(command) {
 		if (err.indexOf('utomation') != -1) {
 			alert('命令' + window._command + ' 已经被用户禁止！');
 			return true;
-		}
-		else{
-		return false;
+		} else {
+			return false;
 		}
 	};
 	// -----------//
@@ -84,4 +83,22 @@ function exec(command) {
 		wsh.Run(command);
 	wsh = null;
 	window.onerror = window.oldOnError;
+}
+
+function exit() {
+	progressLoad("exit......");
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : basePath + 'exit',
+		success : function(result) {
+			if (result.code == 200) {
+				self.location.href = basePath;
+			} else {
+				$.messager.alert("提示", result.message, "warning");
+			}
+			progressClose();
+		}
+	});
+
 }

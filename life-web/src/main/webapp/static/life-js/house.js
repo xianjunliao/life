@@ -1,3 +1,4 @@
+var treeNode;
 $(function() {
 	$("html").bind("contextmenu", function(e) {
 		return false;
@@ -29,7 +30,7 @@ $(function() {
 		if (!isFull) {
 			exitFullScreen('most');
 		}
-		window.location.href = basePath;
+		exit();
 	}
 	var left_control_status = true;
 	var left_control_panel = $("#most").layout("panel", 'west');
@@ -214,107 +215,70 @@ $(function() {
 			});
 		}
 	}
-	$.ajax({
-		type : 'POST',
-		dataType : "json",
-		url : basePath + 'tree/panentTree',
-		success : function(data) {
-			if (data == null || data.length == 0) {
-				$("#m-level2").hide();
-				$("#m-level3").hide();
-			} else {
-				$("#m-level2").show();
-				$("#m-level3").show();
-			}
-			$.each(data, function(i, n) {// 加载父类节点即一级菜单
+	// $.ajax({
+	// type : 'POST',
+	// dataType : "json",
+	// url : basePath + 'tree/panentTree',
+	// success : function(data) {
+	//	
+	// }
+	// });
 
-				$('#left_content').accordion('add', {
-					id : n.id,
-					title : n.text,
-					iconCls : n.iconCls,
-					selected : false,
-					tools : [],
-					content : '<div style="padding:10px"><ul name="' + n.text + '"></ul></div>',
-				});
-				// 屏蔽左下角出现"javascript:;;"
-				$("#left_content>.panel .panel-tool>a").removeAttr("href");
-				// alert($("#left_content>.panel
-				// .panel-tool>a").length);
-				if (n.sortNo == '1') {
-					$('#left_content').accordion('select', n.text);
-				}
-			});
-		}
-	});
+	// if (data == null || data.length == 0) {
+	// $("#m-level2").hide();
+	// $("#m-level3").hide();
+	// } else {
+	// $("#m-level2").show();
+	// $("#m-level3").show();
+	// }
+	// $.each(data, function(i, n) {// 加载父类节点即一级菜单
+	//
+	// $('#left_content').accordion('add', {
+	// id : n.id,
+	// title : n.text,
+	// iconCls : n.iconCls,
+	// selected : false,
+	// tools : [],
+	// content : '<div style="padding:10px"><ul name="' + n.text +
+	// '"></ul></div>',
+	// });
+	// // 屏蔽左下角出现"javascript:;;"
+	// $("#left_content>.panel .panel-tool>a").removeAttr("href");
+	// // alert($("#left_content>.panel
+	// // .panel-tool>a").length);
+	// if (n.sortNo == '1') {
+	// $('#left_content').accordion('select', n.text);
+	// }
+	// });
 	// 异步加载子节点，即二级菜单
+	 $('#left_content').accordion('select', initText);
 	$('#left_content').accordion({
 		onSelect : function(title, index) {
-			$("ul[name='" + title + "']").tree({
-				id : 'aa',
-				url : basePath + 'tree/getChildNode',
-				queryParams : {
-					text : title
-				},
-				animate : true,
-				onClick : function(node) {
-					var contentUrl = "";
-					if (node.url == null || node.url == "") {
-						return;
-					}
-					if (node.readMode == 'web') {
-						contentUrl = basePath + 'openWeb/addWeb?id=' + node.id;
-					} else if (node.readMode == 'rss') {
-						contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
-					} else if (node.readMode == 'newWindow') {
-						window.open(node.url);
-						return;
-					} else {
-
-					}
-					if ($('#tt').tabs('exists', node.text)) {
-						$('#tt').tabs('select', node.text);
-					} else {
-						var tab = $('#tt').tabs('getSelected');
-						$('#tt').tabs('add', {
-							id : node.id,
-							title : node.text,
-							href : contentUrl,
-							closable : false,
-							tools : [ {
-								iconCls : 'refresh',
-								handler : function() {
-									$('#tt').tabs('select', node.text);
-									refreshTab();
-								}
-							}, {
-								iconCls : 'close',
-								handler : function() {
-									$('#tt').tabs('close', node.text);
-								}
-							} ]
-						});
-					}
-
-				},
-				onDblClick : function(node) {
-					var pp = $('#left_content').accordion('getSelected');
-					var pid = pp.panel('options').id;
-					openUpdateDialog("修改菜单", node.level, node.id, pid);
-				},
-				onAfterEdit : function(node) {
-					// alert(node.id);
-
-				}
-			});
+			loadTree(title);
 		}
 	});
 	$('#left_west').bind('contextmenu', function(e) {
 		e.preventDefault();
+		var pp = $('#left_content').accordion('getSelected');
+		var options = pp.panel('options');
 		$('#treeMenu').menu('show', {
 			left : e.pageX,
 			top : e.pageY
 		});
 	});
+	$("#m-ul1").click(function() {
+		var pp = $('#left_content').accordion('getSelected');
+		var pid = pp.panel('options').id;
+		openUpdateDialog("修改菜单", treeNode.level, treeNode.id, pid);
+	});
+	$("#m-ul2").click(function() {
+		$.messager.confirm('提示', '确定将菜单[<b>' + treeNode.text + '</b>]以及包含的子菜单删除吗？?', function(r) {
+			if (r) {
+				deteleTree(treeNode.id);
+			}
+		});
+	});
+
 	$("#m-level1-1").click(function() {
 		openAddDialog("新增一级菜单", "1", 0);
 	});
@@ -340,6 +304,37 @@ $(function() {
 		}
 		openAddDialog("新增三级菜单", "3", id)
 	});
+	$("#m-level4").click(function() {
+		var pp = $('#left_content').accordion('getSelected');
+		var id = null;
+		var title = null;
+		if (pp == null) {
+			$.messager.alert("提示", "没有选中任何菜单！", "info");
+			return;
+		} else {
+			id = pp.panel('options').id;
+			title = pp.panel('options').title;
+		}
+		$.messager.confirm('提示', '确定将菜单[<b>' + title + '</b>]以及包含的子菜单删除吗？?', function(r) {
+			if (r) {
+				deteleTree(id);
+			}
+		});
+
+	});
+	$("#m-level5").click(function() {
+		var pp = $('#left_content').accordion('getSelected');
+		var id = null;
+		var title = null;
+		if (pp == null) {
+			$.messager.alert("提示", "没有选中任何菜单！", "info");
+			return;
+		} else {
+			id = pp.panel('options').id;
+			title = pp.panel('options').title;
+		}
+		openUpdateDialog("修改菜单", '0', id, '0');
+	});
 });
 
 function openAddDialog(title, level, id) {
@@ -355,8 +350,11 @@ function openAddDialog(title, level, id) {
 			text : '确定新增',
 			iconCls : 'icon-add',
 			handler : function() {
-				$('#treeLevelForm').submit();
-				$('#dialog').dialog('close');
+				var isValid = $('#treeLevelForm').form('enableValidation').form('validate');
+				if (isValid) {
+					$('#treeLevelForm').submit();
+					$('#dialog').dialog('close');
+				}
 			}
 		}, {
 			text : '取消',
@@ -411,7 +409,21 @@ function openUpdateDialog(title, level, id, pid) {
 		} ]
 	});
 }
-
+function deteleTree(id) {
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : basePath + 'tree/delete?id=' + id,
+		success : function(result) {
+			if (result.code == 200) {
+				$.messager.alert('提示', result.message, 'info');
+				location.reload(true);
+			} else {
+				$.messager.alert("提示", result.message, "warning");
+			}
+		}
+	});
+}
 function rss(url) {
 	var url = basePath + "tree/getUrlData?url=" + url;
 	$('#dg').datagrid({
@@ -436,5 +448,74 @@ function rss(url) {
 			align : 'right',
 			width : "21%"
 		} ] ]
+	});
+}
+
+function loadTree(title) {
+
+	$("ul[name='" + title + "']").tree({
+		id : 'aa',
+		url : basePath + 'tree/getChildNode',
+		queryParams : {
+			text : title
+		},
+		animate : true,
+		onClick : function(node) {
+			var contentUrl = "";
+			if (node.url == null || node.url == "") {
+				return;
+			}
+			if (node.readMode == 'web') {
+				contentUrl = basePath + 'openWeb/addWeb?id=' + node.id;
+			} else if (node.readMode == 'rss') {
+				contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
+			} else if (node.readMode == 'newWindow') {
+				window.open(node.url);
+				return;
+			} else {
+
+			}
+			if ($('#tt').tabs('exists', node.text)) {
+				$('#tt').tabs('select', node.text);
+			} else {
+				var tab = $('#tt').tabs('getSelected');
+				$('#tt').tabs('add', {
+					id : node.id,
+					title : node.text,
+					href : contentUrl,
+					closable : false,
+					tools : [ {
+						iconCls : 'refresh',
+						handler : function() {
+							$('#tt').tabs('select', node.text);
+							refreshTab();
+						}
+					}, {
+						iconCls : 'close',
+						handler : function() {
+							$('#tt').tabs('close', node.text);
+						}
+					} ]
+				});
+			}
+
+		},
+		onDblClick : function(node) {
+			var pp = $('#left_content').accordion('getSelected');
+			var pid = pp.panel('options').id;
+			openUpdateDialog("修改菜单", node.level, node.id, pid);
+		},
+		onAfterEdit : function(node) {
+			// alert(node.id);
+
+		},
+		onContextMenu : function(e, node) {
+			e.preventDefault();
+			treeNode = node;
+			$('#ulMenu').menu('show', {
+				left : e.pageX,
+				top : e.pageY
+			});
+		}
 	});
 }

@@ -49,7 +49,7 @@
 		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from tree where
 		user_code=#{userCode} and level=#{level}
 	</select>
-	<delete id="detele" parameterType="com.life.model.TreeModel">
+	<delete id="delete" parameterType="com.life.model.TreeModel">
 		delete from tree where id=#{id,jdbcType=VARCHAR}
 	</delete>
 

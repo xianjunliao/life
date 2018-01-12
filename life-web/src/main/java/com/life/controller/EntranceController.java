@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.Str;
 import com.life.model.LifeUserModel;
+import com.life.model.TreeModel;
 import com.life.service.LifeUserService;
+import com.life.service.TreeService;
 
 @Controller
 // @RequestMapping("entrance")
@@ -25,6 +29,9 @@ public class EntranceController {
 
 	@Resource(name = "lifeUserService")
 	private LifeUserService lifeUserService;
+
+	@Autowired
+	private TreeService treeService;
 	/**
 	 * 模板存放目录
 	 */
@@ -42,10 +49,29 @@ public class EntranceController {
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		if (null == attribute || null == params) {
-			return "error/500.jsp";
+		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex")) {
+
+			return FTL_DIR + pageName + ".jsp";
+		} else {
+
+			if (null == attribute || null == params) {
+				return "error/500.jsp";
+			}
+		}
+		TreeModel pTreeModel = new TreeModel();
+		pTreeModel.setUserCode(attribute.getUserCode());
+		pTreeModel.setPid("0");
+		List<TreeModel> pTree = treeService.getTree(pTreeModel);
+		model.put("data", pTree);
+		if (pTree.size() > 0) {
+			if (Str.isEmpty(params.getText())) {
+				model.put("initText", pTree.get(0).getText());
+			} else {
+				model.put("initText", params.getText());
+			}
 		}
 		return FTL_DIR + pageName + ".jsp";
+
 	}
 
 	@ResponseBody
@@ -81,6 +107,20 @@ public class EntranceController {
 		} catch (Exception e) {
 			outMSG.setCode("209");
 			outMSG.setMessage("退出失败！");
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/add")
+	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		try {
+			outMSG.setCode("200");
+			outMSG.setMessage("新增成功！");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("新增失败！");
 		}
 		return outMSG;
 	}

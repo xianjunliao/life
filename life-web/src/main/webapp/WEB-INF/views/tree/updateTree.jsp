@@ -19,8 +19,8 @@
 						<td align="right">菜单icon:</td>
 						<td><select class="easyui-combobox" name="iconCls" style="width: 100%;" data-options="required:true">
 								<option <c:if test="${treeModel.iconCls=='tree-life3' }"> selected="selected" </c:if> value="tree-life3">tree-life3</option>
-								<option <c:if test="${treeModel.iconCls=='tree-life2' }"> selected="selected" </c:if> value="tree-listen">tree-life2</option>
-								<option <c:if test="${treeModel.iconCls=='tree-life1' }"> selected="selected" </c:if> value="life-1">tree-life1</option>
+								<option <c:if test="${treeModel.iconCls=='tree-listen' }"> selected="selected" </c:if> value="tree-listen">tree-life2</option>
+								<option <c:if test="${treeModel.iconCls=='life-1' }"> selected="selected" </c:if> value="life-1">tree-life1</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -50,7 +50,7 @@
 										<option <c:if test="${pid==tree.id}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
 									</c:forEach>
 								</select>
-							</c:if></td>
+							</c:if> <c:if test="${level=='1' }">无</c:if></td>
 					</tr>
 					<tr>
 						<td align="right">二级菜单:</td>
@@ -61,7 +61,6 @@
 				</table>
 			</form>
 		</div>
-		<input id="htext" type="hidden" value="${text}" />
 	</div>
 	<script type="text/javascript">
 		$(function() {
@@ -106,10 +105,7 @@
 					result = $.parseJSON(result);
 					if (result.code == '200') {
 						$('#dialog').dialog('close');
-						location.reload(true);
-						var text = $("#htext").val();
-						console.log(text);
-						$('#left_content').accordion('select', text);
+						self.location.href = "${base}house?text=${text}";
 						$.messager.alert('提示', result.message, 'info');
 					} else {
 						$.messager.alert("提示", result.message, "warning");

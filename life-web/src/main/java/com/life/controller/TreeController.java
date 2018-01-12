@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.life.common.ResponseMessage;
 import com.life.common.Str;
 import com.life.common.Util;
@@ -39,12 +40,14 @@ public class TreeController {
 
 	@ResponseBody
 	@RequestMapping("panentTree")
-	public List<TreeModel> panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public JSONArray panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		JSONArray jsonArray=new JSONArray();
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		treeModel.setPid("0");
 		List<TreeModel> tree = treeService.getTree(treeModel);
-		return tree;
+		jsonArray.addAll(tree);
+		return jsonArray;
 	}
 
 	@ResponseBody
@@ -80,26 +83,35 @@ public class TreeController {
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			model.put("code", attribute);
+			String userCode = attribute.getUserCode();
+			model.put("code", userCode);
 			String level = params.getLevel();
-			String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
-			List<TreeModel> treesByLevel = new ArrayList<>();
-			String id = Long.valueOf(level) == 2 ? "0" : params.getId();
-			TreeModel treeModel = treeService.geTreeModelByid(params.getId());
-			if (treeModel != null) {
-				String userCode = attribute.getUserCode();
-				treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);
-				List<TreeModel> updateModels = treeService.getTreesByLevel(userCode, levelL, params.getPid());
-				List<TreeModel> all1trees = treeService.getTreesByLevel(userCode, "1", null);
-				model.put("text", treeModel.getText());
-				model.put("uTrees", updateModels);
-				model.put("all1trees", all1trees);
+			String pid = params.getPid();
+			if (!Str.isEmpty(level)) {
+				String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
+
+				List<TreeModel> treesByLevel = new ArrayList<>();
+				String id = Long.valueOf(level) == 2 ? "0" : params.getId();
+				TreeModel treeModel = treeService.geTreeModelByid(params.getId());
+				if (treeModel != null) {
+
+					treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);
+					List<TreeModel> updateModels = treeService.getTreesByLevel(userCode, levelL, pid);
+					List<TreeModel> all1trees = treeService.getTreesByLevel(userCode, "1", null);
+					model.put("uTrees", updateModels);
+					model.put("all1trees", all1trees);
+				}
+				model.put("trees", treesByLevel);
+				model.put("treeModel", treeModel);
 			}
+			if (!Str.isEmpty(pid)) {
+				TreeModel treeByPid = treeService.geTreeModelByid(pid);
+				model.put("text", treeByPid.getText());
+			}
+
 			model.put("level", params.getLevel());
-			model.put("trees", treesByLevel);
 			model.put("id", params.getId());
-			model.put("pid", params.getPid());
-			model.put("treeModel", treeModel);
+			model.put("pid", pid);
 		} catch (Exception e) {
 			return "error/500.jsp";
 		}
@@ -133,20 +145,6 @@ public class TreeController {
 		return responseMessage;
 	}
 
-	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
-	@ResponseBody
-	public ResponseMessage<TreeModel> deleteTree(String id, HttpServletRequest request) throws ServletException, IOException {
-		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
-		try {
-			outMSG.setCode("200");
-			outMSG.setMessage("删除成功");
-		} catch (Exception e) {
-			outMSG.setCode("209");
-			outMSG.setMessage("删除失败");
-		}
-		return outMSG;
-	}
-
 	@RequestMapping(path = { "/update" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<TreeModel> updateTree(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
@@ -159,6 +157,26 @@ public class TreeController {
 		} catch (Exception e) {
 			outMSG.setCode("209");
 			outMSG.setMessage("修改失败");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> deleteTree(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+			List<TreeModel> treeByPid = treeService.getTreeByPid(attribute.getUserCode(), treeModel.getId());
+			for (TreeModel treeModel2 : treeByPid) {
+				treeService.delete(treeModel2);
+			}
+			treeService.delete(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("删除成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("删除成功");
 		}
 		return outMSG;
 	}

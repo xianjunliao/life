@@ -10,5 +10,6 @@ public interface LifeUserDao {
 
 	public LifeUserModel checkEnterCode(@Param("code")String code);
 	List<LifeUserModel> getAll();
+	void add(LifeUserModel lifeUserModel);
 	
 }

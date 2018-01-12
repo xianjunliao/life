@@ -6,6 +6,9 @@
 	String path = request.getContextPath();
 	request.getSession().setAttribute("base",
 			request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/");
+	response.setDateHeader("Expires", 0);
+	response.setHeader("Cache-Control", "no-cache");
+	response.setHeader("Pragma", "no-cache");
 	// 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
 %>
 <title>Do Not Go Gentle Into That Good Night.</title>

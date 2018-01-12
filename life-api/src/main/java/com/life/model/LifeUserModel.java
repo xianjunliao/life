@@ -15,6 +15,16 @@ public class LifeUserModel implements Serializable {
 	private String userMusic;// 音乐名称
 	private long waitTime;// 等待时长
 	private long intervalTime;// 间隔时长
+	private String text;
+	
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 
 	public long getWaitTime() {
 		return waitTime;
@@ -83,9 +93,8 @@ public class LifeUserModel implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LifeUserModel [userCode=" + userCode + ", createTime=" + createTime + ", userRole=" + userRole
-				+ ", updateTime=" + updateTime + ", userMotto=" + userMotto + ", userMusic=" + userMusic + ", waitTime="
-				+ waitTime + ", intervalTime=" + intervalTime + "]";
+		return "LifeUserModel [userCode=" + userCode + ", createTime=" + createTime + ", userRole=" + userRole + ", updateTime=" + updateTime + ", userMotto=" + userMotto + ", userMusic=" + userMusic + ", waitTime=" + waitTime + ", intervalTime=" + intervalTime + ", text=" + text + "]";
 	}
+
 
 }

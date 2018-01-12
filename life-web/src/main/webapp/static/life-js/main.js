@@ -6,7 +6,7 @@ $(function() {
 		if (e.keyCode == 13) {
 			var v = $('#code').val();
 			if (v == null || '' == v || v == undefined) {
-				$.messager.alert("请输入你的编码！", result.message, "warning");
+				$.messager.alert("提示 ", "请输入你的编码！", "warning");
 			} else {
 				enter(v);
 			}
@@ -148,24 +148,6 @@ function enter(v) {
 		success : function(result) {
 			if (result.code == 200) {
 				self.location.href = basePath + "house";
-			} else {
-				$.messager.alert("提示", result.message, "warning");
-			}
-			progressClose();
-		}
-	});
-
-}
-
-function exit() {
-	progressLoad("exit......");
-	$.ajax({
-		type : 'POST',
-		dataType : "json",
-		url : basePath + 'exit',
-		success : function(result) {
-			if (result.code == 200) {
-				self.location.href = basePath;
 			} else {
 				$.messager.alert("提示", result.message, "warning");
 			}

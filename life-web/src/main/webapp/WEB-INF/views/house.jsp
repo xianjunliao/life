@@ -6,6 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 <script type="text/javascript">
 	var basePath = "${base}";
+	var initText = "${initText}";
+	console.log(":::::::::" + initText);
 </script>
 <script type="text/javascript" src="${base}static/life-js/common.js"></script>
 <script type="text/javascript" src="${base}static/life-js/house.js"></script>
@@ -18,12 +20,21 @@
 </head>
 <body id="most" class="easyui-layout" style="width: 100%; height: 100%;">
 	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
-		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true">
-			<div>
-				<div style="text-align: center; margin-top: 300px;" id="m-level1-1" data-options="iconCls:'tree-add1'">
-					<a style="font-size: 18px;">新增菜单</a>
+		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false">
+			<c:forEach items="${data}" var="tree">
+				<div title="${tree.text}" id="${tree.id}" data-options="iconCls:'${tree.iconCls}'">
+					<div style="padding: 10px">
+						<ul name="${tree.text}"></ul>
+					</div>
 				</div>
-			</div>
+			</c:forEach>
+			<c:if test="${empty data}">
+				<div>
+					<div style="text-align: center; margin-top: 300px;" id="m-level1-1" data-options="iconCls:'tree-add1'">
+						<a style="font-size: 18px;">新增菜单</a>
+					</div>
+				</div>
+			</c:if>
 		</div>
 	</div>
 	<div id="center" region="center" border="false" style="overflow: hidden;">
@@ -31,7 +42,7 @@
 		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;">
 			<div title="Home page" style="padding: 10px;">
 				<%-- 			<iframe scrolling="auto" frameborder="0" src="${base }musicPlayer/player" style="width: 100%; height: 100%;"></iframe> --%>
-<!-- 				<iframe scrolling="auto" frameborder="0" src="http://www.baidu.com/" style="width: 100%; height: 100%;"></iframe> -->
+				<!-- 				<iframe scrolling="auto" frameborder="0" src="http://www.baidu.com/" style="width: 100%; height: 100%;"></iframe> -->
 			</div>
 		</div>
 
@@ -41,10 +52,9 @@
 		<div style="float: left; margin-top: 3px; margin-right: 3px;">
 			<table>
 				<tr>
-					<td><a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a> <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px"
-						class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a> <a
-						style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton"
-						data-options="plain:false,iconCls:'upload'"></a> <a style="height: 25px; width: 31px" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
+					<td><a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a> <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton"
+						data-options="plain:false,iconCls:'full-screen'"></a> <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a> <a style="height: 25px; width: 31px" title="环境设置"
+						id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
 					<td><span style="font-size: 14px; color: red;">左侧处鼠标右键可添加1、2、3级菜单</span></td>
 				</tr>
 			</table>
@@ -72,9 +82,17 @@
 
 
 	<div id="treeMenu" class="easyui-menu" style="width: 150px;">
-		<div id="m-level1" data-options="iconCls:'tree-add1'">新增一级菜单</div>
-		<div id="m-level2" data-options="iconCls:'tree-add1'">新增二级级菜单</div>
-		<div id="m-level3" data-options="iconCls:'tree-add1'">新增三级级菜单</div>
+		<div id="m-level1" data-options="iconCls:'addTree'">新增一级菜单</div>
+		<div id="m-level2" data-options="iconCls:'addTree'">新增二级级菜单</div>
+		<div id="m-level3" data-options="iconCls:'addTree'">新增三级级菜单</div>
+		<div class="menu-sep"></div>
+		<div id="m-level4" data-options="iconCls:'deleteTree'">删除一级菜单</div>
+		<div id="m-level5" data-options="iconCls:'updateTree'">修改一级菜单</div>
+	</div>
+
+	<div id="ulMenu" class="easyui-menu" style="width: 150px;">
+		<div id="m-ul1" data-options="iconCls:'updateTree'">修改</div>
+		<div id="m-ul2" data-options="iconCls:'deleteTree'">删除</div>
 	</div>
 	<div id="dialog"></div>
 </body>
