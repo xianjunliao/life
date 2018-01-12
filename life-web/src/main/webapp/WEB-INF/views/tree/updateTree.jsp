@@ -105,7 +105,7 @@
 					result = $.parseJSON(result);
 					if (result.code == '200') {
 						$('#dialog').dialog('close');
-						self.location.href = "${base}house?text=${text}";
+						self.location.href = "${base}house";
 						$.messager.alert('提示', result.message, 'info');
 					} else {
 						$.messager.alert("提示", result.message, "warning");

@@ -64,11 +64,7 @@ public class EntranceController {
 		List<TreeModel> pTree = treeService.getTree(pTreeModel);
 		model.put("data", pTree);
 		if (pTree.size() > 0) {
-			if (Str.isEmpty(params.getText())) {
-				model.put("initText", pTree.get(0).getText());
-			} else {
-				model.put("initText", params.getText());
-			}
+			model.put("initText", pTree.get(0).getText());
 		}
 		return FTL_DIR + pageName + ".jsp";
 
