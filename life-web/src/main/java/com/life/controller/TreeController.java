@@ -41,7 +41,7 @@ public class TreeController {
 	@ResponseBody
 	@RequestMapping("panentTree")
 	public JSONArray panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		JSONArray jsonArray=new JSONArray();
+		JSONArray jsonArray = new JSONArray();
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		treeModel.setUserCode(attribute.getUserCode());
 		treeModel.setPid("0");
@@ -86,16 +86,20 @@ public class TreeController {
 			String userCode = attribute.getUserCode();
 			model.put("code", userCode);
 			String level = params.getLevel();
+			List<TreeModel> treesByLevel = new ArrayList<>();
 			String pid = params.getPid();
 			if (!Str.isEmpty(level)) {
 				String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
 
-				List<TreeModel> treesByLevel = new ArrayList<>();
+			
 				String id = Long.valueOf(level) == 2 ? "0" : params.getId();
 				TreeModel treeModel = treeService.geTreeModelByid(params.getId());
 				if (treeModel != null) {
 
 					treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);
+					if(treesByLevel==null||treesByLevel.size()==0){
+						treesByLevel = treeService.getTreesByLevel(userCode, levelL, null);
+					}
 					List<TreeModel> updateModels = treeService.getTreesByLevel(userCode, levelL, pid);
 					List<TreeModel> all1trees = treeService.getTreesByLevel(userCode, "1", null);
 					model.put("uTrees", updateModels);
@@ -104,15 +108,17 @@ public class TreeController {
 				model.put("trees", treesByLevel);
 				model.put("treeModel", treeModel);
 			}
-			if (!Str.isEmpty(pid)) {
+			if (!Str.isEmpty(pid) && !pid.equals("0")) {
 				TreeModel treeByPid = treeService.geTreeModelByid(pid);
 				model.put("text", treeByPid.getText());
 			}
-
+			model.put("isTwoLevel", treesByLevel.size());
 			model.put("level", params.getLevel());
 			model.put("id", params.getId());
 			model.put("pid", pid);
 		} catch (Exception e) {
+
+			e.printStackTrace();
 			return "error/500.jsp";
 		}
 		return FTL_DIR + pageName + ".jsp";
@@ -125,6 +131,13 @@ public class TreeController {
 		try {
 			responseMessage = new ResponseMessage<>();
 			String level = treeModel.getLevel();
+			if (level.equals("1")) {
+				treeModel.setIconCls("life-1");
+			} else if (level.equals("2")) {
+				treeModel.setIconCls("tree-listen");
+			} else if (level.equals("3")) {
+				treeModel.setIconCls("tree-life3");
+			}
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 			long maxSortNo = treeService.getMaxSortNo(attribute.getUserCode(), level);
 			treeModel.setSortNo(String.valueOf(maxSortNo));

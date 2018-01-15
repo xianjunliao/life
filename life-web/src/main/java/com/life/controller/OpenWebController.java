@@ -21,39 +21,34 @@ import com.life.model.LifeUserModel;
 import com.life.model.TreeModel;
 import com.life.service.TreeService;
 
-
-
 @Controller
 @RequestMapping("openWeb")
 public class OpenWebController {
 
-	@Resource(name="treeService")
+	@Resource(name = "treeService")
 	private TreeService treeService;
 	/**
 	 * 模板存放目录
 	 */
 	private final static String FTL_DIR = "open_web/";
 
-
-
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params,
-			ModelMap model, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TreeModel treeModel = treeService.geTreeModelByid(params.getId());
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		if (null == attribute) {
 			return "error/500.jsp";
 		}
 		model.put("treeModel", treeModel);
-		model.put("rss", RSSUtil.xmlToList(treeModel.getUrl()));
+		if (treeModel.getReadMode().equals("rss")) {
+			model.put("rss", RSSUtil.xmlToList(treeModel.getUrl()));
+		}
 		return FTL_DIR + pageName + ".jsp";
 	}
 
 	@ResponseBody
 	@RequestMapping("/getRss")
-	public List<RSS> getRss(String url, HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public List<RSS> getRss(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<RSS> xmlToList = RSSUtil.xmlToList(url);
 		return xmlToList;
 	}

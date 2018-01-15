@@ -40,7 +40,6 @@
 		$('#dg').datagrid({
 			onSelect : function(index, row) {
 				var url = row.link;
-				console.log(row);
 				$('#rss').attr('src', url);
 			},
 			onLoadSuccess : function() {

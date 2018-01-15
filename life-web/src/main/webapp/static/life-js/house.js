@@ -3,10 +3,10 @@ $(function() {
 	$("html").bind("contextmenu", function(e) {
 		return false;
 	});
+	createHomeTab();
 	$("#quite").hide();
 	$("#showTree").hide();
 	var btn = document.getElementById('btn');
-	// var content = document.getElementById('most');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
@@ -45,7 +45,6 @@ $(function() {
 				width : '100%'
 			})
 		});
-
 	}
 	showTree.onclick = function() {
 		$("#hideTree").show();
@@ -81,9 +80,7 @@ $(function() {
 	$("#m-closeall").click(function() {
 		$(".tabs li").each(function(i, n) {
 			var title = $(n).text();
-			if (title != 'Home page') {
-				$('#tt').tabs('close', title);
-			}
+			$('#tt').tabs('close', title);
 		});
 	});
 
@@ -93,11 +90,8 @@ $(function() {
 		var currTitle = currTab.panel('options').title;
 		$(".tabs li").each(function(i, n) {
 			var title = $(n).text();
-
 			if (currTitle != title) {
-				if (title != 'Home page') {
-					$('#tt').tabs('close', title);
-				}
+				$('#tt').tabs('close', title);
 			}
 		});
 		$('#tt').tabs('select', currTitle);
@@ -117,9 +111,7 @@ $(function() {
 		$(".tabs li").each(function(i, n) {
 			var title = $(n).text();
 			if (i < currentTabIndex) {
-				if (title != 'Home page') {
-					$('#tt').tabs('close', title);
-				}
+				$('#tt').tabs('close', title);
 			}
 		});
 		$('#tt').tabs('select', currTitle);
@@ -147,18 +139,8 @@ $(function() {
 	uploadFile.onclick = function() {
 		var title = "上传文件";
 		if ($('#tt').tabs('exists', title)) {
-			$('#tt').tabs('select', title);
+			$('#tt').tabs('close', title);
 		} else {
-			$("#showTree").show();
-			$("#hideTree").hide();
-			left_control_panel.hide('fast', function() {
-				left_control_panel.panel('resize', {
-					width : 0
-				});
-				$("#most").layout('resize', {
-					width : '100%'
-				})
-			});
 			$('#tt').tabs('add', {
 				id : "upload",
 				title : title,
@@ -174,16 +156,6 @@ $(function() {
 					iconCls : 'close',
 					handler : function() {
 						$('#tt').tabs('close', title);
-						$("#hideTree").show();
-						$("#showTree").hide();
-						left_control_panel.show('fast', function() {
-							left_control_panel.panel('resize', {
-								width : 200
-							});
-							$("#most").layout('resize', {
-								width : '100%'
-							})
-						});
 					}
 				} ]
 			});
@@ -193,7 +165,7 @@ $(function() {
 	setting.onclick = function() {
 		var title = "环境设置";
 		if ($('#tt').tabs('exists', title)) {
-			$('#tt').tabs('select', title);
+			$('#tt').tabs('close', title);
 		} else {
 			$('#tt').tabs('add', {
 				id : "setting",
@@ -215,60 +187,14 @@ $(function() {
 			});
 		}
 	}
-	// $.ajax({
-	// type : 'POST',
-	// dataType : "json",
-	// url : basePath + 'tree/panentTree',
-	// success : function(data) {
-	//	
-	// }
-	// });
-
-	// if (data == null || data.length == 0) {
-	// $("#m-level2").hide();
-	// $("#m-level3").hide();
-	// } else {
-	// $("#m-level2").show();
-	// $("#m-level3").show();
-	// }
-	// $.each(data, function(i, n) {// 加载父类节点即一级菜单
-	//
-	// $('#left_content').accordion('add', {
-	// id : n.id,
-	// title : n.text,
-	// iconCls : n.iconCls,
-	// selected : false,
-	// tools : [],
-	// content : '<div style="padding:10px"><ul name="' + n.text +
-	// '"></ul></div>',
-	// });
-	// // 屏蔽左下角出现"javascript:;;"
-	// $("#left_content>.panel .panel-tool>a").removeAttr("href");
-	// // alert($("#left_content>.panel
-	// // .panel-tool>a").length);
-	// if (n.sortNo == '1') {
-	// $('#left_content').accordion('select', n.text);
-	// }
-	// });
-	// 异步加载子节点，即二级菜单
-	 $('#left_content').accordion('select', initText);
+	$('#left_content').accordion('select', initText);
 	$('#left_content').accordion({
 		onSelect : function(title, index) {
 			loadTree(title);
 		}
 	});
-	$('#left_west').bind('contextmenu', function(e) {
-		e.preventDefault();
-		var pp = $('#left_content').accordion('getSelected');
-		var options = pp.panel('options');
-		$('#treeMenu').menu('show', {
-			left : e.pageX,
-			top : e.pageY
-		});
-	});
 	$("#m-ul1").click(function() {
-		var pp = $('#left_content').accordion('getSelected');
-		var pid = pp.panel('options').id;
+		var pid = accordionOptions().id;
 		openUpdateDialog("修改菜单", treeNode.level, treeNode.id, pid);
 	});
 	$("#m-ul2").click(function() {
@@ -286,35 +212,16 @@ $(function() {
 		openAddDialog("新增一级菜单", "1", 0);
 	});
 	$("#m-level2").click(function() {
-		var pp = $('#left_content').accordion('getSelected');
-		var id = null;
-		if (pp != null) {
-			id = pp.panel('options').id;
-		}
+		var id = accordionOptions().id;
 		openAddDialog("新增二级菜单", "2", id);
 	});
 	$("#m-level3").click(function() {
-		var pp = $('#left_content').accordion('getSelected');
-		var id = null;
-		if (pp == null) {
-			$.messager.alert("提示", "没有打开任何菜单！", "info");
-			return;
-		} else {
-			id = pp.panel('options').id;
-		}
+		var id = accordionOptions().id;
 		openAddDialog("新增三级菜单", "3", id)
 	});
 	$("#m-level4").click(function() {
-		var pp = $('#left_content').accordion('getSelected');
-		var id = null;
-		var title = null;
-		if (pp == null) {
-			$.messager.alert("提示", "没有选中任何菜单！", "info");
-			return;
-		} else {
-			id = pp.panel('options').id;
-			title = pp.panel('options').title;
-		}
+		var id = accordionOptions().id;
+		var title = accordionOptions().title;
 		$.messager.confirm('提示', '确定将菜单[<b>' + title + '</b>]以及包含的子菜单删除吗？?', function(r) {
 			if (r) {
 				deteleTree(id);
@@ -323,28 +230,29 @@ $(function() {
 
 	});
 	$("#m-level5").click(function() {
-		var pp = $('#left_content').accordion('getSelected');
-		var id = null;
-		var title = null;
-		if (pp == null) {
-			$.messager.alert("提示", "没有选中任何菜单！", "info");
-			return;
-		} else {
-			id = pp.panel('options').id;
-			title = pp.panel('options').title;
-		}
+		var id = accordionOptions().id;
 		openUpdateDialog("修改菜单", '0', id, '0');
 	});
 });
 
 function openAddDialog(title, level, id) {
+	var url;
+	var height;
+	if (level == '1') {
+		url = basePath + 'tree/addParentTree?level=' + level + '&id=' + id;
+		height = 125;
+	} else {
+		url = basePath + 'tree/addTree?level=' + level + '&id=' + id;
+		height = 228;
+	}
+
 	$('#dialog').dialog({
 		title : title,
 		width : 350,
-		height : 260,
+		height : height,
 		closed : false,
 		cache : false,
-		href : basePath + 'tree/addTree?level=' + level + '&id=' + id,
+		href : url,
 		modal : true,
 		buttons : [ {
 			text : '确定新增',
@@ -366,32 +274,23 @@ function openAddDialog(title, level, id) {
 	});
 }
 
-function mouseTab() {
-
-	var e = window.event;
-	if (e.button == "0") {
-		console.log("左键:" + e.pageX + "," + e.pageX);
-		$('#treeMenu').menu('show', {
-			left : e.pageX + 500,
-			top : e.pageY + 500
-		});
-	} else {
-		console.log("右键:" + e.pageX + "," + e.pageX);
-		$('#treeMenu').menu('show', {
-			left : e.pageX + 200,
-			top : e.pageY + 200
-		});
-	}
-}
-
 function openUpdateDialog(title, level, id, pid) {
+	var url;
+	var height;
+	if (level == '0') {
+		url = basePath + 'tree/updateParentTree?level=' + level + '&id=' + id;
+		height = 125;
+	} else {
+		url = basePath + 'tree/updateTree?level=' + level + '&id=' + id;
+		height = 260;
+	}
 	$('#dialog').dialog({
 		title : title,
 		width : 350,
-		height : 300,
+		height : height,
 		closed : false,
 		cache : false,
-		href : basePath + 'tree/updateTree?level=' + level + '&id=' + id + '&pid=' + pid,
+		href : url,
 		modal : true,
 		buttons : [ {
 			text : '确认',
@@ -422,32 +321,6 @@ function deteleTree(id) {
 				$.messager.alert("提示", result.message, "warning");
 			}
 		}
-	});
-}
-function rss(url) {
-	var url = basePath + "tree/getUrlData?url=" + url;
-	$('#dg').datagrid({
-		url : url,
-		fit : true,
-		striped : true,
-
-		singleSelect : true,
-		checkOnSelect : true,
-		selectOnCheck : true,
-		columns : [ [ {
-			field : 'title',
-			title : '标题',
-			width : "37%"
-		}, {
-			field : 'description',
-			title : '内容描述',
-			width : "40%"
-		}, {
-			field : 'pubdate',
-			title : '发布时间',
-			align : 'right',
-			width : "21%"
-		} ] ]
 	});
 }
 
@@ -493,7 +366,7 @@ function loadTree(title) {
 					}, {
 						iconCls : 'close',
 						handler : function() {
-							$('#tt').tabs('close', node.text);
+							getCurrTitleTitle(node.text);
 						}
 					} ]
 				});
@@ -501,8 +374,7 @@ function loadTree(title) {
 
 		},
 		onDblClick : function(node) {
-			var pp = $('#left_content').accordion('getSelected');
-			var pid = pp.panel('options').id;
+			var pid = accordionOptions().id;
 			openUpdateDialog("修改菜单", node.level, node.id, pid);
 		},
 		onAfterEdit : function(node) {
@@ -518,4 +390,51 @@ function loadTree(title) {
 			});
 		}
 	});
+}
+
+function accordionOptions() {
+
+	var pp = $('#left_content').accordion('getSelected');
+	if (pp == null) {
+		$.messager.alert("提示", "没有打开任何一个一级菜单！", "info");
+		return;
+	}
+	var options = pp.panel('options');
+	return options;
+}
+
+function createHomeTab() {
+	var title = "首页";
+	if ($('#tt').tabs('exists', title)) {
+		$('#tt').tabs('select', title);
+	} else {
+		$('#tt').tabs('add', {
+			id : "homeTab",
+			title : title,
+			href : basePath + 'homePage',
+			closable : false,
+			tools : [ {
+				iconCls : 'refresh',
+				handler : function() {
+					$('#tt').tabs('select', title);
+					refreshTab();
+				}
+			}, {
+				iconCls : 'close',
+				handler : function() {
+					$('#tt').tabs('close', title);
+				}
+			} ]
+		});
+	}
+}
+
+function getCurrTitleTitle(text) {
+	$('#tt').tabs('close', text);
+	var currTab = $('#tt').tabs('getSelected');
+	var options = currTab.panel('options');
+	console.log(options);
+	if (options != null) {
+		$('#tt').tabs('select', options.title);
+	}
 }

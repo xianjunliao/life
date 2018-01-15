@@ -1,19 +1,31 @@
 package com.life.common.file;
 
-import org.apache.log4j.Logger;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.life.common.StringUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.life.common.StringUtil;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 
 /**
  * Author:youqiang.li Time:2017-10-06 文件上传，下载工具类
@@ -199,31 +211,41 @@ public class FileUtils {
 	 * @return
 	 */
 	public static void FilesDownload_stream(HttpServletRequest request, HttpServletResponse response, String fileName, String filePath, String fileType) {
-		System.out.println("start......");
+		log.debug("start......");
 		long currentTimeMillis = System.currentTimeMillis();
 		File file = new File(filePath);
 		String filenames = file.getName();
-		InputStream inputStream;
+		InputStream in;
 		try {
-			inputStream = new BufferedInputStream(new FileInputStream(file));
-			byte[] buffer = new byte[inputStream.available()];
-			inputStream.read(buffer);
-			inputStream.close();
-			response.reset();
+			in = new BufferedInputStream(new FileInputStream(file));
+			byte[] buffer = new byte[1024 * 8];
+			// in.read(buffer);
 			// 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
 			response.addHeader("Content-Disposition", "attachment;filename=" + new String(filenames.replaceAll(" ", "").getBytes("utf-8"), "iso8859-1"));
 			response.addHeader("Content-Length", "" + file.length());
-			BufferedOutputStream os = new BufferedOutputStream(response.getOutputStream());
 			response.setContentType(fileType);
-			os.write(buffer);// 输出文件
+			BufferedOutputStream os = new BufferedOutputStream(response.getOutputStream());
+			while (in.read(buffer) != -1) {
+				os.write(buffer);
+			}
 			os.flush();
+			in.close();
 			os.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (e instanceof Exception) {
+				log.error(e.fillInStackTrace());
+			} else {
+				e.printStackTrace();
+			}
 		} finally {
-			System.out.println("end:" + (System.currentTimeMillis() - currentTimeMillis) / 1000);
+			log.debug("end:" + (System.currentTimeMillis() - currentTimeMillis) / 1000 + "s");
 		}
 
+	}
+
+	public static void playAudio(String path) throws FileNotFoundException, JavaLayerException {
+		Player player = new Player(new BufferedInputStream(new FileInputStream(new File(path))));
+		player.play();
 	}
 
 	/**

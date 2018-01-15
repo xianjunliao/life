@@ -78,7 +78,7 @@ $(function() {
 		$('#sixPoints').html(".");
 	}
 	test.onclick = function() {
-		window.open(basePath + "test");
+		window.open(basePath + "test2");
 	}
 });
 

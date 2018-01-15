@@ -70,7 +70,7 @@ public class FileUserController {
 				originalFilename = originalFilename + "_" + System.currentTimeMillis();
 			}
 			fileUserModel.setFileName(originalFilename);
-			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/" + "file/fileDownload?id=" + id);
+			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/fileDownload?id=" + id);
 			fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
 			fileUserModel.setContentType(file.getContentType());
 			fileUserModel.setFileOriginalFilename(file.getOriginalFilename());

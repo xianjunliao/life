@@ -16,14 +16,6 @@
 						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="text" value="${treeModel.text}" data-options="required:true" /></td>
 					</tr>
 					<tr>
-						<td align="right">菜单icon:</td>
-						<td><select class="easyui-combobox" name="iconCls" style="width: 100%;" data-options="required:true">
-								<option <c:if test="${treeModel.iconCls=='tree-life3' }"> selected="selected" </c:if> value="tree-life3">tree-life3</option>
-								<option <c:if test="${treeModel.iconCls=='tree-listen' }"> selected="selected" </c:if> value="tree-listen">tree-life2</option>
-								<option <c:if test="${treeModel.iconCls=='life-1' }"> selected="selected" </c:if> value="life-1">tree-life1</option>
-						</select></td>
-					</tr>
-					<tr>
 						<td align="right">菜单url:</td>
 						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="url" value="${treeModel.url}" <c:if test="${level=='3'}">data-options="required:true"</c:if> /></td>
 					</tr>
@@ -38,25 +30,29 @@
 					</tr>
 					<tr>
 						<td align="right">一级菜单:</td>
-						<td><c:if test="${level=='2' }">
+						<td><c:if test="${level=='2'}">
 								<select class="easyui-combobox" id="pid" name="pid" style="width: 100%;" data-options="required:true">
 									<c:forEach items="${all1trees}" var="tree">
 										<option <c:if test="${pid==tree.id}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
 									</c:forEach>
 								</select>
-							</c:if> <c:if test="${level=='3' }">
+							</c:if> <c:if test="${level=='3'}">
 								<select class="easyui-combobox" id="pid0" name="pid0" style="width: 100%;" data-options="required:true">
 									<c:forEach items="${all1trees}" var="tree">
 										<option <c:if test="${pid==tree.id}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
 									</c:forEach>
 								</select>
-							</c:if> <c:if test="${level=='1' }">无</c:if></td>
+							</c:if> <c:if test="${level=='1'||level=='0'}">
+								<select class="easyui-combobox" style="width: 100%;" data-options="required:true,disabled:true"></select>
+							</c:if></td>
 					</tr>
 					<tr>
 						<td align="right">二级菜单:</td>
-						<td><c:if test="${level=='3' }">
-								<input id="pid" name="pid" style="width: 100%;">
-							</c:if> <c:if test="${level=='2' }">无</c:if></td>
+						<td><c:if test="${level=='3'}">
+								<input id="pid" name="pid" style="width: 100%;" data-options="required:true">
+							</c:if> <c:if test="${level=='2'||level=='1'||level=='0' }">
+								<select class="easyui-combobox" style="width: 100%;" data-options="required:true,disabled:true"></select>
+							</c:if></td>
 					</tr>
 				</table>
 			</form>
