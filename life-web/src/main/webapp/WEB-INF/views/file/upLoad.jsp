@@ -11,8 +11,8 @@
 }
 </style>
 </head>
-<body>
-	<div class="easyui-layout" style="width: 100%; height: 100%;">
+<body style="width: 100%; height: 100%;overflow: hidden;">
+	<div class="easyui-layout" style="width: 100%; height: 100%;overflow: hidden;">
 		<div data-options="region:'west',split:false,border:true" style="width: 400px; height: 100%;">
 
 			<form id="upLoadFileForm" class="easyui-form" style="width: 100%;" method="post" enctype="multipart/form-data">
@@ -37,13 +37,13 @@
 		</div>
 		<div data-options="region:'center',border:true">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
-				<div data-options="region:'north',split:false,collapsible:true,title : '文件列表',border:false" style="height: 200px;">
+				<div data-options="region:'north',split:true,collapsible:true,title : '文件列表',border:false" style="height: 200px;">
 					<table id="fileList" data-options="fit:true,border:false">
 					</table>
 				</div>
-				<div data-options="region:'center',border:false">
-					<div id="fileShow" style="margin-top: 20px;">
-						<span>播放时请使用IE或是IE内核的浏览器（暂只支持播放MP3和MP4格式的文件）</span>
+				<div data-options="region:'center',border:false" style="overflow: hidden;">
+					<div id="fileShow" style="margin-top: 5px; text-align: left;overflow: hidden;width: 100%; height: 100%;">
+						<span>如果播放失败，请尝试使用IE浏览器或含有IE内核的浏览器。</span>
 					</div>
 				</div>
 			</div>
@@ -68,7 +68,6 @@
 					progressClose();
 					result = $.parseJSON(result);
 					if (result.code == 200) {
-						$.messager.alert('提示', result.message, 'info');
 						$('#fileTypeSum').datagrid('reload');
 						$('#fileList').datagrid('reload');
 						$("#upLoadFileForm").form('clear');
@@ -167,7 +166,6 @@
 									url : '${base}file/update?id=' + id + '&fileName=' + newFileName,
 									success : function(result) {
 										if (result.code == 200) {
-											$.messager.alert('提示', result.message, 'info');
 											$('#fileList').datagrid('reload');
 										} else {
 											$.messager.alert("提示", result.message, "warning");
@@ -187,7 +185,7 @@
 				onSelect : function(index, row) {
 					var url = '${base}file/getFiles?type=' + row.fileType;
 					$("#fileShow").empty();
-					$("#fileShow").html('<span>播放时请使用IE或是IE内核的浏览器（暂只支持播放MP3和MP4格式的文件）</span>');
+					$("#fileShow").html('<span>如果播放失败，请尝试使用IE浏览器或含有IE内核的浏览器。</span>');
 					$.ajax({
 						type : 'POST',
 						dataType : "json",
@@ -209,13 +207,13 @@
 
 		});
 		function playAudio(url) {
-			$("#fileShow").html("<audio src="+url+" controls='controls' autoplay='autoplay' loop='loop'></audio>");
+			$("#fileShow").html("<audio src="+url+" controls='controls' style='width: 100%;' autoplay='autoplay' loop='loop'></audio>");
 		}
 		function playVideo(url) {
-			$("#fileShow").html("<video src="+url+" controls='controls' autoplay='autoplay' loop='loop'></video>");
+			$("#fileShow").html("<video src="+url+" controls='controls' style='width: 100%;height:99%;' autoplay='autoplay' loop='loop'></video>");
 		}
 		function img(url) {
-			$("#fileShow").html("<img src='"+url+"'></img>");
+			$("#fileShow").html("<img src='"+url+"' style='width: 100%;height:100%;'></img>");
 		}
 		function cannotShow() {
 			$("#fileShow").html("<span>该文件不支持预览</span>");
@@ -230,7 +228,6 @@
 						success : function(result) {
 							if (result.code == 200) {
 								$("#fileShow").empty();
-								$.messager.alert('提示', result.message, 'info');
 								$('#fileTypeSum').datagrid('reload');
 								$('#fileList').datagrid('reload');
 							} else {

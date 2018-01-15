@@ -41,7 +41,7 @@ public class EntranceController {
 	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-		request.getSession().setMaxInactiveInterval(3600);
+		request.getSession().setMaxInactiveInterval(7200);
 		return lifeUserModel;
 	}
 

@@ -70,10 +70,10 @@ public class FileUserController {
 				originalFilename = originalFilename + "_" + System.currentTimeMillis();
 			}
 			fileUserModel.setFileName(originalFilename);
-			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/fileDownload?id=" + id);
+			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
 			fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-			fileUserModel.setContentType(file.getContentType());
-			fileUserModel.setFileOriginalFilename(file.getOriginalFilename());
+			fileUserModel.setContentType(file.getContentType()); 
+			fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
 			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
 			fileUserModel.setId(id);
 			fileUserModel.setUploadTime(DateUtil.getNow());
@@ -104,7 +104,7 @@ public class FileUserController {
 		return files;
 	}
 
-	@RequestMapping(path = { "/fileDownload" }, method = { RequestMethod.GET })
+	@RequestMapping(path = { "/download" }, method = { RequestMethod.GET })
 	public void fileDownload(String id, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
 		FileUserModel fileById = fileUserService.getFileById(id);
 		FileUtils.FilesDownload_stream(request, response, fileById.getFileName(), fileById.getFilePath(), fileById.getContentType());

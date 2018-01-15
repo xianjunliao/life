@@ -21,7 +21,7 @@ public class FileUserServiceImpl implements FileUserService {
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		try {
 			String filePath = "D:/life_files/";
-			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName());
+			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName().replace(",", " and "));
 			fileUserModel.setFilePath(filesUpload_stream);
 			fileUserDao.save(fileUserModel);
 		} catch (Exception e) {

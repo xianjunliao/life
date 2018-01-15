@@ -29,7 +29,7 @@
 	<select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
 		select
 		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
-		order by sort_no desc
+		order by upload_time desc
 	</select>
 
 	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
@@ -45,7 +45,7 @@
 		select
 		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from file_user where upload_user=#{userCode,jdbcType=VARCHAR}
 		and file_type=#{fileType,jdbcType=VARCHAR}
-		order by sort_no desc
+		order by upload_time desc
 	</select>
 
 	<select id="getMaxSortNo" parameterType="java.lang.String" resultType="java.lang.Long">
@@ -53,7 +53,7 @@
 	</select>
 
 	<select id="getFileTypes" resultType="com.life.model.FileUserModel">
-		select DISTINCT file_type from file_user
+		select DISTINCT file_type from file_user order by upload_time desc
 	</select>
 
 	<select id="getFileByName" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
