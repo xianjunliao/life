@@ -5,7 +5,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +22,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.life.common.StringUtil;
-
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.Player;
 
 /**
  * Author:youqiang.li Time:2017-10-06 文件上传，下载工具类
@@ -223,7 +219,7 @@ public class FileUtils {
 		String filenames = file.getName();
 		InputStream in;
 		try {
-			in = new BufferedInputStream(new FileInputStream(file),1024*16);
+			in = new BufferedInputStream(new FileInputStream(file), 1024 * 16);
 			byte[] buffer = new byte[1024 * 8];
 			// in.read(buffer);
 			// 先去掉文件名称中的空格,然后转换编码格式为utf-8,保证不出现乱码,这个文件名称用于浏览器的下载框中自动显示的文件名
@@ -231,9 +227,9 @@ public class FileUtils {
 					"attachment;filename=" + new String(filenames.getBytes("utf-8"), "iso8859-1"));
 			response.addHeader("Content-Length", "" + file.length());
 			response.setContentType(fileType);
-			 response.setHeader("Content-Type",fileType);
-			response.setContentLengthLong(file.length());
-			BufferedOutputStream os = new BufferedOutputStream(response.getOutputStream(),1024*16);
+			response.setHeader("Content-Type", fileType);
+			response.setContentLength((int)file.length());
+			BufferedOutputStream os = new BufferedOutputStream(response.getOutputStream(), 1024 * 16);
 			while (in.read(buffer) != -1) {
 				os.write(buffer);
 			}
@@ -250,11 +246,6 @@ public class FileUtils {
 			log.debug("end:" + (System.currentTimeMillis() - currentTimeMillis) / 1000 + "s");
 		}
 
-	}
-
-	public static void playAudio(String path) throws FileNotFoundException, JavaLayerException {
-		Player player = new Player(new BufferedInputStream(new FileInputStream(new File(path))));
-		player.play();
 	}
 
 	/**

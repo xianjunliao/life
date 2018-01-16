@@ -84,11 +84,6 @@
 				<classifier>jdk1.8</classifier>
 			</dependency>
 			<dependency>
-				<groupId>javazoom</groupId>
-				<artifactId>jlayer</artifactId>
-				<version>1.0.1</version>
-			</dependency>
-			<dependency>
 				<groupId>dom4j</groupId>
 				<artifactId>dom4j</artifactId>
 				<version>1.6</version>
@@ -759,10 +754,6 @@
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javazoom</groupId>
-			<artifactId>jlayer</artifactId>
 		</dependency>
 	</dependencies>
 
