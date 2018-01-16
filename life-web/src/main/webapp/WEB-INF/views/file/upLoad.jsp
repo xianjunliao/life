@@ -23,10 +23,7 @@
 			</form>
 			<fieldset class="layui-elem-field site-demo-button" style="width: 365px; margin-top: 10px; margin-left: 5px;">
 				<div id="buttons" style="float: left;">
-					<button class="layui-btn layui-btn-normal layui-btn-sm" data-type="upload">确定上传</button>
-				</div>
-				<div style="float: left;width: 290px;margin-top: 6px;margin-left: 2px;" class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="progressUpload">
-					<div class="layui-progress-bar" lay-percent="0%"></div>
+					<button class="layui-btn layui-btn-normal layui-btn-sm" onclick="submitForm()">确定上传</button>
 				</div>
 			</fieldset>
 
@@ -85,7 +82,7 @@
 							othis.removeClass(DISABLED);
 						}
 						element.progress('progressUpload', n + '%');
-					}, 0);
+					}, 10);
 					othis.addClass(DISABLED);
 				}
 			};
@@ -96,16 +93,18 @@
 		});
 
 		function submitForm() {
+			progressLoadById("upLoadFileForm","正在上传。。。","35%","50%");
 			submit("upLoadFileForm", {
 				url : "${base}file/add/uploadFile",
 				onSubmit : function() {
 					var isValid = $(this).form('enableValidation').form('validate');
 					if (!isValid) {
-						return;
+						progressClose();
 					}
 					return isValid;
 				},
 				success : function(result) {
+					progressClose();
 					result = $.parseJSON(result);
 					if (result.code == 200) {
 						$('#fileTypeSum').datagrid('reload');
