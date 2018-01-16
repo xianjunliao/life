@@ -3,9 +3,10 @@ $(function() {
 	$("html").bind("contextmenu", function(e) {
 		return false;
 	});
-	createHomeTab();
+	createTab('homeTab', '首页', basePath + 'homePage');
 	$("#quite").hide();
 	$("#showTree").hide();
+	$("#setting").hide();
 	var btn = document.getElementById('btn');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
@@ -137,56 +138,13 @@ $(function() {
 	});
 	// 打开文件上传页面
 	uploadFile.onclick = function() {
-		var title = "上传文件";
-		if ($('#tt').tabs('exists', title)) {
-			$('#tt').tabs('close', title);
-		} else {
-			$('#tt').tabs('add', {
-				id : "upload",
-				title : title,
-				href : basePath + 'file/upLoad',
-				closable : false,
-				tools : [ {
-					iconCls : 'refresh',
-					handler : function() {
-						$('#tt').tabs('select', title);
-						refreshTab();
-					}
-				}, {
-					iconCls : 'close',
-					handler : function() {
-						$('#tt').tabs('close', title);
-					}
-				} ]
-			});
-		}
+		createTab('upload', '上传文件', basePath + 'file/upLoad');
 	}
 	// 打开设置页面
 	setting.onclick = function() {
-		var title = "环境设置";
-		if ($('#tt').tabs('exists', title)) {
-			$('#tt').tabs('close', title);
-		} else {
-			$('#tt').tabs('add', {
-				id : "setting",
-				title : title,
-				href : basePath + 'setting/show',
-				closable : false,
-				tools : [ {
-					iconCls : 'refresh',
-					handler : function() {
-						$('#tt').tabs('select', title);
-						refreshTab();
-					}
-				}, {
-					iconCls : 'close',
-					handler : function() {
-						$('#tt').tabs('close', title);
-					}
-				} ]
-			});
-		}
+		createTab('setting', '环境设置', basePath + 'setting/show');
 	}
+
 	$('#left_content').accordion('select', initText);
 	$('#left_content').accordion({
 		onSelect : function(title, index) {
@@ -204,7 +162,6 @@ $(function() {
 			}
 		});
 	});
-
 	$("#m-level1-1").click(function() {
 		openAddDialog("新增一级菜单", "1", 0);
 	});
@@ -348,30 +305,7 @@ function loadTree(title) {
 			} else {
 
 			}
-			if ($('#tt').tabs('exists', node.text)) {
-				$('#tt').tabs('select', node.text);
-			} else {
-				var tab = $('#tt').tabs('getSelected');
-				$('#tt').tabs('add', {
-					id : node.id,
-					title : node.text,
-					href : contentUrl,
-					closable : false,
-					tools : [ {
-						iconCls : 'refresh',
-						handler : function() {
-							$('#tt').tabs('select', node.text);
-							refreshTab();
-						}
-					}, {
-						iconCls : 'close',
-						handler : function() {
-							getCurrTitleTitle(node.text);
-						}
-					} ]
-				});
-			}
-
+			createTab(node.id, node.text, contentUrl);
 		},
 		onDblClick : function(node) {
 			var pid = accordionOptions().id;
@@ -393,7 +327,6 @@ function loadTree(title) {
 }
 
 function accordionOptions() {
-
 	var pp = $('#left_content').accordion('getSelected');
 	if (pp == null) {
 		$.messager.alert("提示", "没有打开任何一个一级菜单！", "info");
@@ -403,15 +336,14 @@ function accordionOptions() {
 	return options;
 }
 
-function createHomeTab() {
-	var title = "首页";
+function createTab(id, title, url) {
 	if ($('#tt').tabs('exists', title)) {
 		$('#tt').tabs('select', title);
 	} else {
 		$('#tt').tabs('add', {
-			id : "homeTab",
+			id : id,
 			title : title,
-			href : basePath + 'homePage',
+			href : url,
 			closable : false,
 			tools : [ {
 				iconCls : 'refresh',

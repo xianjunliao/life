@@ -13,7 +13,7 @@
 				<table cellpadding="5" style="width: 99%;">
 					<tr>
 						<td align="right"><span>菜单名称:</span></td>
-						<td><input class="easyui-textbox" style="width: 100%;" type="text" name="text" data-options="required:true"></input></td>
+						<td><input class="easyui-textbox" style="width: 100%;" type="text" id="text" name="text" data-options="required:true"></input></td>
 					</tr>
 					<tr>
 						<td align="right">菜单url:</td>
@@ -43,6 +43,7 @@
 	</div>
 	<script type="text/javascript">
 		$(function() {
+			$('#text').textbox().next('span').find('input').focus()
 			$('#treeLevelForm').form({
 				url : '${base}tree/save',
 				onSubmit : function() {

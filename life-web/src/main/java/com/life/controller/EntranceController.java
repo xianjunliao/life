@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.life.common.MD5;
 import com.life.common.ResponseMessage;
+import com.life.common.Util;
+import com.life.common.time.DateUtil;
+import com.life.common.util.DESUtil;
 import com.life.model.LifeUserModel;
 import com.life.model.TreeModel;
 import com.life.service.LifeUserService;
@@ -49,7 +53,7 @@ public class EntranceController {
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		if (pageName.contains("test")) {
-			return "error/"+pageName+".jsp";
+			return "error/" + pageName + ".jsp";
 		}
 		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex")) {
 
@@ -78,10 +82,11 @@ public class EntranceController {
 	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
+			code = DESUtil.encryptDES(code);
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel == null) {
 				outMSG.setCode("202");
-				outMSG.setMessage("输入的编码不存在，请联系网站管理员获取登陆编码！");
+				outMSG.setMessage("输入的编码不存在，请点击右下角按钮新增编码！");
 			} else {
 				request.getSession().setAttribute("lifeUserModel", lifeUserModel);
 				request.getSession().setMaxInactiveInterval(3600);
@@ -115,15 +120,26 @@ public class EntranceController {
 	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
-			outMSG.setCode("200");
-			outMSG.setMessage("新增成功！");
+			code = DESUtil.encryptDES(code);
+			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
+			if (lifeUserModel != null) {
+				outMSG.setCode("202");
+				outMSG.setMessage("该编码已存在！");
+			} else {
+				LifeUserModel newUser = new LifeUserModel();
+				newUser.setUserCode(code);
+				newUser.setCreateTime(DateUtil.getNow());
+				lifeUserService.add(newUser);
+				outMSG.setCode("200");
+				outMSG.setMessage("新增成功！");
+			}
+
 		} catch (Exception e) {
 			outMSG.setCode("209");
 			outMSG.setMessage("新增失败！");
 		}
 		return outMSG;
 	}
-
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return "error/test.jsp";

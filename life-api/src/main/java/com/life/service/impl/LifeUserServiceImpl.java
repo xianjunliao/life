@@ -25,8 +25,7 @@ public class LifeUserServiceImpl implements LifeUserService {
 	}
 	@Override
 	public void add(LifeUserModel lifeUserModel) {
-		// TODO Auto-generated method stub
-		
+		lifeUserDao.save(lifeUserModel);
 	}
 
 }

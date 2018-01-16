@@ -60,7 +60,7 @@ public class FileUserServiceImpl implements FileUserService {
 	}
 
 	@Override
-	public FileUserModel getFileByName(String userCode, String fileName) {
+	public long getFileByName(String userCode, String fileName) {
 		return fileUserDao.getFileByName(userCode, fileName);
 	}
 

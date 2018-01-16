@@ -4,10 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type="text/javascript">
-	
-</script>
 </head>
-<body style="margin: 0px; overflow: hidden;">开发中。。。
+<body style="margin: 0px; overflow: hidden;">
 </body>
 </html>

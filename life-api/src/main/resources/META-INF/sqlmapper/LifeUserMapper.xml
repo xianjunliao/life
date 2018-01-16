@@ -20,7 +20,7 @@
 	<select id="getAll" resultType="com.life.model.LifeUserModel">
 		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from life_user
 	</select>
-	<insert id="add" parameterType="com.life.model.LifeUserModel">
+	<insert id="save" parameterType="com.life.model.LifeUserModel">
 		insert into life_user
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userCode!=null">

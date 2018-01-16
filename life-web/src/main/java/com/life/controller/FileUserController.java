@@ -64,15 +64,15 @@ public class FileUserController {
 			LifeUserModel lifeUserModel = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 			String userCode = lifeUserModel.getUserCode();
 			Long maxSortNo = fileUserService.getMaxSortNo(userCode);
-			FileUserModel oldFileModel = fileUserService.getFileByName(userCode, file.getOriginalFilename());
-			if (oldFileModel != null) {
-				message = "上传成功，服务器中此文件名称已存在，系统自动更改了文件名称。";
-				originalFilename = originalFilename + "_" + System.currentTimeMillis();
+			long oldFiles = fileUserService.getFileByName(userCode, file.getOriginalFilename());
+			if (oldFiles > 0) {
+				originalFilename = originalFilename + "_" + id;
+				message = "上传成功，服务器中已存在此文件，系统自动更改了文件名称为："+originalFilename+"。";
 			}
 			fileUserModel.setFileName(originalFilename);
 			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
 			fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-			fileUserModel.setContentType(file.getContentType()); 
+			fileUserModel.setContentType(file.getContentType());
 			fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
 			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
 			fileUserModel.setId(id);

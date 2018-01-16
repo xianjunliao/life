@@ -56,8 +56,8 @@
 		select DISTINCT file_type from file_user order by upload_time desc
 	</select>
 
-	<select id="getFileByName" parameterType="java.lang.String" resultType="com.life.model.FileUserModel">
-		select file_originalFilename from file_user where upload_user=#{userCode,jdbcType=VARCHAR} and file_originalFilename=#{fileOriginalFilename,jdbcType=VARCHAR}
+	<select id="getFileByName" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(1) from file_user where upload_user=#{userCode,jdbcType=VARCHAR} and file_originalFilename=#{fileOriginalFilename,jdbcType=VARCHAR}
 	</select>
 
 	<delete id="delete" parameterType="java.lang.String">

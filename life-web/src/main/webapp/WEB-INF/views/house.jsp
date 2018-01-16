@@ -7,8 +7,6 @@
 <script type="text/javascript">
 	var basePath = "${base}";
 	var initText = "${initText}";
-	var isTwo = "${isTwoLevel}";
-	console.log(isTwo);
 </script>
 <script type="text/javascript" src="${base}static/life-js/common.js"></script>
 <script type="text/javascript" src="${base}static/life-js/house.js"></script>
@@ -61,9 +59,13 @@
 		<div style="float: left; margin-top: 3px; margin-right: 3px;">
 			<table>
 				<tr>
-					<td><a href="javascript:;" id="showTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a> <a href="javascript:;" id="hideTree" style="height: 25px; width: 31px" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a> <a style="height: 25px; width: 31px" title="全屏" id="btn" class="easyui-linkbutton"
-						data-options="plain:false,iconCls:'full-screen'"></a> <a style="height: 25px; width: 31px" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a> <a style="height: 25px; width: 31px" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a> <a style="height: 25px; width: 31px" title="环境设置"
-						id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a> <a style="height: 25px; width: 31px" title="添加菜单" id="m-level1-2" class="easyui-menubutton" data-options="plain:false,menu:'#treeMenu',iconCls:'addTree'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="显示菜单" id="showTree" class="easyui-linkbutton" data-options="plain:false,iconCls:'showTree'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="隐藏菜单" id="hideTree" class="easyui-linkbutton" data-options="plain:false,iconCls:'hideTree'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="全屏" id="btn" class="easyui-linkbutton" data-options="plain:false,iconCls:'full-screen'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
+					<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="添加菜单" id="m-level1-2" class="easyui-menubutton" data-options="plain:false,menu:'#treeMenu',iconCls:'addTree'"></a></td>
 				</tr>
 			</table>
 		</div>

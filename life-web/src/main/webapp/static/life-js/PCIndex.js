@@ -21,6 +21,7 @@ $(function() {
 	var sixPoints = document.getElementById('sixPoints');
 	var myAuto = document.getElementById('audio');
 	var myAuto2 = document.getElementById('audio2');
+	var addCode = document.getElementById('addCode');
 	welcomeTo(1000, info, 80);
 	myAuto.onended = function() {
 		myAuto2.currentTime = 0;
@@ -79,6 +80,14 @@ $(function() {
 	}
 	test.onclick = function() {
 		window.open(basePath + "test2");
+	}
+	addCode.onclick = function() {
+		var v = $('#code').val();
+		if (v == null || '' == v || v == undefined) {
+			$.messager.alert("提示 ", "请输入你需要创建的编码！", "info");
+		} else {
+			addUserCode(v)
+		}
 	}
 });
 
@@ -148,6 +157,24 @@ function enter(v) {
 		success : function(result) {
 			if (result.code == 200) {
 				self.location.href = basePath + "house";
+			} else {
+				$.messager.alert("提示", result.message, "warning");
+			}
+			progressClose();
+		}
+	});
+
+}
+
+function addUserCode(v) {
+	progressLoad("login......");
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : basePath + 'add?code=' + v,
+		success : function(result) {
+			if (result.code == 200) {
+				$.messager.alert("提示", result.message, "info");
 			} else {
 				$.messager.alert("提示", result.message, "warning");
 			}
