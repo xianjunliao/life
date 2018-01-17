@@ -43,6 +43,7 @@ public class EntranceController {
 	@ResponseBody
 	@RequestMapping("enterCode")
 	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		code = MD5.md5(code);
 		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
 		request.getSession().setMaxInactiveInterval(7200);
@@ -82,7 +83,7 @@ public class EntranceController {
 	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
-			code = DESUtil.encryptDES(code);
+			code = MD5.md5(code);
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel == null) {
 				outMSG.setCode("202");
@@ -120,7 +121,7 @@ public class EntranceController {
 	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
-			code = DESUtil.encryptDES(code);
+			code = MD5.md5(code);
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel != null) {
 				outMSG.setCode("202");
@@ -140,6 +141,7 @@ public class EntranceController {
 		}
 		return outMSG;
 	}
+
 	@RequestMapping("/test")
 	public String test(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return "error/test.jsp";
