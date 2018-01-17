@@ -2,8 +2,10 @@
 <%@ include file="../../header.jsp"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
 <script type="text/javascript">
 	var basePath = "${base}";
 	var initText = "${initText}";
@@ -15,9 +17,29 @@
 	margin: 0;
 	padding: 0;
 }
+
+.drag-item {
+	list-style-type: none;
+	display: block;
+	padding: 5px;
+	border: 1px solid #ccc;
+	margin: 2px;
+	width: 150px;
+	background: #fafafa;
+	color: #444;
+}
+
+.indicator {
+	position: absolute;
+	font-size: 9px;
+	width: 10px;
+	height: 10px;
+	display: none;
+	color: red;
+}
 </style>
 </head>
-<body id="most" class="easyui-layout" style="width: 100%; height: 100%;">
+<body id="most" class="easyui-layout" style="width: 100%; height: 100%;overflow: hidden;">
 	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
 		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false">
 			<c:forEach items="${data}" var="tree">
@@ -52,7 +74,7 @@
 		</div>
 	</div>
 	<div id="center" region="center" border="false" style="overflow: hidden;">
-		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;"></div>
+		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;overflow: hidden;"></div>
 	</div>
 
 	<div data-options="region:'south',split:false" style="height: 37px">

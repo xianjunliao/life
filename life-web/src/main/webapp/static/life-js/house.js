@@ -6,7 +6,7 @@ $(function() {
 	createTab('homeTab', '首页', basePath + 'homePage');
 	$("#quite").hide();
 	$("#showTree").hide();
-	$("#setting").hide();
+//	$("#setting").hide();
 	var btn = document.getElementById('btn');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');

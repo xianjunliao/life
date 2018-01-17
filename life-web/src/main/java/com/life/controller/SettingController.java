@@ -24,9 +24,12 @@ import com.life.common.Util;
 import com.life.common.file.FileUtil;
 import com.life.common.file.FileUtils;
 import com.life.common.time.DateUtil;
+import com.life.common.util.SpringWebUtil;
 import com.life.model.FileUserModel;
 import com.life.model.LifeUserModel;
+import com.life.model.TreeModel;
 import com.life.service.FileUserService;
+import com.life.service.TreeService;
 
 @Controller
 @RequestMapping("setting")
@@ -34,6 +37,8 @@ public class SettingController {
 
 	@Autowired
 	private FileUserService fileUserService;
+	@Autowired
+	private TreeService treeService;
 	/**
 	 * 模板存放目录
 	 */
@@ -43,6 +48,12 @@ public class SettingController {
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request)
 			throws ServletException, IOException {
 		try {
+			LifeUserModel lifeUserModel = (LifeUserModel) SpringWebUtil.getSession().getAttribute("lifeUserModel");
+			TreeModel treeModel=new TreeModel();
+			treeModel.setUserCode(lifeUserModel.getUserCode());
+			treeModel.setPid("0");
+			List<TreeModel> tree = treeService.getTree(treeModel);
+			model.put("trees", tree);
 		} catch (Exception e) {
 			return "error/500.jsp";
 		}
