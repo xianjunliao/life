@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.life.pc.dao.FileUserDao">
+
+	<resultMap id="fileUserMapper" type="com.life.pc.model.FileUserModel">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_originalFilename" property="fileOriginalFilename" jdbcType="VARCHAR" />
+		<result column="file_path" property="filePath" jdbcType="VARCHAR" />
+		<result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+		<result column="file_size" property="fileSize" jdbcType="VARCHAR" />
+		<result column="upload_time" property="uploadTime" jdbcType="VARCHAR" />
+		<result column="upload_user" property="uploadUser" jdbcType="VARCHAR" />
+		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
+		<result column="content_type" property="contentType" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<insert id="save" parameterType="com.life.pc.model.FileUserModel">
+		insert into pc_files (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type)
+		values(
+		#{id,jdbcType=VARCHAR},#{fileOriginalFilename,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR},
+		#{fileUrl,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},#{uploadUser,jdbcType=VARCHAR},
+		#{sortNo,jdbcType=VARCHAR},#{contentType,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		order by upload_time desc
+	</select>
+
+	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
+		select count(1) fileSum,FORMAT(sum(file_size),2) fileSize,file_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
+	</select>
+
+	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where id=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getFilesByTypeAndUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
+		select
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		and file_type=#{fileType,jdbcType=VARCHAR}
+		order by upload_time desc
+	</select>
+
+	<select id="getMaxSortNo" parameterType="java.lang.String" resultType="java.lang.Long">
+		select max(sort_no)+1 from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getFileTypes" resultType="com.life.pc.model.FileUserModel">
+		select DISTINCT file_type from pc_files order by upload_time desc
+	</select>
+
+	<select id="getFileByName" parameterType="java.lang.String" resultType="java.lang.Long">
+		select count(1) from pc_files where upload_user=#{userCode,jdbcType=VARCHAR} and file_originalFilename=#{fileOriginalFilename,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from pc_files where id=#{id}
+	</delete>
+
+	<update id="update" parameterType="java.lang.String">
+		update pc_files set file_name=#{fileName,jdbcType=VARCHAR} where id=#{id}
+	</update>
+</mapper>

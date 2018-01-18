@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.life.pc.dao.TreeDao">
+
+	<resultMap id="treeMapper" type="com.life.pc.model.TreeModel">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+		<result column="iconCls" property="iconCls" jdbcType="VARCHAR" />
+		<result column="checked" property="checked" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="attributes" property="attributes" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="user_code" property="userCode" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="read_mode" property="readMode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="VARCHAR" />
+		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getTree" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		pid=#{pid} and user_code=#{userCode} and status='0' order by sort_no
+	</select>
+
+	<select id="getTreeByText" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree
+		where text=#{text} and status='0' order by sort_no
+	</select>
+	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		id=#{id} and status='0'
+	</select>
+	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where user_code=#{userCode} and level=#{level} and status='0'
+		<if test="pid!=null">
+			and pid=#{pid,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		user_code=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
+	</select>
+
+
+	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
+		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from pc_tree where
+		user_code=#{userCode} and level=#{level}
+	</select>
+	<delete id="delete" parameterType="com.life.pc.model.TreeModel">
+		delete from pc_tree where id=#{id,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="update" parameterType="com.life.pc.model.TreeModel">
+		update pc_tree
+		<set>
+			<if test="text!=null">
+				text = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="pid!=null">
+				pid = #{pid,jdbcType=VARCHAR},
+			</if>
+			<if test="url!=null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="iconCls!=null">
+				iconCls = #{iconCls,jdbcType=VARCHAR},
+			</if>
+			<if test="readMode!=null">
+				read_mode = #{readMode,jdbcType=VARCHAR},
+			</if>
+			<if test="level!=null">
+				level = #{level,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime!=null">
+				update_time = #{updateTime,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="addTree" parameterType="com.life.pc.model.TreeModel">
+		insert into pc_tree
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				id,
+			</if>
+			<if test="text!=null">
+				text,
+			</if>
+			<if test="iconCls!=null">
+				iconCls,
+			</if>
+			<if test="pid!=null">
+				pid,
+			</if>
+			<if test="url!=null">
+				url,
+			</if>
+			<if test="readMode!=null">
+				read_mode,
+			</if>
+			<if test="sortNo!=null">
+				sort_no,
+			</if>
+			<if test="status!=null">
+				status,
+			</if>
+			<if test="level!=null">
+				level,
+			</if>
+			<if test="userCode!=null">
+				user_code,
+			</if>
+			<if test="userCode!=createTime">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id!=null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="text!=null">
+				#{text,jdbcType=VARCHAR},
+			</if>
+			<if test="iconCls!=null">
+				#{iconCls,jdbcType=VARCHAR},
+			</if>
+			<if test="pid!=null">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+			<if test="url!=null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="readMode!=null">
+				#{readMode,jdbcType=VARCHAR},
+			</if>
+			<if test="sortNo!=null">
+				#{sortNo,jdbcType=VARCHAR},
+			</if>
+			<if test="status!=null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="level!=null">
+				#{level,jdbcType=VARCHAR},
+			</if>
+			<if test="userCode!=null">
+				#{userCode,jdbcType=VARCHAR},
+			</if>
+			<if test="userCode!=createTime">
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+</mapper>

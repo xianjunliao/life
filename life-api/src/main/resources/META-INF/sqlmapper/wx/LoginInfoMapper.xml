@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.life.wx.dao.LoginInfoDao">
+
+	<resultMap id="resultLoginInfoMap" type="com.life.wx.model.LoginInfoModel">
+		<result column="signature" property="signature" jdbcType="VARCHAR" />
+		<result column="nickName" property="nickname" jdbcType="VARCHAR" />
+		<result column="loginResult" property="loginresult" jdbcType="VARCHAR" />
+		<result column="loginTime" property="logintime" jdbcType="VARCHAR" />
+		<result column="loginAddress" property="loginaddress" jdbcType="VARCHAR" />
+		<result column="loginMessages" property="loginmessages" jdbcType="VARCHAR" />
+		<result column="brand" property="brand" jdbcType="VARCHAR" />
+		<result column="model" property="model" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="language" property="language" jdbcType="VARCHAR" />
+		<result column="system" property="system" jdbcType="VARCHAR" />
+		<result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="columns">
+		signature,nickName,loginResult,loginTime,loginAddress,loginMessages,brand,model,version,language,system,imgUrl
+	</sql>
+</mapper>

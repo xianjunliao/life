@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.life.wx.dao.UserInfoDao">
+
+	<resultMap id="resultUserInfoMap" type="com.life.wx.model.UserInfoModel">
+		<result column="nickName" property="nickname" jdbcType="VARCHAR" />
+		<result column="avatarUrl" property="avatarurl" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="signature" property="signature" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="columns">
+		nickName,avatarUrl,gender,province,city,country,signature,createTime
+	</sql>
+</mapper>
