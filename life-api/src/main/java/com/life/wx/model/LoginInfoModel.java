@@ -17,7 +17,7 @@ public class LoginInfoModel implements java.io.Serializable{
 	private String version;// 微信版本
 	private String language;// 微信设置的语言
 	private String system;// 操作系统版本号
-	private String imgurl;// 登陆时的微信头像
+	private String avatarurl;// 登陆时的微信头像
 	
 	
 	public String getSignature() {
@@ -86,11 +86,16 @@ public class LoginInfoModel implements java.io.Serializable{
 	public void setSystem(String system) {
 		this.system = system;
 	}
-	public String getImgurl() {
-		return imgurl;
+	public String getAvatarurl() {
+		return avatarurl;
 	}
-	public void setImgurl(String imgurl) {
-		this.imgurl = imgurl;
+	public void setAvatarurl(String avatarurl) {
+		this.avatarurl = avatarurl;
+	}
+	@Override
+	public String toString() {
+		return "LoginInfoModel [signature=" + signature + ", nickname=" + nickname + ", loginresult=" + loginresult + ", logintime=" + logintime + ", loginaddress=" + loginaddress + ", loginmessages=" + loginmessages + ", brand=" + brand + ", model=" + model + ", version=" + version + ", language=" + language
+				+ ", system=" + system + ", avatarurl=" + avatarurl + "]";
 	}
 
 }

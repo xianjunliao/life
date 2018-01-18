@@ -15,4 +15,95 @@
 	<sql id="columns">
 		nickName,avatarUrl,gender,province,city,country,signature,createTime
 	</sql>
+
+	<select id="getUserInfoBySignature" parameterType="java.lang.String" resultType="com.life.wx.model.UserInfoModel">
+		select
+		<include refid="columns" />
+		from wx_user_info where signature=#{signature}
+	</select>
+
+	<insert id="save" parameterType="com.life.wx.model.UserInfoModel">
+		insert into wx_user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="signature != null">
+				signature,
+			</if>
+			<if test="nickname != null">
+				nickName,
+			</if>
+			<if test="avatarurl != null">
+				avatarUrl,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="country != null">
+				country,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="signature != null">
+				#{signature,jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="avatarurl != null">
+				#{avatarurl,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				#{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				#{city,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				#{country,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="com.life.wx.model.UserInfoModel">
+		update wx_user_info
+		<set>
+			<if test="nickname != null">
+				nickName = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="avatarurl != null">
+				avatarUrl = #{avatarurl,jdbcType=VARCHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=VARCHAR},
+			</if>
+			<if test="province != null">
+				province = #{province,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				city = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="country != null">
+				country = #{country,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where signature = #{signature,jdbcType=VARCHAR}
+
+	</update>
 </mapper>

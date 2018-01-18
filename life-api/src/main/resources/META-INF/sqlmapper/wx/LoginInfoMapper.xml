@@ -14,9 +14,96 @@
 		<result column="version" property="version" jdbcType="VARCHAR" />
 		<result column="language" property="language" jdbcType="VARCHAR" />
 		<result column="system" property="system" jdbcType="VARCHAR" />
-		<result column="imgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="avatarurl" property="avatarurl" jdbcType="VARCHAR" />
 	</resultMap>
-	<sql id="columns">
-		signature,nickName,loginResult,loginTime,loginAddress,loginMessages,brand,model,version,language,system,imgUrl
+	<sql id="Base_Column_List">
+		signature, nickName, loginResult, loginTime, loginAddress, loginMessages, brand,
+		model, version, language, system, avatarurl
 	</sql>
+	<select id="getLoginInfoListBySignature" parameterType="java.lang.String" resultMap="resultLoginInfoMap">
+		select
+		<include refid="Base_Column_List" />
+		from wx_login_info
+		where signature = #{signature,jdbcType=VARCHAR}
+	</select>
+	<insert id="save" parameterType="com.life.wx.model.LoginInfoModel">
+		insert into wx_login_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="signature != null">
+				signature,
+			</if>
+			<if test="nickname != null">
+				nickName,
+			</if>
+			<if test="loginresult != null">
+				loginResult,
+			</if>
+			<if test="logintime != null">
+				loginTime,
+			</if>
+			<if test="loginaddress != null">
+				loginAddress,
+			</if>
+			<if test="loginmessages != null">
+				loginMessages,
+			</if>
+			<if test="brand != null">
+				brand,
+			</if>
+			<if test="model != null">
+				model,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="language != null">
+				language,
+			</if>
+			<if test="system != null">
+				system,
+			</if>
+			<if test="avatarurl != null">
+				avatarurl,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="signature != null">
+				#{signature,jdbcType=VARCHAR},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="loginresult != null">
+				#{loginresult,jdbcType=VARCHAR},
+			</if>
+			<if test="logintime != null">
+				#{logintime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="loginaddress != null">
+				#{loginaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="loginmessages != null">
+				#{loginmessages,jdbcType=VARCHAR},
+			</if>
+			<if test="brand != null">
+				#{brand,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null">
+				#{model,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="language != null">
+				#{language,jdbcType=VARCHAR},
+			</if>
+			<if test="system != null">
+				#{system,jdbcType=VARCHAR},
+			</if>
+			<if test="avatarurl != null">
+				#{avatarurl,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
 </mapper>
