@@ -18,7 +18,7 @@ public class LoginInfoModel implements java.io.Serializable{
 	private String language;// 微信设置的语言
 	private String system;// 操作系统版本号
 	private String avatarurl;// 登陆时的微信头像
-	
+	private String scene;// 场景值
 	
 	public String getSignature() {
 		return signature;
@@ -92,10 +92,17 @@ public class LoginInfoModel implements java.io.Serializable{
 	public void setAvatarurl(String avatarurl) {
 		this.avatarurl = avatarurl;
 	}
+	
+	public String getScene() {
+		return scene;
+	}
+	public void setScene(String scene) {
+		this.scene = scene;
+	}
 	@Override
 	public String toString() {
 		return "LoginInfoModel [signature=" + signature + ", nickname=" + nickname + ", loginresult=" + loginresult + ", logintime=" + logintime + ", loginaddress=" + loginaddress + ", loginmessages=" + loginmessages + ", brand=" + brand + ", model=" + model + ", version=" + version + ", language=" + language
-				+ ", system=" + system + ", avatarurl=" + avatarurl + "]";
+				+ ", system=" + system + ", avatarurl=" + avatarurl + ", scene=" + scene + "]";
 	}
 
 }

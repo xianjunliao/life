@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.util.HttpRequestUtil;
 import com.life.wx.model.LoginInfoModel;
 import com.life.wx.service.LoginInfoService;
 
@@ -27,6 +28,12 @@ public class LoginInfoController {
 	public ResponseMessage<LoginInfoModel> save(LoginInfoModel loginInfoModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LoginInfoModel> outMSG = new ResponseMessage<>();
 		try {
+			String[] split = loginInfoModel.getLoginaddress().split(",");
+			String address=loginInfoModel.getLoginaddress();
+			if(split.length>1){
+				address = HttpRequestUtil.getAddress(split[0], split[1]);
+			}
+			loginInfoModel.setLoginaddress(address);
 			loginInfoModel.setLoginresult("200");
 			loginInfoModel.setLoginmessages("保存登录信息成功");
 			outMSG.setCode("200");

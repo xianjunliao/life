@@ -15,10 +15,11 @@
 		<result column="language" property="language" jdbcType="VARCHAR" />
 		<result column="system" property="system" jdbcType="VARCHAR" />
 		<result column="avatarurl" property="avatarurl" jdbcType="VARCHAR" />
+		<result column="scene" property="scene" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		signature, nickName, loginResult, loginTime, loginAddress, loginMessages, brand,
-		model, version, language, system, avatarurl
+		model, version, language, system, avatarurl,scene
 	</sql>
 	<select id="getLoginInfoListBySignature" parameterType="java.lang.String" resultMap="resultLoginInfoMap">
 		select
@@ -65,6 +66,9 @@
 			<if test="avatarurl != null">
 				avatarurl,
 			</if>
+			<if test="scene != null">
+				scene,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="signature != null">
@@ -102,6 +106,9 @@
 			</if>
 			<if test="avatarurl != null">
 				#{avatarurl,jdbcType=VARCHAR},
+			</if>
+			<if test="scene != null">
+				#{scene,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>

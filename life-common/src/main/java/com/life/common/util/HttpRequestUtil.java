@@ -12,8 +12,8 @@ import com.alibaba.fastjson.JSONObject;
 
 public class HttpRequestUtil {
 
-	public static String ak = "hfH2pfuNUWLEK7naN3MvfVafwtwkqDCY";
-	public static String url = "http://api.map.baidu.com/geocoder/v2/?output=json&pois=1&ak=hfH2pfuNUWLEK7naN3MvfVafwtwkqDCY";
+	public static String ak = "OGIRGE5TgoQsU8lLdkYjBrlLtCSMm1UL";
+	public static String url = "http://api.map.baidu.com/geocoder/v2/?output=json&pois=1&ak=OGIRGE5TgoQsU8lLdkYjBrlLtCSMm1UL";
 
 	/**
 	 * 发起http请求并获取结果
@@ -144,7 +144,7 @@ public class HttpRequestUtil {
 	}
 
 	public static void main(String[] args) {
-		JSONObject httpRequest = HttpRequestUtil.httpRequest(HttpRequestUtil.url, "GET", "114.199451", "22.570048");
+		JSONObject httpRequest = HttpRequestUtil.httpRequest(HttpRequestUtil.url, "GET", "114.06476593017578", "22.566972732543945");
 		System.out.println(httpRequest);
 		JSONObject x = (JSONObject) httpRequest.get("result");
 		System.out.println(x);
@@ -155,7 +155,14 @@ public class HttpRequestUtil {
 		System.out.println(x2.get("district"));
 		System.out.println(x2.get("adcode"));
 
-		String address = HttpRequestUtil.getAddress("114.199451", "22.570048");
+		String address = HttpRequestUtil.getAddress("114.06476593017578", "22.566972732543945");
 		System.out.println(address);
+		
+		String loginInfoModel="114.06476593017578,22.566972732543945";
+		String[] split = loginInfoModel.split(",");
+		if(split.length>1){
+			address = HttpRequestUtil.getAddress(split[0], split[1])+"b";
+		}
+		System.out.println("b"+address);
 	}
 }
