@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.util.HttpRequestUtil;
 import com.life.wx.model.UserInfoModel;
 import com.life.wx.service.UserInfoService;
 
@@ -51,6 +52,22 @@ public class UserInfoController {
 			outMSG.setCode("200");
 			outMSG.setMessage("查询成功");
 			outMSG.setData(userInfoModel);
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/getAddress")
+	public ResponseMessage<String> getAddress(String longitude, String latitude, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			String address = HttpRequestUtil.getAddress(longitude, latitude);
+			outMSG.setCode("200");
+			outMSG.setMessage("获取地址成功");
+			outMSG.setData(address);
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("获取地址失败");
 		}
 		return outMSG;
 	}
