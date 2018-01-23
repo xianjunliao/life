@@ -74,7 +74,7 @@
 		</div>
 	</div>
 	<div id="center" region="center" border="false" style="overflow: hidden;">
-		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;overflow: hidden;"></div>
+		<div id="tt" class="easyui-tabs" style="width: 100%; height: 100%;"></div>
 	</div>
 
 	<div data-options="region:'south',split:false" style="height: 37px">
