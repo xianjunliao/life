@@ -99,7 +99,7 @@ public class PinyinUtils {
 		return pinyinName;
 	}
 	public static void main(String[] args) {
-		String alpha = getPingYin("stephen-廖先军");
+		String alpha = getPingYin("长");
 		System.out.println(alpha);
 		
 	}
