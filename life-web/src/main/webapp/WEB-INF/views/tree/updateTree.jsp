@@ -57,6 +57,13 @@
 								<select class="easyui-combobox" style="width: 100%;" data-options="required:true,disabled:true"></select>
 							</c:if></td>
 					</tr>
+					<tr>
+						<td align="right">是否分享:</td>
+						<td><select class="easyui-combobox" name="isShare" style="width: 100%;" data-options="required:true">
+								<option value="1">分享</option>
+								<option value="0">不分享</option>
+						</select></td>
+					</tr>
 				</table>
 			</form>
 		</div>

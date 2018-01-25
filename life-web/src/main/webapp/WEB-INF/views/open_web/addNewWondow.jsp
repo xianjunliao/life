@@ -15,8 +15,13 @@
 
 </head>
 <body class="easyui-layout" style="width: 100%; height: 100%;">
-	<div region="center" border="false" style="width: 100%; height: 100%;">
-		<iframe id="web" scrolling="auto" frameborder="0" src="${treeModel.url}" style="width: 100%; height: 100%;"> </iframe>
+	<div region="center" border="false" style="width: 80%; height: 80%;padding: 20px;">
+		<h3>
+			<a style="text-decoration: underline;" href="${treeModel.url}" target="_blank">【${treeModel.text}】新窗口打开</a>
+		</h3>
+		<h3>
+			<a style="text-decoration: underline;" href="${treeModel.url}">【${treeModel.text}】本窗口打开（覆盖本网站）</a>
+		</h3>
 	</div>
 </body>
 </html>

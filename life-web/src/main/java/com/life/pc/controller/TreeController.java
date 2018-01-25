@@ -90,10 +90,8 @@ public class TreeController {
 			String pid = params.getPid();
 			if (!Str.isEmpty(level)) {
 				String levelL = Long.valueOf(level) > 0 ? (Long.valueOf(level) - 1) + "" : Long.valueOf(level).toString();
-
-			
-				String id = Long.valueOf(level) == 2 ? "0" : params.getId();
 				TreeModel treeModel = treeService.geTreeModelByid(params.getId());
+				String id = Long.valueOf(level) == 2 ? "0" : treeModel.getPid();
 				if (treeModel != null) {
 
 					treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);

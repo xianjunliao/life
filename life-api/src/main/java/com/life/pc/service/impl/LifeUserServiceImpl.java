@@ -27,5 +27,10 @@ public class LifeUserServiceImpl implements LifeUserService {
 	public void add(LifeUserModel lifeUserModel) {
 		lifeUserDao.save(lifeUserModel);
 	}
-
+public static void main(String[] args) {
+	String aString = "2017年01月25日下午4点37分";
+	String bString = "www.liaoxianjun.com";
+	System.out.println(aString.length());
+	System.out.println(bString.length());
+}
 }

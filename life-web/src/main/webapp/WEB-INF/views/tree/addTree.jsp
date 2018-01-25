@@ -6,7 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">8">
+<meta http-equiv="expires" content="0">
+8">
 </head>
 <body>
 	<div id="cc" class="easyui-layout" style="width: 100%; height: 100%; border: none;">
@@ -24,11 +25,11 @@
 					</tr>
 					<tr>
 						<td align="right">打开方式:</td>
-						<td><select class="easyui-combobox" name="readMode" style="width: 100%;"  <c:if test="${level=='3'}">data-options="required:true"</c:if>>
-									<option></option>
-									<option value="web">iframe网页嵌套</option>
-									<option value="rss">RSS订阅</option>
-									<option value="newWindow">新标签页打开</option>
+						<td><select class="easyui-combobox" name="readMode" style="width: 100%;" <c:if test="${level=='3'}">data-options="required:true"</c:if>>
+								<option></option>
+								<option value="web">iframe网页嵌套</option>
+								<option value="rss">RSS订阅</option>
+								<option value="newWindow">新标签页打开</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -38,6 +39,13 @@
 								<c:forEach items="${trees}" var="tree">
 									<option <c:if test="${id==tree.id ||(tree.sortNo=='1'&&level=='3')}">selected="selected"</c:if> value="${tree.id}">${tree.text}</option>
 								</c:forEach>
+						</select></td>
+					</tr>
+					<tr>
+						<td align="right">是否分享:</td>
+						<td><select class="easyui-combobox" name="isShare" style="width: 100%;" data-options="required:true">
+								<option value="1">分享</option>
+								<option value="0">不分享</option>
 						</select></td>
 					</tr>
 				</table>

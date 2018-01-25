@@ -32,9 +32,10 @@ public class TreeModel implements java.io.Serializable {
 	private String userCode;//
 	private String readMode;
 	private String sortNo;
-	private String status;//状态 0 启用 1 停用
-    private String level;//菜单级别
-    
+	private String status;// 状态 0 启用 1 停用
+	private String level;// 菜单级别
+	private String isShare;// 是否分享 默认分享
+
 	public String getId() {
 		return id;
 	}
@@ -163,10 +164,19 @@ public class TreeModel implements java.io.Serializable {
 		this.level = level;
 	}
 
+	public String getIsShare() {
+		return isShare;
+	}
+
+	public void setIsShare(String isShare) {
+		this.isShare = isShare;
+	}
+
 	@Override
 	public String toString() {
 		return "TreeModel [id=" + id + ", text=" + text + ", state=" + state + ", checked=" + checked + ", attributes=" + attributes + ", children=" + children + ", iconCls=" + iconCls + ", pid=" + pid + ", url=" + url + ", createTime=" + createTime + ", updateTime=" + updateTime + ", userCode=" + userCode
-				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + "]";
+				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + ", isShare=" + isShare + "]";
 	}
+
 
 }

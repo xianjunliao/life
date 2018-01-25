@@ -6,7 +6,7 @@ $(function() {
 	createTab('homeTab', '首页', basePath + 'homePage');
 	$("#quite").hide();
 	$("#showTree").hide();
-//	$("#setting").hide();
+	// $("#setting").hide();
 	var btn = document.getElementById('btn');
 	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
@@ -200,7 +200,7 @@ function openAddDialog(title, level, id) {
 		height = 125;
 	} else {
 		url = basePath + 'tree/addTree?level=' + level + '&id=' + id;
-		height = 228;
+		height = 250;
 	}
 
 	$('#dialog').dialog({
@@ -238,8 +238,8 @@ function openUpdateDialog(title, level, id, pid) {
 		url = basePath + 'tree/updateParentTree?level=' + level + '&id=' + id;
 		height = 125;
 	} else {
-		url = basePath + 'tree/updateTree?level=' + level + '&id=' + id;
-		height = 260;
+		url = basePath + 'tree/updateTree?level=' + level + '&id=' + id + '&pid=' + pid;
+		height = 280;
 	}
 	$('#dialog').dialog({
 		title : title,
@@ -300,8 +300,7 @@ function loadTree(title) {
 			} else if (node.readMode == 'rss') {
 				contentUrl = basePath + 'openWeb/addRss?id=' + node.id;
 			} else if (node.readMode == 'newWindow') {
-				window.open(node.url);
-				return;
+				contentUrl = basePath + 'openWeb/addNewWondow?id=' + node.id;
 			} else {
 
 			}

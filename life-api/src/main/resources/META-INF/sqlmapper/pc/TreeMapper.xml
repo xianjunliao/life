@@ -18,29 +18,30 @@
 		<result column="status" property="status" jdbcType="VARCHAR" />
 		<result column="level" property="level" jdbcType="VARCHAR" />
 		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
+		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<select id="getTree" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
 		pid=#{pid} and user_code=#{userCode} and status='0' order by sort_no
 	</select>
 
 	<select id="getTreeByText" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree
 		where text=#{text} and status='0' order by sort_no
 	</select>
 	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
 		id=#{id} and status='0'
 	</select>
 	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where user_code=#{userCode} and level=#{level} and status='0'
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where user_code=#{userCode} and level=#{level} and status='0'
 		<if test="pid!=null">
-			and pid=#{pid,jdbcType=VARCHAR}
+			and id=#{pid,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
 		user_code=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
 
@@ -76,6 +77,9 @@
 			</if>
 			<if test="updateTime!=null">
 				update_time = #{updateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="isShare!=null">
+				isShare = #{isShare,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
@@ -117,6 +121,9 @@
 			<if test="userCode!=createTime">
 				create_time,
 			</if>
+			<if test="isShare!=null">
+				isShare,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id!=null">
@@ -149,8 +156,11 @@
 			<if test="userCode!=null">
 				#{userCode,jdbcType=VARCHAR},
 			</if>
-			<if test="userCode!=createTime">
+			<if test="createTime!=null">
 				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="isShare!=null">
+				#{isShare,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
