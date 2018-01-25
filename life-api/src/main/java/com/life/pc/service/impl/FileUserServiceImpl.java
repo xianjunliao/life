@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.life.common.file.FileUtils;
+import com.life.common.time.DateUtil;
 import com.life.pc.dao.FileUserDao;
 import com.life.pc.model.FileUserModel;
 import com.life.pc.service.FileUserService;
@@ -102,13 +103,11 @@ public class FileUserServiceImpl implements FileUserService {
 		try {
 			HttpClient client = new HttpClient();
 			PostMethod post = new PostMethod("http://gbk.api.smschinese.cn");
+			String abc = DateUtil.getNow();
+			String asc = "www.liaoxianjun.com";
 			post.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
-			NameValuePair[] data = { new NameValuePair("Uid", "Stephen201703"), new NameValuePair("Key", "ce9725de206d3502408a"), new NameValuePair("smsMob", "15889303913"), new NameValuePair("smsText", "【廖先军】125你有备忘未处理,请登录lxj网站查看未处理的备忘录。") };
+			NameValuePair[] data = { new NameValuePair("Uid", "Stephen201703"), new NameValuePair("Key", "ce9725de206d3502408a"), new NameValuePair("smsMob", "15889303913"), new NameValuePair("smsText", abc+"你有备忘未处理,请登录"+asc+"网站查看未处理的备忘录") };
 			post.setRequestBody(data);
-			String aString = "2017年01月25日下午4点37分";
-			String bString = "www.liaoxianjun.com";
-			System.out.println(aString.length());
-			System.out.println(bString.length());
 			client.executeMethod(post);
 			Header[] headers = post.getResponseHeaders();
 			int statusCode = post.getStatusCode();
