@@ -106,7 +106,7 @@ public class FileUserServiceImpl implements FileUserService {
 			String abc = DateUtil.getNow();
 			String asc = "www.liaoxianjun.com";
 			post.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
-			NameValuePair[] data = { new NameValuePair("Uid", "Stephen201703"), new NameValuePair("Key", "ce9725de206d3502408a"), new NameValuePair("smsMob", "15889303913"), new NameValuePair("smsText", abc+"你有备忘未处理,请登录"+asc+"网站查看未处理的备忘录") };
+			NameValuePair[] data = { new NameValuePair("Uid", "Stephen201703"), new NameValuePair("Key", "ce9725de206d3502408a"), new NameValuePair("smsMob", "18665378624"), new NameValuePair("smsText", abc+"你有备忘未处理,请登录"+asc+"网站查看未处理的备忘录") };
 			post.setRequestBody(data);
 			client.executeMethod(post);
 			Header[] headers = post.getResponseHeaders();

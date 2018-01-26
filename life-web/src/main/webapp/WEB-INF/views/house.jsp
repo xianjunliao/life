@@ -37,9 +37,19 @@
 	display: none;
 	color: red;
 }
+
+.md {
+	height: 16px;
+	line-height: 16px;
+	background-position: 2px center;
+	text-align: right;
+	font-weight: bold;
+	padding: 0 2px;
+	color: red;
+}
 </style>
 </head>
-<body id="most" class="easyui-layout" style="width: 100%; height: 100%;overflow: hidden;">
+<body id="most" class="easyui-layout" style="width: 100%; height: 100%; overflow: hidden;">
 	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
 		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false">
 			<c:forEach items="${data}" var="tree">
