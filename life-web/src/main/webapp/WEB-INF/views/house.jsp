@@ -47,6 +47,13 @@
 	padding: 0 2px;
 	color: red;
 }
+
+.layui-btn-xs {
+	height: 20px;
+	line-height: 20px;
+	padding: 0 5px;
+	font-size: 12px;
+}
 </style>
 </head>
 <body id="most" class="easyui-layout" style="width: 100%; height: 100%; overflow: hidden;">
