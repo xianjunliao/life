@@ -33,12 +33,12 @@
 							<div>
 								<select id="timeAfter" style="width: 80px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit;">
 								</select> <select id="timeInfo" style="width: 65px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit;">
-									<option>早上</option>
-									<option>上午</option>
-									<option>中午</option>
-									<option>下午</option>
-									<option>晚上</option>
-									<option>凌晨</option>
+									<!-- 									<option>早上</option> -->
+									<!-- 									<option>上午</option> -->
+									<!-- 									<option>中午</option> -->
+									<!-- 									<option>下午</option> -->
+									<!-- 									<option>晚上</option> -->
+									<!-- 									<option>凌晨</option> -->
 								</select> <select id="times" style="width: 96px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit;">
 									<option>6点</option>
 									<option>7点</option>
@@ -123,6 +123,14 @@
 			182 : '半年后',
 			365 : '一年后'
 		};
+		var timeInfoArr = {
+			0 : '凌晨',
+			1 : '早上',
+			2 : '上午',
+			3 : '中午',
+			4 : '下午',
+			5 : '晚上'
+		};
 		var dateTime = d1.getFullYear() + "年" + (d1.getMonth() + 1) + "日" + d1.getDate() + "日";
 		var timeInfo = "早上6点";
 		var timeAfter = "今天";
@@ -158,7 +166,7 @@
 			}
 			var context = $("#textarea").val();
 			var l = context.length;
-			if (l <=140) {
+			if (l <= 140) {
 				$('#content').html($("#textarea").val());
 			}
 		}
@@ -176,6 +184,22 @@
 			$('#timeAfter').append('<option>' + tafter[182] + '</option>');
 			$('#timeAfter').append('<option>' + tafter[365] + '</option>');
 		}
+		function loadTimeInfoArr() {
+			$("#timeInfo").empty();
+			var isToDay = $("#timeAfter").val();
+			var hours = d1.getHours();
+			console.log(hours);
+			if (isToDay == '今天' && hours < 6) {
+				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
+			}
+			if (isToDay != '今天') {
+				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
+			}
+			$('#timeInfo').append('<option>' + timeInfoArr[1] + '</option>');
+			$('#timeInfo').append('<option>' + timeInfoArr[2] + '</option>');
+			$('#timeInfo').append('<option>' + timeInfoArr[3] + '</option>');
+			$('#timeInfo').append('<option>' + timeInfoArr[4] + '</option>');
+		}
 		function addTextInfo(timeInfo) {
 			$('#memotitle').val(timeInfo);
 			$('#textarea').val(timeInfo);
@@ -184,6 +208,7 @@
 		}
 		$(function() {
 			onloadTimeAfter();
+			loadTimeInfoArr();
 			$("#textarea").focusin(function() {
 				$(".title").addClass("hide");
 				$(".title2").removeClass("hide")
@@ -236,6 +261,7 @@
 				addTextInfo(timeInfo);
 			});
 			$("#timeAfter").change(function() {
+				loadTimeInfoArr();
 				timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
 				addTextInfo(timeInfo);
 			});
