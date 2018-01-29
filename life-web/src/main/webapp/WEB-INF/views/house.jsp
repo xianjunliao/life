@@ -53,14 +53,30 @@
 	line-height: 20px;
 	padding: 0 5px;
 	font-size: 12px;
+	
 }
+
 </style>
 </head>
 <body id="most" class="easyui-layout" style="width: 100%; height: 100%; overflow: hidden;">
-	<div id="left_west" data-options="region:'west',border:false" style="width: 200px;">
-		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false">
+	<div data-options="region:'north',border:false,collapsible:true" style="height: 55px; margin: 0px 0px 0px 0px;background-image: url('${base}/static/images/north_back.jpg'); ">
+
+		<div style="float: left; margin: 0px 10px 0px 0px;">
+			<div style="width: 50px; height: 50px;">
+				<img style="margin-left: 0px" alt="" src="https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJkuKWqx9v9fsgR0mfQRqgvuKyK2IejxPmo8cbMTSQFZyibibqxxKvME8cvnPk5UdQqpQRDoKLnBgTQ/0" width="55px" height="55px;">
+			</div>
+		</div>
+		<div style="float: left;">
+			<div style="width: 50px; height: 20px;"></div>
+			<div style="width: 500px; height: 35px;">
+				<span style="font-size: 24px; line-height: 35px;font-family:fantasy;">Do not go gentle into that good night.</span>
+			</div>
+		</div>
+	</div>
+	<div id="left_west" data-options="region:'west',border:true" style="width: 200px;">
+		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false" style="background-color: #f0f0f0;">
 			<c:forEach items="${data}" var="tree">
-				<div title="${tree.text}" id="${tree.id}" data-options="iconCls:'${tree.iconCls}'">
+				<div title="${tree.text}" id="${tree.id}" data-options="iconCls:'${tree.iconCls}'"  style="background-color: #f0f0f0;">
 					<div style="padding: 10px">
 						<ul name="${tree.text}"></ul>
 					</div>

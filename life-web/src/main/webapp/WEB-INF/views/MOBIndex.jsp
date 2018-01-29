@@ -12,8 +12,7 @@
 </script>
 </head>
 <body style="margin: 0px; overflow: hidden;">
-	<h1>
-		移动端还在开发中,请用PC端<a style="text-decoration: underline;" href="${base}login">打开</a>该网站。。。
-	</h1>
+	<span> 移动端还在开发中,请用PC端<a style="text-decoration: underline;" href="${base}login">打开</a>该网站。。。
+	</span>
 </body>
 </html>

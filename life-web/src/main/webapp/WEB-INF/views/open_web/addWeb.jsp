@@ -15,7 +15,7 @@
 
 </head>
 <body class="easyui-layout" style="width: 100%; height: 100%;">
-	<div region="center" border="false" style="width: 100%; height: 100%;">
+	<div region="center" border="true" style="width: 100%; height: 100%;">
 		<iframe id="web" scrolling="auto" frameborder="0" src="${treeModel.url}" style="width: 100%; height: 100%;"> </iframe>
 	</div>
 </body>

@@ -11,9 +11,15 @@
 <script type="text/javascript">
 	var basePath = "${base}";
 	var user = "${user}";
-	var v;
+
 	function enter() {
+		var v = $("#userCode").val();
+		if (v == null || v == "") {
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+			return;
+		}
 		var index = layer.load();
+		console.log("sdfs:" + v);
 		$.ajax({
 			type : 'POST',
 			dataType : "json",
@@ -22,7 +28,7 @@
 				if (result.code == 200) {
 					window.location.replace(basePath + "house");
 				} else {
-					layer.msg(result.message);
+					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
 				}
 				layer.close(index);
 			}
@@ -30,7 +36,13 @@
 
 	}
 	function addUserCode() {
+		var v = $("#userCode").val();
+		if (v == null || v == "") {
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+			return;
+		}
 		var index = layer.load();
+		console.log(v);
 		$.ajax({
 			type : 'POST',
 			dataType : "json",
@@ -49,7 +61,7 @@
 						layer.msg("开发中。。。");
 					});
 				} else {
-					layer.msg(result.message);
+					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
 					layer.close(index);
 				}
 
@@ -58,8 +70,25 @@
 
 	}
 	function userInput() {
-		v = $("#userCode").val();
+		var v = $("#userCode").val();
+		if (v == null || v == "") {
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+		} else {
+			$("#errorMsg").empty();
+		}
 	}
+	$(function() {
+		$('#userCode').keydown(function(e) {
+			if (e.keyCode == 13) {
+				var v = $('#userCode').val();
+				if (v == null || '' == v || v == undefined) {
+					$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+				} else {
+					enter();
+				}
+			}
+		});
+	});
 </script>
 </head>
 <body>
@@ -71,14 +100,14 @@
 					<!--<input type="text" placeholder="Username" required="" id="username" />-->
 				</div>
 				<div>
-					<input type="text" placeholder="请输入你在该网站的身份编码..." autofocus="autofocus" oninput="userInput()" required="" id="userCode" />
+					<input type="password" placeholder="请输入你在该网站的身份编码..." autofocus="autofocus" oninput="userInput()" required="" id="userCode" />
 				</div>
 				<div>
-					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="注册" onclick="addUserCode()" /> <a href="#">忘记身份编码？</a>
+					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="注册" onclick="addUserCode()" /> <a href="#">使用账号密码登录</a>
 				</div>
 			</div>
 			<!-- form -->
-			<div class="button"></div>
+			<div id="errorMsg" class="button"></div>
 			<!-- button -->
 		</section>
 		<!-- content -->

@@ -86,7 +86,7 @@ public class LifeUserController {
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel == null) {
 				outMSG.setCode("202");
-				outMSG.setMessage("输入的编码不存在，请注册！");
+				outMSG.setMessage("输入的身份编码不存在，请注册！");
 			} else {
 				request.getSession().setAttribute("lifeUserModel", lifeUserModel);
 				request.getSession().setMaxInactiveInterval(3600);
@@ -124,7 +124,7 @@ public class LifeUserController {
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel != null) {
 				outMSG.setCode("202");
-				outMSG.setMessage("该编码已存在！");
+				outMSG.setMessage("该身份编码已存在，请直接登录！");
 			} else {
 				LifeUserModel newUser = new LifeUserModel();
 				newUser.setUsercode(code);

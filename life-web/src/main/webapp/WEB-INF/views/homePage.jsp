@@ -21,8 +21,8 @@
 </style>
 </head>
 <body>
-	<div class="easyui-layout" style="width: 98%; height: 98%; margin: 5px 5px 5px 5px">
-		<div data-options="region:'west',title:'备忘录',split:false,border:true,collapsible:false" style="width: 50%; height: 100%; padding: 10px;">
+	<div class="easyui-layout" style="width: 98%; height: 99%; margin: 5px 5px 5px 5px">
+		<div data-options="region:'west',title:'备忘录',split:false,border:true,collapsible:false" style="width: 555px; height: 100%; padding: 10px;">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
 				<div data-options="region:'north',border:false" style="height: 315px;">
 					<div style="float: left;">
@@ -40,10 +40,6 @@
 									<!-- 									<option>晚上</option> -->
 									<!-- 									<option>凌晨</option> -->
 								</select> <select id="times" style="width: 96px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit;">
-									<option>6点</option>
-									<option>7点</option>
-									<option>8点</option>
-									<option>9点</option>
 								</select>
 							</div>
 						</div>
@@ -67,7 +63,7 @@
 						</div>
 					</div>
 				</div>
-				<div data-options="region:'center',border:true">
+				<div data-options="region:'center',border:false">
 					<div style="margin-top: 5px;"></div>
 					<div>
 						<div style="float: left;">
@@ -200,6 +196,14 @@
 			$('#timeInfo').append('<option>' + timeInfoArr[3] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[4] + '</option>');
 		}
+		function timesArr(){
+			$("#times").empty();
+			$('#times').append('<option>1点</option>');
+			$('#times').append('<option>2点</option>');
+			$('#times').append('<option>3点</option>');
+			$('#times').append('<option>4点</option>');
+			$('#times').append('<option>5点</option>');
+		}
 		function addTextInfo(timeInfo) {
 			$('#memotitle').val(timeInfo);
 			$('#textarea').val(timeInfo);
@@ -209,6 +213,7 @@
 		$(function() {
 			onloadTimeAfter();
 			loadTimeInfoArr();
+			timesArr();
 			$("#textarea").focusin(function() {
 				$(".title").addClass("hide");
 				$(".title2").removeClass("hide")
@@ -221,6 +226,7 @@
 				current : new Date(),
 				onSelect : function(date) {
 					onloadTimeAfter();
+					timesArr();
 					dateTime = date.getFullYear() + "年" + (date.getMonth() + 1) + "日" + date.getDate() + "日";
 					d2 = date;
 					var cd = d1.getFullYear() + "-" + (d1.getMonth() + 1) + "-" + d1.getDate();
@@ -262,6 +268,7 @@
 			});
 			$("#timeAfter").change(function() {
 				loadTimeInfoArr();
+				timesArr();
 				timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
 				addTextInfo(timeInfo);
 			});

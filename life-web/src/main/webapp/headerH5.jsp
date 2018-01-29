@@ -11,7 +11,7 @@
 	response.setHeader("Pragma", "no-cache");
 	// 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
 %>
-<title>Never stop,never give up.</title>
+<title>Free Life</title>
 <link rel="shortcut icon" href="${base}/static/images/life-1.png" />
 <link href="${base}static/ui/insdep/themes/insdep/icon.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/insdep/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
