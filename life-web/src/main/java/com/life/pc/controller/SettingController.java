@@ -50,7 +50,7 @@ public class SettingController {
 		try {
 			LifeUserModel lifeUserModel = (LifeUserModel) SpringWebUtil.getSession().getAttribute("lifeUserModel");
 			TreeModel treeModel=new TreeModel();
-			treeModel.setUserCode(lifeUserModel.getUserCode());
+			treeModel.setUserCode(lifeUserModel.getUsercode());
 			treeModel.setPid("0");
 			List<TreeModel> tree = treeService.getTree(treeModel);
 			model.put("trees", tree);

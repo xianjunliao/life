@@ -7,94 +7,74 @@ public class LifeUserModel implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2655175296386923307L;
-	private String userCode;// 编号
-	private String createTime;// 创建时间
-	private String userRole;// 用户角色
-	private String updateTime;// 修改时间
-	private String userMotto;// 座右铭
-	private String userMusic;// 音乐名称
-	private long waitTime;// 等待时长
-	private long intervalTime;// 间隔时长
-	private String text;
+	private String usercode;//编号
+	private String createtime;//创建时间
+	private String userrole;//用户角色
+	private String updatetime;//修改时间
+	private String phoneno;//手机号码
+	private String emailaddress;//邮箱地址
+	private String defaultplayaddress;//默认播放地址
+	private String selfintroduction;//自我介绍
+	private String username;//用户名称
 	
-
-	public String getText() {
-		return text;
+	public String getUsercode() {
+		return usercode;
 	}
-
-	public void setText(String text) {
-		this.text = text;
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
 	}
-
-	public long getWaitTime() {
-		return waitTime;
+	public String getCreatetime() {
+		return createtime;
 	}
-
-	public void setWaitTime(long waitTime) {
-		this.waitTime = waitTime;
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
 	}
-
-	public long getIntervalTime() {
-		return intervalTime;
+	public String getUserrole() {
+		return userrole;
 	}
-
-	public void setIntervalTime(long intervalTime) {
-		this.intervalTime = intervalTime;
+	public void setUserrole(String userrole) {
+		this.userrole = userrole;
 	}
-
-	public String getUserMotto() {
-		return userMotto;
+	public String getUpdatetime() {
+		return updatetime;
 	}
-
-	public void setUserMotto(String userMotto) {
-		this.userMotto = userMotto;
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
 	}
-
-	public String getUserCode() {
-		return userCode;
+	public String getPhoneno() {
+		return phoneno;
 	}
-
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setPhoneno(String phoneno) {
+		this.phoneno = phoneno;
 	}
-
-	public String getCreateTime() {
-		return createTime;
+	public String getEmailaddress() {
+		return emailaddress;
 	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+	public void setEmailaddress(String emailaddress) {
+		this.emailaddress = emailaddress;
 	}
-
-	public String getUserRole() {
-		return userRole;
+	public String getDefaultplayaddress() {
+		return defaultplayaddress;
 	}
-
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
+	public void setDefaultplayaddress(String defaultplayaddress) {
+		this.defaultplayaddress = defaultplayaddress;
 	}
-
-	public String getUpdateTime() {
-		return updateTime;
+	public String getSelfintroduction() {
+		return selfintroduction;
 	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
-
+	public void setSelfintroduction(String selfintroduction) {
+		this.selfintroduction = selfintroduction;
 	}
-
-	public String getUserMusic() {
-		return userMusic;
+	
+	public String getUsername() {
+		return username;
 	}
-
-	public void setUserMusic(String userMusic) {
-		this.userMusic = userMusic;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-
 	@Override
 	public String toString() {
-		return "LifeUserModel [userCode=" + userCode + ", createTime=" + createTime + ", userRole=" + userRole + ", updateTime=" + updateTime + ", userMotto=" + userMotto + ", userMusic=" + userMusic + ", waitTime=" + waitTime + ", intervalTime=" + intervalTime + ", text=" + text + "]";
+		return "LifeUserModel [usercode=" + usercode + ", createtime=" + createtime + ", userrole=" + userrole + ", updatetime=" + updatetime + ", phoneno=" + phoneno + ", emailaddress=" + emailaddress + ", defaultplayaddress=" + defaultplayaddress + ", selfintroduction=" + selfintroduction + ", username=" + username
+				+ "]";
 	}
-
-
 }

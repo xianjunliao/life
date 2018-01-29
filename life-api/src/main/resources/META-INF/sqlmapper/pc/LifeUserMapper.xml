@@ -3,75 +3,89 @@
 <mapper namespace="com.life.pc.dao.LifeUserDao">
 
 	<resultMap id="lifeMapper" type="com.life.pc.model.LifeUserModel">
-		<result column="user_code" property="userCode" jdbcType="VARCHAR" />
-		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
-		<result column="user_role" property="userRole" jdbcType="VARCHAR" />
-		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
-		<result column="user_motto" property="userMotto" jdbcType="VARCHAR" />
-		<result column="user_music" property="userMusic" jdbcType="VARCHAR" />
-		<result column="wait_time" property="waitTime" jdbcType="INTEGER" />
-		<result column="interval_time" property="intervalTime" jdbcType="INTEGER" />
+		<result column="userCode" property="usercode" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime" jdbcType="VARCHAR" />
+		<result column="userRole" property="userrole" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneno" jdbcType="VARCHAR" />
+		<result column="emailAddress" property="emailaddress" jdbcType="VARCHAR" />
+		<result column="defaultPlayAddress" property="defaultplayaddress" jdbcType="VARCHAR" />
+		<result column="selfIntroduction" property="selfintroduction" jdbcType="VARCHAR" />
+		<result column="userName" property="username" jdbcType="VARCHAR" />
 	</resultMap>
-
+	<sql id="Base_Column_List">
+		userCode, createTime, userRole, updateTime, phoneNo, emailAddress, defaultPlayAddress,
+		selfIntroduction,userName
+	</sql>
 	<select id="checkEnterCode" parameterType="com.life.pc.model.LifeUserModel" resultType="com.life.pc.model.LifeUserModel">
-		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from pc_user where user_code=#{code}
+		select
+		<include refid="Base_Column_List" />
+		from pc_user where userCode=#{code}
 	</select>
 
 	<select id="getAll" resultType="com.life.pc.model.LifeUserModel">
-		select user_code,user_motto,create_time,user_role,update_time,user_music,wait_time,interval_time from pc_user
+		select
+		<include refid="Base_Column_List" />
+		from pc_user
 	</select>
 	<insert id="save" parameterType="com.life.pc.model.LifeUserModel">
 		insert into pc_user
 		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="userCode!=null">
-				user_code,
+			<if test="usercode != null">
+				userCode,
 			</if>
-			<if test="createTime!=null">
-				create_time,
+			<if test="createtime != null">
+				createTime,
 			</if>
-			<if test="userRole!=null">
-				user_role,
+			<if test="userrole != null">
+				userRole,
 			</if>
-			<if test="updateTime!=null">
-				update_time,
+			<if test="updatetime != null">
+				updateTime,
 			</if>
-			<if test="userMotto!=null">
-				user_motto,
+			<if test="phoneno != null">
+				phoneNo,
 			</if>
-			<if test="userMusic!=null">
-				user_music,
+			<if test="emailaddress != null">
+				emailAddress,
 			</if>
-			<if test="waitTime!=null">
-				wait_time,
+			<if test="defaultplayaddress != null">
+				defaultPlayAddress,
 			</if>
-			<if test="intervalTime!=null">
-				interval_time,
+			<if test="selfintroduction != null">
+				selfIntroduction,
+			</if>
+			<if test="username != null">
+				userName,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="userCode!=null">
-				#{userCode,jdbcType=VARCHAR},
+			<if test="usercode != null">
+				#{usercode,jdbcType=VARCHAR},
 			</if>
-			<if test="createTime!=null">
-				#{createTime,jdbcType=VARCHAR},
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="userRole!=null">
-				#{userRole,jdbcType=VARCHAR},
+			<if test="userrole != null">
+				#{userrole,jdbcType=VARCHAR},
 			</if>
-			<if test="updateTime!=null">
-				#{updateTime,jdbcType=VARCHAR},
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
 			</if>
-			<if test="userMotto!=null">
-				#{userMotto,jdbcType=VARCHAR},
+			<if test="phoneno != null">
+				#{phoneno,jdbcType=VARCHAR},
 			</if>
-			<if test="userMusic!=null">
-				#{userMusic,jdbcType=VARCHAR},
+			<if test="emailaddress != null">
+				#{emailaddress,jdbcType=VARCHAR},
 			</if>
-			<if test="waitTime!=null">
-				#{waitTime,jdbcType=VARCHAR},
+			<if test="defaultplayaddress != null">
+				#{defaultplayaddress,jdbcType=VARCHAR},
 			</if>
-			<if test="intervalTime!=null">
-				#{intervalTime,jdbcType=VARCHAR},
+			<if test="selfintroduction != null">
+				#{selfintroduction,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				#{userName,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>

@@ -10,45 +10,45 @@
 		<result column="state" property="state" jdbcType="VARCHAR" />
 		<result column="attributes" property="attributes" jdbcType="VARCHAR" />
 		<result column="pid" property="pid" jdbcType="VARCHAR" />
-		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
-		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
-		<result column="user_code" property="userCode" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updateTime" jdbcType="VARCHAR" />
+		<result column="userCode" property="userCode" jdbcType="VARCHAR" />
 		<result column="url" property="url" jdbcType="VARCHAR" />
-		<result column="read_mode" property="readMode" jdbcType="VARCHAR" />
+		<result column="readMode" property="readMode" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="VARCHAR" />
 		<result column="level" property="level" jdbcType="VARCHAR" />
-		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
+		<result column="sortNo" property="sortNo" jdbcType="VARCHAR" />
 		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<select id="getTree" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
-		pid=#{pid} and user_code=#{userCode} and status='0' order by sort_no
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		pid=#{pid} and userCode=#{userCode} and status='0' order by sortNo
 	</select>
 
 	<select id="getTreeByText" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree
-		where text=#{text} and status='0' order by sort_no
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree
+		where text=#{text} and status='0' order by sortNo
 	</select>
 	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
 		id=#{id} and status='0'
 	</select>
 	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where user_code=#{userCode} and level=#{level} and status='0'
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where userCode=#{userCode} and level=#{level} and status='0'
 		<if test="pid!=null">
 			and id=#{pid,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,read_mode,sort_no,status,level,isShare from pc_tree where
-		user_code=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		userCode=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
 
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
-		select case when max(sort_no) is null then 1 else max(sort_no)+1 end maxNo from pc_tree where
-		user_code=#{userCode} and level=#{level}
+		select case when max(sortNo) is null then 1 else max(sortNo)+1 end maxNo from pc_tree where
+		userCode=#{userCode} and level=#{level}
 	</select>
 	<delete id="delete" parameterType="com.life.pc.model.TreeModel">
 		delete from pc_tree where id=#{id,jdbcType=VARCHAR}
@@ -70,13 +70,13 @@
 				iconCls = #{iconCls,jdbcType=VARCHAR},
 			</if>
 			<if test="readMode!=null">
-				read_mode = #{readMode,jdbcType=VARCHAR},
+				readMode = #{readMode,jdbcType=VARCHAR},
 			</if>
 			<if test="level!=null">
 				level = #{level,jdbcType=VARCHAR},
 			</if>
 			<if test="updateTime!=null">
-				update_time = #{updateTime,jdbcType=VARCHAR},
+				updateTime = #{updateTime,jdbcType=VARCHAR},
 			</if>
 			<if test="isShare!=null">
 				isShare = #{isShare,jdbcType=VARCHAR},
@@ -104,10 +104,10 @@
 				url,
 			</if>
 			<if test="readMode!=null">
-				read_mode,
+				readMode,
 			</if>
 			<if test="sortNo!=null">
-				sort_no,
+				sortNo,
 			</if>
 			<if test="status!=null">
 				status,
@@ -116,10 +116,10 @@
 				level,
 			</if>
 			<if test="userCode!=null">
-				user_code,
+				userCode,
 			</if>
 			<if test="userCode!=createTime">
-				create_time,
+				createTime,
 			</if>
 			<if test="isShare!=null">
 				isShare,

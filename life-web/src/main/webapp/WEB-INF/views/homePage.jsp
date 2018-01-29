@@ -24,7 +24,7 @@
 	<div class="easyui-layout" style="width: 98%; height: 98%; margin: 5px 5px 5px 5px">
 		<div data-options="region:'west',title:'备忘录',split:false,border:true,collapsible:false" style="width: 50%; height: 100%; padding: 10px;">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
-				<div data-options="region:'north',border:false" style="height: 63%">
+				<div data-options="region:'north',border:false" style="height: 315px;">
 					<div style="float: left;">
 						<div style="margin: 10px 0"></div>
 						<div id="cc" style="width: 250px; height: 250px;"></div>
@@ -67,7 +67,7 @@
 						</div>
 					</div>
 				</div>
-				<div data-options="region:'center',border:false">
+				<div data-options="region:'center',border:true">
 					<div style="margin-top: 5px;"></div>
 					<div>
 						<div style="float: left;">

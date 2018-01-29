@@ -34,7 +34,7 @@ public class TreeModel implements java.io.Serializable {
 	private String sortNo;
 	private String status;// 状态 0 启用 1 停用
 	private String level;// 菜单级别
-	private String isShare;// 是否分享 默认分享
+	private String isShare;// 是否分享 默认不分享
 
 	public String getId() {
 		return id;

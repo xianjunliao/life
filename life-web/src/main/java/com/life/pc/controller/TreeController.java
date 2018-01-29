@@ -43,7 +43,7 @@ public class TreeController {
 	public JSONArray panentTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		JSONArray jsonArray = new JSONArray();
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		treeModel.setUserCode(attribute.getUserCode());
+		treeModel.setUserCode(attribute.getUsercode());
 		treeModel.setPid("0");
 		List<TreeModel> tree = treeService.getTree(treeModel);
 		jsonArray.addAll(tree);
@@ -54,7 +54,7 @@ public class TreeController {
 	@RequestMapping("getChildNode")
 	public List<TreeModel> getMenuTree(TreeModel treeModel, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		treeModel.setUserCode(attribute.getUserCode());
+		treeModel.setUserCode(attribute.getUsercode());
 		List<TreeModel> tree = treeService.getChildNode2(treeModel);
 		return tree;
 	}
@@ -83,7 +83,7 @@ public class TreeController {
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") TreeModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			String userCode = attribute.getUserCode();
+			String userCode = attribute.getUsercode();
 			model.put("code", userCode);
 			String level = params.getLevel();
 			List<TreeModel> treesByLevel = new ArrayList<>();
@@ -137,9 +137,9 @@ public class TreeController {
 				treeModel.setIconCls("tree-life3");
 			}
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			long maxSortNo = treeService.getMaxSortNo(attribute.getUserCode(), level);
+			long maxSortNo = treeService.getMaxSortNo(attribute.getUsercode(), level);
 			treeModel.setSortNo(String.valueOf(maxSortNo));
-			treeModel.setUserCode(attribute.getUserCode());
+			treeModel.setUserCode(attribute.getUsercode());
 			treeModel.setId(Util.getUUId16());
 			if (Str.isEmpty(treeModel.getPid())) {
 				treeModel.setPid("0");
@@ -178,7 +178,7 @@ public class TreeController {
 		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			List<TreeModel> treeByPid = treeService.getTreeByPid(attribute.getUserCode(), treeModel.getId());
+			List<TreeModel> treeByPid = treeService.getTreeByPid(attribute.getUsercode(), treeModel.getId());
 			for (TreeModel treeModel2 : treeByPid) {
 				treeService.delete(treeModel2);
 			}
@@ -196,7 +196,7 @@ public class TreeController {
 	@ResponseBody
 	public List<TreeModel> getTreeByPid(String pid, HttpServletRequest request) throws ServletException, IOException {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		List<TreeModel> treesByLevel = treeService.getTreeByPid(attribute.getUserCode(), pid);
+		List<TreeModel> treesByLevel = treeService.getTreeByPid(attribute.getUsercode(), pid);
 		return treesByLevel;
 	}
 }

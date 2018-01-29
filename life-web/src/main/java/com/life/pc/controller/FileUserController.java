@@ -62,7 +62,7 @@ public class FileUserController {
 			String originalFilename = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
 
 			LifeUserModel lifeUserModel = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			String userCode = lifeUserModel.getUserCode();
+			String userCode = lifeUserModel.getUsercode();
 			Long maxSortNo = fileUserService.getMaxSortNo(userCode);
 			long oldFiles = fileUserService.getFileByName(userCode, file.getOriginalFilename());
 			if (oldFiles > 0) {
@@ -95,7 +95,7 @@ public class FileUserController {
 	public List<FileUserModel> getFiles(String type, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
 		List<FileUserModel> files = null;
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-		String userCode = attribute.getUserCode();
+		String userCode = attribute.getUsercode();
 		if (Str.isEmpty(type)) {
 			files = fileUserService.getFilesByUserCode(userCode);
 		} else {
@@ -116,7 +116,7 @@ public class FileUserController {
 		List<FileUserModel> sumGroupTypeByUserCode = null;
 		try {
 			LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
-			sumGroupTypeByUserCode = fileUserService.getSumGroupTypeByUserCode(attribute.getUserCode());
+			sumGroupTypeByUserCode = fileUserService.getSumGroupTypeByUserCode(attribute.getUsercode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

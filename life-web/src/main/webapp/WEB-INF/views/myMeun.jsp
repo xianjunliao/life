@@ -12,8 +12,6 @@
 </script>
 </head>
 <body style="margin: 0px; overflow: hidden;">
-	<h1>
-		移动端还在开发中,请用PC端<a style="text-decoration: underline;" href="${base}login">打开</a>该网站。。。
-	</h1>
+	<h6>欢迎使用网站收藏功能，该菜单项为系统自动生成，可删除</h6>
 </body>
 </html>

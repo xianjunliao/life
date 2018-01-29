@@ -79,7 +79,7 @@ $(function() {
 		$('#sixPoints').html(".");
 	}
 	test.onclick = function() {
-		window.open(basePath + "test2");
+		window.open(basePath + "login");
 	}
 	addCode.onclick = function() {
 		var v = $('#code').val();

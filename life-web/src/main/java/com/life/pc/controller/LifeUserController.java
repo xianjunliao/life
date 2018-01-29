@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.common.util.DESUtil;
 import com.life.pc.model.LifeUserModel;
@@ -54,7 +55,7 @@ public class LifeUserController {
 		if (pageName.contains("test")) {
 			return "error/" + pageName + ".jsp";
 		}
-		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex")) {
+		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("login")|| pageName.equals("myMeun")) {
 
 			return FTL_DIR + pageName + ".jsp";
 		} else {
@@ -64,7 +65,7 @@ public class LifeUserController {
 			}
 		}
 		TreeModel pTreeModel = new TreeModel();
-		String userCode = attribute.getUserCode();
+		String userCode = attribute.getUsercode();
 		pTreeModel.setUserCode(userCode);
 		pTreeModel.setPid("0");
 		List<TreeModel> pTree = treeService.getTree(pTreeModel);
@@ -85,7 +86,7 @@ public class LifeUserController {
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel == null) {
 				outMSG.setCode("202");
-				outMSG.setMessage("输入的编码不存在，请点击右下角按钮新增编码！");
+				outMSG.setMessage("输入的编码不存在，请注册！");
 			} else {
 				request.getSession().setAttribute("lifeUserModel", lifeUserModel);
 				request.getSession().setMaxInactiveInterval(3600);
@@ -126,9 +127,34 @@ public class LifeUserController {
 				outMSG.setMessage("该编码已存在！");
 			} else {
 				LifeUserModel newUser = new LifeUserModel();
-				newUser.setUserCode(code);
-				newUser.setCreateTime(DateUtil.getNow());
+				newUser.setUsercode(code);
+				newUser.setCreatetime(DateUtil.getNow());
 				lifeUserService.add(newUser);
+				TreeModel treeModel = new TreeModel();
+				treeModel.setIconCls("life-1");
+				treeModel.setSortNo("0");
+				treeModel.setLevel("1");
+				treeModel.setText("我的收藏");
+				treeModel.setUserCode(code);
+				String pid = Util.getUUId16();
+				treeModel.setId(pid);
+				treeModel.setPid("0");
+				treeModel.setStatus("0");
+				treeModel.setCreateTime(DateUtil.getNow());
+				treeService.addTree(treeModel);
+				TreeModel treeModel2 = new TreeModel();
+				treeModel2.setIconCls("tree-listen");
+				treeModel2.setSortNo("0");
+				treeModel2.setLevel("2");
+				treeModel2.setText("我的菜单");
+				treeModel2.setUserCode(code);
+				treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/myMeun");
+				treeModel2.setId(Util.getUUId16());
+				treeModel2.setPid(pid);
+				treeModel2.setStatus("0");
+				treeModel2.setCreateTime(DateUtil.getNow());
+				treeModel2.setReadMode("web");
+				treeService.addTree(treeModel2);
 				outMSG.setCode("200");
 				outMSG.setMessage("新增成功！");
 			}

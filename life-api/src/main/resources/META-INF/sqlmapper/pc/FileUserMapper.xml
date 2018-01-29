@@ -14,22 +14,23 @@
 		<result column="upload_user" property="uploadUser" jdbcType="VARCHAR" />
 		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
 		<result column="content_type" property="contentType" jdbcType="VARCHAR" />
+		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<insert id="save" parameterType="com.life.pc.model.FileUserModel">
-		insert into pc_files (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type)
+		insert into pc_files (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare)
 		values(
 		#{id,jdbcType=VARCHAR},#{fileOriginalFilename,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR},
 		#{fileUrl,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},#{uploadUser,jdbcType=VARCHAR},
-		#{sortNo,jdbcType=VARCHAR},#{contentType,jdbcType=VARCHAR}
+		#{sortNo,jdbcType=VARCHAR},#{contentType,jdbcType=VARCHAR},#{isShare,jdbcType=VARCHAR}
 		)
 	</insert>
 
 	<select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
 		select
-		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
-		order by upload_time desc 
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		order by upload_time desc
 	</select>
 
 	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
@@ -38,12 +39,12 @@
 
 	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
 		select
-		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where id=#{id,jdbcType=VARCHAR}
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files where id=#{id,jdbcType=VARCHAR}
 	</select>
 
 	<select id="getFilesByTypeAndUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
 		select
-		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
 		and file_type=#{fileType,jdbcType=VARCHAR}
 		order by upload_time desc
 	</select>
@@ -66,5 +67,45 @@
 
 	<update id="update" parameterType="java.lang.String">
 		update pc_files set file_name=#{fileName,jdbcType=VARCHAR} where id=#{id}
+	</update>
+
+	<update id="updateById" parameterType="com.life.pc.model.FileUserModel">
+		update pc_files
+		<set>
+			<if test="fileOriginalfilename != null">
+				file_originalFilename = #{fileOriginalfilename,jdbcType=VARCHAR},
+			</if>
+			<if test="fileName != null">
+				file_name = #{fileName,jdbcType=VARCHAR},
+			</if>
+			<if test="fileType != null">
+				file_type = #{fileType,jdbcType=VARCHAR},
+			</if>
+			<if test="filePath != null">
+				file_path = #{filePath,jdbcType=VARCHAR},
+			</if>
+			<if test="fileUrl != null">
+				file_url = #{fileUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="fileSize != null">
+				file_size = #{fileSize,jdbcType=VARCHAR},
+			</if>
+			<if test="uploadTime != null">
+				upload_time = #{uploadTime,jdbcType=VARCHAR},
+			</if>
+			<if test="uploadUser != null">
+				upload_user = #{uploadUser,jdbcType=VARCHAR},
+			</if>
+			<if test="sortNo != null">
+				sort_no = #{sortNo,jdbcType=VARCHAR},
+			</if>
+			<if test="contentType != null">
+				content_type = #{contentType,jdbcType=VARCHAR},
+			</if>
+			<if test="isshare != null">
+				isShare = #{isshare,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
 	</update>
 </mapper>
