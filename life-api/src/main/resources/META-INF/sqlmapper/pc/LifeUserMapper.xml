@@ -12,10 +12,12 @@
 		<result column="defaultPlayAddress" property="defaultplayaddress" jdbcType="VARCHAR" />
 		<result column="selfIntroduction" property="selfintroduction" jdbcType="VARCHAR" />
 		<result column="userName" property="username" jdbcType="VARCHAR" />
+		<result column="headAddress" property="headaddress" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		userCode, createTime, userRole, updateTime, phoneNo, emailAddress, defaultPlayAddress,
-		selfIntroduction,userName
+		selfIntroduction,userName,password,headAddress
 	</sql>
 	<select id="checkEnterCode" parameterType="com.life.pc.model.LifeUserModel" resultType="com.life.pc.model.LifeUserModel">
 		select
@@ -58,6 +60,12 @@
 			<if test="username != null">
 				userName,
 			</if>
+			<if test="headaddress != null">
+				headAddress,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="usercode != null">
@@ -87,6 +95,48 @@
 			<if test="username != null">
 				#{userName,jdbcType=VARCHAR},
 			</if>
+			<if test="headaddress != null">
+				#{headaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
+	<update id="update" parameterType="com.life.pc.model.LifeUserModel">
+		update pc_user
+		<set>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userrole != null">
+				userRole = #{userrole,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="phoneno != null">
+				phoneNo = #{phoneno,jdbcType=VARCHAR},
+			</if>
+			<if test="emailaddress != null">
+				emailAddress = #{emailaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="defaultplayaddress != null">
+				defaultPlayAddress = #{defaultplayaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="selfintroduction != null">
+				selfIntroduction = #{selfintroduction,jdbcType=VARCHAR},
+			</if>
+			<if test="headaddress != null">
+				headAddress = #{headaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				userName = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where userCode = #{usercode,jdbcType=VARCHAR}
+	</update>
 </mapper>

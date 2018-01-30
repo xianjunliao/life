@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+
+	xsi:schemaLocation="
+	    http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+
+
+	default-autowire="byName" default-lazy-init="false">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 这里支持多种寻址方式：classpath和file -->
+				<value>D:/life-web/conf/prod/jdbc.properties</value>
+				<value>D:/life-web/conf/prod/application.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<context:annotation-config />
+
+	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="com.life" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<!-- @Controller注解的使用前提配置,相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean，配置一些messageconverter -->
+	<!--<mvc:annotation-driven /> -->
+
+	<!-- 以下 validator ConversionService 在使用 mvc:annotation-driven 会 自动注册 -->
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json; charset=UTF-8</value>
+						<value>application/x-www-form-urlencoded; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<!-- 类型转换及数据格式化 -->
+	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+
+	<!-- 会自动注册了validator ConversionService -->
+	<!--<mvc:annotation-driven -->
+	<!--validator="validator" -->
+	<!--conversion-service="conversionService" -->
+	<!--content-negotiation-manager="contentNegotiationManager" -->
+	<!--enable-matrix-variables="true" -->
+	<!--&gt; -->
+	<!--&lt;!&ndash;enableMatrixVariables="true">&ndash;&gt; -->
+	<!--&lt;!&ndash; 异步支持 默认30秒超时 -->
+	<!--<mvc:async-support default-timeout="30000" task-executor="executor"/> -->
+	<!--&ndash;&gt; -->
+
+	<!--<mvc:message-converters register-defaults="true"> -->
+	<!--&lt;!&ndash; StringHttpMessageConverter编码为UTF-8，防止乱码 &ndash;&gt; -->
+	<!--<bean class="org.springframework.http.converter.StringHttpMessageConverter"> -->
+	<!--<constructor-arg value="UTF-8"/> -->
+	<!--&lt;!&ndash; 用于避免响应头过大 &ndash;&gt; -->
+	<!--<property name="writeAcceptCharset" value="false" /> -->
+                <!---->
+	<!--<property name = "supportedMediaTypes"> -->
+	<!--<list> -->
+	<!--<bean class="org.springframework.http.MediaType"> -->
+	<!--<constructor-arg index="0" value="text"/> -->
+	<!--<constructor-arg index="1" value="plain"/> -->
+	<!--<constructor-arg index="2" value="UTF-8"/> -->
+	<!--</bean> -->
+	<!--<bean class="org.springframework.http.MediaType"> -->
+	<!--<constructor-arg index="0" value="*"/> -->
+	<!--<constructor-arg index="1" value="*"/> -->
+	<!--<constructor-arg index="2" value="UTF-8"/> -->
+	<!--</bean> -->
+	<!--</list> -->
+	<!--</property> -->
+	<!--</bean> -->
+
+	<!--&lt;!&ndash; 将Jackson2HttpMessageConverter的默认格式化输出设为true&ndash;&gt; -->
+	<!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> -->
+	<!--<property name="prettyPrint" value="true"/> -->
+	<!--<property name="objectMapper"> -->
+	<!--<bean class="com.fasterxml.jackson.databind.ObjectMapper"> -->
+	<!--<property name="dateFormat"> -->
+	<!--<bean class="java.text.SimpleDateFormat"> -->
+	<!--<constructor-arg type="java.lang.String" value="yyyy/MM/dd HH:mm:ss" /> -->
+	<!--</bean> -->
+	<!--</property> -->
+	<!--</bean> -->
+	<!--</property> -->
+	<!--</bean> -->
+	<!--</mvc:message-converters> -->
+	<!--</mvc:annotation-driven> -->
+
+	<!--1、首先检查路径扩展名（如my.pdf）；2、其次检查Parameter（如my?format=pdf）；3、检查Accept Header -->
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
+		<property name="favorPathExtension" value="true" />
+		<!-- 用于开启 /userinfo/123?format=json 的支持 <property name="favorParameter" value="true"/> -->
+		<property name="parameterName" value="format" />
+		<!-- 是否忽略Accept Header -->
+		<property name="ignoreAcceptHeader" value="false" />
+
+		<property name="mediaTypes"> <!--扩展名到MIME的映射；favorPathExtension, favorParameter是true时起作用 -->
+			<value>
+				html=text/html;charset=UTF-8
+				atom=application/atom+xml;charset=UTF-8
+				json=application/json;charset=UTF-8
+				xml=application/xml;charset=UTF-8
+			</value>
+		</property>
+		<!-- 默认的content type -->
+		<property name="defaultContentType" value="text/html;charset=UTF-8" />
+	</bean>
+
+
+	<!-- ========================= VIEW定义 ========================= -->
+	<!-- 内容协商视图解析器；根据客户端的不同的请求决定不同的 view进行响应, 如 /blog/1.json /blog/1.xml -->
+	<!-- 会自动根据解析的contentType来决定使用哪个视图解析器（默认使用整个web应用中的viewResolver） -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<!-- 此配置优先级最高 -->
+		<property name="order" value="0" />
+		<!-- 内容协商管理器 用于决定media type -->
+		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
+		<!-- 默认视图 放在解析链最后 -->
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+				<!--<bean class="org.springframework.web.servlet.view.xml.MarshallingView"/> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)，将ModelAndView及字符串解析为具体的页面 -->
+	<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 此配置优先级 -->
+		<property name="order" value="1" />
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="contentType" value="text/html" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<!-- <property name="suffix" value=".jsp"/> -->
+	</bean>
+
+	<!-- 定义无需Controller的url<->view直接映射 -->
+	<mvc:view-controller path="/" view-name="index.jsp" />
+
+	<!-- 修改处 -->
+	<!-- <bean id="urlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" > <property name="interceptors"> <list> <bean class="com.bqzl.cspm.servlet.SecurityFilter"/> </list> </property> </bean> -->
+
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>15728640000</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>1</value>
+		</property>
+	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<!-- <mvc:exclude-mapping path="/WEB-INF/views/decorators/*"/> -->
+			<bean class="com.bqzl.bqtd.common.CommonInterceptor">
+				<property name="excludedUrls">
+					<list>
+						<value>/isLogin</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!-- 处理静态资源(一) ,已使用tomcat的defaultServlet来进行处理 映射到ResourceHttpRequestHandler进行处理 , location指定静态资源的位置.可以是web application根目录下、jar包里面，这样可以把静态资源压缩到jar包中 cache-period 可以使得静态资源进行web cache <mvc:resources mapping="/resources/**" location="/resources/js/" cache-period="18000" /> <mvc:resources mapping="/js/**" location="/resources/js/" cache-period="18000" /> <mvc:resources mapping="/images/**" location="/resources/images/" 
+		cache-period="18000"/> -->
+	<!-- 处理静态资源(二)：容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL -->
+	<mvc:default-servlet-handler />
+
+	<!-- 将Controller抛出的异常转到特定View -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<!-- 更改视图中exception的名称 -->
+		<!-- <property name="exceptionAttribute" value="ex"></property> <property name="exceptionMappings"> <props> <prop key="java.lang.ArrayIndexOutOfRoundsException"></prop> </props> </property> -->
+		<property name="exceptionMappings">
+			<props>
+				<prop key="java.lang.Throwable">error/500.jsp</prop>
+			</props>
+		</property>
+		<property name="warnLogCategory" value="WARN"></property>
+		<property name="defaultErrorView" value="500"></property>
+		<property name="defaultStatusCode" value="500"></property>
+		<property name="statusCodes">
+			<props>
+				<prop key="404">404</prop>
+				<prop key="500">500</prop>
+			</props>
+		</property>
+
+	</bean>
+</beans>

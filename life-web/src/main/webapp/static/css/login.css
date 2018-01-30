@@ -123,7 +123,7 @@ a:hover{ text-decoration: underline; }
 }
 #content .form { margin: 0 20px; position: relative }
 #content .form input[type="password"],
-#content .form input[type="userCode"] {
+#content .form input[type="text"] {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	-ms-border-radius: 3px;
@@ -139,16 +139,16 @@ a:hover{ text-decoration: underline; }
 	-ms-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
-	background: #eae7e7 url(../images/login2.png) no-repeat 10px 12px;
 	border: 1px solid #c8c8c8;
 	color: #777;
 	font: 13px Helvetica, Arial, sans-serif;
 	margin: 0 0 10px;
-	padding: 15px 10px 15px 40px;
+	padding: 15px 10px 15px 10px;
 	width: 90%;
+	height: 35px;
 }
 #content .form input[type="password"]:focus,
-#content .form input[type="userCode"]:focus {
+#content .form input[type="text"]:focus {
 	-webkit-box-shadow: 0 0 2px #ed1c24 inset;
 	-moz-box-shadow: 0 0 2px #ed1c24 inset;
 	-ms-box-shadow: 0 0 2px #ed1c24 inset;
@@ -202,7 +202,7 @@ a:hover{ text-decoration: underline; }
 	color: #004a80;
     float: right;
     font-size: 12px;
-    margin: 30px 15px 0 0;
+    margin: 15px 20px 0 0;
     text-decoration: underline;
 }
 .button {

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../../headerH5.jsp"%>
+<%@ include file="../../../headerH5.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,7 +95,7 @@
 	<div class="container">
 		<section id="content">
 			<div class="form">
-				<h1>登录</h1>
+				<h1>身份编码登录</h1>
 				<div>
 					<!--<input type="text" placeholder="Username" required="" id="username" />-->
 				</div>
@@ -103,7 +103,7 @@
 					<input type="password" placeholder="请输入你在该网站的身份编码..." autofocus="autofocus" oninput="userInput()" required="" id="userCode" />
 				</div>
 				<div>
-					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="注册" onclick="addUserCode()" /> <a href="#">使用账号密码登录</a>
+					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }register">账号密码注册</a>
 				</div>
 			</div>
 			<!-- form -->

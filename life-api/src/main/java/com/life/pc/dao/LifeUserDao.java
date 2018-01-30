@@ -8,8 +8,12 @@ import com.life.pc.model.LifeUserModel;
 
 public interface LifeUserDao {
 
-	public LifeUserModel checkEnterCode(@Param("code")String code);
+	public LifeUserModel checkEnterCode(@Param("code") String code);
+
 	List<LifeUserModel> getAll();
+
 	void save(LifeUserModel lifeUserModel);
-	
+
+	void update(LifeUserModel lifeUserModel);
+
 }

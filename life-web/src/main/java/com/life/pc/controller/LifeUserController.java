@@ -55,7 +55,7 @@ public class LifeUserController {
 		if (pageName.contains("test")) {
 			return "error/" + pageName + ".jsp";
 		}
-		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("login")|| pageName.equals("myMeun")) {
+		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("myMeun")) {
 
 			return FTL_DIR + pageName + ".jsp";
 		} else {
@@ -75,6 +75,23 @@ public class LifeUserController {
 		}
 		return FTL_DIR + pageName + ".jsp";
 
+	}
+	@RequestMapping("/login")
+	public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return FTL_DIR + "user/login.jsp";
+	}
+
+	@RequestMapping("/register")
+	public String register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return FTL_DIR + "user/register.jsp";
+	}
+	@RequestMapping("/register2")
+	public String register2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return FTL_DIR + "user/register2.jsp";
+	}
+	@RequestMapping("/fullLogin")
+	public String fullLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return FTL_DIR + "user/fullLogin.jsp";
 	}
 
 	@ResponseBody
