@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.life.common.MD5;
 import com.life.common.ResponseMessage;
-import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.common.util.DESUtil;
+import com.life.pc.common.WebUtils;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
 import com.life.pc.service.LifeUserService;
@@ -76,19 +77,30 @@ public class LifeUserController {
 		return FTL_DIR + pageName + ".jsp";
 
 	}
+
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return FTL_DIR + "user/login.jsp";
 	}
 
 	@RequestMapping("/register")
-	public String register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String register(LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return FTL_DIR + "user/register.jsp";
 	}
+
 	@RequestMapping("/register2")
-	public String register2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String register2(String step, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String[] user = DESUtil.decryptDES(step).split(":");
+			model.put("usercode", DESUtil.encryptDES(user[0]));
+			model.put("username", user[1]);
+			model.put("password", DESUtil.encryptDES(user[2]));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return FTL_DIR + "user/register2.jsp";
 	}
+
 	@RequestMapping("/fullLogin")
 	public String fullLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return FTL_DIR + "user/fullLogin.jsp";
@@ -133,6 +145,16 @@ public class LifeUserController {
 	}
 
 	@ResponseBody
+	@RequestMapping("user/getDES")
+	public String getDES(String str, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			str = DESUtil.encryptDES(str);
+		} catch (Exception e) {
+		}
+		return str;
+	}
+
+	@ResponseBody
 	@RequestMapping("/add")
 	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
@@ -147,31 +169,10 @@ public class LifeUserController {
 				newUser.setUsercode(code);
 				newUser.setCreatetime(DateUtil.getNow());
 				lifeUserService.add(newUser);
-				TreeModel treeModel = new TreeModel();
-				treeModel.setIconCls("life-1");
-				treeModel.setSortNo("0");
-				treeModel.setLevel("1");
-				treeModel.setText("我的收藏");
-				treeModel.setUserCode(code);
-				String pid = Util.getUUId16();
-				treeModel.setId(pid);
-				treeModel.setPid("0");
-				treeModel.setStatus("0");
-				treeModel.setCreateTime(DateUtil.getNow());
-				treeService.addTree(treeModel);
-				TreeModel treeModel2 = new TreeModel();
-				treeModel2.setIconCls("tree-listen");
-				treeModel2.setSortNo("0");
-				treeModel2.setLevel("2");
-				treeModel2.setText("我的菜单");
-				treeModel2.setUserCode(code);
-				treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/myMeun");
-				treeModel2.setId(Util.getUUId16());
-				treeModel2.setPid(pid);
-				treeModel2.setStatus("0");
-				treeModel2.setCreateTime(DateUtil.getNow());
-				treeModel2.setReadMode("web");
-				treeService.addTree(treeModel2);
+				TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(code);
+				TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(code, defalutTreeLevel1.getId(), request);
+				treeService.addTree(defalutTreeLevel1);
+				treeService.addTree(defalutTreeLevel2);
 				outMSG.setCode("200");
 				outMSG.setMessage("新增成功！");
 			}
@@ -194,4 +195,37 @@ public class LifeUserController {
 		List<LifeUserModel> all = lifeUserService.getAll();
 		return all;
 	}
+
+	@ResponseBody
+	@RequestMapping("user/addFull")
+	public ResponseMessage<LifeUserModel> addFullInfo(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		String usercode = lifeUserModel.getUsercode();
+		try {
+			usercode = DESUtil.encryptDES(usercode);
+			LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
+			if (checkEnterCode != null) {
+				outMSG.setCode("202");
+				outMSG.setMessage("该身份编码已经在！");
+			} else {
+				lifeUserModel.setCreatetime(DateUtil.getNow());
+				lifeUserModel.setUsercode(usercode);
+				lifeUserModel.setPassword(MD5.md5(lifeUserModel.getPassword()));
+				lifeUserService.add(lifeUserModel);
+				TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(usercode);
+				TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
+				treeService.addTree(defalutTreeLevel1);
+				treeService.addTree(defalutTreeLevel2);
+				outMSG.setCode("200");
+				outMSG.setData(lifeUserModel);
+				outMSG.setMessage("注册成功！");
+			}
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("注册失败，请重试！");
+		}
+
+		return outMSG;
+	}
+
 }

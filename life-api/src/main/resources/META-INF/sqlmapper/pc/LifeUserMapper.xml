@@ -93,7 +93,7 @@
 				#{selfintroduction,jdbcType=VARCHAR},
 			</if>
 			<if test="username != null">
-				#{userName,jdbcType=VARCHAR},
+				#{username,jdbcType=VARCHAR},
 			</if>
 			<if test="headaddress != null">
 				#{headaddress,jdbcType=VARCHAR},

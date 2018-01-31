@@ -286,7 +286,7 @@ a:hover {
 	float: left;
 	font: bold 15px Helvetica, Arial, sans-serif;
 	height: 35px;
-	margin: 20px 0 35px 10px;
+	margin: 20px 0 35px 15px;
 	position: relative;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	width: 100px;
@@ -312,7 +312,7 @@ a:hover {
 	color: #004a80;
 	float: right;
 	font-size: 12px;
-	margin: 15px 40px 0 0;
+	margin: 15px 20px 0 0;
 	text-decoration: underline;
 }
 
@@ -341,7 +341,7 @@ a:hover {
 	-ms-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
 	border-top: 1px solid #CFD5D9;
-	padding: 5px 0;
+	padding: 15px 0;
 	height: 20px;
 }
 
@@ -400,11 +400,7 @@ textarea {
 	text-align: left;
 }
 
-.check_img {
-	height: 30px;
-	float: right;
-	margin-top: 8px;
-}#content form input[type="button"] {
+#content form input[type="button"] {
 	background: rgb(254, 231, 154);
 	background: -moz-linear-gradient(top, rgba(254, 231, 154, 1) 0%,
 		rgba(254, 193, 81, 1) 100%);
@@ -434,7 +430,7 @@ textarea {
 	float: left;
 	font: bold 15px Helvetica, Arial, sans-serif;
 	height: 35px;
-	margin: 20px 0 35px 10px;
+	margin: 20px 0 35px 15px;
 	position: relative;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	width: 100px;
