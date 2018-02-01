@@ -14,20 +14,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.life.common.MD5;
 import com.life.common.ResponseMessage;
+import com.life.common.Str;
+import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.common.util.DESUtil;
 import com.life.pc.common.WebUtils;
+import com.life.pc.model.FileUserModel;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
+import com.life.pc.service.FileUserService;
 import com.life.pc.service.LifeUserService;
 import com.life.pc.service.TreeService;
 
 @Controller
-// @RequestMapping("entrance")
 public class LifeUserController {
 
 	@Resource(name = "lifeUserService")
@@ -35,6 +40,9 @@ public class LifeUserController {
 
 	@Autowired
 	private TreeService treeService;
+
+	@Autowired
+	private FileUserService fileUserService;
 	/**
 	 * 模板存放目录
 	 */
@@ -45,14 +53,13 @@ public class LifeUserController {
 	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		code = DESUtil.encryptDES(code);
 		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
-		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-		request.getSession().setMaxInactiveInterval(7200);
+		WebUtils.newSession(lifeUserModel, request);
 		return lifeUserModel;
 	}
 
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
+		LifeUserModel attribute = WebUtils.getUserInfo(request);
 		if (pageName.contains("test")) {
 			return "error/" + pageName + ".jsp";
 		}
@@ -74,6 +81,7 @@ public class LifeUserController {
 		if (pTree.size() > 0) {
 			model.put("initText", pTree.get(0).getText());
 		}
+		model.put("userInfo", attribute);
 		return FTL_DIR + pageName + ".jsp";
 
 	}
@@ -83,22 +91,20 @@ public class LifeUserController {
 		return FTL_DIR + "user/login.jsp";
 	}
 
-	@RequestMapping("/register")
-	public String register(LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		return FTL_DIR + "user/register.jsp";
-	}
-
-	@RequestMapping("/register2")
-	public String register2(String step, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			String[] user = DESUtil.decryptDES(step).split(":");
+	@RequestMapping("/regSkip")
+	public String register(String step, String str, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!Str.isEmpty(str)) {
+			String[] user = DESUtil.decryptDES(str).split(":");
 			model.put("usercode", DESUtil.encryptDES(user[0]));
 			model.put("username", user[1]);
 			model.put("password", DESUtil.encryptDES(user[2]));
-		} catch (Exception e) {
-			e.printStackTrace();
+			model.put("str", str);
 		}
-		return FTL_DIR + "user/register2.jsp";
+		LifeUserModel userInfo = WebUtils.getUserInfo("add", request);
+		if (null != userInfo) {
+			model.put("usercode", userInfo.getUsercode());
+		}
+		return FTL_DIR + "user/" + step + ".jsp";
 	}
 
 	@RequestMapping("/fullLogin")
@@ -117,10 +123,33 @@ public class LifeUserController {
 				outMSG.setCode("202");
 				outMSG.setMessage("输入的身份编码不存在，请注册！");
 			} else {
-				request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-				request.getSession().setMaxInactiveInterval(3600);
+				WebUtils.newSession(lifeUserModel, request);
 				outMSG.setCode("200");
 				outMSG.setMessage("验证成功！");
+			}
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("验证失败！");
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("user/checkUserLogin")
+	public ResponseMessage<LifeUserModel> checkUserLogin(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		try {
+			String username = lifeUserModel.getUsername();
+			String password = lifeUserModel.getPassword();
+			password=DESUtil.encryptDES(password);
+			LifeUserModel returnResult = lifeUserService.checkEnterNameAndPassword(username, password);
+			if(returnResult==null){
+				outMSG.setCode("202");
+				outMSG.setMessage("用户名或密码错误！");
+			}else{
+				WebUtils.newSession(returnResult, request);
+				outMSG.setCode("200");
+				outMSG.setMessage("登陆成功！");
 			}
 		} catch (Exception e) {
 			outMSG.setCode("209");
@@ -134,7 +163,7 @@ public class LifeUserController {
 	public ResponseMessage<LifeUserModel> exit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
-			request.getSession().removeAttribute("lifeUserModel");
+			WebUtils.deleteSession(request);
 			outMSG.setCode("200");
 			outMSG.setMessage("退出成功！");
 		} catch (Exception e) {
@@ -152,6 +181,36 @@ public class LifeUserController {
 		} catch (Exception e) {
 		}
 		return str;
+	}
+
+	@ResponseBody
+	@RequestMapping("user/checkUser")
+	public ResponseMessage<LifeUserModel> checkUserIsExist(String code, String name, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+		try {
+			LifeUserModel userInfo = WebUtils.getUserInfo("add", request);
+			if (null == userInfo) {
+				code = DESUtil.encryptDES(code);
+				LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
+				if (null == lifeUserModel) {
+					outMSG.setCode("200");
+				} else {
+					outMSG.setCode("202");
+					outMSG.setMessage("身份编码已经存在，不能重复注册！");
+				}
+			}
+			LifeUserModel lifeUserModel = lifeUserService.checkEnterName(name);
+			if (lifeUserModel == null) {
+				outMSG.setCode("200");
+			} else {
+				outMSG.setCode("202");
+				outMSG.setMessage("用户名已经存在，不能重复注册！");
+			}
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("身份密码或用户名校验是否存在出现异常！");
+		}
+		return outMSG;
 	}
 
 	@ResponseBody
@@ -175,6 +234,7 @@ public class LifeUserController {
 				treeService.addTree(defalutTreeLevel2);
 				outMSG.setCode("200");
 				outMSG.setMessage("新增成功！");
+				WebUtils.newSession("add", newUser, request);
 			}
 
 		} catch (Exception e) {
@@ -197,29 +257,50 @@ public class LifeUserController {
 	}
 
 	@ResponseBody
-	@RequestMapping("user/addFull")
+	@RequestMapping("user/fullUser")
 	public ResponseMessage<LifeUserModel> addFullInfo(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
-		String usercode = lifeUserModel.getUsercode();
+		String usercode = "";
+
 		try {
-			usercode = DESUtil.encryptDES(usercode);
-			LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
-			if (checkEnterCode != null) {
-				outMSG.setCode("202");
-				outMSG.setMessage("该身份编码已经在！");
+			LifeUserModel userInfo = WebUtils.getUserInfo("add", request);
+
+			if (null == userInfo) {
+				usercode = lifeUserModel.getUsercode();
+				if (lifeUserModel.getRegStep().equals("1")) {
+					usercode = DESUtil.encryptDES(lifeUserModel.getUsercode());
+					lifeUserModel.setPassword(DESUtil.encryptDES(lifeUserModel.getPassword()));
+				}
+				LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
+				if (checkEnterCode != null) {
+					outMSG.setCode("202");
+					outMSG.setMessage("身份编码已存在，不能重复注册！");
+					return outMSG;
+				} else {
+					lifeUserModel.setUsercode(usercode);
+					lifeUserModel.setCreatetime(DateUtil.getNow());
+					lifeUserService.add(lifeUserModel);
+					TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(usercode);
+					TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
+					treeService.addTree(defalutTreeLevel1);
+					treeService.addTree(defalutTreeLevel2);
+
+				}
 			} else {
-				lifeUserModel.setCreatetime(DateUtil.getNow());
+				if (lifeUserModel.getRegStep().equals("1")) {
+					lifeUserModel.setPassword(DESUtil.encryptDES(lifeUserModel.getPassword()));
+				}
+				usercode = userInfo.getUsercode();
 				lifeUserModel.setUsercode(usercode);
-				lifeUserModel.setPassword(MD5.md5(lifeUserModel.getPassword()));
-				lifeUserService.add(lifeUserModel);
-				TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(usercode);
-				TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
-				treeService.addTree(defalutTreeLevel1);
-				treeService.addTree(defalutTreeLevel2);
-				outMSG.setCode("200");
-				outMSG.setData(lifeUserModel);
-				outMSG.setMessage("注册成功！");
+				lifeUserModel.setUpdatetime(DateUtil.getNow());
+				lifeUserService.update(lifeUserModel);
 			}
+			outMSG.setCode("200");
+			outMSG.setData(lifeUserModel);
+			outMSG.setMessage("注册成功！");
+			WebUtils.deleteSession("add", request);
+			WebUtils.newSession("addFull", lifeUserModel, request);// 用于头像上传
+
 		} catch (Exception e) {
 			outMSG.setCode("209");
 			outMSG.setMessage("注册失败，请重试！");
@@ -228,4 +309,42 @@ public class LifeUserController {
 		return outMSG;
 	}
 
+	@RequestMapping(path = { "user/uploadImg" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<FileUserModel> uploadFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<FileUserModel> outMSG = new ResponseMessage<>();
+		try {
+			if (null == file || 0 == file.getSize()) {
+				outMSG.setCode("201");
+				outMSG.setMessage("请选择需要上传的文件！");
+				return outMSG;
+			}
+			FileUserModel fileUserModel = new FileUserModel();
+			String id = Util.getUUId16();
+			String originalFilename = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
+			fileUserModel.setFileName(originalFilename);
+			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
+			fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+			fileUserModel.setContentType(file.getContentType());
+			fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
+			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
+			fileUserModel.setId(id);
+			fileUserModel.setPurpose("0");
+			fileUserModel.setUploadTime(DateUtil.getNow());
+			String userCode = WebUtils.getUserCode("addFull", request);
+			fileUserModel.setUploadUser(userCode);
+			fileUserService.save(file, fileUserModel);
+			LifeUserModel lifeUserModel = new LifeUserModel();
+			lifeUserModel.setHeadaddress(fileUserModel.getFileUrl());
+			lifeUserModel.setUsercode(userCode);
+			lifeUserService.update(lifeUserModel);
+			WebUtils.deleteSession("addFull", request);
+			outMSG.setCode("200");
+			outMSG.setMessage("上传头像成功！");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("上传头像失败，请重试！");
+		}
+		return outMSG;
+	}
 }

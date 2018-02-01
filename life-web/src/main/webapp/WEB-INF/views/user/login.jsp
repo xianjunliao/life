@@ -13,13 +13,8 @@
 	var user = "${user}";
 
 	function enter() {
-		var v = $("#userCode").val();
-		if (v == null || v == "") {
-			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
-			return;
-		}
 		var index = layer.load();
-		console.log("sdfs:" + v);
+		var v = $("#usercode").val();
 		$.ajax({
 			type : 'POST',
 			dataType : "json",
@@ -27,68 +22,70 @@
 			success : function(result) {
 				if (result.code == 200) {
 					window.location.replace(basePath + "house");
+				} else if (result.code == 202) {
+					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
 				} else {
 					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+					$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 				}
 				layer.close(index);
 			}
 		});
-
 	}
 	function addUserCode() {
-		var v = $("#userCode").val();
-		if (v == null || v == "") {
-			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
-			return;
-		}
-		var index = layer.load();
-		console.log(v);
-		$.ajax({
-			type : 'POST',
-			dataType : "json",
-			url : basePath + 'add?code=' + v,
-			success : function(result) {
-				if (result.code == 200) {
-					layer.close(index);
-					layer.confirm('注册成功，确定直接登入吗？', {
-						btn : [ '确定', '完善身份信息', '取消' ],
-						btn3 : function(index, layero) {
-							//按钮【按钮三】的回调
-						}
-					}, function(index, layero) {
-						enter();
-					}, function(index) {
-						layer.msg("开发中。。。");
-					});
-				} else {
-					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
-					layer.close(index);
+		var rightCount = $(".right").length;
+		if (rightCount > 0) {
+			var index = layer.load();
+			var v = $("#usercode").val();
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				url : basePath + 'add?code=' + v,
+				success : function(result) {
+					if (result.code == 200) {
+						layer.close(index);
+						layer.confirm('注册成功，确定直接登入吗？', {
+							btn : [ '确定', '继续注册', '取消' ],
+							btn3 : function(index, layero) {
+								//按钮【按钮三】的回调
+							}
+						}, function(index, layero) {
+							enter();
+						}, function(index) {
+							var s = "register";
+							var url = basePath + "regSkip?step=" + s;
+							window.location.replace(url);
+						});
+					} else {
+						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+						layer.close(index);
+					}
+
 				}
-
-			}
-		});
-
-	}
-	function userInput() {
-		var v = $("#userCode").val();
-		if (v == null || v == "") {
-			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
-		} else {
-			$("#errorMsg").empty();
+			});
 		}
 	}
 	$(function() {
-		$('#userCode').keydown(function(e) {
+		$('#usercode').keydown(function(e) {
 			if (e.keyCode == 13) {
-				var v = $('#userCode').val();
-				if (v == null || '' == v || v == undefined) {
-					$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
-				} else {
-					enter();
-				}
+				enter();
 			}
 		});
 	});
+	function checkUserCode() {
+		var value = $("#usercode").val();
+		if (value == null || value == '') {
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+		} else if (value.length < 3) {
+			$("#errorMsg").html('<span style="color: red">身份编码长度必须大于等于3！  示例：aaa</span>');
+			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+		} else {
+			$("#errorMsg").html('<span style="color: green">身份编码格式输入正确！</span>');
+			$("#usercodeImg").html('<img class="right" src="${base}static/images/right.png"/>');
+		}
+	}
 </script>
 </head>
 <body>
@@ -100,10 +97,13 @@
 					<!--<input type="text" placeholder="Username" required="" id="username" />-->
 				</div>
 				<div>
-					<input type="password" placeholder="请输入你在该网站的身份编码..." autofocus="autofocus" oninput="userInput()" required="" id="userCode" />
+					<input type="password" placeholder="请输入你在该网站的身份编码..." autofocus="autofocus" oninput="checkUserCode()" onblur="checkUserCode()" required="" id="usercode" />
+					<div class="check_img" id="usercodeImg">
+						<img title="请输入身份编码！" src="${base}static/images/info.png" />
+					</div>
 				</div>
 				<div>
-					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }register">账号密码注册</a>
+					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }regSkip?step=register">账号密码注册</a>
 				</div>
 			</div>
 			<!-- form -->

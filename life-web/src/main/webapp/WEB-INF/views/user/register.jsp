@@ -12,7 +12,6 @@
 	var basePath = "${base}";
 	var flag = false;
 	var errorMsg = "请填写注册信息！";
-	clean();
 	$(function() {
 		layui.use('form', function() {
 			var form = layui.form;
@@ -23,25 +22,41 @@
 				if (rightCount == 4) {
 					var datas = data.field;
 					var action = data.form.action;
+					var usercode = $("#usercode").val();
+					var username = $("#username").val();
 					$.ajax({
-						url : action,
-						data : user,
+						url : basePath + 'user/checkUser?code=' + usercode + '&name=' + username,
 						type : "POST",
-						dataType : "json",
 						success : function(result) {
 							if (result.code == 200) {
-								clean();
-								$("#errorMsg").html('<span style="color: green"><b>注册成功，请选择登录方式或点击下一步完善更多注册信息！<b></span>');
+								$.ajax({
+									url : action,
+									data : user,
+									type : "POST",
+									dataType : "json",
+									success : function(result) {
+										if (result.code == 200) {
+											clean();
+											$("#errorMsg").html('<span style="color: green"><b>注册成功，请选择登录方式或点击下一步完善更多注册信息！<b></span>');
+										} else if (result.code == 202) {
+											$("#errorMsg").html('<span style="color: red">身份编码已存在，不能重复注册！</span>');
+											$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+										} else {
+											$("#errorMsg").html('<span style="color: red"><b>' + result.message + '<b></span>');
+										}
+									}
+								});
 							} else {
-								$("#errorMsg").html('<span style="color: red"><b>' + result.message + '<b></span>');
+								$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+								$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 							}
-						},
-						error : function(error) {
-							alert(error);
 						}
 					});
-					return false;
+
+				} else {
+
 				}
+				return false;
 			});
 			form.on('submit(registerNext)', function(data) {
 				var rightCount = $(".right").length;
@@ -51,10 +66,23 @@
 				var step = usercode + ":" + username + ":" + password;
 				if (rightCount == 4) {
 					$.ajax({
-						url : basePath + 'user/getDES?str=' + step,
+						url : basePath + 'user/checkUser?code=' + usercode + '&name=' + username,
 						type : "POST",
 						success : function(result) {
-							window.location.replace(basePath + "register2?step=" + result);
+							if (result.code == 200) {
+								$.ajax({
+									url : basePath + 'user/getDES?str=' + step,
+									type : "POST",
+									success : function(result) {
+										var s = "register2";
+										var url = basePath + "regSkip?step=" + s + "&str=" + result;
+										window.location.replace(url);
+									}
+								});
+							} else {
+								$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+								$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+							}
 						}
 					});
 					return false;
@@ -72,19 +100,6 @@
 		$("#passwordImg").html('<img src="${base}static/images/info.png"/>');
 		$("#rePasswordImg").html('<img src="${base}static/images/info.png"/>');
 	}
-	function getStep(id) {
-		var step = "请继续";
-		if (id == 'usercode') {
-			step = ",请填写用户名";
-		}
-		if (id == 'username') {
-			step = ",请填写密码";
-		}
-		if (id == 'password') {
-			step = ",请填写确认密码";
-		}
-		return step;
-	}
 	function checkUserCode() {
 		var value = $("#usercode").val();
 		if (value == null || value == '') {
@@ -94,7 +109,7 @@
 			$("#errorMsg").html('<span style="color: red">身份编码长度必须大于等于3！  示例：aaa</span>');
 			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 		} else {
-			$("#errorMsg").html('<span style="color: green">身份编码输入正确！</span>');
+			$("#errorMsg").html('<span style="color: green">身份编码格式输入正确！</span>');
 			$("#usercodeImg").html('<img class="right" src="${base}static/images/right.png"/>');
 		}
 		finallyCheck();
@@ -109,7 +124,7 @@
 			$("#errorMsg").html('<span style="color: red">用户名长度必须大于等于6!  示例：stephen</span>');
 			$("#usernameImg").html('<img src="${base}static/images/wrong.png"/>');
 		} else {
-			$("#errorMsg").html('<span style="color: green">用户名输入正确！</span>');
+			$("#errorMsg").html('<span style="color: green">用户名格式输入正确！</span>');
 			$("#usernameImg").html('<img class="right" src="${base}static/images/right.png"/>');
 		}
 		finallyCheck();
@@ -127,7 +142,7 @@
 			$("#errorMsg").html('<span style="color: red">必须输入8位以上长度的密码!  示例：woshiyigemima</span>');
 			$("#passwordImg").html('<img src="${base}static/images/wrong.png"/>');
 		} else {
-			$("#errorMsg").html('<span style="color: green">密码输入正确！</span>');
+			$("#errorMsg").html('<span style="color: green">密码格式输入正确！</span>');
 			$("#passwordImg").html('<img class="right" src="${base}static/images/right.png"/>');
 			$("#rePasswordImg").html('<img class="right" src="${base}static/images/right.png"/>');
 		}
@@ -146,7 +161,7 @@
 			$("#errorMsg").html('<span style="color: red">必须输入8位以上长度的密码!  示例：woshiyigemima</span>');
 			$("#rePasswordImg").html('<img src="${base}static/images/wrong.png"/>');
 		} else {
-			$("#errorMsg").html('<span style="color: green">确认密码输入正确！</span>');
+			$("#errorMsg").html('<span style="color: green">确认密码格式输入正确！</span>');
 			$("#rePasswordImg").html('<img class="right" src="${base}static/images/right.png"/>');
 			$("#passwordImg").html('<img class="right" src="${base}static/images/right.png"/>');
 		}
@@ -158,60 +173,21 @@
 			$("#errorMsg").html('<span style="color: green">注册信息填写完毕，请点击注册或下一步完善更多注册信息！</span>');
 		}
 	}
-	function paramsInit() {
-		var usercode = $("#usercode").val();
-		var username = $("#username").val();
-		var password = $("#password").val();
-		var params;
-		$.ajax({
-			url : basePath + 'user/getDES?str=' + usercode,
-			type : "POST",
-			success : function(result) {
-				usercode = result;
-				$.ajax({
-					url : basePath + 'user/getDES?str=' + password,
-					type : "POST",
-					success : function(result1) {
-						password = result1;
-						params = {
-							usercode : usercode,
-							username : username,
-							password : password
-						};
-					}
-				});
-			}
-		});
-
-		return parseParam(params);
-	}
-	function parseParam(paramObj, key) {
-		var paramStr = "";
-		if (paramObj instanceof String || paramObj instanceof Number || paramObj instanceof Boolean) {
-			paramStr += "&" + key + "=" + encodeURIComponent(paramObj);
-		} else {
-			$.each(paramObj, function(i) {
-				var k = key == null ? i : key + (paramObj instanceof Array ? "[" + i + "]" : "." + i);
-				paramStr += '&' + parseParam(this, k);
-			});
-		}
-		return paramStr.substr(1);
-	};
 </script>
 </head>
 <body>
 	<div class="container">
 		<section id="content">
-			<form class="layui-form" id="register1Form" method="post" action="${base}user/addFull">
+			<form class="layui-form" id="register1Form" method="post" action="${base}user/fullUser">
 				<h1>账号密码注册</h1>
 				<div>
-					<input type="password" autofocus="autofocus" onblur="checkUserCode()" oninput="checkUserCode()" placeholder="请输入身份编码" required="" id="usercode" name="usercode" />
+					<input type="text" name="regStep" id="regStep" value="1" style="display: none;" /> <input type="password" autofocus="autofocus" onblur="checkUserCode()" oninput="checkUserCode()" value="${usercode}" placeholder="请输入身份编码" required="" id="usercode" name="usercode" />
 					<div class="check_img" id="usercodeImg">
 						<img title="请输入身份编码！" src="${base}static/images/info.png" />
 					</div>
 				</div>
 				<div>
-					<input type="text" placeholder="请输入用户名" onblur="checkUserName()" oninput="checkUserName()" value="${user.username}" required="" id="username" name="username" />
+					<input type="text" placeholder="请输入用户名" onblur="checkUserName()" oninput="checkUserName()" value="${username}" required="" id="username" name="username" />
 					<div class="check_img" id="usernameImg">
 						<img title="请输入用户名！" src="${base}static/images/info.png" />
 					</div>

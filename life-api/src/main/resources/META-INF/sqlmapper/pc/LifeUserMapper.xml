@@ -19,10 +19,22 @@
 		userCode, createTime, userRole, updateTime, phoneNo, emailAddress, defaultPlayAddress,
 		selfIntroduction,userName,password,headAddress
 	</sql>
-	<select id="checkEnterCode" parameterType="com.life.pc.model.LifeUserModel" resultType="com.life.pc.model.LifeUserModel">
+	<select id="checkEnterCode" parameterType="java.lang.String" resultType="com.life.pc.model.LifeUserModel">
 		select
 		<include refid="Base_Column_List" />
 		from pc_user where userCode=#{code}
+	</select>
+
+	<select id="checkEnterName" parameterType="java.lang.String" resultType="com.life.pc.model.LifeUserModel">
+		select
+		<include refid="Base_Column_List" />
+		from pc_user where userName=#{name}
+	</select>
+
+	<select id="checkEnterNameAndPassword" parameterType="java.lang.String" resultType="com.life.pc.model.LifeUserModel">
+		select
+		<include refid="Base_Column_List" />
+		from pc_user where userName=#{name} and password=#{password}
 	</select>
 
 	<select id="getAll" resultType="com.life.pc.model.LifeUserModel">

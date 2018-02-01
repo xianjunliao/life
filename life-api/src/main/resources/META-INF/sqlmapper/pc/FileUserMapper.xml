@@ -15,26 +15,28 @@
 		<result column="sort_no" property="sortNo" jdbcType="VARCHAR" />
 		<result column="content_type" property="contentType" jdbcType="VARCHAR" />
 		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
+		<result column="purpose" property="purpose" jdbcType="VARCHAR" />
 	</resultMap>
 
 
 	<insert id="save" parameterType="com.life.pc.model.FileUserModel">
-		insert into pc_files (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare)
+		insert into pc_files (id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare,purpose)
 		values(
 		#{id,jdbcType=VARCHAR},#{fileOriginalFilename,jdbcType=VARCHAR},#{fileName,jdbcType=VARCHAR},#{fileType,jdbcType=VARCHAR},#{filePath,jdbcType=VARCHAR},
 		#{fileUrl,jdbcType=VARCHAR},#{fileSize,jdbcType=VARCHAR},#{uploadTime,jdbcType=VARCHAR},#{uploadUser,jdbcType=VARCHAR},
-		#{sortNo,jdbcType=VARCHAR},#{contentType,jdbcType=VARCHAR},#{isShare,jdbcType=VARCHAR}
+		#{sortNo,jdbcType=VARCHAR},#{contentType,jdbcType=VARCHAR},#{isShare,jdbcType=VARCHAR},#{purpose,jdbcType=VARCHAR}
 		)
 	</insert>
 
 	<select id="getFilesByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
 		select
-		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files
+		 where upload_user=#{userCode,jdbcType=VARCHAR} and purpose='1'
 		order by upload_time desc
 	</select>
 
 	<select id="getSumGroupTypeByUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
-		select count(1) fileSum,FORMAT(sum(file_size),2) fileSize,file_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR} group by file_type
+		select count(1) fileSum,FORMAT(sum(file_size),2) fileSize,file_type from pc_files where upload_user=#{userCode,jdbcType=VARCHAR} and purpose='1' group by file_type
 	</select>
 
 	<select id="getFileById" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
@@ -45,12 +47,12 @@
 	<select id="getFilesByTypeAndUserCode" parameterType="java.lang.String" resultType="com.life.pc.model.FileUserModel">
 		select
 		id,file_originalFilename,file_name,file_type,file_path,file_url,file_size,upload_time,upload_user,sort_no,content_type,isShare from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
-		and file_type=#{fileType,jdbcType=VARCHAR}
+		and file_type=#{fileType,jdbcType=VARCHAR} and purpose='1'
 		order by upload_time desc
 	</select>
 
 	<select id="getMaxSortNo" parameterType="java.lang.String" resultType="java.lang.Long">
-		select max(sort_no)+1 from pc_files where upload_user=#{userCode,jdbcType=VARCHAR}
+		select max(sort_no)+1 from pc_files where upload_user=#{userCode,jdbcType=VARCHAR} and purpose='1'
 	</select>
 
 	<select id="getFileTypes" resultType="com.life.pc.model.FileUserModel">

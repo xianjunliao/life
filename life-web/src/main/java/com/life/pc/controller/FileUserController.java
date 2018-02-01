@@ -76,6 +76,7 @@ public class FileUserController {
 			fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
 			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
 			fileUserModel.setId(id);
+			fileUserModel.setPurpose("1");
 			fileUserModel.setUploadTime(DateUtil.getNow());
 			fileUserModel.setUploadUser(userCode);
 			fileUserModel.setSortNo(maxSortNo == null ? "1" : maxSortNo.toString());

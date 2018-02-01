@@ -2,8 +2,6 @@ package com.life.pc.model;
 
 import java.io.Serializable;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class LifeUserModel implements Serializable {
 	/**
 	 * 
@@ -20,8 +18,7 @@ public class LifeUserModel implements Serializable {
 	private String username;// 用户名称
 	private String headaddress;// 头像地址
 	private String password;// 密码
-	private MultipartFile attachment;// 头像文件
-	private String path;
+	private String regStep;//注册步骤
 
 	public String getUsercode() {
 		return usercode;
@@ -111,26 +108,18 @@ public class LifeUserModel implements Serializable {
 		this.password = password;
 	}
 
-	public MultipartFile getAttachment() {
-		return attachment;
+	public String getRegStep() {
+		return regStep;
 	}
 
-	public void setAttachment(MultipartFile attachment) {
-		this.attachment = attachment;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
+	public void setRegStep(String regStep) {
+		this.regStep = regStep;
 	}
 
 	@Override
 	public String toString() {
 		return "LifeUserModel [usercode=" + usercode + ", createtime=" + createtime + ", userrole=" + userrole + ", updatetime=" + updatetime + ", phoneno=" + phoneno + ", emailaddress=" + emailaddress + ", defaultplayaddress=" + defaultplayaddress + ", selfintroduction=" + selfintroduction + ", username=" + username
-				+ ", headaddress=" + headaddress + ", password=" + password + ", attachment=" + attachment + ", path=" + path + "]";
+				+ ", headaddress=" + headaddress + ", password=" + password + ", regStep=" + regStep + "]";
 	}
 
 }

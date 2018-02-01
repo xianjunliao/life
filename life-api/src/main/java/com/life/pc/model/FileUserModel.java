@@ -19,7 +19,8 @@ public class FileUserModel implements java.io.Serializable {
 	private String contentType;// 文件类型
 	private String fileSum;// 总文件大小
 	private String isShare;// 是否分享 默认不分享
-
+    private String purpose;// 文件用途
+	
 	public String getId() {
 		return id;
 	}
@@ -124,10 +125,19 @@ public class FileUserModel implements java.io.Serializable {
 		this.isShare = isShare;
 	}
 
+	public String getPurpose() {
+		return purpose;
+	}
+
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+
 	@Override
 	public String toString() {
 		return "FileUserModel [id=" + id + ", fileName=" + fileName + ", fileOriginalFilename=" + fileOriginalFilename + ", fileType=" + fileType + ", filePath=" + filePath + ", fileUrl=" + fileUrl + ", fileSize=" + fileSize + ", uploadTime=" + uploadTime + ", uploadUser=" + uploadUser + ", sortNo=" + sortNo
-				+ ", contentType=" + contentType + ", fileSum=" + fileSum + ", isShare=" + isShare + "]";
+				+ ", contentType=" + contentType + ", fileSum=" + fileSum + ", isShare=" + isShare + ", purpose=" + purpose + "]";
 	}
+
 
 }

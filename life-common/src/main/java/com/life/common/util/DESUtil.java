@@ -1,112 +1,143 @@
 package com.life.common.util;
 
-import org.apache.commons.lang.StringUtils;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 
-
+import org.apache.shiro.codec.Base64;
 
 public class DESUtil {
-	 private static final byte[] IV_VALUE = { 12, 24, 48, 36, 48, 60, 72, 84 };
-// 	private static final String KEY = "djqh.com";
- 	public static final byte[] KEY = {0X64,0X6A,0X71,0X68,0X2E,0X63,0X6F,0X6D};
- 	
- 	
-     /**
- 	 * 加密byte数组 使用默认的IV和KEY
- 	 * 
- 	 * @param encryptBytes 
- 	 * @return 加密后的byte数组
- 	 * @throws Exception
- 	 */
- 	public static String encryptDES(String mingwen) throws Exception{
- 		IvParameterSpec zeroIv = new IvParameterSpec(IV_VALUE);
-// 		SecretKeySpec key = new SecretKeySpec(KEY.getBytes("UTF-8"), "DES");
- 		SecretKeySpec key = new SecretKeySpec(KEY, "DES");
- 		Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
- 		cipher.init(Cipher.ENCRYPT_MODE, key, zeroIv);
- 		byte[] encryptedData = cipher.doFinal(mingwen.getBytes("UTF-8"));
- 		return  new BASE64Encoder().encode(encryptedData);
- 	}
+	private final static String DES = "DES";
+	private final static String key="test中英文杂七烂八混搭@123654{";
 
- 	/**
- 	 * 解密byte数组 使用默认的IV和KEY
- 	 * 
- 	 * @param decryptBytes
- 	 * @return 解密后的byte数组
- 	 * @throws UnsupportedEncodingException 
- 	 * @throws NoSuchPaddingException 
- 	 * @throws NoSuchAlgorithmException 
- 	 * @throws Exception
- 	 */
- 	public static String decryptDES(String miwen) throws Exception {
- 		byte[] byteMi = new BASE64Decoder().decodeBuffer(miwen);
-			IvParameterSpec zeroIv = new IvParameterSpec(IV_VALUE);
-//			SecretKeySpec key = new SecretKeySpec(KEY.getBytes("UTF-8"), "DES");
-			SecretKeySpec key = new SecretKeySpec(KEY, "DES");
-			Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, key, zeroIv);
-			byte decryptedData[] = cipher.doFinal(byteMi);
-			return new String(decryptedData,"UTF-8");
- 	}
- 	
- 	/**
- 	 * 解密数据及转换参数为map
- 	 * @param data
- 	 * @return
- 	 * @throws Exception
- 	 */
- 	public static Map<String, String> getDataToMap(String data) throws Exception{
- 		Map<String, String> map = null;
- 		if (StringUtils.isNotEmpty(data)) {
- 			map = new HashMap<String, String>();
- 			data = DESUtil.decryptDES(data);
- 			String[] params = data.split("&");
- 			for (String param : params) {
- 				String[] p = param.split("=");
- 				if (p.length>1) {
- 					map.put(p[0], p[1]);
-					}else{
-						map.put(p[0], "");
-					}
- 			}
- 		}
- 		return map;
- 	}
- 	
- 	public static String getDataToString(String data) throws Exception{
- 		String a= DESUtil.decryptDES(data);
- 		return a;
- 	}
- 	
- 	public static String getDataToMiwen() throws Exception{
- 		String miwen = "12345678";
- 		String a= DESUtil.encryptDES(miwen);  
- 		return a;
- 	}
- 	
-	public static void main(String[] args) {
+	/**
+	 *
+	 * @param src
+	 *            数据源
+	 * @param key
+	 *            密钥，长度必须是8的倍数
+	 * @return
+	 * @throws Exception
+	 */
+	public static byte[] decrypt(byte[] src, byte[] key) throws Exception {
+		// DES算法要求有一个可信任的随机数源
+		SecureRandom sr = new SecureRandom();
+		// 从原始密匙数据创建一个DESKeySpec对象
+		DESKeySpec dks = new DESKeySpec(key);
+		// 创建一个密匙工厂，然后用它把DESKeySpec对象转换成一个SecretKey对象
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES);
+		SecretKey securekey = keyFactory.generateSecret(dks);
+		// Cipher对象实际完成解密操作
+		Cipher cipher = Cipher.getInstance(DES);
+		// 用密匙初始化Cipher对象
+		cipher.init(Cipher.DECRYPT_MODE, securekey, sr);
+
+		// 正式执行解密操作
+		return cipher.doFinal(src);
+	}
+
+	public final static String decryptDES(String data) {
 		try {
-			//System.out.print(getDataToMiwen());
-			String in2="8MGqF+jhOWL7xfZqyZHXOnkXDedvqKC4JDE4n+/mmmKvdswrZBq2GGQgkJUNVbQMP/72z14Kh2T+mIhY7P6LL2HWaumq33Tlcq+g29722wUqkdRap/41pvnYba5hshmOqDaDP0qv9PgX9KnkuXXufQ==";
-			String in= "8MGqF jhOWL7xfZqyZHXOnkXDedvqKC4JDE4n /mmmKvdswrZBq2GGQgkJUNVbQMP/72z14Kh2T mIhY7P6LL2HWaumq33Tlcq g29722wUqkdRap/41pvnYba5hshmOqDaDP0qv9PgX9KnkuXXufQ==";
-			//String in = "8MGqF+jhOWL7xfZqyZHXOnkXDedvqKC4JDE4n+/mmmKvdswrZBq2GGQgkJUNVbQMP/72z1бн:502 8MGqF jhOWL7xfZqyZHXOnkXDedvqKC4JDE4n /mmmKvdswrZBq2GGQgkJUNVbQMP/72z14Kh2T mIhY7P6LL2HWaumq33Tlcq g29722wUqkdRap/41pvnYba5hshmOqDaDP0qv9PgX9KnkuXXufQ==";
-			//in =  new String(in.getBytes(), "utf-8");
-			in = in.replace(" ", "+");
-			//in = URLEncoder.encode(in, "utf-8"); 
-			System.out.println(in);
-			System.out.print(DESUtil.decryptDES(in)); 
-		} catch (Exception e) {			
+			// 这里就没走
+			return new String(decrypt(String2byte(data.getBytes()), key.getBytes()));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
+
+	public static byte[] String2byte(byte[] b) {
+		if ((b.length % 2) != 0)
+			throw new IllegalArgumentException("长度不是偶数");
+		byte[] b2 = new byte[b.length / 2];
+		for (int n = 0; n < b.length; n += 2) {
+			String item = new String(b, n, 2);
+			b2[n / 2] = (byte) Integer.parseInt(item, 16);
+		}
+		return b2;
+	}
+
+	public static String DataDecrypt(String str, byte[] key) {
+		String decrypt = null;
+		try {
+			byte[] ret = decrypt(Base64.decode(str), key);
+			decrypt = new String(ret, "UTF-8");
+		} catch (Exception e) {
+			System.out.print(e);
+			decrypt = str;
+		}
+		return decrypt;
+
+	}
+
+	public static byte[] encrypt(byte[] src, byte[] key) throws Exception {
+		// DES算法要求有一个可信任的随机数源
+		SecureRandom sr = new SecureRandom();
+		// 从原始密匙数据创建DESKeySpec对象
+		DESKeySpec dks = new DESKeySpec(key);
+		// 创建一个密匙工厂，然后用它把DESKeySpec转换成一个SecretKey对象
+		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES);
+		SecretKey securekey = keyFactory.generateSecret(dks);
+		// Cipher对象实际完成加密操作
+		Cipher cipher = Cipher.getInstance(DES);
+		// 用密匙初始化Cipher对象
+		cipher.init(Cipher.ENCRYPT_MODE, securekey, sr);
+		// 正式执行加密操作
+		return cipher.doFinal(src);
+	}
+
+	/**
+	 *
+	 * @param password
+	 *            密码
+	 * @param key
+	 *            加密字符串
+	 * @return
+	 */
+	public final static String encryptDES(String password) {
+		try {
+			return byte2String(encrypt(password.getBytes(), key.getBytes()));
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	public static String byte2String(byte[] b) {
+		String hs = "";
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1)
+				hs = hs + "0" + stmp;
+			else
+				hs = hs + stmp;
+		}
+		return hs.toUpperCase();
+	}
+
+	public static String DataEncrypt(String str, byte[] key) {
+
+		String encrypt = null;
+		try {
+			byte[] ret = encrypt(str.getBytes("UTF-8"), key);
+			encrypt = new String(Base64.encode(ret));
+		} catch (Exception e) {
+			System.out.print(e);
+			encrypt = str;
+		}
+		return encrypt;
+	}
+
+	public static void main(String[] args) {
+		
+		String encryptString =encryptDES("123456,78941324564879,87462456");
+		System.out.println("加密后:" + encryptString);
+		
+		String desencryptString = decryptDES("FA8247476DA0DD670F1B6F1E78536B25EDE03B3AACD012B641A3FC861FD969D72BA4E59A594D44A9");
+		System.out.println(desencryptString);
+	}
+	// 输出：is张三丰
 }
