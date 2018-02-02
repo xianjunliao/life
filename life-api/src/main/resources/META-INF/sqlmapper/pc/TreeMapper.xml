@@ -44,6 +44,10 @@
 		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
 		userCode=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
+	<select id="getTreeByUserCode" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		userCode=#{userCode} and status='0' and level!='1'
+	</select>
 
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">

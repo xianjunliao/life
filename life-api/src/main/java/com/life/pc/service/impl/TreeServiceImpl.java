@@ -82,4 +82,9 @@ public class TreeServiceImpl implements TreeService {
 	public List<TreeModel> getTreeByPid(String userCode, String pid) {
 		return treeDao.getTreeByPid(userCode, pid);
 	}
+
+	@Override
+	public List<TreeModel> getTreeByUserCode(String userCode) {
+		return treeDao.getTreeByUserCode(userCode);
+	}
 }

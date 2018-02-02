@@ -20,9 +20,9 @@
 }
 </style>
 </head>
-<body>
-	<div class="easyui-layout" style="width: 98%; height: 99%; margin: 5px 5px 5px 5px">
-		<div data-options="region:'west',title:'备忘录',split:false,border:true,collapsible:false" style="width: 555px; height: 100%; padding: 10px;">
+<body style="overflow: hidden;">
+	<div class="easyui-layout" style="width: 99%; height: 98%; margin: 5px 5px 5px 5px; overflow: hidden;border-radius:5px;">
+		<div data-options="region:'west',title:'备忘录',split:false,border:true,collapsible:false" style="width: 575px; height: 100%; padding: 10px;">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
 				<div data-options="region:'north',border:false" style="height: 315px;">
 					<div style="float: left;">
@@ -96,8 +96,8 @@
 				</div>
 			</div>
 		</div>
+		<div data-options="region:'center',iconCls:'icon-ok',border:true">1111111</div>
 	</div>
-	<div data-options="region:'center',iconCls:'icon-ok',border:true"></div>
 	<script>
 		var d1 = new Date();
 		var d2 = new Date();
@@ -196,7 +196,7 @@
 			$('#timeInfo').append('<option>' + timeInfoArr[3] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[4] + '</option>');
 		}
-		function timesArr(){
+		function timesArr() {
 			$("#times").empty();
 			$('#times').append('<option>1点</option>');
 			$('#times').append('<option>2点</option>');

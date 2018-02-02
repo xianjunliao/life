@@ -133,10 +133,10 @@ public class DESUtil {
 
 	public static void main(String[] args) {
 		
-		String encryptString =encryptDES("123456,78941324564879,87462456");
+		String encryptString =encryptDES("lxj");
 		System.out.println("加密后:" + encryptString);
 		
-		String desencryptString = decryptDES("FA8247476DA0DD670F1B6F1E78536B25EDE03B3AACD012B641A3FC861FD969D72BA4E59A594D44A9");
+		String desencryptString = decryptDES(encryptString);
 		System.out.println(desencryptString);
 	}
 	// 输出：is张三丰

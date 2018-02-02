@@ -77,10 +77,12 @@ public class LifeUserController {
 		pTreeModel.setUserCode(userCode);
 		pTreeModel.setPid("0");
 		List<TreeModel> pTree = treeService.getTree(pTreeModel);
+		List<TreeModel> treeByUserCode = treeService.getTreeByUserCode(userCode);
 		model.put("data", pTree);
 		if (pTree.size() > 0) {
 			model.put("initText", pTree.get(0).getText());
 		}
+		model.put("trees", treeByUserCode);
 		model.put("userInfo", attribute);
 		return FTL_DIR + pageName + ".jsp";
 

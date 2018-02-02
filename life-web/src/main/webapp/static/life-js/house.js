@@ -6,33 +6,10 @@ $(function() {
 	createTab('homeTab', '首页', basePath + 'homePage');
 	$("#quite").hide();
 	$("#showTree").hide();
-	// $("#setting").hide();
-//	var btn = document.getElementById('btn');
-	var exitHouse = document.getElementById('exitHouse');
 	var hideTree = document.getElementById('hideTree');
 	var showTree = document.getElementById('showTree');
 	var uploadFile = document.getElementById('uploadFile');
 	var setting = document.getElementById('setting');
-	var isFull = false;
-//	btn.onclick = function() {
-//		$("#btn").hide();
-//		$("#quite").show();
-//		fullScreen('most');
-//		isFull = true;
-//	}
-//	var quite = document.getElementById('quite');
-//	quite.onclick = function() {
-//		$("#btn").show();
-//		$("#quite").hide();
-//		exitFullScreen('most');
-//		isFull = false;
-//	}
-	exitHouse.onclick = function() {
-//		if (!isFull) {
-//			exitFullScreen('most');
-//		}
-		exit();
-	}
 	var left_control_status = true;
 	var left_control_panel = $("#most").layout("panel", 'west');
 	hideTree.onclick = function() {
