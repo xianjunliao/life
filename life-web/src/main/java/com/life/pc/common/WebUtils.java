@@ -42,9 +42,9 @@ public class WebUtils {
 		treeModel2.setIconCls("tree-listen");
 		treeModel2.setSortNo("0");
 		treeModel2.setLevel("2");
-		treeModel2.setText("我的菜单");
+		treeModel2.setText("我的备忘录");
 		treeModel2.setUserCode(code);
-		treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/myMeun");
+		treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/memos");
 		treeModel2.setId(Util.getUUId16());
 		treeModel2.setPid(pid);
 		treeModel2.setStatus("0");

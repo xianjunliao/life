@@ -32,7 +32,7 @@
 	</bean>
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.bqzl.bqtd.dao" />
+		<property name="basePackage" value="com.life.**.dao" />
 		<!-- <property name="basePackage" value="org.smart.framework.dao,org.smart.framework.commons.dao" /> -->
 		<!-- 没有必要去指定SqlSessionFactory或SqlSessionTemplate，因为MapperScannerConfigurer将会创建MapperFactoryBean，之后自动装配。 但是，如果你使用了一个以上的DataSource(因此，也是多个的SqlSessionFactory),那么自动装配可能会失效。 这种情况下，你可以使用sqlSessionFactory或sqlSessionTemplate属性来设置正确的工厂/模板 -->
 		<property name="sqlSessionFactoryBeanName" value="_sqlSessionFactoryBean"></property>

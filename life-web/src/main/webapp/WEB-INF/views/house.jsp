@@ -143,7 +143,7 @@
 						<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="退出全屏" id="quite" class="easyui-linkbutton" data-options="plain:false,iconCls:'exit-full-screen'"></a></td>
 						<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="上传文件" id="uploadFile" class="easyui-linkbutton" data-options="plain:false,iconCls:'upload'"></a></td>
 						<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="环境设置" id="setting" class="easyui-linkbutton" data-options="plain:false,iconCls:'setting'"></a></td>
-						<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="添加菜单" id="m-level1-2" class="easyui-menubutton" data-options="plain:false,menu:'#treeMenu',iconCls:'addTree'"></a></td>
+<!-- 						<td><a style="height: 25px; width: 31px; margin-left: 2px;" title="添加菜单" id="m-level1-2" class="easyui-menubutton" data-options="plain:false,menu:'#treeMenu',iconCls:'addTree'"></a></td> -->
 					</tr>
 				</table>
 			</div>
