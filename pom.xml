@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="GBK"?>  
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.life</groupId>
@@ -18,7 +18,7 @@
 		</repository>
 	</repositories>
 
-	<!-- 涓婁紶鍒扮鏈� -->
+	<!-- 上传到私服 -->
 	<distributionManagement>
 	</distributionManagement>
 
@@ -69,7 +69,7 @@
 		<shiro.version>1.2.4</shiro.version>
 	</properties>
 
-	<!-- 渚濊禆鍖呯鐞� -->
+	<!-- 依赖包管理 -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -419,19 +419,19 @@
 				<artifactId>log4j-web</artifactId>
 				<version>${log4j.version}</version>
 			</dependency>
-			<!-- 浠ｇ爜鐩存帴璋冪敤log4j浼氳妗ユ帴鍒皊lf4j -->
+			<!-- 代码直接调用log4j会被桥接到slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>log4j-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-			<!-- 浠ｇ爜鐩存帴璋冪敤common-logging浼氳妗ユ帴鍒皊lf4j -->
+			<!-- 代码直接调用common-logging会被桥接到slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
-			<!-- 浠ｇ爜鐩存帴璋冪敤java.util.logging浼氳妗ユ帴鍒皊lf4j -->
+			<!-- 代码直接调用java.util.logging会被桥接到slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
@@ -439,7 +439,7 @@
 			</dependency>
 			<!-- log ====== [End] -->
 
-			<!-- shiro渚濊禆 -->
+			<!-- shiro依赖 -->
 			<dependency>
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-core</artifactId>
@@ -460,18 +460,18 @@
 				<artifactId>shiro-ehcache</artifactId>
 				<version>${shiro.version}</version>
 			</dependency>
-			<!-- freemarker + shiro锛堟爣绛撅級 begin -->
+			<!-- freemarker + shiro（标签） begin -->
 			<dependency>
 				<groupId>net.mingsoft</groupId>
 				<artifactId>shiro-freemarker-tags</artifactId>
 				<version>0.1</version>
 			</dependency>
-			<!-- freemarker + shiro锛堟爣绛撅級 begin -->
+			<!-- freemarker + shiro（标签） begin -->
 
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- ############# 渚濊禆 ################# -->
+	<!-- ############# 依赖 ################# -->
 	<dependencies>
 		<!-- RUNTIME ENV [BEGIN] -->
 		<dependency>
@@ -724,17 +724,17 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-web</artifactId>
 		</dependency>
-		<!-- 浠ｇ爜鐩存帴璋冪敤log4j浼氳妗ユ帴鍒皊lf4j -->
+		<!-- 代码直接调用log4j会被桥接到slf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>log4j-over-slf4j</artifactId>
 		</dependency>
-		<!-- 浠ｇ爜鐩存帴璋冪敤common-logging浼氳妗ユ帴鍒皊lf4j -->
+		<!-- 代码直接调用common-logging会被桥接到slf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
-		<!-- 浠ｇ爜鐩存帴璋冪敤java.util.logging浼氳妗ユ帴鍒皊lf4j -->
+		<!-- 代码直接调用java.util.logging会被桥接到slf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
@@ -742,7 +742,7 @@
 
 		<!-- log ====== [End] -->
 
-		<!-- shiro渚濊禆 -->
+		<!-- shiro依赖 -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -759,12 +759,12 @@
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-ehcache</artifactId>
 		</dependency>
-		<!-- freemarker + shiro锛堟爣绛撅級 begin -->
+		<!-- freemarker + shiro（标签） begin -->
 		<dependency>
 			<groupId>net.mingsoft</groupId>
 			<artifactId>shiro-freemarker-tags</artifactId>
 		</dependency>
-		<!-- freemarker + shiro锛堟爣绛撅級 begin -->
+		<!-- freemarker + shiro（标签） begin -->
 
 		<dependency>
 			<groupId>httpcomponents-httpcore</groupId>
