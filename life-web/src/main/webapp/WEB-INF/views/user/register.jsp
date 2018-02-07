@@ -18,43 +18,32 @@
 			//监听提交
 			form.on('submit(registerNow)', function(data) {
 				var user = data.field;
+				var action = data.form.action;
 				var rightCount = $(".right").length
 				if (rightCount == 4) {
-					var datas = data.field;
-					var action = data.form.action;
-					var usercode = $("#usercode").val();
-					var username = $("#username").val();
 					$.ajax({
-						url : basePath + 'user/checkUser?code=' + usercode + '&name=' + username,
+						url : action,
+						data : user,
 						type : "POST",
+						dataType : "json",
 						success : function(result) {
 							if (result.code == 200) {
-								$.ajax({
-									url : action,
-									data : user,
-									type : "POST",
-									dataType : "json",
-									success : function(result) {
-										if (result.code == 200) {
-											clean();
-											$("#errorMsg").html('<span style="color: green"><b>注册成功，请选择登录方式或点击下一步完善更多注册信息！<b></span>');
-										} else if (result.code == 202) {
-											$("#errorMsg").html('<span style="color: red">身份编码已存在，不能重复注册！</span>');
-											$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
-										} else {
-											$("#errorMsg").html('<span style="color: red"><b>' + result.message + '<b></span>');
-										}
-									}
-								});
-							} else {
-								$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+								clean();
+								$("#errorMsg").html('<span style="color: green"><b>注册成功，请选择登录方式或点击下一步完善更多注册信息！<b></span>');
+							} else if (result.code == 202) {
+								$("#errorMsg").html('<span style="color: red">身份编码已存在，不能重复注册！</span>');
 								$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+							} else if (result.code == 203) {
+								$("#errorMsg").html('<span style="color: red">用户名已存在，不能重复注册！</span>');
+								$("#usernameImg").html('<img src="${base}static/images/wrong.png"/>');
+							} else {
+								$("#errorMsg").html('<span style="color: red"><b>' + result.message + '<b></span>');
 							}
 						}
 					});
 
 				} else {
-
+					$("#errorMsg").html('<span style="color: red">请完善注册信息！</span>');
 				}
 				return false;
 			});
@@ -66,27 +55,36 @@
 				var step = usercode + ":" + username + ":" + password;
 				if (rightCount == 4) {
 					$.ajax({
-						url : basePath + 'user/checkUser?code=' + usercode + '&name=' + username,
+						url : basePath + 'user/getDES?str=' + step,
 						type : "POST",
+						dataType : "json",
 						success : function(result) {
 							if (result.code == 200) {
-								$.ajax({
-									url : basePath + 'user/getDES?str=' + step,
-									type : "POST",
-									success : function(result) {
-										var s = "register2";
-										var url = basePath + "regSkip?step=" + s + "&str=" + result;
-										window.location.replace(url);
-									}
-								});
-							} else {
-								$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+								clean();
+								var s = "register2";
+								var url = basePath + "regSkip?step=" + s + "&str=" + result.data;
+								window.location.replace(url);
+							}
+							else if (result.code == 202) {
+								$("#errorMsg").html('<span style="color: red">身份编码已存在，不能重复注册！</span>');
 								$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+							}
+							else if (result.code == 203) {
+								$("#errorMsg").html('<span style="color: red">用户名已存在，不能重复注册！</span>');
+								$("#usernameImg").html('<img src="${base}static/images/wrong.png"/>');
+							}
+							else if (result.code == 209) {
+								$("#errorMsg").html('<span style="color: red"><b>系统异常！<b></span>');
+							} else {
+								$("#errorMsg").html('<span style="color: red"></span>');
 							}
 						}
 					});
-					return false;
+
+				} else {
+					$("#errorMsg").html('<span style="color: red">请完善注册信息！</span>');
 				}
+				return false;
 			});
 		});
 	});
@@ -99,6 +97,7 @@
 		$("#usernameImg").html('<img src="${base}static/images/info.png"/>');
 		$("#passwordImg").html('<img src="${base}static/images/info.png"/>');
 		$("#rePasswordImg").html('<img src="${base}static/images/info.png"/>');
+		$("#errorMsg").html('');
 	}
 	function checkUserCode() {
 		var value = $("#usercode").val();
@@ -120,8 +119,8 @@
 		if (value == null || value == '') {
 			$("#errorMsg").html('<span style="color: red">用户名不能为空!</span>');
 			$("#usernameImg").html('<img src="${base}static/images/wrong.png"/>');
-		} else if (value.length < 6) {
-			$("#errorMsg").html('<span style="color: red">用户名长度必须大于等于6!  示例：stephen</span>');
+		} else if (value.length < 3) {
+			$("#errorMsg").html('<span style="color: red">用户名长度必须大于等于3!  示例：stephen</span>');
 			$("#usernameImg").html('<img src="${base}static/images/wrong.png"/>');
 		} else {
 			$("#errorMsg").html('<span style="color: green">用户名格式输入正确！</span>');
@@ -181,7 +180,7 @@
 			<form class="layui-form" id="register1Form" method="post" action="${base}user/fullUser">
 				<h1>账号密码注册</h1>
 				<div>
-					<input type="text" name="regStep" id="regStep" value="1" style="display: none;" /> <input type="password" autofocus="autofocus" onblur="checkUserCode()" oninput="checkUserCode()" value="${usercode}" placeholder="请输入身份编码" required="" id="usercode" name="usercode" />
+					<input type="text" name="regStep" id="regStep" value="1" style="display: none;" /> <input type="password" autofocus="autofocus" onblur="checkUserCode()" oninput="checkUserCode()" value="${usercodeShow}" placeholder="请输入身份编码" required="" id="usercode" name="usercode" />
 					<div class="check_img" id="usercodeImg">
 						<img title="请输入身份编码！" src="${base}static/images/info.png" />
 					</div>

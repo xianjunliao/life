@@ -1,6 +1,8 @@
 package com.life.pc.common;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.life.common.Str;
 import com.life.common.Util;
@@ -42,9 +44,9 @@ public class WebUtils {
 		treeModel2.setIconCls("tree-listen");
 		treeModel2.setSortNo("0");
 		treeModel2.setLevel("2");
-		treeModel2.setText("我的备忘录");
+		treeModel2.setText("默认菜单");
 		treeModel2.setUserCode(code);
-		treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/memos");
+		treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/myMeun");
 		treeModel2.setId(Util.getUUId16());
 		treeModel2.setPid(pid);
 		treeModel2.setStatus("0");
@@ -122,9 +124,27 @@ public class WebUtils {
 	 */
 	public static void newSession(LifeUserModel lifeUserModel, HttpServletRequest request) {
 		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
-		request.getSession().setMaxInactiveInterval(7200);
+		request.getSession().setMaxInactiveInterval(7200 * 12);
+
 	}
 
+	/**
+	 * 创建身份编码cookie
+	 */
+	public static void newCookie(String usercode, HttpServletResponse response) {
+		Cookie cookie = new Cookie("usercode",usercode); // 新建Cookie
+		cookie.setMaxAge(7200 * 12 * 10); // 设置生命周期为MAX_VALUE
+		response.addCookie(cookie);
+	}
+
+	/**
+	 * 删除份编码cookie
+	 */
+	public static void deleteCookie(HttpServletResponse response) {
+		Cookie cookie = new Cookie("usercode",null); // 新建Cookie
+		cookie.setMaxAge(0); // 设置生命周期为MAX_VALUE
+		response.addCookie(cookie);
+	}
 	/**
 	 * 创建一个用户信息session
 	 * 

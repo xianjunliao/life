@@ -3,7 +3,7 @@ $(function() {
 	$("html").bind("contextmenu", function(e) {
 		return false;
 	});
-	createTab('memosTab', '我的备忘录', basePath + 'memos');
+	createTab('myMeunTab', '默认网站', basePath + 'myMeun');
 	$("#quite").hide();
 	$("#showTree").hide();
 	var hideTree = document.getElementById('hideTree');

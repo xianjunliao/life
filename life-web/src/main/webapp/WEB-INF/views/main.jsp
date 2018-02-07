@@ -97,7 +97,7 @@ body {
 	}
 	function openWeb(url) {
 		modelLeave();
-		$("#openWeb").html('<iframe src="' + url + '" width="100%" height="90%"></iframe>');
+		$("#openWeb").html('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
 	}
 	function exit() {
 		$.ajax({
@@ -154,7 +154,7 @@ body {
 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a>
 							</dd>
 							<dd>
-								<a href="javascript:;">修改信息</a>
+								<a onclick="openWeb('${base}update')">完善个人信息</a>
 							</dd>
 							<dd>
 								<a href="javascript:;">安全管理</a>
@@ -167,7 +167,7 @@ body {
 			</div>
 		</div>
 		<div style="width: 100%; height: auto;" id="openWeb">
-			<iframe src="${base}house" width="100%" height="90%"></iframe>
+			<iframe src="${base}house" width="100%" height="96%"></iframe>
 		</div>
 	</div>
 	<div id="modelList" onmouseleave="modelLeave()">

@@ -93,11 +93,23 @@ public class LifeUserController {
 		return FTL_DIR + "user/login.jsp";
 	}
 
+	@RequestMapping("/update")
+	public String update(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LifeUserModel userModel = WebUtils.getUserInfo(request);
+		LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(userModel.getUsercode());
+		String password = checkEnterCode.getPassword();
+		String decryptDES = DESUtil.decryptDES(password);
+		checkEnterCode.setPassword(decryptDES);
+		model.put("userModel", checkEnterCode);
+		return FTL_DIR + "user/update.jsp";
+	}
+
 	@RequestMapping("/regSkip")
 	public String register(String step, String str, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (!Str.isEmpty(str)) {
 			String[] user = DESUtil.decryptDES(str).split(":");
 			model.put("usercode", DESUtil.encryptDES(user[0]));
+			model.put("usercodeShow", user[0]);
 			model.put("username", user[1]);
 			model.put("password", DESUtil.encryptDES(user[2]));
 			model.put("str", str);
@@ -126,6 +138,7 @@ public class LifeUserController {
 				outMSG.setMessage("输入的身份编码不存在，请注册！");
 			} else {
 				WebUtils.newSession(lifeUserModel, request);
+				WebUtils.newCookie(DESUtil.decryptDES(code), response);
 				outMSG.setCode("200");
 				outMSG.setMessage("验证成功！");
 			}
@@ -143,12 +156,12 @@ public class LifeUserController {
 		try {
 			String username = lifeUserModel.getUsername();
 			String password = lifeUserModel.getPassword();
-			password=DESUtil.encryptDES(password);
+			password = DESUtil.encryptDES(password);
 			LifeUserModel returnResult = lifeUserService.checkEnterNameAndPassword(username, password);
-			if(returnResult==null){
+			if (returnResult == null) {
 				outMSG.setCode("202");
 				outMSG.setMessage("用户名或密码错误！");
-			}else{
+			} else {
 				WebUtils.newSession(returnResult, request);
 				outMSG.setCode("200");
 				outMSG.setMessage("登陆成功！");
@@ -166,6 +179,7 @@ public class LifeUserController {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			WebUtils.deleteSession(request);
+			WebUtils.deleteCookie(response);
 			outMSG.setCode("200");
 			outMSG.setMessage("退出成功！");
 		} catch (Exception e) {
@@ -176,13 +190,58 @@ public class LifeUserController {
 	}
 
 	@ResponseBody
-	@RequestMapping("user/getDES")
-	public String getDES(String str, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@RequestMapping("user/update")
+	public ResponseMessage<LifeUserModel> update(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
+			String username = lifeUserModel.getUsername();
+			LifeUserModel checkEnterName = lifeUserService.checkEnterName(username);
+			LifeUserModel userInfo = WebUtils.getUserInfo(request);
+			if (!username.equals(userInfo.getUsername()) && checkEnterName != null) {
+				outMSG.setCode("202");
+				outMSG.setMessage("用户名已经存在，请换一个！");
+				return outMSG;
+			}
+			lifeUserModel.setPassword(DESUtil.encryptDES(lifeUserModel.getPassword()));
+			lifeUserService.update(lifeUserModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("修改成功！");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("修改失败！");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping("user/getDES")
+	@ResponseBody
+	public ResponseMessage<String> getDES(String str, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			String[] userinfo = str.split(":");
+			String usercode = userinfo[0];
+			String username = userinfo[1];
+			usercode = DESUtil.encryptDES(usercode);
+			LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
+			LifeUserModel checkEnterName = lifeUserService.checkEnterName(username);
+			if (null != checkEnterCode) {
+				outMSG.setCode("202");
+				outMSG.setMessage("身份编码已经存在，不能重复注册！");
+				return outMSG;
+			}
+			if (null != checkEnterName) {
+				outMSG.setCode("203");
+				outMSG.setMessage("用户名已经存在，不能重复注册！");
+				return outMSG;
+			}
+			outMSG.setCode("200");
 			str = DESUtil.encryptDES(str);
+			outMSG.setData(str);
+			return outMSG;
+
 		} catch (Exception e) {
 		}
-		return str;
+		return outMSG;
 	}
 
 	@ResponseBody
@@ -274,9 +333,14 @@ public class LifeUserController {
 					lifeUserModel.setPassword(DESUtil.encryptDES(lifeUserModel.getPassword()));
 				}
 				LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
+				LifeUserModel checkEnterName = lifeUserService.checkEnterName(lifeUserModel.getUsername());
 				if (checkEnterCode != null) {
 					outMSG.setCode("202");
 					outMSG.setMessage("身份编码已存在，不能重复注册！");
+					return outMSG;
+				} else if (checkEnterName != null) {
+					outMSG.setCode("203");
+					outMSG.setMessage("用户名已存在，不能重复注册！");
 					return outMSG;
 				} else {
 					lifeUserModel.setUsercode(usercode);
@@ -321,25 +385,8 @@ public class LifeUserController {
 				outMSG.setMessage("请选择需要上传的文件！");
 				return outMSG;
 			}
-			FileUserModel fileUserModel = new FileUserModel();
-			String id = Util.getUUId16();
-			String originalFilename = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
-			fileUserModel.setFileName(originalFilename);
-			fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
-			fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
-			fileUserModel.setContentType(file.getContentType());
-			fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
-			fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
-			fileUserModel.setId(id);
-			fileUserModel.setPurpose("0");
-			fileUserModel.setUploadTime(DateUtil.getNow());
 			String userCode = WebUtils.getUserCode("addFull", request);
-			fileUserModel.setUploadUser(userCode);
-			fileUserService.save(file, fileUserModel);
-			LifeUserModel lifeUserModel = new LifeUserModel();
-			lifeUserModel.setHeadaddress(fileUserModel.getFileUrl());
-			lifeUserModel.setUsercode(userCode);
-			lifeUserService.update(lifeUserModel);
+			uploadFiles(file, userCode, request);
 			WebUtils.deleteSession("addFull", request);
 			outMSG.setCode("200");
 			outMSG.setMessage("上传头像成功！");
@@ -348,5 +395,51 @@ public class LifeUserController {
 			outMSG.setMessage("上传头像失败，请重试！");
 		}
 		return outMSG;
+	}
+
+	@RequestMapping(path = { "user/updateUploadImg" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<FileUserModel> updateUploadImg(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<FileUserModel> outMSG = new ResponseMessage<>();
+		try {
+			if (null == file || 0 == file.getSize()) {
+				outMSG.setCode("201");
+				outMSG.setMessage("请选择需要上传的文件！");
+				return outMSG;
+			}
+			LifeUserModel userInfo = WebUtils.getUserInfo(request);
+			uploadFiles(file, userInfo.getUsercode(), request);
+			outMSG.setCode("200");
+			outMSG.setMessage("上传头像成功！");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("上传头像失败，请重试！");
+		}
+		return outMSG;
+	}
+
+	private void uploadFiles(MultipartFile file, String userCode, HttpServletRequest request) {
+		FileUserModel fileUserModel = new FileUserModel();
+		String id = Util.getUUId16();
+		String originalFilename = file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf("."));
+		long oldFiles = fileUserService.getFileByName(userCode, file.getOriginalFilename());
+		if (oldFiles > 0) {
+			originalFilename = originalFilename + "_" + id;
+		}
+		fileUserModel.setFileName(originalFilename);
+		fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
+		fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+		fileUserModel.setContentType(file.getContentType());
+		fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
+		fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");
+		fileUserModel.setId(id);
+		fileUserModel.setPurpose("0");
+		fileUserModel.setUploadTime(DateUtil.getNow());
+		fileUserModel.setUploadUser(userCode);
+		fileUserService.save(file, fileUserModel);
+		LifeUserModel lifeUserModel = new LifeUserModel();
+		lifeUserModel.setHeadaddress(fileUserModel.getFileUrl());
+		lifeUserModel.setUsercode(userCode);
+		lifeUserService.update(lifeUserModel);
 	}
 }

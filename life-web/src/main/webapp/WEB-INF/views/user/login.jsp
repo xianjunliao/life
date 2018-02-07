@@ -13,24 +13,29 @@
 	var user = "${user}";
 
 	function enter() {
-		var index = layer.load();
 		var v = $("#usercode").val();
-		$.ajax({
-			type : 'POST',
-			dataType : "json",
-			url : basePath + 'enter?code=' + v,
-			success : function(result) {
-				if (result.code == 200) {
-					window.location.replace(basePath + "main");
-				} else if (result.code == 202) {
-					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
-				} else {
-					$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
-					$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+		if (v == null || v == "" || v == undefined) {
+			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+		} else {
+			var index = layer.load();
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				url : basePath + 'enter?code=' + v,
+				success : function(result) {
+					if (result.code == 200) {
+						window.location.replace(basePath + "main");
+					} else if (result.code == 202) {
+						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+					} else {
+						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+					}
+					layer.close(index);
 				}
-				layer.close(index);
-			}
-		});
+			});
+		}
 	}
 	function addUserCode() {
 		var rightCount = $(".right").length;
@@ -86,9 +91,40 @@
 			$("#usercodeImg").html('<img class="right" src="${base}static/images/right.png"/>');
 		}
 	}
+	function getCookie(name) {
+		var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+		if (arr = document.cookie.match(reg)) {
+			return unescape(arr[2]);
+		} else {
+			return null;
+		}
+	}
+	function autoLogin() {
+		var v = getCookie("usercode");
+		if (v == null || v == "" || v == undefined) {
+			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+		} else {
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				url : basePath + 'enter?code=' + v,
+				success : function(result) {
+					if (result.code == 200) {
+						window.location.replace(basePath + "main");
+					} else if (result.code == 202) {
+						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+					} else {
+						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
+					}
+				}
+			});
+		}
+	}
 </script>
 </head>
-<body>
+<body onload="autoLogin()">
 	<div class="container">
 		<section id="content">
 			<div class="form">

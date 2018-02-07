@@ -69,7 +69,7 @@
 	}
 
 	function creatImg(imgRUL) {
-		var textHtml = "<img name='attachment' src='"+imgRUL+"'width='55px' height='55px'/>";
+		var textHtml = "<img name='attachment' src='"+imgRUL+"'width='55px' height='55px' style='border-radius: 50%;'/>";
 		$("#headImg").empty();
 		$("#headImg").html(textHtml);
 	}
@@ -79,7 +79,7 @@
 	function UpladFile() {
 		var fileObj = document.getElementById("attachment").files[0]; // js 获取文件对象
 		var userCode = $("#usercode").val();
-		var url = "${base}/user/uploadImg" // 接收上传文件的后台地址 
+		var url = "${base}user/uploadImg" // 接收上传文件的后台地址 
 		var form = new FormData(); // FormData 对象
 		form.append("file", fileObj); // 文件对象
 		xhr = new XMLHttpRequest(); // XMLHttpRequest 对象
@@ -93,7 +93,22 @@
 		//服务断接收完文件返回的结果
 		var data = JSON.parse(evt.target.responseText);
 		if (data.code == 200) {
+			clean();
 			$("#errorMsg").html('<span style="color: green"><b>注册成功，成功上传头像，请选择登录方式！<b></span>');
+			layer.confirm('注册成功，请选择登陆方式！', {
+				btn : [ '身份编码登陆', '账号密码登陆', '取消' ],
+				btn3 : function(index, layero) {
+					var s = "register";
+					var url = basePath + "regSkip?step=" + s;
+					window.location.replace(url);
+				}
+			}, function(index, layero) {
+				window.location.replace("${base }login");
+			}, function(index) {
+				window.location.replace("${base }fullLogin");
+			}, function(index) {
+				clean();
+			});
 		} else {
 			$("#errorMsg").html('<span style="color: red"><b>' + result.message + '<b></span>');
 		}
@@ -111,6 +126,16 @@
 		var str = $("#str").val();
 		window.location.replace(basePath + "regSkip?step=register&str=" + str);
 	}
+	function clean() {
+		$("#usercode").val("");
+		$("#username").val("");
+		$("#password").val("");
+		$("#phoneNo").val("");
+		$("#emailaddress").val("");
+		$("#selfintroduction").val("");
+		$("#headImg").attr("src", "${base}static/images/default_head.png");
+
+	}
 </script>
 </head>
 <body>
@@ -119,19 +144,15 @@
 			<form class="layui-form" id="register2Form" method="post" action="${base}user/fullUser" enctype="multipart/form-data">
 				<h1>账号密码注册</h1>
 				<div>
-				    <input type="text" name="regStep" id="regStep" value="2" style="display: none;" />
-					<input type="text" name="usercode" id="usercode" value="${usercode}" style="display: none;" />
-					<input type="text" name="username" id="username" value="${username}" style="display: none;" />
-					<input type="text" name="password" id="password" value="${password}" style="display: none;" />
-					<input type="text"  id="str" value="${str}" style="display: none;" />
-					<input type="text" autofocus="autofocus" placeholder="手机号码" lay-verify="phone" id="phoneNo" name="phoneno" />
+					<input type="text" name="regStep" id="regStep" value="2" style="display: none;" /> <input type="text" name="usercode" id="usercode" value="${usercode}" style="display: none;" /> <input type="text" name="username" id="username" value="${username}" style="display: none;" /> <input type="text" name="password" id="password" value="${password}" style="display: none;" /> <input type="text"
+						id="str" value="${str}" style="display: none;" /> <input type="text" autofocus="autofocus" placeholder="手机号码" lay-verify="phone" id="phoneNo" name="phoneno" />
 				</div>
 				<div>
 					<input type="text" placeholder="邮箱地址" lay-verify="email" id="emailAddress" name="emailaddress" />
 				</div>
 				<div>
-					<div id="headImg" style="width: 55px; height: 55px; border: 1px solid #ccc; float: left; margin: 0px 0px 10px 20px;">
-						<img style="width: 55px; height: 55px;" src="${base}static/images/default_head.png">
+					<div id="headImg" style="width: 55px; height: 55px; border: 1px solid #ccc; float: left; margin: 0px 0px 10px 20px;border-radius: 10%;">
+						<img style="width: 55px; height: 55px;border-radius: 50%;" name="headImg" src="${base}static/images/default_head.png">
 					</div>
 					<div style="float: left;">
 						<input type="file" id="attachment" style="display: none;" onchange="getPhoto(this)" accept="image/*" /> <input type="text" id="path" style="display: none;" onfocus="jQuery('#attachment').click()" />
