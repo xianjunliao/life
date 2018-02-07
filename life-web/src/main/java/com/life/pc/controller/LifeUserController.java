@@ -126,6 +126,13 @@ public class LifeUserController {
 		return FTL_DIR + "user/fullLogin.jsp";
 	}
 
+	@RequestMapping("/updateHeadImg")
+	public String updateHeadImg(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LifeUserModel userInfo = WebUtils.getUserInfo(request);
+		model.put("userModel", userInfo);
+		return FTL_DIR + "user/updateHead.jsp";
+	}
+	
 	@ResponseBody
 	@RequestMapping("/enter")
 	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -138,7 +145,8 @@ public class LifeUserController {
 				outMSG.setMessage("输入的身份编码不存在，请注册！");
 			} else {
 				WebUtils.newSession(lifeUserModel, request);
-				WebUtils.newCookie(DESUtil.decryptDES(code), response);
+				String decryptDES = DESUtil.decryptDES(code);
+				WebUtils.newCookie(decryptDES, response);
 				outMSG.setCode("200");
 				outMSG.setMessage("验证成功！");
 			}
@@ -203,6 +211,7 @@ public class LifeUserController {
 				return outMSG;
 			}
 			lifeUserModel.setPassword(DESUtil.encryptDES(lifeUserModel.getPassword()));
+			lifeUserModel.setUpdatetime(DateUtil.getNow());
 			lifeUserService.update(lifeUserModel);
 			outMSG.setCode("200");
 			outMSG.setMessage("修改成功！");

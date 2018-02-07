@@ -13,12 +13,13 @@
 	var user = "${user}";
 
 	function enter() {
+		var index = layer.load();
 		var v = $("#usercode").val();
 		if (v == null || v == "" || v == undefined) {
 			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
 		} else {
-			var index = layer.load();
+	
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
@@ -66,7 +67,7 @@
 						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 						layer.close(index);
 					}
-
+					layer.close(index);
 				}
 			});
 		}
