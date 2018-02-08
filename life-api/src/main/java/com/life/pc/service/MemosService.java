@@ -1,5 +1,7 @@
 package com.life.pc.service;
 
+import java.util.List;
+
 import com.life.pc.model.MemosModel;
 
 public interface MemosService {
@@ -12,4 +14,7 @@ public interface MemosService {
 	
 	public void update(MemosModel memosModel);
 	
+	public List<MemosModel> selectByUserCode(String userCode);
+	
+	public Long selectCount(String userCode);
 }

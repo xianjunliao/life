@@ -21,10 +21,10 @@
 </style>
 </head>
 <body style="overflow: hidden;">
-	<div class="easyui-layout" style="width: 99%; height: 98%; margin: 5px 5px 5px 5px; overflow: hidden;border-radius:5px;">
+	<div class="easyui-layout" style="width: 99%; height: 90%; margin: 5px 5px 5px 5px; overflow: hidden; border-radius: 5px;">
 		<div data-options="region:'west',title:'新增备忘录',split:false,border:true,collapsible:false" style="width: 575px; height: 100%; padding: 10px;">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
-				<div data-options="region:'north',border:false" style="height: 315px;">
+				<div data-options="region:'north',border:false" style="height: 318px;">
 					<div style="float: left;">
 						<div style="margin: 10px 0"></div>
 						<div id="cc" style="width: 250px; height: 250px;"></div>
@@ -39,8 +39,8 @@
 									<!-- 									<option>下午</option> -->
 									<!-- 									<option>晚上</option> -->
 									<!-- 									<option>凌晨</option> -->
-								</select> <select id="times" style="width: 96px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit;">
-								</select>
+								</select> <select id="times" style="width: 66px; height: 30px; line-height: 30px; border: 1px solid #ccc; margin-top: 2px; font-size: inherit;">
+								</select> <input style="width: 20px; height: 30px; line-height: 30px; border: 1px solid #ccc; font-size: inherit; border: 0px;" value="点" />
 							</div>
 						</div>
 						<div style="margin: 10px 10px 10px 10px"></div>
@@ -70,13 +70,13 @@
 							<div style="">发送给：</div>
 						</div>
 						<div>
-							<input id="getMan" type="text" style="width: 180px; height: 20px; float: left;" name="emailNo" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input"></input>
+							<input type="text" style="width: 180px; height: 20px; float: left;" id="emailNo" value="${userInfo.emailaddress }" name="emailNo" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input"></input>
 						</div>
 						<div>
 							<div style="float: left;">或</div>
-							<input id="getMan1" type="text" style="width: 180px; height: 20px; float: left; margin-right: 10px;" name="phoneNo" required lay-verify="required" placeholder="手机号码" autocomplete="off" class="layui-input"></input>
+							<input type="text" style="width: 180px; height: 20px; float: left; margin-right: 10px;" value="${userInfo.phoneno }" id="phoneNo" name="phoneNo" required lay-verify="required" placeholder="手机号码" autocomplete="off" class="layui-input"></input>
 							<div style="margin-left: 10px; height: 20px;">
-								<button class="layui-btn layui-btn-xs">
+								<button class="layui-btn layui-btn-xs" onclick="addMemo()">
 									<i class="layui-icon">&#xe654;</i> 确认添加
 								</button>
 							</div>
@@ -96,18 +96,26 @@
 				</div>
 			</div>
 		</div>
-		<div data-options="region:'center',iconCls:'icon-ok',border:true">1111111</div>
+		<div data-options="region:'center',iconCls:'memos',border:true,title : '备忘录列表'">
+			<div style="overflow: auto; width: 100%; height: 100%;">
+				<table id="memosList" data-options="fit:true,border:false">
+				</table>
+			</div>
+
+		</div>
 	</div>
 	<script>
+		var newDate = new Date();
 		var d1 = new Date();
 		var d2 = new Date();
+		var d3 = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
 		var jt = {
-			'早上' : [ '6点', '7点', '8点', '9点' ],
-			'上午' : [ '10点', '11点' ],
-			'中午' : [ '12点' ],
-			'下午' : [ '1点', '2点', '3点', '4点', '5点' ],
-			'晚上' : [ '6点', '7点', '8点', '9点', '10点', '11点', '12点' ],
-			'凌晨' : [ '1点', '2点', '3点', '4点', '5点' ]
+			'早上' : [ '06', '07', '08', '09' ],
+			'上午' : [ '10', '11' ],
+			'中午' : [ '12' ],
+			'下午' : [ '13', '14', '15', '16', '17' ],
+			'晚上' : [ '18', '19', '20', '21', '22', '23', '24' ],
+			'凌晨' : [ '01', '02', '03', '04', '05' ]
 		};
 		var tafter = {
 			0 : '今天',
@@ -128,6 +136,7 @@
 			5 : '晚上'
 		};
 		var dateTime = d1.getFullYear() + "年" + (d1.getMonth() + 1) + "日" + d1.getDate() + "日";
+		var dateTimes = d1.getFullYear() + "-" + (d1.getMonth() + 1) + "-" + d1.getDate() + " 01:00:00";
 		var timeInfo = "早上6点";
 		var timeAfter = "今天";
 		$('#memotitle').val(timeAfter + timeInfo);
@@ -182,33 +191,79 @@
 		}
 		function loadTimeInfoArr() {
 			$("#timeInfo").empty();
-			var isToDay = $("#timeAfter").val();
-			var hours = d1.getHours();
-			console.log(hours);
-			if (isToDay == '今天' && hours < 6) {
-				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
-			}
-			if (isToDay != '今天') {
-				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
-			}
+			// 			var isToDay = $("#timeAfter").val();
+			// 			var now = new Date();
+			// 			var nowStr = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + d1.getDate();
+			// 			var hours = d1.getHours();
+			// 			console.log(hours);
+			// 			if ((isToDay == '今天' && hours < 6) || (nowStr == d3 && hours < 6)) {
+			// 				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
+			// 			}
+			// 			if (isToDay != '今天' || nowStr != d3) {
+			// 				$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
+			// 			}
+			$('#timeInfo').append('<option>' + timeInfoArr[0] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[1] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[2] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[3] + '</option>');
 			$('#timeInfo').append('<option>' + timeInfoArr[4] + '</option>');
+			$('#timeInfo').append('<option>' + timeInfoArr[5] + '</option>');
 		}
 		function timesArr() {
 			$("#times").empty();
-			$('#times').append('<option>1点</option>');
-			$('#times').append('<option>2点</option>');
-			$('#times').append('<option>3点</option>');
-			$('#times').append('<option>4点</option>');
-			$('#times').append('<option>5点</option>');
+			$('#times').append('<option>01</option>');
+			$('#times').append('<option>02</option>');
+			$('#times').append('<option>03</option>');
+			$('#times').append('<option>04</option>');
+			$('#times').append('<option>05</option>');
 		}
 		function addTextInfo(timeInfo) {
 			$('#memotitle').val(timeInfo);
 			$('#textarea').val(timeInfo);
 			$('#subject').html($('#memotitle').val());
 			$('#content').html($("#textarea").val());
+		}
+
+		function addMemo() {
+			var subject = $('#memotitle').val()
+			var content = $('#textarea').val();
+			var emailno = $('#emailNo').val();
+			var phoneno = $('#phoneNo').val();
+			var sendtime = dateTimes;
+			var form = new FormData(); // FormData 对象
+			form.append("subject", subject); // 
+			form.append("content", content); // 
+			form.append("emailno", emailno); // 
+			form.append("phoneno", phoneno); // 
+			form.append("sendtime", sendtime); //
+			xhr = new XMLHttpRequest(); // XMLHttpRequest 对象
+			xhr.open("post", "${base}memos/save", true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+			xhr.onload = addComplete; //请求完成
+			xhr.onerror = addFailed; //请求失败
+			xhr.send(form); //
+		}
+		//上传成功响应
+		function addComplete(evt) {
+			//服务断接收完文件返回的结果
+			var data = JSON.parse(evt.target.responseText);
+			if (data.code == 200) {
+				$('#memosList').datagrid('reload');
+			} else if (data.code == 201) {
+				layer.open({
+					title : '提示',
+					content : '过去的日子就让它过去吧！'
+				});
+			} else {
+				layer.open({
+					title : '提示',
+					content : '添加备忘录失败，请重试！'
+				});
+			}
+
+		}
+		//失败
+		function addFailed(evt) {
+			alert("失败2");
 		}
 		$(function() {
 			onloadTimeAfter();
@@ -226,9 +281,11 @@
 				current : new Date(),
 				onSelect : function(date) {
 					onloadTimeAfter();
+					loadTimeInfoArr();
 					timesArr();
 					dateTime = date.getFullYear() + "年" + (date.getMonth() + 1) + "日" + date.getDate() + "日";
 					d2 = date;
+					d3 = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 					var cd = d1.getFullYear() + "-" + (d1.getMonth() + 1) + "-" + d1.getDate();
 					var ad = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 					var cd1 = new Date(cd);
@@ -248,6 +305,7 @@
 						}
 					}
 					timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
+					dateTimes = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + $("#times").val() + ":00:00";
 					addTextInfo(timeInfo);
 				}
 			});
@@ -259,19 +317,80 @@
 				for (var i = 0; i < time.length; i++) {
 					$('#times').append('<option>' + time[i] + '</option>');
 				}
+
 				timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
+				dateTimes = d2.getFullYear() + "-" + (d2.getMonth() + 1) + "-" + d2.getDate() + " " + $("#times").val() + ":00:00";
 				addTextInfo(timeInfo);
 			});
 			$("#times").change(function() {
 				timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
+				console.log($("#timeInfo").val() + $("#times").val());
+				dateTimes = d2.getFullYear() + "-" + (d2.getMonth() + 1) + "-" + d2.getDate() + " " + $("#times").val() + ":00:00";
 				addTextInfo(timeInfo);
 			});
 			$("#timeAfter").change(function() {
 				loadTimeInfoArr();
 				timesArr();
 				timeInfo = $("#timeAfter").val() + $("#timeInfo").val() + $("#times").val();
+				dateTimes = d2.getFullYear() + "-" + (d2.getMonth() + 1) + "-" + d2.getDate() + " " + $("#times").val() + ":00:00";
 				addTextInfo(timeInfo);
 			});
+
+			$('#memosList').datagrid({
+				url : '${base}memos/getMemos',
+				fit : true,
+				striped : true,
+				singleSelect : true,
+				checkOnSelect : true,
+				selectOnCheck : true,
+				idField : 'id',
+				border : false,
+				fitColumns : true,
+				loadMsg : '正在加载数据。。。',
+				columns : [ [ {
+					field : "id",
+					title : "编号"
+				}, {
+					field : "usercode",
+					title : "用户编号"
+				}, {
+					field : "subject",
+					title : "备忘主题"
+				}, {
+					field : "content",
+					title : "备忘内容"
+				}, {
+					field : "emailno",
+					title : "邮箱地址"
+				}, {
+					field : "phoneno",
+					title : "手机号码"
+				}, {
+					field : "sendtime",
+					title : "发送时间"
+				}, {
+					field : "createtime",
+					title : "创建时间"
+				}, {
+					field : "executeresult",
+					title : "执行结果",
+					formatter : function(value, row, index) {
+						if (value == '0') {
+							value = "未处理";
+						} else if (value == '1,') {
+							value = "短信发送成功";
+						} else if (value == '02') {
+							value = "邮件发送成功";
+						}else if (value == '1,2') {
+							value = "发送成功";
+						}
+						return value;
+					}
+				}, ] ],
+				onDblClickRow : function(rowIndex, rowData) {
+				}
+			});
+
 		});
 	</script>
 </body>

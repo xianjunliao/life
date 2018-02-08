@@ -99,7 +99,20 @@ body {
 		modelLeave();
 		$("#openWeb").html('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
 	}
+	function autoGetCount() {
+
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}memos/getCount',
+			success : function(result) {
+				$(".layui-badge").text(result);
+			}
+		});
+	}
+
 	function exit() {
+
 		$.ajax({
 			type : 'POST',
 			dataType : "json",
@@ -109,6 +122,10 @@ body {
 			}
 		});
 	}
+	$(function() {
+		autoGetCount();
+		setInterval("autoGetCount()", 1500)
+	});
 </script>
 </head>
 <body>
@@ -143,12 +160,10 @@ body {
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>我的备忘录<span class="layui-badge">0</span></a></li>
 				</ul>
 			</div>
-			<div class="layui-col-xs12 layui-col-md2 layui-bg-black" >
+			<div class="layui-col-xs12 layui-col-md2 layui-bg-black">
 				<ul class="layui-nav" lay-filter="demo1" style="margin-left: 25px;">
-					<li class="layui-nav-item" lay-unselect=""><a href="javascript:;"><img <c:if test="${userInfo.headaddress==null}"> src="${base}/static/images/default_head.png"</c:if> <c:if test="${userInfo.username!=null}"> src="${userInfo.headaddress}"</c:if> class="layui-nav-img">
-						<c:if test="${userInfo.username!=null}">${userInfo.username}</c:if>
-						<c:if test="${userInfo.username==null}">我</c:if>
-						</a>
+					<li class="layui-nav-item" lay-unselect=""><a href="javascript:;"><img <c:if test="${userInfo.headaddress==null}"> src="${base}/static/images/default_head.png"</c:if> <c:if test="${userInfo.headaddress!=null}"> src="${userInfo.headaddress}"</c:if> class="layui-nav-img"> <c:if test="${userInfo.username!=null}">${userInfo.username}</c:if> <c:if test="${userInfo.username==null}">我</c:if>
+					</a>
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a>
