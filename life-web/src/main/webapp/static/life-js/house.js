@@ -4,39 +4,39 @@ $(function() {
 		return false;
 	});
 	createTab('myMeunTab', '默认网站', basePath + 'myMeun');
-	$("#quite").hide();
-	$("#showTree").hide();
-	var hideTree = document.getElementById('hideTree');
-	var showTree = document.getElementById('showTree');
-	var uploadFile = document.getElementById('uploadFile');
-	var setting = document.getElementById('setting');
-	var left_control_status = true;
-	var left_control_panel = $("#most").layout("panel", 'west');
-	hideTree.onclick = function() {
-		$("#showTree").show();
-		$("#hideTree").hide();
-		left_control_panel.hide('fast', function() {
-			left_control_panel.panel('resize', {
-				width : 0
-			});
-			$("#most").layout('resize', {
-				width : '100%'
-			})
-		});
-	}
-	showTree.onclick = function() {
-		$("#hideTree").show();
-		$("#showTree").hide();
-		left_control_panel.show('fast', function() {
-			left_control_panel.panel('resize', {
-				width : 200
-			});
-			$("#most").layout('resize', {
-				width : '100%'
-			})
-		});
-
-	}
+//	$("#quite").hide();
+//	$("#showTree").hide();
+//	var hideTree = document.getElementById('hideTree');
+//	var showTree = document.getElementById('showTree');
+//	var uploadFile = document.getElementById('uploadFile');
+//	var setting = document.getElementById('setting');
+//	var left_control_status = true;
+//	var left_control_panel = $("#most").layout("panel", 'west');
+//	hideTree.onclick = function() {
+//		$("#showTree").show();
+//		$("#hideTree").hide();
+//		left_control_panel.hide('fast', function() {
+//			left_control_panel.panel('resize', {
+//				width : 0
+//			});
+//			$("#most").layout('resize', {
+//				width : '100%'
+//			})
+//		});
+//	}
+//	showTree.onclick = function() {
+//		$("#hideTree").show();
+//		$("#showTree").hide();
+//		left_control_panel.show('fast', function() {
+//			left_control_panel.panel('resize', {
+//				width : 200
+//			});
+//			$("#most").layout('resize', {
+//				width : '100%'
+//			})
+//		});
+//
+//	}
 	$('#tt').tabs({
 		onContextMenu : function(e, title, index) {
 			$('#tt').tabs('select', title);
@@ -113,14 +113,14 @@ $(function() {
 		var id = currTab.panel('options').id;
 		fullScreen(id);
 	});
-	// 打开文件上传页面
-	uploadFile.onclick = function() {
-		createTab('upload', '上传文件', basePath + 'file/upLoad');
-	}
-	// 打开设置页面
-	setting.onclick = function() {
-		createTab('setting', '环境设置', basePath + 'setting/show');
-	}
+//	// 打开文件上传页面
+//	uploadFile.onclick = function() {
+//		createTab('upload', '上传文件', basePath + 'file/upLoad');
+//	}
+//	// 打开设置页面
+//	setting.onclick = function() {
+//		createTab('setting', '环境设置', basePath + 'setting/show');
+//	}
 
 	$('#left_content').accordion('select', initText);
 	$('#left_content').accordion({

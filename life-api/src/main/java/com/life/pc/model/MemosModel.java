@@ -100,4 +100,10 @@ public class MemosModel {
     public void setExecuteresult(String executeresult) {
         this.executeresult = executeresult == null ? null : executeresult.trim();
     }
+
+	@Override
+	public String toString() {
+		return "MemosModel [id=" + id + ", usercode=" + usercode + ", subject=" + subject + ", content=" + content + ", emailno=" + emailno + ", phoneno=" + phoneno + ", sendtime=" + sendtime + ", createtime=" + createtime + ", updatetime=" + updatetime + ", executeresult=" + executeresult + "]";
+	}
+    
 }

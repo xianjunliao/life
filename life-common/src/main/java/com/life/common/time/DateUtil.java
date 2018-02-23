@@ -23,6 +23,8 @@ public class DateUtil
      */
     public static final String _YYYYMMDD = "yyyyMMdd";
     
+    public static final String YYYYMMDDHH = "yyyy-MM-dd HH";
+    
     /**
      * 年
      */

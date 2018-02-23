@@ -1,132 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.life.pc.dao.MemosDao" >
-  <resultMap id="BaseResultMap" type="com.life.pc.model.MemosModel" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="userCode" property="usercode" jdbcType="VARCHAR" />
-    <result column="subject" property="subject" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
-    <result column="emailNo" property="emailno" jdbcType="VARCHAR" />
-    <result column="phoneNo" property="phoneno" jdbcType="VARCHAR" />
-    <result column="sendTime" property="sendtime" jdbcType="VARCHAR" />
-    <result column="createTime" property="createtime" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
-    <result column="executeResult" property="executeresult" jdbcType="VARCHAR" />
-  </resultMap>
- 
-  <sql id="Base_Column_List" >
-    id, userCode, subject, content, emailNo, phoneNo, sendTime, createTime, updateTime, 
-    executeResult
-  </sql>
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from memos
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteById" parameterType="java.lang.String" >
-    delete from memos
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
- 
-  <insert id="save" parameterType="com.life.pc.model.MemosModel" >
-    insert into memos
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="usercode != null" >
-        userCode,
-      </if>
-      <if test="subject != null" >
-        subject,
-      </if>
-      <if test="content != null" >
-        content,
-      </if>
-      <if test="emailno != null" >
-        emailNo,
-      </if>
-      <if test="phoneno != null" >
-        phoneNo,
-      </if>
-      <if test="sendtime != null" >
-        sendTime,
-      </if>
-      <if test="createtime != null" >
-        createTime,
-      </if>
-      <if test="updatetime != null" >
-        updateTime,
-      </if>
-      <if test="executeresult != null" >
-        executeResult,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="usercode != null" >
-        #{usercode,jdbcType=VARCHAR},
-      </if>
-      <if test="subject != null" >
-        #{subject,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="emailno != null" >
-        #{emailno,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneno != null" >
-        #{phoneno,jdbcType=VARCHAR},
-      </if>
-      <if test="sendtime != null" >
-        #{sendtime,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        #{updatetime,jdbcType=VARCHAR},
-      </if>
-      <if test="executeresult != null" >
-        #{executeresult,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="update" parameterType="com.life.pc.model.MemosModel" >
-    update memos
-    <set >
-      <if test="usercode != null" >
-        userCode = #{usercode,jdbcType=VARCHAR},
-      </if>
-      <if test="subject != null" >
-        subject = #{subject,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="emailno != null" >
-        emailNo = #{emailno,jdbcType=VARCHAR},
-      </if>
-      <if test="phoneno != null" >
-        phoneNo = #{phoneno,jdbcType=VARCHAR},
-      </if>
-      <if test="sendtime != null" >
-        sendTime = #{sendtime,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null" >
-        createTime = #{createtime,jdbcType=VARCHAR},
-      </if>
-      <if test="updatetime != null" >
-        updateTime = #{updatetime,jdbcType=VARCHAR},
-      </if>
-      <if test="executeresult != null" >
-        executeResult = #{executeresult,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+<mapper namespace="com.life.pc.dao.MemosDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.MemosModel">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="userCode" property="usercode" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="emailNo" property="emailno" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneno" jdbcType="VARCHAR" />
+		<result column="sendTime" property="sendtime" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime" jdbcType="VARCHAR" />
+		<result column="updateTime" property="updatetime" jdbcType="VARCHAR" />
+		<result column="executeResult" property="executeresult" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, userCode, subject, content, emailNo, phoneNo, sendTime, createTime, updateTime,
+		executeResult
+	</sql>
+	<select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from memos
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByUserCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from memos
+		where userCode = #{userCode,jdbcType=VARCHAR} order by createTime desc
+	</select>
+
+
+	<select id="selectByExecuteResult" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from memos
+		where executeResult = '0' order by createTime desc
+	</select>
+	
+    <select id="selectCount" resultType="java.lang.Long" parameterType="java.lang.String"> 
+		select
+	    count(1)
+		from memos
+		where executeResult = '0' AND userCode = #{userCode,jdbcType=VARCHAR} order by createTime desc
+	</select>
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from memos
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="save" parameterType="com.life.pc.model.MemosModel">
+		insert into memos
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="usercode != null">
+				userCode,
+			</if>
+			<if test="subject != null">
+				subject,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="emailno != null">
+				emailNo,
+			</if>
+			<if test="phoneno != null">
+				phoneNo,
+			</if>
+			<if test="sendtime != null">
+				sendTime,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+			<if test="updatetime != null">
+				updateTime,
+			</if>
+			<if test="executeresult != null">
+				executeResult,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="usercode != null">
+				#{usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				#{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="emailno != null">
+				#{emailno,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneno != null">
+				#{phoneno,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				#{sendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="executeresult != null">
+				#{executeresult,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.life.pc.model.MemosModel">
+		update memos
+		<set>
+			<if test="usercode != null">
+				userCode = #{usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="subject != null">
+				subject = #{subject,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="emailno != null">
+				emailNo = #{emailno,jdbcType=VARCHAR},
+			</if>
+			<if test="phoneno != null">
+				phoneNo = #{phoneno,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				sendTime = #{sendtime,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="executeresult != null">
+				executeResult = #{executeresult,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

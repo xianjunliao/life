@@ -44,7 +44,7 @@ public class WebUtils {
 		treeModel2.setIconCls("tree-listen");
 		treeModel2.setSortNo("0");
 		treeModel2.setLevel("2");
-		treeModel2.setText("默认菜单");
+		treeModel2.setText("默认网站");
 		treeModel2.setUserCode(code);
 		treeModel2.setUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/myMeun");
 		treeModel2.setId(Util.getUUId16());
