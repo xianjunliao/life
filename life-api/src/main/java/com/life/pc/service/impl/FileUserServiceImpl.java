@@ -1,18 +1,8 @@
 package com.life.pc.service.impl;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -38,7 +28,7 @@ public class FileUserServiceImpl implements FileUserService {
 	@Override
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		try {
-			String filePath = "D:/life_files/";
+			String filePath = "usr/life/files/";
 			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName().replace(",", " and "));
 			fileUserModel.setFilePath(filesUpload_stream);
 			fileUserDao.save(fileUserModel);
