@@ -1,6 +1,5 @@
 package com.life.pc.service.impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,13 @@ public class FileUserServiceImpl implements FileUserService {
 	@Override
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		try {
-			String filePath = "/usr/life/files/";
+			String filePath = "D:/life_files/";
+			String os = System.getProperty("os.name");
+			if (os.toLowerCase().startsWith("win")) {
+				filePath = "D:/life_files/";
+			} else {
+				filePath = "/usr/life/files/";
+			}
 			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName().replace(",", " and "));
 			fileUserModel.setFilePath(filesUpload_stream);
 			fileUserDao.save(fileUserModel);
@@ -82,5 +87,8 @@ public class FileUserServiceImpl implements FileUserService {
 
 	}
 
-		
+	public static void main(String[] args) {
+
+	}
+
 }

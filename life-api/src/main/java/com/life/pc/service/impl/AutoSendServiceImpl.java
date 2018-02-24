@@ -25,7 +25,7 @@ public class AutoSendServiceImpl implements AutoSendService {
 	@Autowired
 	private MemosDao memosDao;
 
-	@Scheduled(cron = "0/5 * * * * ? ")
+	@Scheduled(cron = "0/15 * * * * ? ")
 	@Override
 	public void autoSendTask() {
 		log.debug("开始发送备忘录短信或邮件。。。。。。");

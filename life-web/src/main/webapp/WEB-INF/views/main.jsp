@@ -122,15 +122,20 @@ body {
 			}
 		});
 	}
+	function initPage(){
+		$("#openWeb").html('<iframe src="${base}house" width="100%" height="100%"></iframe>');
+		 $("#fristOpen").addClass("layui-this");
+	}
 	$(function() {
 		autoGetCount();
-		setInterval("autoGetCount()", 1500)
+		setInterval("autoGetCount()", 3000);
+		initPage();
 	});
 </script>
 </head>
 <body>
-	<div onmousedown="modelLeave()" style="height: 100%; background-color: #CCC; overflow: hidden;">
-		<div class="layui-row">
+	<div onmousedown="modelLeave()" style="height: 100%; background-color: #e3efe6; overflow: hidden;">
+		<div class="layui-row" style="width: 100%; height: 8%;" >
 			<div class="layui-col-xs12 layui-col-md2">
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
 			</div>
@@ -141,7 +146,7 @@ body {
 			</div>
 			<div class="layui-col-xs6 layui-col-md6">
 				<ul class="layui-nav" lay-filter="demo">
-					<li class="layui-nav-item layui-this" onclick="openWeb('${base}house')"><a>网站导航</a></li>
+					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}house')"><a>网站导航</a></li>
 					<li class="layui-nav-item"><a>我的学习</a>
 						<dl class="layui-nav-child">
 							<dd>
@@ -181,8 +186,8 @@ body {
 				</ul>
 			</div>
 		</div>
-		<div style="width: 100%; height: auto;" id="openWeb">
-			<iframe src="${base}house" width="100%" height="96%"></iframe>
+		<div style="width: 100%; height: 90%;" id="openWeb">
+			<iframe src="${base}house" width="100%" height="auto"></iframe>
 		</div>
 	</div>
 	<div id="modelList" onmouseleave="modelLeave()">

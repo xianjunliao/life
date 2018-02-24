@@ -12,6 +12,7 @@
 </script>
 </head>
 <body style="margin: 0px; overflow: hidden;">
-	<h6>欢迎使用网站收藏功能，该菜单项为系统自动生成，可删除</h6>
+	<h6>&nbsp;&nbsp;&nbsp;&nbsp;欢迎使用网站导航功能，点击左侧菜单即可访问。</h6>
+	<h6>&nbsp;&nbsp;&nbsp;&nbsp;点击鼠标右键可新增或修改一级、二级、三级菜单。</h6>
 </body>
 </html>
