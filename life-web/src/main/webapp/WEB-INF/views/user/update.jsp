@@ -107,28 +107,6 @@
 					</div>
 				</div>
 				<div>
-					<input type="password" placeholder="请输入密码" id="password" name="password" value="${userModel.password}" />
-					<div class="check_img" id="passwordImg">
-						<c:if test="${userModel.password==null}">
-							<img title="请输入密码！" src="${base}static/images/info.png" />
-						</c:if>
-						<c:if test="${userModel.password!=null}">
-							<img title="请输入密码！" class="right" src="${base}static/images/right.png" />
-						</c:if>
-					</div>
-				</div>
-				<div>
-					<input type="password" placeholder="再次输入密码" id="rePassword" value=" ${userModel.password}" />
-					<div class="check_img" id="rePasswordImg">
-						<c:if test="${userModel.password==null}">
-							<img title="请输入密码！" src="${base}static/images/info.png" />
-						</c:if>
-						<c:if test="${userModel.password!=null}">
-							<img title="请输入密码！" class="right" src="${base}static/images/right.png" />
-						</c:if>
-					</div>
-				</div>
-				<div>
 					<input type="text" placeholder="手机号码" id="phoneNo" name="phoneno" value="${userModel.phoneno}" />
 					<div class="check_img">
 						<img title="请输入手机号码！" src="${base}static/images/right2.png" />

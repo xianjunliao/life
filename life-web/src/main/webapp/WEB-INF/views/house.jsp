@@ -57,45 +57,7 @@
 </style>
 </head>
 <body id="most" class="easyui-layout" style="width: 99%; height: 99%; margin: 5px 5px 5px 5px; overflow: hidden; border-radius: 5px;">
-	<%-- 	<div data-options="region:'north',border:false,collapsible:true" style="height: 60px; margin: 0px 0px 0px 0px;background-image: url('${base}/static/images/north_back.jpg'); "> --%>
-
-	<!-- 		<div style="float: left; margin: 0px 10px 0px 0px;"> -->
-	<!-- 			<div style="width: 50px; height: 55px;"> -->
-	<%-- 				<c:if test="${userInfo.headaddress==null}"> --%>
-	<%-- 					<img style="margin: 2px 2px 2px 2px" alt="" src="${base}/static/images/default_head.png" width="55px" height="55px;"> --%>
-	<%-- 				</c:if> --%>
-	<%-- 				<c:if test="${userInfo.headaddress!=null}"> --%>
-	<%-- 					<img style="margin: 2px 2px 2px 2px" alt="" src="${userInfo.headaddress}" width="55px" height="55px;"> --%>
-	<%-- 				</c:if> --%>
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div style="float: left;"> -->
-	<!-- 			<div style="width: 250px; height: 15px; margin-top: 5px;"> -->
-	<%-- 				<span>用户名： ${userInfo.username}</span> --%>
-	<!-- 			</div> -->
-	<!-- 			<div style="width: 500px; height: 25px; margin-top: 10px;"> -->
-	<%-- 				<c:if test="${userInfo.selfintroduction!=null}"> --%>
-	<%-- 					<span style="font-size: 24px; line-height: 30px; font-family: fantasy;">${userInfo.selfintroduction}</span> --%>
-	<%-- 				</c:if> --%>
-	<%-- 				<c:if test="${userInfo.selfintroduction==null}"> --%>
-	<!-- 					<span style="font-size: 24px; line-height: 30px; font-family: fantasy;">I am a passer-by.</span> -->
-	<%-- 				</c:if> --%>
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 		<div style="float: right; margin-right: 5px;"> -->
-	<!-- 			<div style="width: 250px; height: 35px; line-height: 20px;"></div> -->
-	<!-- 			<div style="height: 25px; text-align: right; margin-top: 0px;"> -->
-	<!-- 				<button class="layui-btn layui-btn-xs" id="showTree">显示我的网址</button> -->
-	<!-- 				<button class="layui-btn layui-btn-xs" id="hideTree">隐藏我的网址</button> -->
-	<!-- 				<button class="layui-btn layui-btn-xs" id="uploadFile">我的文件</button> -->
-	<!-- 				<button class="layui-btn layui-btn-xs ">个人中心</button> -->
-	<!-- 								<button class="layui-btn layui-btn-xs" id="btn">全屏</button> -->
-	<!-- 								<button class="layui-btn layui-btn-xs" id="quite">退出全屏</button> -->
-	<!-- 				<button class="layui-btn layui-btn-xs" id="setting">设置</button> -->
-	<!-- 				<button class="layui-btn layui-btn-xs" id="exitHouse">退出登陆</button> -->
-	<!-- 			</div> -->
-	<!-- 		</div> -->
-	<!-- 	</div> -->
+	<div data-options="region:'north',title:'',split:false" style="height:20px;"><span style="font-family:sans-serif;font-size: 12px;font-style: oblique;color: #b7958b;"> >>网站导航 </span></div>
 	<div id="left_west" data-options="region:'west',border:true" style="width: 200px;">
 		<div id="left_content" class="easyui-accordion" data-options="border:false,fit:true,selected:false" style="background-color: #f0f0f0;">
 			<c:forEach items="${data}" var="tree">

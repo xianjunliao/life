@@ -22,6 +22,9 @@
 </head>
 <body style="overflow: hidden;">
 	<div class="easyui-layout" style="width: 99%; height: 99%; margin: 5px 5px 5px 5px; overflow: hidden; border-radius: 5px;">
+		<div data-options="region:'north',title:'',split:false" style="height: 20px;">
+			<span style="font-family: sans-serif; font-size: 12px; font-style: oblique; color: #b7958b;"> >>备忘录</span>
+		</div>
 		<div data-options="region:'west',title:'新增备忘录',split:false,border:true,collapsible:false" style="width: 575px; height: 100%; padding: 10px;">
 			<div class="easyui-layout" style="width: 100%; height: 100%;">
 				<div data-options="region:'north',border:false" style="height: 318px;">
@@ -381,7 +384,7 @@
 							value = "短信发送成功";
 						} else if (value == '02') {
 							value = "邮件发送成功";
-						}else if (value == '1,2') {
+						} else if (value == '1,2') {
 							value = "发送成功";
 						}
 						return value;
