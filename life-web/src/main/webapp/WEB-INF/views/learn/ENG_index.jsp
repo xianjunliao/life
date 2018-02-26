@@ -60,15 +60,23 @@
 
 		$(".title_home").click(function() {
 			$('.title_home').removeClass("title_this");
-// 			$('.title_home').addClass("title_home");
 			$(this).addClass("title_this");
-			var cla=$(this).attr('class');
-			alert(cla);
-// 			if(cla.indexOf("3") != -1 ){
-// 				alert("1");
-// 			}else{
-// 				alert("2");
-// 			}
+			var way = $.trim($(this).text());
+			console.log(way);
+			var url = "${base}learn/ENG_listen";
+			if (way.localeCompare("听")==0) {
+				url = "${base}learn/ENG_listen";
+			}
+			if (way.localeCompare("说")==0) {
+				url = "${base}learn/ENG_speak";
+			}
+			if (way.localeCompare("读")==0) {
+				url = "${base}learn/ENG_read";
+			}
+			if (way.localeCompare("写")==0) {
+				url = "${base}learn/ENG_write";
+			}
+			$("#learn_way").html('<iframe src="' + url + '" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>');
 		});
 
 	});
@@ -81,7 +89,7 @@
 		</div>
 		<div data-options="region:'west',split:false,border:true" style="width: 145px; height: 100%;">
 			<div class="title_">
-				<div class="title_home">
+				<div class="title_home title_this">
 					<span class="title_size">听</span>
 				</div>
 				<div class="title_home">
@@ -95,7 +103,9 @@
 				</div>
 			</div>
 		</div>
-		<div data-options="region:'center',border:true"></div>
+		<div data-options="region:'center',border:false" id="learn_way">
+			<iframe src="${base}learn/ENG_listen" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
+		</div>
 	</div>
 	<script type="text/javascript">
 		
