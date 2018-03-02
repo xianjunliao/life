@@ -128,7 +128,7 @@ body {
 	}
 	$(function() {
 		autoGetCount();
-		setInterval("autoGetCount()", 3000);
+		setInterval("autoGetCount()", 30000);
 		initPage();
 	});
 </script>

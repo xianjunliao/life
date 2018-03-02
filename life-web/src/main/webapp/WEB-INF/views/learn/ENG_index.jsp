@@ -64,16 +64,16 @@
 			var way = $.trim($(this).text());
 			console.log(way);
 			var url = "${base}learn/ENG_listen";
-			if (way.localeCompare("听")==0) {
+			if (way.localeCompare("词汇日记")==0) {
 				url = "${base}learn/ENG_listen";
 			}
-			if (way.localeCompare("说")==0) {
+			if (way.localeCompare("每日跟读")==0) {
 				url = "${base}learn/ENG_speak";
 			}
-			if (way.localeCompare("读")==0) {
+			if (way.localeCompare("美文收藏")==0) {
 				url = "${base}learn/ENG_read";
 			}
-			if (way.localeCompare("写")==0) {
+			if (way.localeCompare("复习")==0) {
 				url = "${base}learn/ENG_write";
 			}
 			$("#learn_way").html('<iframe src="' + url + '" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>');
@@ -90,16 +90,16 @@
 		<div data-options="region:'west',split:false,border:true" style="width: 145px; height: 100%;">
 			<div class="title_">
 				<div class="title_home title_this">
-					<span class="title_size">听</span>
+					<span class="title_size">词汇日记</span>
 				</div>
 				<div class="title_home">
-					<span class="titlet_size">说</span>
+					<span class="titlet_size">每日跟读</span>
 				</div>
 				<div class="title_home">
-					<span class="title_size">读</span>
+					<span class="title_size">美文收藏</span>
 				</div>
 				<div class="title_home">
-					<span class="title_size">写</span>
+					<span class="title_size">复习</span>
 				</div>
 			</div>
 		</div>
