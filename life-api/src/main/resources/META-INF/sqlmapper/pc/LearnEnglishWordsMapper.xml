@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.LearnEnglishWordsDao" >
+  <resultMap id="BaseResultMap" type="com.life.pc.model.LearnEnglishWordsModel" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="word" property="word" jdbcType="VARCHAR" />
+    <result column="addTime" property="addtime" jdbcType="VARCHAR" />
+    <result column="addUser" property="adduser" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="mp3Path" property="mp3path" jdbcType="VARCHAR" />
+    <result column="mp3Url" property="mp3url" jdbcType="VARCHAR" />
+    <result column="elseUrl" property="elseurl" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="Base_Column_List" >
+    id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from learn_english_words
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByWord" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from learn_english_words
+    where word = #{word,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from learn_english_words
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.life.pc.model.LearnEnglishWordsModel" >
+    insert into learn_english_words
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="word != null" >
+        word,
+      </if>
+      <if test="addtime != null" >
+        addTime,
+      </if>
+      <if test="adduser != null" >
+        addUser,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="mp3path != null" >
+        mp3Path,
+      </if>
+      <if test="mp3url != null" >
+        mp3Url,
+      </if>
+      <if test="elseurl != null" >
+        elseUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="word != null" >
+        #{word,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduser != null" >
+        #{adduser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="mp3path != null" >
+        #{mp3path,jdbcType=VARCHAR},
+      </if>
+      <if test="mp3url != null" >
+        #{mp3url,jdbcType=VARCHAR},
+      </if>
+      <if test="elseurl != null" >
+        #{elseurl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.LearnEnglishWordsModel" >
+    update learn_english_words
+    <set >
+      <if test="word != null" >
+        word = #{word,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adduser != null" >
+        addUser = #{adduser,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="mp3path != null" >
+        mp3Path = #{mp3path,jdbcType=VARCHAR},
+      </if>
+      <if test="mp3url != null" >
+        mp3Url = #{mp3url,jdbcType=VARCHAR},
+      </if>
+      <if test="elseurl != null" >
+        elseUrl = #{elseurl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

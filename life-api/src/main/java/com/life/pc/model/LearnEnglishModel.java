@@ -1,25 +1,26 @@
 package com.life.pc.model;
 
-public class LearnEnglishModel {
+public class LearnEnglishModel implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2893216560342510148L;
 	private String id;//
 	private String usercode;// 用户编号
-	private String wordtype;// 词语类型
-	private String en;// 英文
-	private String zh;// 中文
-	private String filepath;// 文件地址
-	private String filename;// 文件名称
-	private String createtime;// 创建时间
-    private String externalLinks;//外部链接
-    private String externalLinks2;//外部链接
-    private String externalLinks3;//外部链接
-    private String note;//笔记
-    
+	private String externallinks;// 外部链接
+	private String externallinks2;// 外部链接2
+	private String externallinks3;// 外部链接3
+	private String note;// 笔记
+	private String diary;// 日记
+	private String headline;// 头部标题
+	private String timeclass;// 时间类（前端jsp html元素class）
+
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
+		this.id = id;
 	}
 
 	public String getUsercode() {
@@ -27,79 +28,32 @@ public class LearnEnglishModel {
 	}
 
 	public void setUsercode(String usercode) {
-		this.usercode = usercode == null ? null : usercode.trim();
+		this.usercode = usercode;
 	}
 
-	public String getWordtype() {
-		return wordtype;
+
+	public String getExternallinks() {
+		return externallinks;
 	}
 
-	public void setWordtype(String wordtype) {
-		this.wordtype = wordtype == null ? null : wordtype.trim();
+	public void setExternallinks(String externallinks) {
+		this.externallinks = externallinks;
 	}
 
-	public String getEn() {
-		return en;
+	public String getExternallinks2() {
+		return externallinks2;
 	}
 
-	public void setEn(String en) {
-		this.en = en == null ? null : en.trim();
+	public void setExternallinks2(String externallinks2) {
+		this.externallinks2 = externallinks2;
 	}
 
-	public String getZh() {
-		return zh;
+	public String getExternallinks3() {
+		return externallinks3;
 	}
 
-	public void setZh(String zh) {
-		this.zh = zh == null ? null : zh.trim();
-	}
-
-	public String getFilepath() {
-		return filepath;
-	}
-
-	public void setFilepath(String filepath) {
-		this.filepath = filepath == null ? null : filepath.trim();
-	}
-
-	public String getFilename() {
-		return filename;
-	}
-
-	public void setFilename(String filename) {
-		this.filename = filename == null ? null : filename.trim();
-	}
-
-	public String getCreatetime() {
-		return createtime;
-	}
-
-	public void setCreatetime(String createtime) {
-		this.createtime = createtime;
-	}
-
-	public String getExternalLinks() {
-		return externalLinks;
-	}
-
-	public void setExternalLinks(String externalLinks) {
-		this.externalLinks = externalLinks;
-	}
-
-	public String getExternalLinks2() {
-		return externalLinks2;
-	}
-
-	public void setExternalLinks2(String externalLinks2) {
-		this.externalLinks2 = externalLinks2;
-	}
-
-	public String getExternalLinks3() {
-		return externalLinks3;
-	}
-
-	public void setExternalLinks3(String externalLinks3) {
-		this.externalLinks3 = externalLinks3;
+	public void setExternallinks3(String externallinks3) {
+		this.externallinks3 = externallinks3;
 	}
 
 	public String getNote() {
@@ -110,10 +64,33 @@ public class LearnEnglishModel {
 		this.note = note;
 	}
 
+	public String getDiary() {
+		return diary;
+	}
+
+	public void setDiary(String diary) {
+		this.diary = diary;
+	}
+
+	public String getHeadline() {
+		return headline;
+	}
+
+	public void setHeadline(String headline) {
+		this.headline = headline;
+	}
+
+	public String getTimeclass() {
+		return timeclass;
+	}
+
+	public void setTimeclass(String timeclass) {
+		this.timeclass = timeclass;
+	}
+
 	@Override
 	public String toString() {
-		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", wordtype=" + wordtype + ", en=" + en + ", zh=" + zh + ", filepath=" + filepath + ", filename=" + filename + ", createtime=" + createtime + ", externalLinks=" + externalLinks + ", externalLinks2=" + externalLinks2 + ", externalLinks3="
-				+ externalLinks3 + ", note=" + note + "]";
+		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", externallinks=" + externallinks + ", externallinks2=" + externallinks2 + ", externallinks3=" + externallinks3 + ", note=" + note + ", diary=" + diary + ", headline=" + headline + ", timeclass=" + timeclass + "]";
 	}
 
 }

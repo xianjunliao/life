@@ -160,7 +160,7 @@ body {
 							</dd>
 						</dl></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>上传/下载</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>财务管理</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>财务管家</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>随心随性</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 				</ul>

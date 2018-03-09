@@ -304,38 +304,75 @@ QQ交流群：184075694 （优先发布更新主题及内测包）
 .add-code {
 	background: url('self_icon/zc.png') no-repeat center center;
 }
-.addTree{
+
+.addTree {
 	background: url('self_icon/addTree.png') no-repeat center center;
 }
-.deleteTree{
+
+.deleteTree {
 	background: url('self_icon/deleteTree.png') no-repeat center center;
 }
-.updateTree{
+
+.updateTree {
 	background: url('self_icon/updateTree.png') no-repeat center center;
 }
-.memos{
+
+.memos {
 	background: url('self_icon/memos.png') no-repeat center center;
 }
-.Chinese{
+
+.Chinese {
 	background: url('self_icon/Chinese.png') no-repeat center center;
-}.backTop{
+}
+
+.backTop {
 	background: url('self_icon/backTop.png') no-repeat center center;
 }
-.see{
+
+.see {
 	background: url('self_icon/see.png') no-repeat center center;
 }
-.word{
+
+.seeWord {
 	background: url('self_icon/word.png') no-repeat center center;
 }
-.short{
+
+.short {
 	background: url('self_icon/short.png') no-repeat center center;
 }
-.long{
+
+.long {
 	background: url('self_icon/long.png') no-repeat center center;
 }
-.all{
+
+.all {
 	background: url('self_icon/all_.png') no-repeat center center;
 }
-.add-to-list{
+
+.add-to-list {
 	background: url('self_icon/add-to-list.png') no-repeat center center;
+}
+
+.icon-sound {
+	background-repeat: no-repeat;
+	background-image: url(self_icon/index-sfc4d9206cc_f39f7ae.png);
+	background-position: 0 -990px;
+	height: 17px;
+	width: 19px;
+	background-color: #cbf5cb;
+}
+
+.icon-sound-hover {
+	background-repeat: no-repeat;
+	background-image: url(self_icon/index-sfc4d9206cc_f39f7ae.png);
+	background-position: 0 -1017px;
+	height: 17px;
+	width: 19px;
+	background-color: #cbf5cb;
+}
+.icon-sound-click {
+	height: 21px;
+	width: 23px;
+	margin-top: -2px;
+	background-color: #cbf5cb;
 }

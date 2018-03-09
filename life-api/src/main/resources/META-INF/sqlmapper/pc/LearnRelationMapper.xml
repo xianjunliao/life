@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.LearnRelationDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.LearnRelationModel">
+		<result column="learnid" property="learnid" jdbcType="VARCHAR" />
+		<result column="wordid" property="wordid" jdbcType="VARCHAR" />
+		<result column="usercode" property="usercode" jdbcType="VARCHAR" />
+		<result column="interpertayionid" property="interpertayionid" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		learnid, wordid, usercode,interpertayionid
+	</sql>
+	<select id="selectByuser" resultMap="BaseResultMap" parameterType="com.life.pc.model.LearnRelationModel">
+		select
+		<include refid="Base_Column_List" />
+		from learn_relation
+		where usercode=#{usercode,jdbcType=VARCHAR}
+
+	</select>
+	<select id="selectBylearnid" resultMap="BaseResultMap" parameterType="com.life.pc.model.LearnRelationModel">
+		select
+		<include refid="Base_Column_List" />
+		from learn_relation
+		where learnid=#{learnid,jdbcType=VARCHAR}
+
+	</select>
+	
+	<delete id="deleteByLidAndWid" parameterType="java.lang.String">
+	delete from learn_relation where learnid=#{learnid,jdbcType=VARCHAR} and wordid=#{wordid,jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="countBylearnid" resultType="java.lang.Integer" parameterType="com.life.pc.model.LearnRelationModel">
+		select
+		count(1)
+		from learn_relation
+		where learnid=#{learnid,jdbcType=VARCHAR}
+
+	</select>
+	<insert id="insert" parameterType="com.life.pc.model.LearnRelationModel">
+		insert into learn_relation (learnid, wordid, usercode,interpertayionid
+		)
+		values (#{learnid,jdbcType=VARCHAR}, #{wordid,jdbcType=VARCHAR}, #{usercode,jdbcType=VARCHAR}, #{interpertayionid,jdbcType=VARCHAR}
+		)
+	</insert>
+</mapper>

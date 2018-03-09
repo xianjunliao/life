@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.LearnEnglishInterpretayionDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.LearnEnglishInterpretayionModel">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="wordType" property="wordtype" jdbcType="VARCHAR" />
+		<result column="wordInterpretation" property="wordinterpretation" jdbcType="VARCHAR" />
+		<result column="wordid" property="wordid" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, wordType, wordInterpretation,wordid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_interpretayion
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectBywordId" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_interpretayion
+		where wordid = #{wordid,jdbcType=VARCHAR}
+	</select>
+	<select id="selectBywordIdAndWordType" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_interpretayion
+		where wordid = #{wordid,jdbcType=VARCHAR} and wordType = #{wordType,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from learn_english_interpretayion
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="com.life.pc.model.LearnEnglishInterpretayionModel">
+		insert into learn_english_interpretayion
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="wordtype != null">
+				wordType,
+			</if>
+			<if test="wordinterpretation != null">
+				wordInterpretation,
+			</if>
+			<if test="wordid != null">
+				wordid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="wordtype != null">
+				#{wordtype,jdbcType=VARCHAR},
+			</if>
+			<if test="wordinterpretation != null">
+				#{wordinterpretation,jdbcType=VARCHAR},
+			</if>
+			<if test="wordid != null">
+				#{wordid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.LearnEnglishInterpretayionModel">
+		update learn_english_interpretayion
+		<set>
+			<if test="wordtype != null">
+				wordType = #{wordtype,jdbcType=VARCHAR},
+			</if>
+			<if test="wordinterpretation != null">
+				wordInterpretation = #{wordinterpretation,jdbcType=VARCHAR},
+			</if>
+			<if test="wordid != null">
+				wordid = #{wordid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

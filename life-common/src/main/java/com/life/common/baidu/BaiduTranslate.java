@@ -37,7 +37,7 @@ public class BaiduTranslate {
 //		String baiduTranslate = getBaiduTranslateEn("当政府就是不肯听取反对意见时，你该怎么做呢?");
 //		BaiduVoice.getBaiduVoice(baiduTranslate, "1111", "danci_");
 		String baiduTranslateZh = getBaiduTranslateEn("Annihilation");
-		BaiduVoice.getBaiduVoice(baiduTranslateZh, "1111", "zh_");
+//		BaiduVoice.getBaiduVoice(baiduTranslateZh, "1111", "zh_");
 		System.out.println(baiduTranslateZh);
 	}
 

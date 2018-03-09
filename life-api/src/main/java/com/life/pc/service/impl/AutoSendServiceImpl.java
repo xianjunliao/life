@@ -11,9 +11,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.life.common.Str;
+import com.life.common.Util;
 import com.life.common.memo.SMSUtils;
 import com.life.common.time.DateUtil;
+import com.life.pc.dao.LearnEnglishDao;
+import com.life.pc.dao.LifeUserDao;
 import com.life.pc.dao.MemosDao;
+import com.life.pc.model.LearnEnglishModel;
+import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.MemosModel;
 import com.life.pc.service.AutoSendService;
 
@@ -24,6 +29,10 @@ public class AutoSendServiceImpl implements AutoSendService {
 
 	@Autowired
 	private MemosDao memosDao;
+	@Autowired
+	private LearnEnglishDao learnEnglishDao;
+	@Autowired
+	private LifeUserDao lifeUserDao;
 
 	@Scheduled(cron = "0/15 * * * * ? ")
 	@Override
@@ -63,5 +72,27 @@ public class AutoSendServiceImpl implements AutoSendService {
 		}
 
 	}
+	@Scheduled(cron = "0 40 10 * * ?")
+	@Override
+	public void autoAddLearnLine() {
+		List<LifeUserModel> all = lifeUserDao.getAll();
+		for (LifeUserModel lifeUserModel : all) {
+			String now4 = DateUtil.getNow4();
+			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4);
+			if (selectByTimeClass==null) {
+				LearnEnglishModel learnEnglishModel=new LearnEnglishModel();
+				learnEnglishModel.setId(Util.getUUId16());
+				learnEnglishModel.setDiary(DateUtil.getNow());
+				learnEnglishModel.setTimeclass(now4);
+				learnEnglishModel.setHeadline(DateUtil.getNow6());
+				learnEnglishModel.setUsercode(lifeUserModel.getUsercode());
+				learnEnglishDao.insertSelective(learnEnglishModel);
+			}
+			
+		}
+		
+		
+	}
 
+	
 }

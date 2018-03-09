@@ -23,19 +23,19 @@ public class BaiduVoice {
 	private static final String API_KEY = "OGIRGE5TgoQsU8lLdkYjBrlLtCSMm1UL";
 	private static final String SECRET_KEY = "UuxhlRXI5Ro6facm6x6yic4EAXfF7b6v";
 
-	public static Map<String, String> getBaiduVoice(String text, String usercode, String type) {
+	public static Map<String, String> getBaiduVoice(String id,String text, String usercode, String type) {
 		Map<String, String> voiceInfo=new HashMap<>();
 		AipSpeech client = new AipSpeech(APP_ID, API_KEY, SECRET_KEY);
 		client.setConnectionTimeoutInMillis(2000);
 		client.setSocketTimeoutInMillis(60000);
 		HashMap<String, Object> options = new HashMap<String, Object>();
-		options.put("spd", "5");
+		options.put("spd", "4");
 		options.put("pit", "5");
 		options.put("per", "4");
 		TtsResponse res = client.synthesis(text, "zh", 1, options);
 		byte[] data = res.getData();
 		JSONObject res1 = res.getResult();
-		String fileName = type + replaceFilesStr(text);
+		String fileName = id;
 		String os = System.getProperty("os.name");
 		String pathName = "D:/life/files/" + usercode + "/baidu/voice/";
 		if (os.toLowerCase().startsWith("win")) {

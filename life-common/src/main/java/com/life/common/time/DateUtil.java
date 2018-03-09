@@ -18,6 +18,8 @@ public class DateUtil
      */
     public static final String YYYMMDD = "yyyy-MM-dd";
     
+    public static final String YYYNMMYDD = "yyyy年MM月dd日";
+    
     /**
      * 年月日yyyyMMdd格式
      */
@@ -140,6 +142,18 @@ public class DateUtil
     public static String getNow3()
     {
         return formatDate(new Date(), YYYYMMDD);
+    }
+    public static String getNow4()
+    {
+        return formatDate(new Date(), _YYYYMMDD);
+    }
+    public static String getNow5()
+    {
+        return formatDate(new Date(), YYYMMDD);
+    }
+    public static String getNow6()
+    {
+        return formatDate(new Date(), YYYNMMYDD);
     }
     
     /**

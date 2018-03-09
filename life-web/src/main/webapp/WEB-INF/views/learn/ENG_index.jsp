@@ -51,7 +51,9 @@
 }
 </style>
 <script type="text/javascript">
+     var url = "${base}learn/ENG_listen";
 	$(function() {
+		$('#learnList').dialog('close');
 		$(".title_home").hover(function() {
 			$(this).addClass("title_over");
 		}, function() {
@@ -62,18 +64,16 @@
 			$('.title_home').removeClass("title_this");
 			$(this).addClass("title_this");
 			var way = $.trim($(this).text());
-			console.log(way);
-			var url = "${base}learn/ENG_listen";
-			if (way.localeCompare("词汇日记")==0) {
+			if (way.localeCompare("词汇线") == 0) {
 				url = "${base}learn/ENG_listen";
 			}
-			if (way.localeCompare("每日跟读")==0) {
+			if (way.localeCompare("单词速记") == 0) {
 				url = "${base}learn/ENG_speak";
 			}
-			if (way.localeCompare("美文收藏")==0) {
+			if (way.localeCompare("句子仿读") == 0) {
 				url = "${base}learn/ENG_read";
 			}
-			if (way.localeCompare("复习")==0) {
+			if (way.localeCompare("难点攻克") == 0) {
 				url = "${base}learn/ENG_write";
 			}
 			$("#learn_way").html('<iframe src="' + url + '" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>');
@@ -90,16 +90,16 @@
 		<div data-options="region:'west',split:false,border:true" style="width: 145px; height: 100%;">
 			<div class="title_">
 				<div class="title_home title_this">
-					<span class="title_size">词汇日记</span>
+					<span class="title_size">词汇线</span>
 				</div>
 				<div class="title_home">
-					<span class="titlet_size">每日跟读</span>
+					<span class="titlet_size">单词速记</span>
 				</div>
 				<div class="title_home">
-					<span class="title_size">美文收藏</span>
+					<span class="title_size">句子仿读</span>
 				</div>
 				<div class="title_home">
-					<span class="title_size">复习</span>
+					<span class="title_size">难点攻克</span>
 				</div>
 			</div>
 		</div>
@@ -107,8 +107,5 @@
 			<iframe src="${base}learn/ENG_listen" scrolling="auto" frameborder="0" width="100%" height="100%"></iframe>
 		</div>
 	</div>
-	<script type="text/javascript">
-		
-	</script>
 </body>
 </html>

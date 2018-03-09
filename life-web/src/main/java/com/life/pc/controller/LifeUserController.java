@@ -29,6 +29,7 @@ import com.life.pc.model.FileUserModel;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
 import com.life.pc.service.FileUserService;
+import com.life.pc.service.LearningService;
 import com.life.pc.service.LifeUserService;
 import com.life.pc.service.TreeService;
 
@@ -43,6 +44,9 @@ public class LifeUserController {
 
 	@Autowired
 	private FileUserService fileUserService;
+	
+	@Autowired
+	private LearningService learningService;
 	/**
 	 * 模板存放目录
 	 */
@@ -302,6 +306,7 @@ public class LifeUserController {
 				TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(code, defalutTreeLevel1.getId(), request);
 				treeService.addTree(defalutTreeLevel1);
 				treeService.addTree(defalutTreeLevel2);
+				learningService.addLearnTime(WebUtils.getDefalutTimeClass(code));
 				outMSG.setCode("200");
 				outMSG.setMessage("新增成功！");
 				WebUtils.newSession("add", newUser, request);
@@ -359,6 +364,7 @@ public class LifeUserController {
 					TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
 					treeService.addTree(defalutTreeLevel1);
 					treeService.addTree(defalutTreeLevel2);
+					learningService.addLearnTime(WebUtils.getDefalutTimeClass(usercode));
 
 				}
 			} else {

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.life.common.Str;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
+import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
 
@@ -132,7 +133,7 @@ public class WebUtils {
 	 * 创建身份编码cookie
 	 */
 	public static void newCookie(String usercode, HttpServletResponse response) {
-		Cookie cookie = new Cookie("usercode",usercode); // 新建Cookie
+		Cookie cookie = new Cookie("usercode", usercode); // 新建Cookie
 		cookie.setMaxAge(7200 * 12 * 10); // 设置生命周期为MAX_VALUE
 		response.addCookie(cookie);
 	}
@@ -141,10 +142,11 @@ public class WebUtils {
 	 * 删除份编码cookie
 	 */
 	public static void deleteCookie(HttpServletResponse response) {
-		Cookie cookie = new Cookie("usercode",null); // 新建Cookie
+		Cookie cookie = new Cookie("usercode", null); // 新建Cookie
 		cookie.setMaxAge(0); // 设置生命周期为MAX_VALUE
 		response.addCookie(cookie);
 	}
+
 	/**
 	 * 创建一个用户信息session
 	 * 
@@ -182,5 +184,18 @@ public class WebUtils {
 		} else {
 			request.getSession().removeAttribute(sessionName);
 		}
+	}
+
+	/**
+	 * 获取默认词汇线
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public static LearnEnglishModel getDefalutTimeClass(String code) {
+		LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
+		learnEnglishModel.setHeadline(DateUtil.getNow6());
+		learnEnglishModel.setUsercode(code);
+		return learnEnglishModel;
 	}
 }

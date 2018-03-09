@@ -2,24 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.life.pc.dao.LearnEnglishDao">
 	<resultMap id="BaseResultMap" type="com.life.pc.model.LearnEnglishModel">
-		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="id" property="id" jdbcType="VARCHAR" />
 		<result column="usercode" property="usercode" jdbcType="VARCHAR" />
-		<result column="wordtype" property="wordtype" jdbcType="VARCHAR" />
-		<result column="en" property="en" jdbcType="VARCHAR" />
-		<result column="zh" property="zh" jdbcType="VARCHAR" />
-		<result column="filePath" property="filepath" jdbcType="VARCHAR" />
-		<result column="fileName" property="filename" jdbcType="VARCHAR" />
-		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
-		<result column="externalLinks" property="externalLinks" jdbcType="VARCHAR" />
-		<result column="externalLinks2" property="externalLinks2" jdbcType="VARCHAR" />
-		<result column="externalLinks3" property="externalLinks3" jdbcType="VARCHAR" />
+		<result column="externalLinks" property="externallinks" jdbcType="VARCHAR" />
+		<result column="externalLinks2" property="externallinks2" jdbcType="VARCHAR" />
+		<result column="externalLinks3" property="externallinks3" jdbcType="VARCHAR" />
 		<result column="note" property="note" jdbcType="VARCHAR" />
+		<result column="diary" property="diary" jdbcType="VARCHAR" />
+		<result column="headline" property="headline" jdbcType="VARCHAR" />
+		<result column="timeClass" property="timeclass" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, usercode, wordtype, en, zh, filePath, fileName, createtime,externalLinks,externalLinks2,externalLinks3,note
+		id, usercode, externalLinks, externalLinks2, externalLinks3, note, diary,
+		headline, timeClass
 	</sql>
 
+	<select id="selectListByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english where usercode=#{usercode,jdbcType=VARCHAR} order by diary asc
+	</select>
+	<select id="selectByTimeClass" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english where timeClass=#{timeClass,jdbcType=VARCHAR}
+	</select>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
@@ -40,35 +48,26 @@
 			<if test="usercode != null">
 				usercode,
 			</if>
-			<if test="wordtype != null">
-				wordtype,
-			</if>
-			<if test="en != null">
-				en,
-			</if>
-			<if test="zh != null">
-				zh,
-			</if>
-			<if test="filepath != null">
-				filePath,
-			</if>
-			<if test="filename != null">
-				fileName,
-			</if>
-			<if test="createtime != null">
-				createtime,
-			</if>
-			<if test="externalLinks != null">
+			<if test="externallinks != null">
 				externalLinks,
 			</if>
-			<if test="externalLinks2 != null">
+			<if test="externallinks2 != null">
 				externalLinks2,
 			</if>
-			<if test="externalLinks3 != null">
+			<if test="externallinks3 != null">
 				externalLinks3,
 			</if>
 			<if test="note != null">
 				note,
+			</if>
+			<if test="diary != null">
+				diary,
+			</if>
+			<if test="headline != null">
+				headline,
+			</if>
+			<if test="timeclass != null">
+				timeClass,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -78,35 +77,26 @@
 			<if test="usercode != null">
 				#{usercode,jdbcType=VARCHAR},
 			</if>
-			<if test="wordtype != null">
-				#{wordtype,jdbcType=VARCHAR},
+			<if test="externallinks != null">
+				#{externallinks,jdbcType=VARCHAR},
 			</if>
-			<if test="en != null">
-				#{en,jdbcType=VARCHAR},
+			<if test="externallinks2 != null">
+				#{externallinks2,jdbcType=VARCHAR},
 			</if>
-			<if test="zh != null">
-				#{zh,jdbcType=VARCHAR},
-			</if>
-			<if test="filepath != null">
-				#{filepath,jdbcType=VARCHAR},
-			</if>
-			<if test="filename != null">
-				#{filename,jdbcType=VARCHAR},
-			</if>
-			<if test="createtime != null">
-				#{createtime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks != null">
-				#{externalLinks,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks2 != null">
-				#{externalLinks2,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks3 != null">
-				#{externalLinks3,jdbcType=TIMESTAMP},
+			<if test="externallinks3 != null">
+				#{externallinks3,jdbcType=VARCHAR},
 			</if>
 			<if test="note != null">
-				#{note,jdbcType=TIMESTAMP},
+				#{note,jdbcType=VARCHAR},
+			</if>
+			<if test="diary != null">
+				#{diary,jdbcType=VARCHAR},
+			</if>
+			<if test="headline != null">
+				#{headline,jdbcType=VARCHAR},
+			</if>
+			<if test="timeclass != null">
+				#{timeclass,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -117,35 +107,26 @@
 			<if test="usercode != null">
 				usercode = #{usercode,jdbcType=VARCHAR},
 			</if>
-			<if test="wordtype != null">
-				wordtype = #{wordtype,jdbcType=VARCHAR},
+			<if test="externallinks != null">
+				externalLinks = #{externallinks,jdbcType=VARCHAR},
 			</if>
-			<if test="en != null">
-				en = #{en,jdbcType=VARCHAR},
+			<if test="externallinks2 != null">
+				externalLinks2 = #{externallinks2,jdbcType=VARCHAR},
 			</if>
-			<if test="zh != null">
-				zh = #{zh,jdbcType=VARCHAR},
-			</if>
-			<if test="filepath != null">
-				filePath = #{filepath,jdbcType=VARCHAR},
-			</if>
-			<if test="filename != null">
-				fileName = #{filename,jdbcType=VARCHAR},
-			</if>
-			<if test="createtime != null">
-				createtime = #{createtime,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks != null">
-				externalLinks = #{externalLinks,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks2 != null">
-				externalLinks2 = #{externalLinks2,jdbcType=TIMESTAMP},
-			</if>
-			<if test="externalLinks3 != null">
-				externalLinks3 = #{externalLinks3,jdbcType=TIMESTAMP},
+			<if test="externallinks3 != null">
+				externalLinks3 = #{externallinks3,jdbcType=VARCHAR},
 			</if>
 			<if test="note != null">
-				note = #{note,jdbcType=TIMESTAMP},
+				note = #{note,jdbcType=VARCHAR},
+			</if>
+			<if test="diary != null">
+				diary = #{diary,jdbcType=VARCHAR},
+			</if>
+			<if test="headline != null">
+				headline = #{headline,jdbcType=VARCHAR},
+			</if>
+			<if test="timeclass != null">
+				timeClass = #{timeclass,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
