@@ -14,15 +14,13 @@
 		$(".hide-ico").hide();
 	});
 	function overHere(id) {
-		var src=$("#" + id).attr("src");
-		if (src=='#') {
-			$("#" + id).attr("class", "icon-sound-hover");
-		}
+		$("#" + id).attr("class", "icon-sound-hover");
+		$("#" + id).attr("src", "${base}/static/images/voice3.png");
 	}
 	function leftHere(id) {
 		if (isClick == false) {
-			$("#" + id).attr("src", "#");
 			$("#" + id).attr("class", "icon-sound");
+			$("#" + id).attr("src", "${base}/static/images/voice1.png");
 		}
 	}
 	function playAutio(id) {
@@ -34,8 +32,8 @@
 		music.play();
 		music.loop = false;
 		music.addEventListener('ended', function() {
-			$("#" + id).attr("src", "#");
 			$("#" + id).attr("class", "icon-sound");
+			$("#" + id).attr("src", "${base}/static/images/voice1.png");
 			isClick = false;
 		}, false);
 	}
@@ -44,15 +42,16 @@
 		if (aa == "none") {
 			$(".time-" + t + "-hide").show();
 			$(".time-" + t + "-show").hide();
-			$(".time-" + t + "-learn-time").hide(2000);
+			$(".time-" + t + "-learn-time").hide(500);
 		} else {
 			$(".time-" + t + "-hide").hide();
 			$(".time-" + t + "-show").show();
-			$(".time-" + t + "-learn-time").show(1500);
+			$(".time-" + t + "-learn-time").show(500);
 		}
 	}
 	function openWordTypeDog(text, id, learnid) {
 		$('.addEnglish').dialog('close');
+		$('.addfocus').next('span').find('input').focus();
 		$('.addWordssss').textbox('readonly', false);
 		$('#' + id + 'word').textbox('setValue', text);
 		if (text != null) {
@@ -83,15 +82,19 @@
 
 	function chineseOverHere(id) {
 		$("#" + id).show();
+		$("#" + id+"update").show();
 	}
 	function chineseLeftHere(id) {
 		$("#" + id).hide();
+		$("#" + id+"update").hide();
 	}
 	function englishOverHere(id) {
 		$("#" + id + "icon").show();
+		$("#" + id + "iconUpdate").show();
 	}
 	function englishLeftHere(id) {
 		$("#" + id + "icon").hide();
+		$("#" + id + "iconUpdate").hide();
 	}
 	function deleteItv(id) {
 		$.messager.confirm('提示', '确定删除吗?', function(r) {
@@ -130,6 +133,42 @@
 		});
 
 	}
+	function updateWord(id,text,type){
+		$.messager.prompt('修改'+type, text, function(r){
+			if (r){
+				$.ajax({
+					type : 'POST',
+					dataType : "json",
+					url : '${base}learn/updateWord?id=' + id + '&text=' + r,
+					success : function(result) {
+						if (result.code == 200) {
+							location.reload();
+						} else {
+							$.messager.alert("提示", "修改失败！", "warning");
+						}
+					}
+				});
+			}
+		});
+	}
+	function updateItv(id,text) {
+		$.messager.prompt('修改释义', text, function(r) {
+			if (r) {
+				$.ajax({
+					type : 'POST',
+					dataType : "json",
+					url : '${base}learn/updateItv?id=' + id+'&text=' + r,
+					success : function(result) {
+						if (result.code == 200) {
+							location.reload();
+						} else {
+							$.messager.alert("提示", "修改失败！", "warning");
+						}
+					}
+				});
+			}
+		});
+	}
 	function clearForm() {
 		$('#ff').form('clear');
 	}
@@ -142,6 +181,25 @@
 body {
 	margin: 0;
 }
+
+.icon-sound {
+	height: 17px;
+	width: 19px;
+	background-color: #cbf5cb;
+}
+
+.icon-sound-hover {
+	height: 17px;
+	width: 19px;
+	background-color: #cbf5cb;
+}
+
+.icon-sound-click {
+	width: 22px;
+	height: 21px;
+ 	background-color: #cbf5cb; 
+
+}
 </style>
 
 </head>
@@ -151,7 +209,7 @@ body {
 			<div data-options="region:'center',title:'词汇线'" style="padding: 5px;">
 				<c:forEach items="${timeClass}" var="learn">
 					<ul class="layui-timeline time-${learn.key.id}">
-						<li class="layui-timeline-item"><i onclick="timeDo('${learn.key.id}')" class="layui-icon layui-timeline-axis hide-ico time-${learn.key.id}-hide">&#xe63f;</i> <i onclick="timeDo('${learn.key.id}')" class="layui-icon layui-timeline-axis show-ico time-${learn.key.id}-show">&#xe643;</i>
+						<li class="layui-timeline-item"><i onclick="timeDo('${learn.key.id}')" title="展开" class="layui-icon layui-timeline-axis hide-ico time-${learn.key.id}-hide">&#xe63f;</i> <i title="隐藏" onclick="timeDo('${learn.key.id}')" class="layui-icon layui-timeline-axis show-ico time-${learn.key.id}-show">&#xe643;</i>
 							<div class="layui-timeline-content layui-text">
 								<h3 class="layui-timeline-title" onclick="timeDo('${learn.key.id}')">${learn.key.headline}</h3>
 								<c:forEach items="${learns}" var="len">
@@ -167,15 +225,26 @@ body {
 											</p>
 											<ul class="${lv.key.itemNo} time-${learn.key.id}-learn-time">
 												<c:forEach items="${lv.value}" var="lvv">
-													<li style="width: 100%; list-style-type: none;"><div onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')" style="background-color: #cbf5cb; cursor: pointer;">
-															<a onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')">${lvv.word} &nbsp;&nbsp;<img id="${lvv.id}" onclick="playAutio('${lvv.id}')" onmouseover="overHere('${lvv.id}')" onmouseout="leftHere('${lvv.id}')" class="icon-sound" border="0" src="#" /> <i id="${lvv.id}icon" onclick="deletelvv('${learn.key.id }','${lvv.id}')" class="layui-icon"
-																style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i></a>
-														</div> <c:forEach items="${interpretayion }" var="it">
+													<li style="width: 100%; list-style-type: none;">
+													<div onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')" style="background-color: #cbf5cb; cursor: pointer;height: 23px;">
+															<a style="line-height: 23px;" onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')">
+															<span style="line-height: 23px;">${lvv.word}</span>  &nbsp;&nbsp;
+															<img id="${lvv.id}" onclick="playAutio('${lvv.id}')" onmouseover="overHere('${lvv.id}')" onmouseout="leftHere('${lvv.id}')" class="icon-sound" border="0" src="${base}/static/images/voice1.png" width="19" height="17"/> 
+															<i id="${lvv.id}icon" title="删除" onclick="deletelvv('${learn.key.id }','${lvv.id}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i>
+															<c:if test="${lifeUserModel.userrole=='1'}"><i id="${lvv.id}iconUpdate" title="修改" onclick="updateWord('${lvv.id }','${lvv.word}','${lv.key.itemName}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe639;</i></c:if>
+															</a>
+													</div> 
+													<c:forEach items="${interpretayion }" var="it">
 															<c:if test="${it.key==lvv.id}">
 																<c:forEach items="${it.value}" var="itv">
 																	<c:if test="${itv.wordinterpretation!=null }">
-																		<div ondblclick="deleteItv('${itv.id}')" style="background-color: #e3f9e3; cursor: pointer;" onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')">
-																			<a onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')"><span class="chinese_"> <c:if test="${lvv.type=='word'}">${itv.wordtype}</c:if>${itv.wordinterpretation}</span> <i id="${itv.id}" onclick="deleteItv('${itv.id}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i><br></a>
+																		<div  style="background-color: #e3f9e3; cursor: pointer;" onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')">
+																			<a onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')"><span class="chinese_"> <c:if test="${lvv.type=='word'}">${itv.wordtype}</c:if>${itv.wordinterpretation}</span>
+																			  <i id="${itv.id}" onclick="deleteItv('${itv.id}')"  title="删除"  class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i>
+																			  <c:if test="${lifeUserModel.userrole=='1' }"><i id="${itv.id}update" title="修改"  onclick="updateItv('${itv.id}','${itv.wordinterpretation}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe639;</i></c:if>
+																			 <br>
+																			 
+																			</a>
 																		</div>
 																	</c:if>
 																</c:forEach>
@@ -219,10 +288,10 @@ body {
 						<tr>
 							<td>${wt.itemName}:</td>
 							<c:if test="${wt.itemNo =='article'}">
-								<td><input class="easyui-textbox" autofocus="autofocus" data-options="multiline:true,required:true" id="${wt.itemNo}word" name="word" style="width: 300px; height: 150px"></td>
+								<td><input class="easyui-textbox addfocus" autofocus="autofocus" data-options="multiline:true,required:true" id="${wt.itemNo}word" name="word" style="width: 300px; height: 150px"></td>
 							</c:if>
 							<c:if test="${wt.itemNo !='article'}">
-								<td><input class="easyui-textbox addWordssss" autofocus="autofocus" type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
+								<td><input class="easyui-textbox addWordssss addfocus" autofocus="autofocus" type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
 							</c:if>
 						</tr>
 						<c:if test="${wt.itemNo=='word'}">
@@ -250,7 +319,7 @@ body {
 					</table>
 				</form>
 				<div style="text-align: center; padding: 5px">
-					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm('${wt.itemNo}')">新增</a> <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm('${wt.itemNo}')">清空</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm('${wt.itemNo}')">新增</a> 
 				</div>
 			</div>
 		</div>
@@ -274,9 +343,6 @@ body {
 					location.reload();
 				}
 			});
-		}
-		function clearForm(id) {
-			$('#ff' + id).form('clear');
 		}
 	</script>
 </body>

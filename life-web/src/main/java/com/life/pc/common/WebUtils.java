@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.life.common.Str;
+import com.life.common.SystemGet;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.pc.model.LearnEnglishModel;
@@ -125,6 +126,7 @@ public class WebUtils {
 	 */
 	public static void newSession(LifeUserModel lifeUserModel, HttpServletRequest request) {
 		request.getSession().setAttribute("lifeUserModel", lifeUserModel);
+		request.getSession().setAttribute("ips", SystemGet.getNowIp());
 		request.getSession().setMaxInactiveInterval(7200 * 12);
 
 	}

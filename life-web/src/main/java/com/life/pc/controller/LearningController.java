@@ -124,4 +124,35 @@ public class LearningController {
 		}
 		return outMSG;
 	}
+	@ResponseBody
+	@RequestMapping("updateWord")
+	public ResponseMessage<LearnEnglishModel> updateWord(String id,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LearnEnglishModel> outMSG = new ResponseMessage<>();
+		try {
+			LearnEnglishWordsModel learnEnglishWordsModel = new LearnEnglishWordsModel();
+			learnEnglishWordsModel.setId(id);
+			learnEnglishWordsModel.setWord(text);
+			learnEnglishWordsModel.setAdduser(WebUtils.getUserCode(request));
+			learningService.updateWord(learnEnglishWordsModel);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	@ResponseBody
+	@RequestMapping("updateItv")
+	public ResponseMessage<LearnEnglishModel> updateItv(String id,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LearnEnglishModel> outMSG = new ResponseMessage<>();
+		try {
+			LearnEnglishInterpretayionModel learnEnglishInterpretayionModel = new LearnEnglishInterpretayionModel();
+			learnEnglishInterpretayionModel.setId(id);
+			learnEnglishInterpretayionModel.setWordinterpretation(text);
+			learningService.updateInterpretayion(learnEnglishInterpretayionModel);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
 }

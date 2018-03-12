@@ -72,7 +72,7 @@ public class AutoSendServiceImpl implements AutoSendService {
 		}
 
 	}
-	@Scheduled(cron = "0 40 10 * * ?")
+	@Scheduled(cron = "0 0 2 * * ?")
 	@Override
 	public void autoAddLearnLine() {
 		List<LifeUserModel> all = lifeUserDao.getAll();

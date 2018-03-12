@@ -21,12 +21,9 @@ public class MailUtils {
 	// 网易163邮箱的 SMTP 服务器地址为: smtp.163.com
 	public static String myEmailSMTPHost = "smtp.126.com";
 
-	// 收件人邮箱（替换为自己知道的有效邮箱）
-	public static String receiveMailAccount = "1036986718@qq.com";
 
 	public static void main(String[] args) throws Exception {
-		sendMail("496821276@qq.com", "我正在测试。。。", "hahahahahaha");
-
+		sendMail("1036986718@qq.com", "我正在测试。。。", "hahahahahaha");
 	}
 
 	/**

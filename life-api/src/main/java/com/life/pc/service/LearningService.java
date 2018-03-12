@@ -3,6 +3,7 @@ package com.life.pc.service;
 import java.util.List;
 import java.util.Map;
 
+import com.life.pc.model.LearnEnglishInterpretayionModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LearnEnglishWordsModel;
 import com.life.pc.model.LearnParamModel;
@@ -25,4 +26,8 @@ public interface LearningService {
 	public void deleteItv(String id);
 	
 	public void deletelvv(String lid,String wid);
+	
+	public void updateWord(LearnEnglishWordsModel learnEnglishWordsModel);
+	
+	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel);
 }

@@ -21,7 +21,7 @@
 	<select id="selectListByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from learn_english where usercode=#{usercode,jdbcType=VARCHAR} order by diary asc
+		from learn_english where usercode=#{usercode,jdbcType=VARCHAR} order by diary desc limit 7
 	</select>
 	<select id="selectByTimeClass" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select

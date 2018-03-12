@@ -13,7 +13,7 @@
 	$(function() {
 		var isPc = IsPC();
 		if (isPc) {
-			window.location.href = "${base}login";
+			window.location.href = "${base}login";	
 		} else {
 			window.location.href = "${base}MOBIndex";
 		}

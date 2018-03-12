@@ -55,7 +55,7 @@ public class LearningServiceImpl implements LearningService {
 
 			@Override
 			public int compare(LearnEnglishModel o1, LearnEnglishModel o2) {
-				return o1.getDiary().compareTo(o2.getDiary());
+				return o2.getDiary().compareTo(o1.getDiary());
 			}
 		});
 		for (LearnEnglishModel learnEnglishModel : learns) {
@@ -172,7 +172,7 @@ public class LearningServiceImpl implements LearningService {
 			learnEnglishWordsModel.setAdduser(usercode);
 			learnEnglishWordsModel.setWord(learnParamModel.getWord());
 			learnEnglishWordsModel.setType(learnParamModel.getWordType());
-			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId,learnParamModel.getWord(), usercode, learnParamModel.getWordType());
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, learnParamModel.getWord(), usercode, learnParamModel.getWordType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
 			HttpServletRequest request = SpringWebUtil.getRequest();
@@ -227,6 +227,32 @@ public class LearningServiceImpl implements LearningService {
 	public void deletelvv(String lid, String wid) {
 		try {
 			learnRelationDao.deleteByLidAndWid(lid, wid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void updateWord(LearnEnglishWordsModel learnEnglishWordsModel) {
+		try {
+			String id = learnEnglishWordsModel.getId();
+			LearnEnglishWordsModel old = learnEnglishWordsDao.selectByPrimaryKey(id);
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(id, learnEnglishWordsModel.getWord(), learnEnglishWordsModel.getAdduser(), old.getType());
+			String path = baiduVoice.get("path");
+			learnEnglishWordsModel.setMp3path(path);
+			HttpServletRequest request = SpringWebUtil.getRequest();
+			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + id);
+			learnEnglishWordsDao.updateByPrimaryKeySelective(learnEnglishWordsModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel) {
+		try {
+			learnEnglishInterpretayionDao.updateByPrimaryKeySelective(learnEnglishInterpretayionModel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

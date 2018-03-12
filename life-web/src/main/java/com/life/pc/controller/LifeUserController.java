@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.life.common.ResponseMessage;
 import com.life.common.Str;
+import com.life.common.SystemGet;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.common.util.DESUtil;
@@ -44,7 +45,7 @@ public class LifeUserController {
 
 	@Autowired
 	private FileUserService fileUserService;
-	
+
 	@Autowired
 	private LearningService learningService;
 	/**
@@ -66,6 +67,9 @@ public class LifeUserController {
 		LifeUserModel attribute = WebUtils.getUserInfo(request);
 		if (pageName.contains("test")) {
 			return "error/" + pageName + ".jsp";
+		}
+		if (!SystemGet.getNowIp().contains("47.91.252.134")||!SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
+			return FTL_DIR + "main-false.jsp";
 		}
 		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("myMeun")) {
 
@@ -131,12 +135,12 @@ public class LifeUserController {
 	}
 
 	@RequestMapping("/updateHeadImg")
-	public String updateHeadImg(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String updateHeadImg(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel userInfo = WebUtils.getUserInfo(request);
 		model.put("userModel", userInfo);
 		return FTL_DIR + "user/updateHead.jsp";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/enter")
 	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -209,7 +213,7 @@ public class LifeUserController {
 			String username = lifeUserModel.getUsername();
 			LifeUserModel checkEnterName = lifeUserService.checkEnterName(username);
 			LifeUserModel userInfo = WebUtils.getUserInfo(request);
-			if (!username.equals(userInfo.getUsername()) && checkEnterName != null) {
+			if (username.equals(userInfo.getUsername()) && checkEnterName != null) {
 				outMSG.setCode("202");
 				outMSG.setMessage("用户名已经存在，请换一个！");
 				return outMSG;
@@ -301,6 +305,7 @@ public class LifeUserController {
 				LifeUserModel newUser = new LifeUserModel();
 				newUser.setUsercode(code);
 				newUser.setCreatetime(DateUtil.getNow());
+				newUser.setUserrole("2");
 				lifeUserService.add(newUser);
 				TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(code);
 				TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(code, defalutTreeLevel1.getId(), request);
@@ -359,6 +364,7 @@ public class LifeUserController {
 				} else {
 					lifeUserModel.setUsercode(usercode);
 					lifeUserModel.setCreatetime(DateUtil.getNow());
+					lifeUserModel.setUserrole("2");
 					lifeUserService.add(lifeUserModel);
 					TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(usercode);
 					TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
