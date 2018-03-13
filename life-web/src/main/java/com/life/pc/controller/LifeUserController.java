@@ -68,8 +68,12 @@ public class LifeUserController {
 		if (pageName.contains("test")) {
 			return "error/" + pageName + ".jsp";
 		}
-		if (!SystemGet.getNowIp().contains("47.91.252.134")||!SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
-			return FTL_DIR + "main-false.jsp";
+		if (SystemGet.getNowIp().contains("10.83")) {
+			return FTL_DIR + pageName + ".jsp";
+		}
+		if (SystemGet.getNowIp().contains("192.168.1.101")||SystemGet.getNowIp().contains("47.91.252.134")||SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
+			initData(model, attribute);
+			return FTL_DIR + pageName + ".jsp";
 		}
 		if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("myMeun")) {
 
@@ -80,6 +84,11 @@ public class LifeUserController {
 				return "error/500.jsp";
 			}
 		}
+		return FTL_DIR + pageName + ".jsp";
+
+	}
+
+	private void initData(ModelMap model, LifeUserModel attribute) {
 		TreeModel pTreeModel = new TreeModel();
 		String userCode = attribute.getUsercode();
 		pTreeModel.setUserCode(userCode);
@@ -92,8 +101,6 @@ public class LifeUserController {
 		}
 		model.put("trees", treeByUserCode);
 		model.put("userInfo", attribute);
-		return FTL_DIR + pageName + ".jsp";
-
 	}
 
 	@RequestMapping("/login")

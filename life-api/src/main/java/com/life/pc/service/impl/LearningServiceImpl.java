@@ -222,7 +222,7 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public void addLearnTime(LearnEnglishModel learnEnglishModel) {
 		try {
-			learnEnglishModel.setId(Util.getUUID());
+			learnEnglishModel.setId(Util.getUUId16());
 			learnEnglishModel.setTimeclass(PinyinUtils.getPingYin(learnEnglishModel.getHeadline()));
 			learnEnglishModel.setDiary(DateUtil.getNow());
 			learnEnglishDao.insertSelective(learnEnglishModel);

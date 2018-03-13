@@ -40,13 +40,13 @@
 
 	function playAutioShanBei(id, url) {
 		isClick = true;
-		var music = document.getElementById('playEnglish');
-		$("#playEnglish").attr("src", url);
+		var musicSB = document.getElementById('playEnglishSB');
+		$("#playEnglishSB").attr("src", url);
 		$("#" + id).attr("class", "icon-sound-click");
 		$("#" + id).attr("src", "${base}/static/images/sound3.gif");
-		music.play();
-		music.loop = false;
-		music.addEventListener('ended', function() {
+		musicSB.play();
+		musicSB.loop = false;
+		musicSB.addEventListener('ended', function() {
 			$("#" + id).attr("class", "icon-sound");
 			$("#" + id).attr("src", "${base}/static/images/voice1.png");
 			isClick = false;
@@ -312,7 +312,8 @@ body {
 		</div>
 	</div>
 	<div>
-		<audio id="playEnglish" hidden> <source type="audio/mpeg"></audio>
+		<audio id="playEnglish" hidden> <source type="audio/mpeg"></audio>.
+		<audio id="playEnglishSB" hidden> <source type="audio/mpeg"></audio>
 	</div>
 	<c:forEach items="${wordTypes }" var="wt">
 		<div id="add${wt.itemNo}" class="easyui-dialog addEnglish" title="新增${wt.itemName }或${wt.itemName }的释义" style="width: 475px; height: auto; padding: 10px;" data-options="closed:true">

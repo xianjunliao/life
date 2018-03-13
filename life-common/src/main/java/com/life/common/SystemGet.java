@@ -29,7 +29,6 @@ public class SystemGet {
 					ip = (InetAddress) nii.nextElement();
 					if (ip.getHostAddress().indexOf(":") == -1) {
 						res.add(ip.getHostAddress());
-						System.out.println("本机的ip=" + ip.getHostAddress());
 					}
 				}
 			}
@@ -119,8 +118,7 @@ public class SystemGet {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String[] allLocalHostIP = SystemGet.getAllLocalHostIP();
-		System.out.println(allLocalHostIP[1]);
+		System.out.println(getNowIp());
 	}
 
 }
