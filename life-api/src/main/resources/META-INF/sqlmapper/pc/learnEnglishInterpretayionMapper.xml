@@ -6,11 +6,13 @@
 		<result column="wordType" property="wordtype" jdbcType="VARCHAR" />
 		<result column="wordInterpretation" property="wordinterpretation" jdbcType="VARCHAR" />
 		<result column="wordid" property="wordid" jdbcType="VARCHAR" />
+		<result column="definition" property="definition" jdbcType="VARCHAR" />
+		
 	</resultMap>
 
 
 	<sql id="Base_Column_List">
-		id, wordType, wordInterpretation,wordid
+		id, wordType, wordInterpretation,wordid,definition
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
@@ -49,6 +51,9 @@
 			<if test="wordid != null">
 				wordid,
 			</if>
+			<if test="definition != null">
+				definition,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -63,6 +68,9 @@
 			<if test="wordid != null">
 				#{wordid,jdbcType=VARCHAR},
 			</if>
+			<if test="definition != null">
+				#{definition,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.LearnEnglishInterpretayionModel">
@@ -76,6 +84,9 @@
 			</if>
 			<if test="wordid != null">
 				wordid = #{wordid,jdbcType=VARCHAR},
+			</if>
+			<if test="definition != null">
+				definition=#{definition,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

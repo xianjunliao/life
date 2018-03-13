@@ -10,10 +10,15 @@
     <result column="mp3Path" property="mp3path" jdbcType="VARCHAR" />
     <result column="mp3Url" property="mp3url" jdbcType="VARCHAR" />
     <result column="elseUrl" property="elseurl" jdbcType="VARCHAR" />
+    <result column="us_pronunciation" property="usPronunciation" jdbcType="VARCHAR" />
+    <result column="uk_pronunciation" property="ukPronunciation" jdbcType="VARCHAR" />
+    <result column="uk_audio" property="ukAudio" jdbcType="VARCHAR" />
+    <result column="us_audio" property="usAudio" jdbcType="VARCHAR" />
+    <result column="definition" property="definition" jdbcType="VARCHAR" /> 
   </resultMap>
  
   <sql id="Base_Column_List" >
-    id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl
+    id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl,us_pronunciation,uk_pronunciation,uk_audio,us_audio,definition
   </sql>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -60,6 +65,21 @@
       <if test="elseurl != null" >
         elseUrl,
       </if>
+       <if test="usPronunciation != null" >
+        us_pronunciation,
+      </if>
+       <if test="ukPronunciation != null" >
+        uk_pronunciation,
+      </if>
+       <if test="ukAudio != null" >
+        uk_audio,
+      </if>
+       <if test="usAudio != null" >
+        us_audio,
+      </if>
+      <if test="definition != null" >
+        definition,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -85,6 +105,21 @@
       </if>
       <if test="elseurl != null" >
         #{elseurl,jdbcType=VARCHAR},
+      </if>
+       <if test="usPronunciation != null" >
+        #{usPronunciation,jdbcType=VARCHAR},
+      </if>
+       <if test="ukPronunciation != null" >
+        #{ukPronunciation,jdbcType=VARCHAR},
+      </if>
+       <if test="ukAudio != null" >
+        #{ukAudio,jdbcType=VARCHAR},
+      </if>
+       <if test="usAudio != null" >
+   		#{usAudio,jdbcType=VARCHAR},
+      </if>
+      <if test="definition != null" >
+   		#{definition,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -112,6 +147,21 @@
       </if>
       <if test="elseurl != null" >
         elseUrl = #{elseurl,jdbcType=VARCHAR},
+      </if>
+       <if test="usPronunciation != null" >
+        us_Pronunciation=#{usPronunciation,jdbcType=VARCHAR},
+      </if>
+       <if test="ukPronunciation != null" >
+        uk_Pronunciation=#{ukPronunciation,jdbcType=VARCHAR},
+      </if>
+       <if test="ukAudio != null" >
+       	uk_Audio=#{ukAudio,jdbcType=VARCHAR},
+      </if>
+      <if test="usAudio != null" >
+   		us_Audio=#{usAudio,jdbcType=VARCHAR},
+   	  </if>
+   	  <if test="definition != null" >
+   		definition=#{definition,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.life.common.Str;
 import com.life.common.Util;
+import com.life.common.memo.MailUtils;
 import com.life.common.memo.SMSUtils;
 import com.life.common.time.DateUtil;
 import com.life.pc.dao.LearnEnglishDao;

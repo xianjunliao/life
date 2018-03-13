@@ -9,7 +9,7 @@ public class LearnEnglishInterpretayionModel implements java.io.Serializable {
 	private String wordtype;//词性
 	private String wordinterpretation;//释义
 	private String wordid;//英文表（learn_english_words）id
-
+    private String definition;
     public String getId() {
         return id;
     }
@@ -42,9 +42,16 @@ public class LearnEnglishInterpretayionModel implements java.io.Serializable {
         this.wordinterpretation = wordinterpretation == null ? null : wordinterpretation.trim();
     }
 
+	public String getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(String definition) {
+		this.definition = definition;
+	}
+
 	@Override
 	public String toString() {
-		return "LearnEnglishInterpretayionModel [id=" + id + ", wordtype=" + wordtype + ", wordinterpretation=" + wordinterpretation + ", wordid=" + wordid + "]";
+		return "LearnEnglishInterpretayionModel [id=" + id + ", wordtype=" + wordtype + ", wordinterpretation=" + wordinterpretation + ", wordid=" + wordid + ", definition=" + definition + "]";
 	}
-	
 }

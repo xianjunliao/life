@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.baidu.BaiduTranslate;
 import com.life.common.baidu.BaiduVoice;
 import com.life.common.file.FileUtils;
+import com.life.common.shanbei.WordUtils;
+import com.life.common.util.DESUtil;
 import com.life.pc.common.WebUtils;
 import com.life.pc.model.LearnEnglishInterpretayionModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LearnEnglishWordsModel;
 import com.life.pc.model.LearnParamModel;
+import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.SystemDataModel;
 import com.life.pc.service.LearningService;
 
@@ -43,8 +47,7 @@ public class LearningController {
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
 		try {
 			
-			Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request));
-			
+			Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request),5);
 			List<SystemDataModel> systemDataModels = (List<SystemDataModel>) words.get("wordTypes");
 			Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>> learns = (Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>>) words.get("learnEnglish");
 			Map<String, List<LearnEnglishInterpretayionModel>> interpretayion = (Map<String, List<LearnEnglishInterpretayionModel>>) words.get("interpretayion");
@@ -61,6 +64,22 @@ public class LearningController {
 		return FTL_DIR + pageName + ".jsp";
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/showNow")
+	public String showNow(int number,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request),number);
+		List<SystemDataModel> systemDataModels = (List<SystemDataModel>) words.get("wordTypes");
+		Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>> learns = (Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>>) words.get("learnEnglish");
+		Map<String, List<LearnEnglishInterpretayionModel>> interpretayion = (Map<String, List<LearnEnglishInterpretayionModel>>) words.get("interpretayion");
+		Map<LearnEnglishModel, Integer>  learnEnglishModels = (Map<LearnEnglishModel, Integer>) words.get("learns");
+		List<SystemDataModel> partOfSpeech = learningService.getSystemData("PARTOFSPEECH");
+		model.put("wordTypes", systemDataModels);
+		model.put("learns", learns);
+		model.put("partOfSpeech", partOfSpeech);
+		model.put("timeClass", learnEnglishModels);
+		model.put("interpretayion", interpretayion);
+		return FTL_DIR+"ENG_listen.jsp";
+	}
 	@RequestMapping(path = { "/getVoice" }, method = { RequestMethod.GET })
 	public void getVoice(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -149,6 +168,25 @@ public class LearningController {
 			learnEnglishInterpretayionModel.setId(id);
 			learnEnglishInterpretayionModel.setWordinterpretation(text);
 			learningService.updateInterpretayion(learnEnglishInterpretayionModel);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	
+	@ResponseBody
+	@RequestMapping("translate")
+	public ResponseMessage<String> translate(String type,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			String translateAfter=text;
+			if(type.equals("bd")){
+			translateAfter = BaiduTranslate.getBaiduTranslateZh(text);
+			}else if (type.equals("sb")) {
+				translateAfter=WordUtils.getWordMap(text).get("definition");
+			}
+			outMSG.setData(translateAfter);
 			outMSG.setCode("200");
 		} catch (Exception e) {
 			outMSG.setCode("209");

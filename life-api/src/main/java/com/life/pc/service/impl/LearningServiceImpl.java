@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.life.common.PinyinUtils;
 import com.life.common.Util;
 import com.life.common.baidu.BaiduVoice;
+import com.life.common.shanbei.WordUtils;
 import com.life.common.time.DateUtil;
 import com.life.common.util.SpringWebUtil;
 import com.life.pc.dao.LearnEnglishDao;
@@ -49,8 +50,8 @@ public class LearningServiceImpl implements LearningService {
 	private SystemDataDao systemDataDao;
 
 	@Override
-	public Map<String, Object> getWords(String usercode) {
-		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode);
+	public Map<String, Object> getWords(String usercode,int number) {
+		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode,number);
 		Map<LearnEnglishModel, Integer> mapp = new TreeMap<>(new Comparator<LearnEnglishModel>() {
 
 			@Override
@@ -151,10 +152,12 @@ public class LearningServiceImpl implements LearningService {
 	private String doInterpretayion(LearnParamModel learnParamModel, String wordId, String InterpretayionId) {
 		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
 		if (selectBywordIdAndWordType == null) {
+			String definition = WordUtils.getWordMap(learnParamModel.getWord()).get("definition");
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
 			englishInterpretayionModel.setWordtype(learnParamModel.getPartOfSpeech());
 			englishInterpretayionModel.setWordinterpretation(learnParamModel.getWordInterpretayion());
+			englishInterpretayionModel.setDefinition(definition);
 			englishInterpretayionModel.setWordid(wordId);
 			learnEnglishInterpretayionDao.insertSelective(englishInterpretayionModel);
 		} else {
@@ -164,17 +167,31 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String doWords(LearnParamModel learnParamModel, String wordId, String usercode) {
-		LearnEnglishWordsModel selectByWord = learnEnglishWordsDao.selectByWord(learnParamModel.getWord().toLowerCase());
+		String word = learnParamModel.getWord();
+		LearnEnglishWordsModel selectByWord = learnEnglishWordsDao.selectByWord(word.toLowerCase());
 		if (null == selectByWord) {
 			LearnEnglishWordsModel learnEnglishWordsModel = new LearnEnglishWordsModel();
 			learnEnglishWordsModel.setId(wordId);
 			learnEnglishWordsModel.setAddtime(DateUtil.getNow());
 			learnEnglishWordsModel.setAdduser(usercode);
-			learnEnglishWordsModel.setWord(learnParamModel.getWord());
+			learnEnglishWordsModel.setWord(word);
 			learnEnglishWordsModel.setType(learnParamModel.getWordType());
-			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, learnParamModel.getWord(), usercode, learnParamModel.getWordType());
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, word, usercode, learnParamModel.getWordType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
+			if (learnParamModel.getWordType().equals("word")) {
+				Map<String, String> wordMap = WordUtils.getWordMap(word);
+				String usAudio = wordMap.get("usAudio");
+				String ukAudio = wordMap.get("ukAudio");
+				String ukPronunciations = wordMap.get("ukPronunciations");
+				String usPronunciations = wordMap.get("usPronunciations");
+				String definition = wordMap.get("definition");
+				learnEnglishWordsModel.setUsAudio(usAudio);
+				learnEnglishWordsModel.setUkAudio(ukAudio);
+				learnEnglishWordsModel.setUkPronunciation(ukPronunciations);
+				learnEnglishWordsModel.setUsPronunciation(usPronunciations);
+				learnEnglishWordsModel.setDefinition(definition);
+			}
 			HttpServletRequest request = SpringWebUtil.getRequest();
 			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + wordId);
 			learnEnglishWordsDao.insertSelective(learnEnglishWordsModel);
@@ -237,11 +254,25 @@ public class LearningServiceImpl implements LearningService {
 		try {
 			String id = learnEnglishWordsModel.getId();
 			LearnEnglishWordsModel old = learnEnglishWordsDao.selectByPrimaryKey(id);
-			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(id, learnEnglishWordsModel.getWord(), learnEnglishWordsModel.getAdduser(), old.getType());
+			String word = learnEnglishWordsModel.getWord();
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(id, word, learnEnglishWordsModel.getAdduser(), old.getType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
 			HttpServletRequest request = SpringWebUtil.getRequest();
 			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + id);
+			if (old.getType().equals("word")) {
+				Map<String, String> wordMap = WordUtils.getWordMap(word);
+				String usAudio = wordMap.get("usAudio");
+				String ukAudio = wordMap.get("ukAudio");
+				String ukPronunciations = wordMap.get("ukPronunciations");
+				String usPronunciations = wordMap.get("usPronunciations");
+				String definition = wordMap.get("definition");
+				learnEnglishWordsModel.setUsAudio(usAudio);
+				learnEnglishWordsModel.setUkAudio(ukAudio);
+				learnEnglishWordsModel.setUsPronunciation(usPronunciations);
+				learnEnglishWordsModel.setUkPronunciation(ukPronunciations);
+				learnEnglishWordsModel.setDefinition(definition);
+			}
 			learnEnglishWordsDao.updateByPrimaryKeySelective(learnEnglishWordsModel);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -257,4 +288,5 @@ public class LearningServiceImpl implements LearningService {
 			e.printStackTrace();
 		}
 	}
+
 }

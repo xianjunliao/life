@@ -2,11 +2,13 @@ package com.life.pc.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.life.pc.model.LearnEnglishModel;
 
 public interface LearnEnglishDao {
 	
-	List<LearnEnglishModel> selectListByUser(String usercode);
+	List<LearnEnglishModel> selectListByUser(@Param("usercode")String usercode,@Param("number")int number);
 	
     LearnEnglishModel selectByPrimaryKey(String id);
     

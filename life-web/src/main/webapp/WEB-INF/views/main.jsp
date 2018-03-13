@@ -150,7 +150,7 @@ body {
 					<li class="layui-nav-item"><a>学海无涯</a>
 						<dl class="layui-nav-child">
 							<dd>
-								<a onclick="openWeb('${base}learn/ENG_index')">英语的听说读写</a>
+								<a onclick="openWeb('${base}learn/ENG_listen')">英语的听说读写</a>
 							</dd>
 							<dd>
 								<a onclick="openWeb('${base}learn/IT_index')">码农的自强不息</a>

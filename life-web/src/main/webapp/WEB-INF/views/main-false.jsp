@@ -121,7 +121,7 @@ div.panel>div.panel-body.accordion-body>div {
 													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title">产品展示</span>
 												</div></li>
 											<li><div id="_easyui_tree_2" class="tree-node">
-													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a  onclick="aaa('${base}learn/ENG_speak')">图片管理</a></span>
+													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a  onclick="aaa('${base}learn/ENG_listen')">图片管理</a></span>
 												</div></li>
 										</ul>
 									</div>
@@ -507,7 +507,7 @@ div.panel>div.panel-body.accordion-body>div {
 		}
 		
 		function aaa(url){
-			$("#fasss").html('<iframe id="fasss" width="100%" src="'+url+'" height="100%"></iframe>');
+			$("#fasss").html('<iframe id="fasss" width="98%" src="'+url+'" height="98%"></iframe>');
 		
 		}
 		function bbb(){

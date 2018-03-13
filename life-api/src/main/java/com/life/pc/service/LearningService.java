@@ -11,7 +11,7 @@ import com.life.pc.model.SystemDataModel;
 
 public interface LearningService {
 
-	public Map<String, Object> getWords(String usercode);
+	public Map<String, Object> getWords(String usercode,int number);
 	
 	public void addLearnRecord(LearnParamModel learnParamModel);
 	
