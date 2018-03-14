@@ -23,6 +23,11 @@
 		<include refid="Base_Column_List" />
 		from learn_english where usercode=#{usercode,jdbcType=VARCHAR} order by diary desc limit ${number}
 	</select>
+	<select id="getCountByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english where usercode=#{usercode,jdbcType=VARCHAR}
+	</select>
 	<select id="selectByTimeClass" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

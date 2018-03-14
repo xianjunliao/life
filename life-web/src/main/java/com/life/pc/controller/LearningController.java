@@ -21,13 +21,11 @@ import com.life.common.baidu.BaiduTranslate;
 import com.life.common.baidu.BaiduVoice;
 import com.life.common.file.FileUtils;
 import com.life.common.shanbei.WordUtils;
-import com.life.common.util.DESUtil;
 import com.life.pc.common.WebUtils;
 import com.life.pc.model.LearnEnglishInterpretayionModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LearnEnglishWordsModel;
 import com.life.pc.model.LearnParamModel;
-import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.SystemDataModel;
 import com.life.pc.service.LearningService;
 
@@ -42,22 +40,11 @@ public class LearningController {
 	@Autowired
 	private LearningService learningService;
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
 		try {
-			
-			Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request),5);
-			List<SystemDataModel> systemDataModels = (List<SystemDataModel>) words.get("wordTypes");
-			Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>> learns = (Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>>) words.get("learnEnglish");
-			Map<String, List<LearnEnglishInterpretayionModel>> interpretayion = (Map<String, List<LearnEnglishInterpretayionModel>>) words.get("interpretayion");
-			Map<LearnEnglishModel, Integer>  learnEnglishModels = (Map<LearnEnglishModel, Integer>) words.get("learns");
-			List<SystemDataModel> partOfSpeech = learningService.getSystemData("PARTOFSPEECH");
+			List<SystemDataModel> systemDataModels =learningService.getSystemData("WORDTYPE");
 			model.put("wordTypes", systemDataModels);
-			model.put("learns", learns);
-			model.put("partOfSpeech", partOfSpeech);
-			model.put("timeClass", learnEnglishModels);
-			model.put("interpretayion", interpretayion);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,17 +54,20 @@ public class LearningController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/showNow")
 	public String showNow(int number,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userCode = WebUtils.getUserCode(request);
 		Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request),number);
 		List<SystemDataModel> systemDataModels = (List<SystemDataModel>) words.get("wordTypes");
 		Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>> learns = (Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>>) words.get("learnEnglish");
 		Map<String, List<LearnEnglishInterpretayionModel>> interpretayion = (Map<String, List<LearnEnglishInterpretayionModel>>) words.get("interpretayion");
 		Map<LearnEnglishModel, Integer>  learnEnglishModels = (Map<LearnEnglishModel, Integer>) words.get("learns");
 		List<SystemDataModel> partOfSpeech = learningService.getSystemData("PARTOFSPEECH");
+		List<LearnEnglishModel> countByUser = learningService.getCountByUser(userCode);
 		model.put("wordTypes", systemDataModels);
 		model.put("learns", learns);
 		model.put("partOfSpeech", partOfSpeech);
 		model.put("timeClass", learnEnglishModels);
 		model.put("interpretayion", interpretayion);
+		model.put("countClass", countByUser);
 		return FTL_DIR+"ENG_listen.jsp";
 	}
 	@RequestMapping(path = { "/getVoice" }, method = { RequestMethod.GET })

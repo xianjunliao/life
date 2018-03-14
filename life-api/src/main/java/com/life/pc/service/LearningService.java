@@ -11,23 +11,25 @@ import com.life.pc.model.SystemDataModel;
 
 public interface LearningService {
 
-	public Map<String, Object> getWords(String usercode,int number);
-	
+	public Map<String, Object> getWords(String usercode, int number);
+
 	public void addLearnRecord(LearnParamModel learnParamModel);
-	
+
 	public List<SystemDataModel> getSystemData(String indexes);
-	
+
 	public Map<String, Object> getLearns(String usercode);
-	
+
 	public LearnEnglishWordsModel getLearnEnglishWordsModel(String id);
-	
+
 	public void addLearnTime(LearnEnglishModel learnEnglishModel);
-	
+
 	public void deleteItv(String id);
-	
-	public void deletelvv(String lid,String wid);
-	
+
+	public void deletelvv(String lid, String wid);
+
 	public void updateWord(LearnEnglishWordsModel learnEnglishWordsModel);
-	
+
 	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel);
+
+	List<LearnEnglishModel> getCountByUser(String usercode);
 }

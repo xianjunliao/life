@@ -152,12 +152,10 @@ public class LearningServiceImpl implements LearningService {
 	private String doInterpretayion(LearnParamModel learnParamModel, String wordId, String InterpretayionId) {
 		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
 		if (selectBywordIdAndWordType == null) {
-			String definition = WordUtils.getWordMap(learnParamModel.getWord()).get("definition");
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
 			englishInterpretayionModel.setWordtype(learnParamModel.getPartOfSpeech());
 			englishInterpretayionModel.setWordinterpretation(learnParamModel.getWordInterpretayion());
-			englishInterpretayionModel.setDefinition(definition);
 			englishInterpretayionModel.setWordid(wordId);
 			learnEnglishInterpretayionDao.insertSelective(englishInterpretayionModel);
 		} else {
@@ -288,5 +286,11 @@ public class LearningServiceImpl implements LearningService {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public List<LearnEnglishModel> getCountByUser(String usercode) {
+		return learnEnglishDao.getCountByUser(usercode);
+	}
+
 
 }
