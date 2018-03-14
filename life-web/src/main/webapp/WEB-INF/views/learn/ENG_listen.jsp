@@ -287,7 +287,7 @@ body {
 </style>
 
 </head>
-<body class="easyui-layout" style="width: 100%; height: 100%;" onload="loadAll()" onunload="unloadAll()">
+<body class="easyui-layout" style="width: 100%; height: 100%;"  >
 	<div data-options="region:'north',title:'',split:false" style="height: 20px;">
 		<span style="font-family: sans-serif; font-size: 12px; font-style: oblique; color: #b7958b;"> >>学海无涯 >英语的听说读写 </span>
 	</div>
