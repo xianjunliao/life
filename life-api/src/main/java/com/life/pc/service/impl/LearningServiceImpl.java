@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.life.common.PinyinUtils;
 import com.life.common.Util;
+import com.life.common.baidu.BaiduTranslate;
 import com.life.common.baidu.BaiduVoice;
 import com.life.common.shanbei.WordUtils;
 import com.life.common.time.DateUtil;
@@ -174,6 +175,7 @@ public class LearningServiceImpl implements LearningService {
 			learnEnglishWordsModel.setAdduser(usercode);
 			learnEnglishWordsModel.setWord(word);
 			learnEnglishWordsModel.setType(learnParamModel.getWordType());
+			learnEnglishWordsModel.setDefinition(BaiduTranslate.getBaiduTranslateZh(word));
 			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, word, usercode, learnParamModel.getWordType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
@@ -290,6 +292,27 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public List<LearnEnglishModel> getCountByUser(String usercode) {
 		return learnEnglishDao.getCountByUser(usercode);
+	}
+
+	@Override
+	public List<LearnEnglishModel> getLearnsByUserAndNumber(String usercode, int number) {
+		return learnEnglishDao.selectListByUser(usercode, number);
+	}
+
+	@Override
+	public List<LearnEnglishWordsModel> getWordsByUser(String usercode) {
+		List<LearnEnglishWordsModel> learnEnglishWordsModels=new ArrayList<>();
+		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode,5);
+		for (LearnEnglishModel learnEnglishModel : learns) {
+			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
+			for (LearnRelationModel learnRelationModel : selectBylearnid) {
+				 LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByPrimaryKey(learnRelationModel.getWordid());
+					if (!learnEnglishWordsModels.contains(learnEnglishWordsModel)) {
+						learnEnglishWordsModels.add(learnEnglishWordsModel);
+					}
+			}
+		}
+		return learnEnglishWordsModels;
 	}
 
 

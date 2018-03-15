@@ -10,9 +10,49 @@
 <script type="text/javascript">
 	var isClick = false;
 	var istimeline = false;
+	var number = 5;
 	$(function() {
+// 		$('#wordword').textbox('textbox').focus(); 
+		number = $("#showCount").combobox("getValue");
+		$('#timeClassSelect').combogrid('grid').datagrid(({
+			url : '${base}learn/getTimeClass?number=' + number
+		}));
 		$(".hide-ico").hide();
+		$('#timeClassSelect').combogrid({
+			onSelect : function(data) {
+				selectFunction();
+			},
+			onUnselect : function(data) {
+				selectFunction();
+			},
+			onSelectAll : function(data) {
+				selectFunction();
+			},
+			onUnselectAll : function(data) {
+				selectFunction();
+			}
+		});
+		$('#showCount').combobox({
+			onChange : function(newValue, oldValue) {
+				window.location.href = "${base}learn/showNow?number=" + newValue;
+				console.log(newValue, oldValue);
+			}
+		});
 	});
+
+	function selectFunction() {
+		$(".time-class-all").hide(300);
+		var g = $('#timeClassSelect').combogrid('grid'); // get datagrid object
+		var r = g.datagrid('getSelections');
+		if (r.length == 0) {
+			$(".time-class-all").show(300);
+		} else {
+			for (var i = 0; i < r.length; i++) {
+				$("." + r[i].timeclass).show(300);
+			}
+		}
+	}
+
 	function overHere(id) {
 		$("#" + id).attr("class", "icon-sound-hover");
 		$("#" + id).attr("src", "${base}/static/images/voice3.png");
@@ -52,7 +92,7 @@
 			isClick = false;
 		}, false);
 	}
-	
+
 	function timeDo(t) {
 		var aa = $(".time-" + t + "-hide").css("display");
 		if (aa == "none") {
@@ -64,20 +104,19 @@
 			$(".time-" + t + "-show").show();
 			$(".time-" + t + "-learn-time").show(500);
 		}
-		var css=$("."+ t + "headline-show").css("display");
-		if(css=='none'){
-			$("."+ t + "headline-show").show();
-			$("."+ t + "headline-hide").hide();
+		var css = $("." + t + "headline-show").css("display");
+		if (css == 'none') {
+			$("." + t + "headline-show").show();
+			$("." + t + "headline-hide").hide();
+		} else {
+			$("." + t + "headline-show").hide();
+			$("." + t + "headline-hide").show();
 		}
-		else{
-			$("."+ t + "headline-show").hide();
-			$("."+ t + "headline-hide").show();
-		}
-		
+
 	}
 	function openWordTypeDog(text, id, learnid) {
 		$('.addEnglish').dialog('close');
-		$('.addfocus').next('span').find('input').focus();
+		$('#' + id + 'word').next('span').find('input').focus();
 		$('.addWordssss').textbox('readonly', false);
 		$('#' + id + 'word').textbox('setValue', text);
 		if (text != null) {
@@ -196,43 +235,40 @@
 		});
 	}
 
-	function onlyShowToday() {
-		var number = $("#showCount").val();
-		if (number == null || number == "") {
-			number = 5;
-		}
-		window.location.href = "${base}learn/showNow?number=" + number;
-
-	}
-
 	function refreshThisPage() {
 		window.location.href = "${base}learn/showNow?number=5";
 
 	}
-	
-	function showTranslate(){
-		var text=$("#showAndHideTranslate").text();
-		if(text=='隐藏翻译'){
-		$("#showAndHideTranslate").text("显示翻译")
-		$(".chinese_").hide(300);
-		}else{
-		$("#showAndHideTranslate").text("隐藏翻译")
-		$(".chinese_").show(300);
+
+	function showTranslate() {
+		var text = $("#showAndHideTranslate").text();
+		if (text == '隐藏翻译') {
+			$("#showAndHideTranslate").text("显示翻译")
+			$(".chinese_").hide(300);
+		} else {
+			$("#showAndHideTranslate").text("隐藏翻译")
+			$(".chinese_").show(300);
 		}
 	}
-	
+
 	function clearForm() {
 		$('#ff').form('clear');
 	}
+	function wordFast(){
+	    layer.open({
+	         type: 2 //此处以iframe举例
+	        ,anim: 3
+	        ,title:'单词速记'
+	        ,area: ['320px', '460px']
+	        ,shade: [0.8, '#393D49']
+	        ,content: '${base}learn/wordShorthand'
+	        ,zIndex: layer.zIndex //重点1
+	        ,success: function(layero){
+	          layer.setTop(layero); //重点2
+	        }
+	      });
+	}
 	
-	function loadAll(){
-		
-		alert("1");
-	}
-function unloadAll(){
-		
-	alert("2");
-	}
 </script>
 <style>
 .sound {
@@ -265,7 +301,7 @@ body {
 	position: absolute;
 	z-index: 2008;
 	bottom: 20px;
-/* 	width: 450px; */
+	/* 	width: 450px; */
 	height: 45px;
 	top: 2px;
 	left: 50%;
@@ -275,30 +311,75 @@ body {
 
 .shortcut_menu {
 	font-size: 14px;
-	color: #1E9FFF;
+	font-weight: bold;
+	color: #de4e3c;
 	cursor: pointer;
 	float: left;
+	max-height: 35px;
 	margin-right: 5px;
 	margin-left: 10px;
-	border-radius: 50%;
-	padding:8px 8px 8px 8px;
+	border-radius: 45%;
+	padding: 8px 8px 8px 8px;
 	background-color: #e7ece8;
+	margin-right: 5px;
 }
 </style>
 
 </head>
-<body class="easyui-layout" style="width: 100%; height: 100%;"  >
+<body class="easyui-layout" style="width: 100%; height: 100%;">
+	<div class="fixed_div">
+		<div class="shortcut_menu" id="showIcon">
+			<div style="float: left;">
+				<lable>显示</lable>
+			</div>
+			<div style="float: left; margin-top: 2px;">
+				<select class="easyui-combobox" id="showCount" style="width: 50px; height: 16px;">
+					<c:forEach var="a" items="${countClass}" varStatus="b">
+						<option style="height: 16px; font-size: 16px;" <c:if test="${b.index+1 ==timeClass.size() }"> selected="selected" </c:if> value="${b.index+1  }">${b.index+1 }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div style="float: left;">
+				<lable>条</lable>
+			</div>
+		</div>
+		<div class="shortcut_menu" id="timeClassIcon">
+			<div style="margin-top: 3px;">
+				<select id="timeClassSelect" class="easyui-combogrid" style="width: 145px; height: 16px;" data-options="
+ 						multiple: true,
+						prompt:'请选择时间线',
+						idField: 'timeclass', 
+						textField: 'headline',
+ 						method: 'get',
+ 						columns: [[ 
+						{field:'ck',checkbox:true},
+						{field:'headline',title:'时间线'}
+ 					]], 
+ 						fitColumns: true  
+					">
+				</select>
+			</div>
+		</div>
+		<!-- 			<div class="shortcut_menu">新增学习</div> -->
+		<div id="showAndHideTranslate" class="shortcut_menu" onclick="showTranslate()">隐藏翻译</div>
+<!-- 		<div class="shortcut_menu" onclick="wordFast()" >单词速记</div> -->
+		<!-- 			<div class="shortcut_menu" >句子仿读</div> -->
+		<div class="shortcut_menu" onclick="refreshThisPage()">刷新界面</div>
+	</div>
 	<div data-options="region:'north',title:'',split:false" style="height: 20px;">
 		<span style="font-family: sans-serif; font-size: 12px; font-style: oblique; color: #b7958b;"> >>学海无涯 >英语的听说读写 </span>
 	</div>
-	<div region="center" border="false" style="width: 100%; height: 100%;padding-top: 20px;">
+	<div region="center" border="false" style="width: 100%; height: 100%; padding-top: 20px;">
 		<div id="cc" class="easyui-layout" style="width: 100%; height: 100%;">
 			<div data-options="region:'center',border:false" style="padding: 5px;">
 				<c:forEach items="${timeClass}" var="learn">
 					<ul class="layui-timeline time-${learn.key.id}">
-						<li class="layui-timeline-item"><i  class="layui-icon layui-timeline-axis hide-ico time-${learn.key.id}-hide">&#xe63f;</i> <i  class="layui-icon layui-timeline-axis show-ico time-${learn.key.id}-show">&#xe643;</i>
+						<li class="layui-timeline-item time-class-all ${learn.key.timeclass }"><i class="layui-icon layui-timeline-axis hide-ico time-${learn.key.id}-hide">&#xe63f;</i> <i class="layui-icon layui-timeline-axis show-ico time-${learn.key.id}-show">&#xe643;</i>
 							<div class="layui-timeline-content layui-text">
-								<div style="background-color: #f7f2ef;font-size: 18px;cursor: pointer;" class="layui-timeline-title" onclick="timeDo('${learn.key.id}')">${learn.key.headline}<div style="float: right;text-align: center;margin-right: 48.8%;"><i title="展开" class="layui-icon ${learn.key.id}headline-show" style="font-size: 15px; color: #1E9FFF;display: none;">&#xe61a;</i><i title="隐藏" class="layui-icon ${learn.key.id}headline-hide"  style="font-size: 15px; color: #1E9FFF;">&#xe619;</i>  </div></div>
+								<div style="background-color: #f7f2ef; font-size: 18px; cursor: pointer;" class="layui-timeline-title" onclick="timeDo('${learn.key.id}')">${learn.key.headline}<div style="float: right; text-align: center; margin-right: 50%;">
+										<i title="展开" class="layui-icon ${learn.key.id}headline-show" style="font-size: 15px; color: #1E9FFF; display: none;">&#xe61a;</i><i title="隐藏" class="layui-icon ${learn.key.id}headline-hide" style="font-size: 15px; color: #1E9FFF;">&#xe619;</i>
+									</div>
+								</div>
 								<c:forEach items="${learns}" var="len">
 									<c:if test="${len.key.id==learn.key.id }">
 										<c:forEach items="${len.value}" var="lv">
@@ -315,7 +396,12 @@ body {
 													<li style="width: 100%; list-style-type: none;">
 														<div onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')" style="background-color: #cbf5cb; cursor: pointer; height: 23px;">
 															<a style="line-height: 23px;" onmouseover="englishOverHere('${lvv.id}')" onmouseout="englishLeftHere('${lvv.id}')"> <span title="${lvv.definition}" style="line-height: 23px;">${lvv.word}</span> &nbsp;&nbsp; <c:if test="${lvv.usPronunciation!=null}">
-																	<span>美：${lvv.usPronunciation}</span>&nbsp;</c:if> <img id="sbus${lvv.id}" onclick="playAutioShanBei('sbus${lvv.id}','${lvv.usAudio}')" onmouseover="overHere('sbus${lvv.id}')" onmouseout="leftHere('sbus${lvv.id}')" class="icon-sound" border="0" src="${base}/static/images/voice1.png" width="19" height="17" /> &nbsp; <c:if test="${lvv.ukPronunciation!=null}">
+																	<span>美：${lvv.usPronunciation}</span>&nbsp;
+															</c:if> <c:if test="${lvv.type=='word'}">
+																	<img id="sbus${lvv.id}" onclick="playAutioShanBei('sbus${lvv.id}','${lvv.usAudio}')" onmouseover="overHere('sbus${lvv.id}')" onmouseout="leftHere('sbus${lvv.id}')" class="icon-sound" border="0" src="${base}/static/images/voice1.png" width="19" height="17" /> &nbsp;
+															</c:if> <c:if test="${lvv.type!='word'}">
+																	<img id="${lvv.id}" onclick="playAutio('${lvv.id}')" onmouseover="overHere('${lvv.id}')" onmouseout="leftHere('${lvv.id}')" class="icon-sound" border="0" src="${base}/static/images/voice1.png" width="19" height="17" /> &nbsp;
+															</c:if> <c:if test="${lvv.ukPronunciation!=null}">
 																	<span>英：${lvv.ukPronunciation}</span>&nbsp;
 															<img id="sb${lvv.id}" onclick="playAutioShanBei('sb${lvv.id}','${lvv.ukAudio}')" onmouseover="overHere('sb${lvv.id}')" onmouseout="leftHere('sb${lvv.id}')" class="icon-sound" border="0" src="${base}/static/images/voice1.png" width="19" height="17" />&nbsp; 
 															</c:if> <i id="${lvv.id}icon" title="删除" onclick="deletelvv('${learn.key.id }','${lvv.id}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i> <c:if test="${lifeUserModel.userrole=='1'}">
@@ -327,16 +413,17 @@ body {
 																<c:forEach items="${it.value}" var="itv">
 																	<c:if test="${itv.wordinterpretation!=null }">
 																		<div class="chinese_" style="background-color: #e3f9e3; cursor: pointer;" onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')">
-																			<a onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')"><span > <c:if test="${lvv.type=='word'}">${itv.wordtype}</c:if>${itv.wordinterpretation}</span> <i id="${itv.id}" onclick="deleteItv('${itv.id}')" title="删除" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i>
-																				<c:if test="${lifeUserModel.userrole=='1' }">
+																			<a onmouseover="chineseOverHere('${itv.id}')" onmouseout="chineseLeftHere('${itv.id}')"><span> <c:if test="${lvv.type=='word'}">
+																			${itv.wordtype}</c:if> ${itv.wordinterpretation}
+																			</span> <i id="${itv.id}" onclick="deleteItv('${itv.id}')" title="删除" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe640;</i> <c:if test="${lifeUserModel.userrole=='1' }">
 																					<i id="${itv.id}update" title="修改" onclick="updateItv('${itv.id}','${itv.wordinterpretation}')" class="layui-icon" style="font-size: 14px; color: #f2711c; cursor: pointer; display: none; float: right;">&#xe639;</i>
 																				</c:if> <br> </a>
 																		</div>
 																	</c:if>
 																</c:forEach>
 																<c:if test="${lvv.type!='article'}">
-																	<div style="background-color: #f9fbf9; cursor: pointer;" align="center">
-																		<i onclick="openWordTypeDog('${lvv.word}','${lvv.type}','${learn.key.id }')" class="layui-icon" style="font-size: 8px; color: red; cursor: pointer; left: 50%;">&#xe654;</i> <br>
+																	<div style="background-color: #f9fbf9; cursor: pointer;" align="left">
+																		<i onclick="openWordTypeDog('${lvv.word}','${lvv.type}','${learn.key.id }')" class="layui-icon" style="font-size: 8px; color: red; cursor: pointer;">&#xe654;</i> <br>
 																	</div>
 																</c:if>
 															</c:if>
@@ -365,7 +452,6 @@ body {
 	</div>
 	<div>
 		<audio id="playEnglish" hidden> <source type="audio/mpeg"></audio>
-		.
 		<audio id="playEnglishSB" hidden> <source type="audio/mpeg"></audio>
 	</div>
 	<c:forEach items="${wordTypes }" var="wt">
@@ -377,10 +463,10 @@ body {
 						<tr>
 							<td>${wt.itemName}:</td>
 							<c:if test="${wt.itemNo =='article'}">
-								<td><input class="easyui-textbox addfocus" autofocus="autofocus" data-options="multiline:true,required:true" id="${wt.itemNo}word" name="word" style="width: 300px; height: 150px"></td>
+								<td><input class="easyui-textbox addfocus" data-options="multiline:true,required:true" id="${wt.itemNo}word" name="word" style="width: 300px; height: 150px"></td>
 							</c:if>
 							<c:if test="${wt.itemNo !='article'}">
-								<td><input class="easyui-textbox addWordssss addfocus" autofocus="autofocus" type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
+								<td><input class="easyui-textbox addWordssss addfocus"  type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
 							</c:if>
 						</tr>
 						<c:if test="${wt.itemNo=='word'}">
@@ -396,7 +482,7 @@ body {
 						<c:if test="${wt.itemNo !='article'}">
 							<tr>
 								<td>释义:</td>
-								<td><input class="easyui-textbox" type="text" id="${wt.itemNo}wordInterpretayion" name="wordInterpretayion" data-options="required:true" style="width: 290px; height: 60px;"></input></td>
+								<td><input class="easyui-textbox" data-options="multiline:true" type="text" id="${wt.itemNo}wordInterpretayion" name="wordInterpretayion" data-options="required:true" style="width: 290px; height: 60px;"></input></td>
 							</tr>
 						</c:if>
 						<c:if test="${wt.itemNo =='article'}">
@@ -408,7 +494,7 @@ body {
 					</table>
 				</form>
 				<div style="text-align: center; padding: 5px">
-					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm('${wt.itemNo}')">新增</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm('${wt.itemNo}','insert')">新增后关闭窗口</a> <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm('${wt.itemNo}','save')">保存</a>
 					<c:if test="${wt.itemNo =='word'}">
 						<a href="javascript:void(0)" class="easyui-linkbutton" onclick="translateShanBei('${wt.itemNo}')">扇贝翻译</a>
 					</c:if>
@@ -420,7 +506,10 @@ body {
 		</div>
 	</c:forEach>
 	<script type="text/javascript">
-		function submitForm(id) {
+		$(function() {
+		});
+
+		function submitForm(id, type) {
 			$('#ff' + id).form('submit', {
 				type : "POST",
 				dataType : "json",
@@ -435,7 +524,15 @@ body {
 				},
 				success : function(data) {
 					progressClose();
-					location.reload();
+					if (type == "insert") {
+						location.reload();
+					} else {
+						$.messager.alert("提示", "保存成功", "info");
+						var val = $("input[name='word']").val();
+						if (val == null || val == '') {
+							$('#ff' + id).form('clear');
+						}
+					}
 				}
 			});
 		}
@@ -472,25 +569,5 @@ body {
 
 		}
 	</script>
-	<div class="fixed_div">
-			<!-- 		<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'">新增今日学习</a> -->
-			
-			<div class="shortcut_menu" id="showIcon" >
-				显示 <select onchange="onlyShowToday()" id="showCount" style="width: 40px; height: 16px; background-color: #d5e4f1; font-size: 12px; line-height: 16px; margin-bottom: 2px;">
-					<c:forEach var="a" items="${countClass}" varStatus="b">
-						<option <c:if test="${b.index+1 ==timeClass.size() }"> selected="selected" </c:if> value="${b.index+1  }">${b.index+1 }</option>
-					</c:forEach>
-				</select>条
-			</div>
-<!-- 			<div class="shortcut_menu">新增学习</div> -->
-			<div id="showAndHideTranslate" class="shortcut_menu" onclick="showTranslate()">隐藏翻译</div>
-<!-- 			<div class="shortcut_menu" >单词速记</div> -->
-<!-- 			<div class="shortcut_menu" >句子仿读</div> -->
-			<div class="shortcut_menu" onclick="refreshThisPage()">刷新界面</div>
-			<!-- 		<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'">只显示今日</a> -->
-			<!-- 		<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-search'">只显示英文</a> -->
-			<!-- 		<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">刷新</a> -->
-
-	</div>
 </body>
 </html>

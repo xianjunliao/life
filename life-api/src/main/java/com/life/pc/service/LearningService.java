@@ -32,4 +32,8 @@ public interface LearningService {
 	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel);
 
 	List<LearnEnglishModel> getCountByUser(String usercode);
+	
+	List<LearnEnglishModel> getLearnsByUserAndNumber(String usercode, int number);
+	
+	List<LearnEnglishWordsModel> getWordsByUser(String usercode);
 }

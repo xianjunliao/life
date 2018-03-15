@@ -1,6 +1,7 @@
 package com.life.pc.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,9 @@ public class LearningController {
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
 		try {
-			List<SystemDataModel> systemDataModels =learningService.getSystemData("WORDTYPE");
+			List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
+			List<SystemDataModel> partOfSpeech = learningService.getSystemData("PARTOFSPEECH");
+			model.put("partOfSpeech", partOfSpeech);
 			model.put("wordTypes", systemDataModels);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,13 +56,13 @@ public class LearningController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/showNow")
-	public String showNow(int number,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String showNow(int number, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
-		Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request),number);
+		Map<String, Object> words = learningService.getWords(WebUtils.getUserCode(request), number);
 		List<SystemDataModel> systemDataModels = (List<SystemDataModel>) words.get("wordTypes");
 		Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>> learns = (Map<LearnEnglishModel, Map<SystemDataModel, List<LearnEnglishWordsModel>>>) words.get("learnEnglish");
 		Map<String, List<LearnEnglishInterpretayionModel>> interpretayion = (Map<String, List<LearnEnglishInterpretayionModel>>) words.get("interpretayion");
-		Map<LearnEnglishModel, Integer>  learnEnglishModels = (Map<LearnEnglishModel, Integer>) words.get("learns");
+		Map<LearnEnglishModel, Integer> learnEnglishModels = (Map<LearnEnglishModel, Integer>) words.get("learns");
 		List<SystemDataModel> partOfSpeech = learningService.getSystemData("PARTOFSPEECH");
 		List<LearnEnglishModel> countByUser = learningService.getCountByUser(userCode);
 		model.put("wordTypes", systemDataModels);
@@ -68,13 +71,22 @@ public class LearningController {
 		model.put("timeClass", learnEnglishModels);
 		model.put("interpretayion", interpretayion);
 		model.put("countClass", countByUser);
-		return FTL_DIR+"ENG_listen.jsp";
+		return FTL_DIR + "ENG_listen.jsp";
 	}
+	
+	@RequestMapping("/wordShorthand")
+	public String wordShorthand(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userCode = WebUtils.getUserCode(request);
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByUser(userCode);
+		model.put("words", learnEnglishWordsModels);
+		return FTL_DIR + "ENG_read.jsp";
+	}
+
 	@RequestMapping(path = { "/getVoice" }, method = { RequestMethod.GET })
-	public void getVoice(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void getVoice(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LearnEnglishWordsModel learnEnglishWordsModel = learningService.getLearnEnglishWordsModel(id);
-			String fileName = learnEnglishWordsModel.getType()+"_"+BaiduVoice.replaceFilesStr(learnEnglishWordsModel.getWord())+".mp3";
+			String fileName = learnEnglishWordsModel.getType() + "_" + BaiduVoice.replaceFilesStr(learnEnglishWordsModel.getWord()) + ".mp3";
 			FileUtils.FilesDownload_stream(request, response, fileName, learnEnglishWordsModel.getMp3path(), "audio/mp3");
 		} catch (Exception e) {
 
@@ -94,7 +106,19 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
+	@ResponseBody
+	@RequestMapping("getTimeClass")
+	public List<LearnEnglishModel> getTimeClass(int number, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<LearnEnglishModel> learnEnglishModels = new ArrayList<>();
+		try {
+			learnEnglishModels = learningService.getLearnsByUserAndNumber(WebUtils.getUserCode(request), number);
+		} catch (Exception e) {
+
+		}
+		return learnEnglishModels;
+	}
+
 	@ResponseBody
 	@RequestMapping("addLearnTime")
 	public ResponseMessage<LearnEnglishModel> addLearnTime(LearnEnglishModel learnEnglishModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -108,7 +132,7 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("deleteItv")
 	public ResponseMessage<LearnEnglishModel> deleteItv(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -121,9 +145,10 @@ public class LearningController {
 		}
 		return outMSG;
 	}
+
 	@ResponseBody
 	@RequestMapping("deletelvv")
-	public ResponseMessage<LearnEnglishModel> deletelvv(String lid,String wid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LearnEnglishModel> deletelvv(String lid, String wid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LearnEnglishModel> outMSG = new ResponseMessage<>();
 		try {
 			learningService.deletelvv(lid, wid);
@@ -133,9 +158,10 @@ public class LearningController {
 		}
 		return outMSG;
 	}
+
 	@ResponseBody
 	@RequestMapping("updateWord")
-	public ResponseMessage<LearnEnglishModel> updateWord(String id,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LearnEnglishModel> updateWord(String id, String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LearnEnglishModel> outMSG = new ResponseMessage<>();
 		try {
 			LearnEnglishWordsModel learnEnglishWordsModel = new LearnEnglishWordsModel();
@@ -149,9 +175,10 @@ public class LearningController {
 		}
 		return outMSG;
 	}
+
 	@ResponseBody
 	@RequestMapping("updateItv")
-	public ResponseMessage<LearnEnglishModel> updateItv(String id,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LearnEnglishModel> updateItv(String id, String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LearnEnglishModel> outMSG = new ResponseMessage<>();
 		try {
 			LearnEnglishInterpretayionModel learnEnglishInterpretayionModel = new LearnEnglishInterpretayionModel();
@@ -164,17 +191,17 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("translate")
-	public ResponseMessage<String> translate(String type,String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<String> translate(String type, String text, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
-			String translateAfter=text;
-			if(type.equals("bd")){
-			translateAfter = BaiduTranslate.getBaiduTranslateZh(text);
-			}else if (type.equals("sb")) {
-				translateAfter=WordUtils.getWordMap(text).get("definition");
+			String translateAfter = text;
+			if (type.equals("bd")) {
+				translateAfter = BaiduTranslate.getBaiduTranslateZh(text);
+			} else if (type.equals("sb")) {
+				translateAfter = WordUtils.getWordMap(text).get("definition");
 			}
 			outMSG.setData(translateAfter);
 			outMSG.setCode("200");
