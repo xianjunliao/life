@@ -75,9 +75,9 @@ public class LearningController {
 	}
 	
 	@RequestMapping("/wordShorthand")
-	public String wordShorthand(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String wordShorthand(int number,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
-		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByUser(userCode);
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByUser(userCode,number);
 		model.put("words", learnEnglishWordsModels);
 		return FTL_DIR + "ENG_read.jsp";
 	}

@@ -35,5 +35,5 @@ public interface LearningService {
 	
 	List<LearnEnglishModel> getLearnsByUserAndNumber(String usercode, int number);
 	
-	List<LearnEnglishWordsModel> getWordsByUser(String usercode);
+	List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number);
 }

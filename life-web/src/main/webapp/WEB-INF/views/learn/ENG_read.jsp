@@ -8,107 +8,285 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
+	var wordSize = 0;
+	var maxSize = '${words.size()}';
+	$(function() {
+		playAutio('${words.get(0).mp3url}');	
+		$("#this_url").text('${words.get(0).mp3url}');
+	});
+	
 	function leftGo() {
-		
-		var d=$("#div3").css("display");
-		if(d=='block'){
+		if (wordSize < 0) {
+			return;
+		}
+		wordSize--;
+		$(".wordDivs").hide();
+		$("#div5").hide();
+		$("#div5").css("left", "-200px");
+		var d = $("#div3").css("display");
+		var word = $("#word" + wordSize).text();//获取单词
+		var pronunciation = $("#pronunciation" + wordSize).html();//获取音标
+		var definition = $("#definition" + wordSize).html();//获取释义
+		var url = $("#url" + wordSize).text();//获取语音地址
+		$("#this_url").text(url);
+		if (word == null || word == '') {
+			wordSize = (maxSize - 1);
+			word = $("#word" + wordSize).text();
+			pronunciation = $("#pronunciation" + wordSize).html();
+			definition = $("#definition" + wordSize).html();
+			url = $("#url" + wordSize).text();
+		}
+		if (d == 'block') {
 			$("#div3").hide();
-			$("#div3").css("left","+415px");
+			$("#div3").css("left", "+415px");
+			
+			$("#div2word").text(word);
+			$("#div2pronunciation").html(pronunciation);
+			$("#div2definition").html(definition);
+			$("#div2total").html('<b>'+(wordSize+1)+'</b>/'+maxSize+'');
+			playAutio(url);
 			
 			$("#div2").show();
 			$("#div2").animate({
-				left : '+55px'
-			}, "slow");
-		}else{
+				left : '+32px'
+			}, 500);
+		} else {
 			$("#div2").hide();
-			$("#div2").css("left","+415px");
+			$("#div2").css("left", "+415px");
+			
+			$("#div3word").text(word);
+			$("#div3pronunciation").html(pronunciation);
+			$("#div3definition").html(definition);
+			$("#div3total").html('<b>'+(wordSize+1)+'</b>/'+maxSize+'');
+			playAutio(url);
 			
 			$("#div3").show();
 			$("#div3").animate({
-				left : '+55px'
-			}, "slow");
+				left : '+32px'
+			}, 500);
 		}
-		
-		
+		console.log("L:" + wordSize);
 	}
 	function rightGo() {
-		
-		var d=$("#div3").css("display");
-		if(d=='block'){
-			$("#div3").hide();
-			$("#div3").css("left","-415px");
-			
-			$("#div2").show();
-			$("#div2").animate({
-				left : '150px'
-			}, "slow");
-		}else{
-			$("#div2").hide();
-			$("#div2").css("left","-415px");
-			
-			$("#div3").show();
-			$("#div3").animate({
-				left : '150px'
-			}, "slow");
+		if (wordSize >= maxSize) {
+			return;
 		}
+		wordSize++;
+		$(".wordDivs").hide();
+		$("#div3").hide();
+		$("#div3").css("left", "+415px");
+		var word = $("#word" + (wordSize)).text();//获取单词
+		var pronunciation = $("#pronunciation" + wordSize).html();//获音标
+		var definition = $("#definition" + wordSize).html();//获释义
+		var url = $("#url" + wordSize).text();//获取语音地址
+		$("#this_url").text(url);
+		if (word == null || word == '') {
+			wordSize = 0;
+			word = $("#word" + wordSize).text();
+			pronunciation = $("#pronunciation" + wordSize).html();
+			definition = $("#definition" + wordSize).html();
+			url = $("#url" + wordSize).text();
+		}
+		var d = $("#div5").css("display");
+		if (d == 'block') {
+			$("#div5").hide();
+			$("#div5").css("left", "-200px");
+			
+			$("#div4word").text(word);
+			$("#div4pronunciation").html(pronunciation);
+			$("#div4definition").html(definition);
+			$("#div4total").html('<b>'+(wordSize+1)+'</b>/'+maxSize+'');
+			playAutio(url);
+			
+			$("#div4").show();
+			$("#div4").animate({
+				left : '32px'
+			}, 500);
+		} else {
+			$("#div4").hide();
+			$("#div4").css("left", "-200px");
+			
+			$("#div5word").text(word);
+			$("#div5pronunciation").html(pronunciation);
+			$("#div5definition").html(definition);
+			$("#div5total").html('<b>'+(wordSize+1)+'</b>/'+maxSize+'');
+			playAutio(url);
+			
+			$("#div5").show();
+			$("#div5").animate({
+				left : '32px'
+			}, 500);
+		}
+
+		console.log("R:" + wordSize);
+	}
+	
+	function playAutio(url) {
+		$(".play-show").hide();
+		$(".play-hide").show();
+		isClick = true;
+		var music = document.getElementById('playEnglish');
+		$("#playEnglish").attr("src", url);
+		music.play();
+		music.loop = false;
+		music.addEventListener('ended', function() {
+			$(".play-show").show();
+			$(".play-hide").hide();
+			isClick = false;
+		}, false);
+	}
+	
+	function playThis(){
+	var thisUrl=$("#this_url").text();
+	playAutio(thisUrl);
 	}
 </script>
 <style type="text/css">
-#div1 {
-	width: 200px;
-	height: 350px;
-	float: left;
-	position: absolute;
-	border: 1px red solid;
-	left: -200px;
-	z-index: 1;
-	display: none;
-	margin-top: 10px;
-}
 #div2 {
-	width: 200px;
+	border-radius: 5px;
+	width: 255px;
 	height: 350px;
 	float: left;
 	position: absolute;
-	border: 1px red solid;
-	right: -200px;
+	right: -250px;
 	z-index: 1;
 	display: none;
 	margin-top: 10px;
+	-moz-box-shadow: 2px 2px 20px #333333;
+	-webkit-box-shadow: 2px 2px 20px #333333;
+	box-shadow: 2px 2px 20px #333333;
+	background-color: #ffffff;
 }
-#div3 {
-	width: 200px;
+
+#div4 {
+	border-radius: 5px;
+	width: 255px;
 	height: 350px;
 	float: left;
 	position: absolute;
-	border: 1px red solid;
-	left:55px;
+	left: -250px;
 	z-index: 1;
+	display: none;
+	background-color: #ffffff;
 	margin-top: 10px;
+	-moz-box-shadow: 2px 2px 20px #333333;
+	-webkit-box-shadow: 2px 2px 20px #333333;
+	box-shadow: 2px 2px 20px #333333;
+}
+
+#div5 {
+	border-radius: 5px;
+	width: 255px;
+	height: 350px;
+	float: left;
+	position: absolute;
+	left: -265px;
+	z-index: 1;
+	-moz-box-shadow: 2px 2px 20px #333333;
+	background-color: #ffffff;
+	-webkit-box-shadow: 2px 2px 20px #333333;
+	box-shadow: 2px 2px 20px #333333;
+	margin-top: 10px;
+}
+
+#div3 {
+	border-radius: 5px;
+	width: 255px;
+	height: 350px;
+	float: left;
+	position: absolute;
+	left: 32px;
+	background-color: #ffffff;
+	z-index: 1;
+	-moz-box-shadow: 2px 2px 20px #333333;
+	-webkit-box-shadow: 2px 2px 20px #333333;
+	box-shadow: 2px 2px 20px #333333;
+	margin-top: 10px;
+}
+
+.wordShow {
+	width: 255px;
+	height: 50px;
+	text-align: center;
+	/* 	background-color: green; */
+	font-size: 24px;
+	margin: 50px 2px 2px 2px;
+	font-weight: bold;
+	line-height: 50px;
+}
+
+.pronunciationShow {
+	width: 190px;
+	height: 40px;
+	text-align: left;
+	/* 	background-color: fuchsia; */
+	font-size: 12px;
+	margin: 10px 40px 10px 35px;
+}
+
+.definitionShow {
+	width: 190px;
+	height: auto;
+	text-align: left;
+	font-size: 14px;
+	margin: 10px 40px 10px 35px;
+}
+
+.totalShow {
+	width: 255px;
+	height: 20px;
+	text-align: center;
+	position: absolute;
+	bottom: 10px;
 }
 </style>
 
 </head>
-<body style="width: 320px; height: 415px;overflow: hidden;">
+<body style="width: 320px; height: 415px; overflow: hidden; background-color: #F3F3F3;">
 	<div>
-		<div style="width: 55px; height: 180px; float: left; padding-top: 180px; position: absolute; left: 0px;" align="center">
-			<i onclick="leftGo()" class="layui-icon" style="font-size: 30px; color: #1E9FFF; cursor: pointer;">&#xe65a;</i>
-		</div>
-		<div id="div1">
-			<span id="share"> 分享 1</span>
-		</div>
-		<div id="div2">
-			<span id="share"> 分享2 </span>
+		<div class="wordDivs" id="div2">
+			<div id="div2word" class="wordShow"></div>
+			<div id="div2pronunciation" class="pronunciationShow"></div>
+			<div id="div2definition" class="definitionShow"></div>
+			<div id="div2total" class="totalShow"></div>
 		</div>
 		<div id="div3">
-			<span id="share"> 分享3 </span>
+			<div id="div3word" class="wordShow">${words.get(0).word}</div>
+			<div id="div3pronunciation" class="pronunciationShow"><div style="float: left;">美：${words.get(0).usPronunciation}</div><div style="float: right;">英：${words.get(0).ukPronunciation}</div></div>
+			<div id="div3definition" class="definitionShow">${words.get(0).definition}</div>
+			<div id="div3total" class="totalShow"><b>1</b>/${words.size()}</div>
 		</div>
-		<div style="width: 55px; height: 180px; float: left; padding-top: 180px; position: absolute; right: 0px;" align="center">
-			<i onclick="rightGo()" class="layui-icon" style="font-size: 30px; color: #1E9FFF; cursor: pointer;">&#xe65b;</i>
+
+		<div class="wordDivs" id="div4">
+			<div id="div4word" class="wordShow"></div>
+			<div id="div4pronunciation" class="pronunciationShow"></div>
+			<div id="div4definition" class="definitionShow"></div>
+			<div id="div4total" class="totalShow"></div>
+		</div>
+		<div id="div5">
+			<div id="div5word" class="wordShow">${words.get(0).word}</div>
+			<div id="div5pronunciation" class="pronunciationShow"><div style="float: left;">美：${words.get(0).usPronunciation}</div><div style="float: right;">英：${words.get(0).ukPronunciation}</div></div>
+			<div id="div5definition" class="definitionShow"> ${words.get(0).definition}</div>
+			<div id="div5total" class="totalShow">1/${words.size()}</div>
 		</div>
 	</div>
-	<div style="width: 320px; height: 50px; position: absolute; bottom: 0px;" align="center">
-		<i class="layui-icon" style="font-size: 30px; color: #1E9FFF; display: none;">&#xe652;</i><i onclick="leftGo()" class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe651;</i>
+	<div style="width: 180px; height: 35px; position: absolute; bottom: 10px; border-radius: 20px; left: 66px; background-color: white;" align="center">
+		<i onclick="leftGo()" class="layui-icon" style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-right: 25px; position: absolute; top: 8px; left: 15px;">&#xe603;</i> 
+		<i class="layui-icon play-show" style="font-size: 35px; color: #333;cursor: pointer;" onclick="playThis()">&#xe652;</i>
+		<i class="layui-icon play-hide" style="font-size: 35px; color: #333;cursor: pointer; display: none;">&#xe651;</i>
+	 <i onclick="rightGo()" class="layui-icon"style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-left: 25px; position: absolute; top: 8px; left: 120px;">&#xe602;</i>
+	</div>
+
+	<c:forEach var="wd" varStatus="wdindex" items="${words}">
+		<div id="word${wdindex.index}" style="display: none;">${wd.word}</div>
+		<div id="url${wdindex.index}" style="display: none;">${wd.mp3url}</div>
+		<div id="definition${wdindex.index}" style=" display: none;">${wd.definition}</div>
+		<div id="pronunciation${wdindex.index}" style="display: none;">
+			<c:if test="${wd.type=='word' }"> <div style="float: left;">美：${wd.usPronunciation}</div><div style="float: right;">英：${wd.ukPronunciation}</div></c:if>
+		</div>
+	</c:forEach>
+	<div style="display: none;"><audio id="playEnglish" hidden> <source type="audio/mpeg"></audio>
+	<span id="this_url" style="display: none;"></span>
 	</div>
 </body>
 </html>

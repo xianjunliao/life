@@ -261,7 +261,7 @@
 	        ,title:'单词速记'
 	        ,area: ['320px', '460px']
 	        ,shade: [0.8, '#393D49']
-	        ,content: '${base}learn/wordShorthand'
+	        ,content: '${base}learn/wordShorthand?number='+number
 	        ,zIndex: layer.zIndex //重点1
 	        ,success: function(layero){
 	          layer.setTop(layero); //重点2
@@ -318,7 +318,7 @@ body {
 	max-height: 35px;
 	margin-right: 5px;
 	margin-left: 10px;
-	border-radius: 45%;
+	border-radius: 50%;
 	padding: 8px 8px 8px 8px;
 	background-color: #e7ece8;
 	margin-right: 5px;
@@ -344,7 +344,7 @@ body {
 			</div>
 		</div>
 		<div class="shortcut_menu" id="timeClassIcon">
-			<div style="margin-top: 3px;">
+			<div style="margin-top: 2px;">
 				<select id="timeClassSelect" class="easyui-combogrid" style="width: 145px; height: 16px;" data-options="
  						multiple: true,
 						prompt:'请选择时间线',
@@ -362,14 +362,11 @@ body {
 		</div>
 		<!-- 			<div class="shortcut_menu">新增学习</div> -->
 		<div id="showAndHideTranslate" class="shortcut_menu" onclick="showTranslate()">隐藏翻译</div>
-<!-- 		<div class="shortcut_menu" onclick="wordFast()" >单词速记</div> -->
+		<div class="shortcut_menu" onclick="wordFast()" >单词速记</div>
 		<!-- 			<div class="shortcut_menu" >句子仿读</div> -->
 		<div class="shortcut_menu" onclick="refreshThisPage()">刷新界面</div>
 	</div>
-	<div data-options="region:'north',title:'',split:false" style="height: 20px;">
-		<span style="font-family: sans-serif; font-size: 12px; font-style: oblique; color: #b7958b;"> >>学海无涯 >英语的听说读写 </span>
-	</div>
-	<div region="center" border="false" style="width: 100%; height: 100%; padding-top: 20px;">
+	<div region="center" border="false" style="width: 100%; height: 100%; padding-top: 35px;">
 		<div id="cc" class="easyui-layout" style="width: 100%; height: 100%;">
 			<div data-options="region:'center',border:false" style="padding: 5px;">
 				<c:forEach items="${timeClass}" var="learn">

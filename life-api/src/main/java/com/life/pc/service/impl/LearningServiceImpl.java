@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.life.common.PinyinUtils;
+import com.life.common.Str;
 import com.life.common.Util;
 import com.life.common.baidu.BaiduTranslate;
 import com.life.common.baidu.BaiduVoice;
@@ -51,8 +52,8 @@ public class LearningServiceImpl implements LearningService {
 	private SystemDataDao systemDataDao;
 
 	@Override
-	public Map<String, Object> getWords(String usercode,int number) {
-		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode,number);
+	public Map<String, Object> getWords(String usercode, int number) {
+		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode, number);
 		Map<LearnEnglishModel, Integer> mapp = new TreeMap<>(new Comparator<LearnEnglishModel>() {
 
 			@Override
@@ -259,6 +260,7 @@ public class LearningServiceImpl implements LearningService {
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
 			HttpServletRequest request = SpringWebUtil.getRequest();
+			learnEnglishWordsModel.setDefinition(BaiduTranslate.getBaiduTranslateZh(word));
 			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + id);
 			if (old.getType().equals("word")) {
 				Map<String, String> wordMap = WordUtils.getWordMap(word);
@@ -300,20 +302,37 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	@Override
-	public List<LearnEnglishWordsModel> getWordsByUser(String usercode) {
-		List<LearnEnglishWordsModel> learnEnglishWordsModels=new ArrayList<>();
-		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode,5);
+	public List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number) {
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = new ArrayList<>();
+		List<LearnEnglishWordsModel> newLearnEnglishWordsModels = new ArrayList<>();
+		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode, number);
 		for (LearnEnglishModel learnEnglishModel : learns) {
 			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
 			for (LearnRelationModel learnRelationModel : selectBylearnid) {
-				 LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByPrimaryKey(learnRelationModel.getWordid());
-					if (!learnEnglishWordsModels.contains(learnEnglishWordsModel)) {
-						learnEnglishWordsModels.add(learnEnglishWordsModel);
-					}
+				LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByPrimaryKey(learnRelationModel.getWordid());
+				if (!learnEnglishWordsModels.contains(learnEnglishWordsModel)) {
+					learnEnglishWordsModels.add(learnEnglishWordsModel);
+				}
 			}
 		}
-		return learnEnglishWordsModels;
+		for (LearnEnglishWordsModel learnEnglishWordsModel : learnEnglishWordsModels) {
+			StringBuffer buffer = new StringBuffer();
+			int i=1;
+			List<LearnEnglishInterpretayionModel> interpretayionModels = learnEnglishInterpretayionDao.selectBywordId(learnEnglishWordsModel.getId());
+			for (LearnEnglishInterpretayionModel model : interpretayionModels) {
+				String wordinterpretation = model.getWordinterpretation();
+				if (!Str.isEmpty(model.getWordtype())) {
+					buffer.append("<span style='margin-bottom: 10px;'><b style='color: #666'>" + model.getWordtype() + "&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+				}else{
+					buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>"+i+".&nbsp;&nbsp;</b><span style='color: #333'>"+wordinterpretation + "</span></span><br>");
+					i++;
+				}
+			}
+			learnEnglishWordsModel.setDefinition(buffer.toString());
+			newLearnEnglishWordsModels.add(learnEnglishWordsModel);
+		}
+		System.out.println(newLearnEnglishWordsModels);
+		return newLearnEnglishWordsModels;
 	}
-
 
 }
