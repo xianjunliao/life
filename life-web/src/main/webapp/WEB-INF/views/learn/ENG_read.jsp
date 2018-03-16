@@ -10,9 +10,11 @@
 <script type="text/javascript">
 	var wordSize = 0;
 	var maxSize = '${words.size()}';
+	var time;
 	$(function() {
 		playAutio('${words.get(0).mp3url}');	
 		$("#this_url").text('${words.get(0).mp3url}');
+		time=setInterval("rightGo()", 3000);
 	});
 	
 	function leftGo() {
@@ -139,6 +141,16 @@
 	function playThis(){
 	var thisUrl=$("#this_url").text();
 	playAutio(thisUrl);
+	}
+	function autoPlayOn(){
+		$(".auto-paly-show").hide();
+		$(".auto-paly-hide").show();
+		clearInterval(time);
+	}
+	function autoPlayOff(){
+		$(".auto-paly-show").show();
+		$(".auto-paly-hide").hide();
+		time=setInterval("rightGo()", 3000);
 	}
 </script>
 <style type="text/css">
@@ -271,6 +283,8 @@
 		</div>
 	</div>
 	<div style="width: 180px; height: 35px; position: absolute; bottom: 10px; border-radius: 20px; left: 66px; background-color: white;" align="center">
+		<i onclick="autoPlayOn()" class="layui-icon auto-paly-show" style="font-size: 35px; color: #333;cursor: pointer;position: absolute; top: 0px; left: -35px;" >&#xe645;</i>
+		<i onclick="autoPlayOff()" class="layui-icon auto-paly-hide" style="font-size: 35px; color: red;cursor: pointer;display: none;position: absolute; top: 0px; left: -35px;" >&#xe645;</i>
 		<i onclick="leftGo()" class="layui-icon" style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-right: 25px; position: absolute; top: 8px; left: 15px;">&#xe603;</i> 
 		<i class="layui-icon play-show" style="font-size: 35px; color: #333;cursor: pointer;" onclick="playThis()">&#xe652;</i>
 		<i class="layui-icon play-hide" style="font-size: 35px; color: #333;cursor: pointer; display: none;">&#xe651;</i>
