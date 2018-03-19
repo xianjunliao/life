@@ -16,7 +16,7 @@ function back(){
 	<div id="p2" class="easyui-navpanel">
 		<header>
 			<div class="m-toolbar">
-				<span id="p2-title" class="m-title">dayLearn</span>
+				<span id="p2-title" class="m-title">${learn.headline}</span>
 				<div class="m-left">
 					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick="back()">Back</a>
 				</div>

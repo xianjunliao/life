@@ -41,4 +41,6 @@ public interface LearningService {
 	
 	Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize,int pageCount);
 	
+	LearnEnglishModel getLearnEnglishModelById(String id);
+	
 }

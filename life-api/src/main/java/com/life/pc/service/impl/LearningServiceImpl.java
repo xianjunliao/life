@@ -382,9 +382,10 @@ public class LearningServiceImpl implements LearningService {
 				}
 			}
 			if (ids.size() == 0) {
-				map.put(learnEnglishModel, "学习的总词汇有<b>" + ids.size() + "</b>个；单词有<b>" + word + "</b>个，" + "词组有<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+				map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
 
 			} else {
+				
 				List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
 				for (LearnEnglishWordsModel learnEnglishWordsModel : selectByIdsAll) {
 					if (learnEnglishWordsModel.getType().equals("word")) {
@@ -400,9 +401,15 @@ public class LearningServiceImpl implements LearningService {
 						article++;
 					}
 				}
-				map.put(learnEnglishModel, "学习的总词汇有<b>" + ids.size() + "</b>个；单词有<b>" + word + "</b>个，" + "词组有<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+				
 			}
+			map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
 		}
 		return map;
+	}
+
+	@Override
+	public LearnEnglishModel getLearnEnglishModelById(String id) {
+		return learnEnglishDao.selectByPrimaryKey(id);
 	}
 }

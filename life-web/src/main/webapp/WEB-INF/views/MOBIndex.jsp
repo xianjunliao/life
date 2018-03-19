@@ -41,7 +41,7 @@ p {
 							</header>
 							<ul class="m-list">
 								<c:forEach items="${dayLearns}" var="dl">
-									<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;&nbsp;&nbsp;${dl.value}</a></li>
+									<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;${dl.value}</a></li>
 								</c:forEach>
 
 							</ul>
@@ -72,10 +72,10 @@ p {
 			</div>
 			<div style="padding: 10px">
 				<div class="panel-header tt-inner">
-					<c:if test="${userInfo.headaddress ==null }">
+					<c:if test="${userInfo.headaddress==null }">
 						<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" />
 					</c:if>
-					<c:if test="${userInfo.headaddress !=null }">
+					<c:if test="${userInfo.headaddress!=null }">
 						<img src='${userInfo.headaddress}' width="30px;" height="30px;" />
 					</c:if>
 					<br>个人中心

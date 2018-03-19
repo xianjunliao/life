@@ -27,8 +27,10 @@ import com.life.pc.model.LearnEnglishInterpretayionModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LearnEnglishWordsModel;
 import com.life.pc.model.LearnParamModel;
+import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.SystemDataModel;
 import com.life.pc.service.LearningService;
+import com.life.pc.service.LifeUserService;
 
 @Controller
 @RequestMapping("learn")
@@ -40,6 +42,9 @@ public class LearningController {
 
 	@Autowired
 	private LearningService learningService;
+	
+	@Autowired
+	private LifeUserService lifeUserService;
 
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
@@ -61,13 +66,18 @@ public class LearningController {
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
 		model.put("dayLearns", dayLearns);
 		model.put("wordTypes", systemDataModels);
+		LifeUserModel userModel = lifeUserService.checkEnterCode(userCode);
+		model.put("userInfo", userModel);
 		return "MOBIndex.jsp";
 	}
 
 	@RequestMapping("/dayLearns")
 	public String dayLearns(String id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
+		LearnEnglishModel learnEnglishModelById = learningService.getLearnEnglishModelById(id);
 		model.put("wordTypes", systemDataModels);
+		model.put("learn", learnEnglishModelById);
+		
 		return "mobile/dayLearns.jsp";
 	}
 

@@ -96,7 +96,8 @@ public class LifeUserController {
 			model.put("initText", pTree.get(0).getText());
 		}
 		model.put("trees", treeByUserCode);
-		model.put("userInfo", attribute);
+		LifeUserModel userModel = lifeUserService.checkEnterCode(userCode);
+		model.put("userInfo", userModel);
 	}
 
 	@RequestMapping("/login")
