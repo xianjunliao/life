@@ -364,7 +364,7 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize, int pageCount) {
 		int number = pageSize * pageCount;
-		List<String> ids = new ArrayList<>();
+	
 		Map<LearnEnglishModel, String> map = new TreeMap<LearnEnglishModel, String>(new Comparator<LearnEnglishModel>() {
 
 			@Override
@@ -374,6 +374,7 @@ public class LearningServiceImpl implements LearningService {
 		});
 		List<LearnEnglishModel> selectListByUser = learnEnglishDao.selectListByUser(usercode, number);
 		for (LearnEnglishModel learnEnglishModel : selectListByUser) {
+			List<String> ids = new ArrayList<>();
 			int word = 0, phrase = 0, sentence = 0, article = 0;
 			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
 			for (LearnRelationModel learnRelationModel : selectBylearnid) {
