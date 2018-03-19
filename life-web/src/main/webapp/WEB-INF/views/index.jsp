@@ -15,7 +15,7 @@
 		if (isPc) {
 			window.location.href = "${base}login";	
 		} else {
-			window.location.href = "${base}MOBIndex";
+			window.location.href = "${base}mobile/login";
 		}
 
 	});

@@ -115,7 +115,7 @@
 .tabs-inner .m-badge{
 	position: absolute;
 	top: 1px;
-	right: -10px;
+/* 	right: -10px; */
 }
 .tabs-inner>.tabs-title>.m-badge{
 	top: 0;

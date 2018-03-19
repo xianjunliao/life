@@ -76,9 +76,6 @@ public class LifeUserController {
 			if (SystemGet.getNowIp().contains("192.168.1.101")||SystemGet.getNowIp().contains("47.91.252.134")||SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
 				return FTL_DIR + pageName + ".jsp";
 			}
-			if (pageName.equals("PCIndex") || pageName.equals("MOBIndex") || pageName.equals("myMeun")) {
-				return FTL_DIR + pageName + ".jsp";
-			} 
 	
 		} catch (Exception e) {
 			return "error/500.jsp";
@@ -106,7 +103,11 @@ public class LifeUserController {
 	public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return FTL_DIR + "user/login.jsp";
 	}
-
+	@RequestMapping("/mobLogin")
+	public String mobLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return "mobile/login.jsp";
+	}
+	
 	@RequestMapping("/update")
 	public String update(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel userModel = WebUtils.getUserInfo(request);

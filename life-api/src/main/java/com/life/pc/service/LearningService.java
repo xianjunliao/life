@@ -36,4 +36,9 @@ public interface LearningService {
 	List<LearnEnglishModel> getLearnsByUserAndNumber(String usercode, int number);
 	
 	List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number);
+	
+	int getWordsCountByUser(String usercode, int number);
+	
+	Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize,int pageCount);
+	
 }

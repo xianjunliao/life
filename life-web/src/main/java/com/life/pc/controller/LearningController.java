@@ -54,6 +54,23 @@ public class LearningController {
 		return FTL_DIR + pageName + ".jsp";
 	}
 
+	@RequestMapping("/mob")
+	public String mob(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userCode = WebUtils.getUserCode(request);
+		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 15);
+		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
+		model.put("dayLearns", dayLearns);
+		model.put("wordTypes", systemDataModels);
+		return "MOBIndex.jsp";
+	}
+
+	@RequestMapping("/dayLearns")
+	public String dayLearns(String id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
+		model.put("wordTypes", systemDataModels);
+		return "mobile/dayLearns.jsp";
+	}
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/showNow")
 	public String showNow(int number, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -73,11 +90,11 @@ public class LearningController {
 		model.put("countClass", countByUser);
 		return FTL_DIR + "ENG_listen.jsp";
 	}
-	
+
 	@RequestMapping("/wordShorthand")
-	public String wordShorthand(int number,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String wordShorthand(int number, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
-		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByUser(userCode,number);
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByUser(userCode, number);
 		model.put("words", learnEnglishWordsModels);
 		return FTL_DIR + "ENG_read.jsp";
 	}
@@ -91,6 +108,20 @@ public class LearningController {
 		} catch (Exception e) {
 
 		}
+	}
+
+	@ResponseBody
+	@RequestMapping("getWordCount")
+	public ResponseMessage<Integer> getWordCount(int number, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<Integer> outMSG = new ResponseMessage<>();
+		try {
+			int wordsCountByUser = learningService.getWordsCountByUser(WebUtils.getUserCode(request), number);
+			outMSG.setCode("200");
+			outMSG.setData(wordsCountByUser);
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
 	}
 
 	@ResponseBody

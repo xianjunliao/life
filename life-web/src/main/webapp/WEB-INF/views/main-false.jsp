@@ -118,7 +118,7 @@ div.panel>div.panel-body.accordion-body>div {
 									<div style="padding: 10px;">
 										<ul name="产品管理" class="tree">
 											<li><div id="_easyui_tree_1" class="tree-node">
-													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title">产品展示</span>
+													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title" onclick="aaa('${base}mobLogin')">产品展示</span>
 												</div></li>
 											<li><div id="_easyui_tree_2" class="tree-node">
 													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a  onclick="aaa('${base}learn/showNow?number=5')">图片管理</a></span>

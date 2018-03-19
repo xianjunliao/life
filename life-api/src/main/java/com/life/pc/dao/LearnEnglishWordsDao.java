@@ -1,5 +1,9 @@
 package com.life.pc.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.life.pc.model.LearnEnglishWordsModel;
 
 public interface LearnEnglishWordsDao {
@@ -18,4 +22,8 @@ public interface LearnEnglishWordsDao {
 
 
     LearnEnglishWordsModel selectByWord(String word);
+    
+    List<LearnEnglishWordsModel>  selectByIds(@Param("ids")List<String> ids);
+    
+    List<LearnEnglishWordsModel>  selectByIdsAll(@Param("ids")List<String> ids);
 }

@@ -12,7 +12,7 @@
 	var istimeline = false;
 	var number = 5;
 	$(function() {
-// 		$('#wordword').textbox('textbox').focus(); 
+		// 		$('#wordword').textbox('textbox').focus(); 
 		number = $("#showCount").combobox("getValue");
 		$('#timeClassSelect').combogrid('grid').datagrid(({
 			url : '${base}learn/getTimeClass?number=' + number
@@ -254,21 +254,34 @@
 	function clearForm() {
 		$('#ff').form('clear');
 	}
-	function wordFast(){
-	    layer.open({
-	         type: 2 //此处以iframe举例
-	        ,anim: 3
-	        ,title:'单词速记'
-	        ,area: ['320px', '460px']
-	        ,shade: [0.8, '#393D49']
-	        ,content: '${base}learn/wordShorthand?number='+number
-	        ,zIndex: layer.zIndex //重点1
-	        ,success: function(layero){
-	          layer.setTop(layero); //重点2
-	        }
-	      });
+	function wordFast() {
+		$.ajax({
+			type : 'get',
+			dataType : "json",
+			url : '${base}learn/getWordCount?number=' + number,
+			success : function(result) {
+				if (result.data > 0) {
+					layer.open({
+						type : 2 //此处以iframe举例
+						,
+						anim : 3,
+						title : '单词速记',
+						area : [ '320px', '460px' ],
+						shade : [ 0.8, '#393D49' ],
+						content : '${base}learn/wordShorthand?number=' + number,
+						zIndex : layer.zIndex //重点1
+						,
+						success : function(layero) {
+							layer.setTop(layero); //重点2
+						}
+					});
+				} else {
+					$.messager.alert("提示", "请先添加单词！", "warning");
+				}
+			}
+		});
+
 	}
-	
 </script>
 <style>
 .sound {
@@ -362,7 +375,7 @@ body {
 		</div>
 		<!-- 			<div class="shortcut_menu">新增学习</div> -->
 		<div id="showAndHideTranslate" class="shortcut_menu" onclick="showTranslate()">隐藏翻译</div>
-		<div class="shortcut_menu" onclick="wordFast()" >单词速记</div>
+		<div class="shortcut_menu" onclick="wordFast()">单词速记</div>
 		<!-- 			<div class="shortcut_menu" >句子仿读</div> -->
 		<div class="shortcut_menu" onclick="refreshThisPage()">刷新界面</div>
 	</div>
@@ -463,7 +476,7 @@ body {
 								<td><input class="easyui-textbox addfocus" data-options="multiline:true,required:true" id="${wt.itemNo}word" name="word" style="width: 300px; height: 150px"></td>
 							</c:if>
 							<c:if test="${wt.itemNo !='article'}">
-								<td><input class="easyui-textbox addWordssss addfocus"  type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
+								<td><input class="easyui-textbox addWordssss addfocus" type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
 							</c:if>
 						</tr>
 						<c:if test="${wt.itemNo=='word'}">

@@ -153,11 +153,13 @@ public class LearningServiceImpl implements LearningService {
 
 	private String doInterpretayion(LearnParamModel learnParamModel, String wordId, String InterpretayionId) {
 		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
+
 		if (selectBywordIdAndWordType == null) {
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
 			englishInterpretayionModel.setWordtype(learnParamModel.getPartOfSpeech());
-			englishInterpretayionModel.setWordinterpretation(learnParamModel.getWordInterpretayion());
+			String wordInterpretayion = toClean(learnParamModel.getWordInterpretayion());
+			englishInterpretayionModel.setWordinterpretation(wordInterpretayion);
 			englishInterpretayionModel.setWordid(wordId);
 			learnEnglishInterpretayionDao.insertSelective(englishInterpretayionModel);
 		} else {
@@ -285,6 +287,8 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel) {
 		try {
+			String wordInterpretayion = toClean(learnEnglishInterpretayionModel.getWordinterpretation());
+			learnEnglishInterpretayionModel.setWordinterpretation(wordInterpretayion);
 			learnEnglishInterpretayionDao.updateByPrimaryKeySelective(learnEnglishInterpretayionModel);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -305,34 +309,100 @@ public class LearningServiceImpl implements LearningService {
 	public List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number) {
 		List<LearnEnglishWordsModel> learnEnglishWordsModels = new ArrayList<>();
 		List<LearnEnglishWordsModel> newLearnEnglishWordsModels = new ArrayList<>();
+		List<String> ids = new ArrayList<>();
 		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode, number);
 		for (LearnEnglishModel learnEnglishModel : learns) {
 			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
 			for (LearnRelationModel learnRelationModel : selectBylearnid) {
-				LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByPrimaryKey(learnRelationModel.getWordid());
-				if (!learnEnglishWordsModels.contains(learnEnglishWordsModel)) {
-					learnEnglishWordsModels.add(learnEnglishWordsModel);
-				}
+				ids.add(learnRelationModel.getWordid());
 			}
 		}
+		if (ids.size() == 0) {
+			return newLearnEnglishWordsModels;
+		}
+		learnEnglishWordsModels.addAll(learnEnglishWordsDao.selectByIds(ids));
 		for (LearnEnglishWordsModel learnEnglishWordsModel : learnEnglishWordsModels) {
 			StringBuffer buffer = new StringBuffer();
-			int i=1;
+			int j = 1;
 			List<LearnEnglishInterpretayionModel> interpretayionModels = learnEnglishInterpretayionDao.selectBywordId(learnEnglishWordsModel.getId());
 			for (LearnEnglishInterpretayionModel model : interpretayionModels) {
 				String wordinterpretation = model.getWordinterpretation();
 				if (!Str.isEmpty(model.getWordtype())) {
 					buffer.append("<span style='margin-bottom: 10px;'><b style='color: #666'>" + model.getWordtype() + "&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
-				}else{
-					buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>"+i+".&nbsp;&nbsp;</b><span style='color: #333'>"+wordinterpretation + "</span></span><br>");
-					i++;
+				} else {
+					buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>" + j + ".&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+					j++;
 				}
 			}
 			learnEnglishWordsModel.setDefinition(buffer.toString());
 			newLearnEnglishWordsModels.add(learnEnglishWordsModel);
 		}
-		System.out.println(newLearnEnglishWordsModels);
 		return newLearnEnglishWordsModels;
 	}
 
+	@Override
+	public int getWordsCountByUser(String usercode, int number) {
+		List<String> ids = new ArrayList<>();
+		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode, number);
+		for (LearnEnglishModel learnEnglishModel : learns) {
+			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
+			for (LearnRelationModel learnRelationModel : selectBylearnid) {
+				ids.add(learnRelationModel.getWordid());
+			}
+		}
+		return ids.size();
+	}
+
+	private String toClean(String str) {
+		List<SystemDataModel> systemData = getSystemData("PARTOFSPEECH");
+		for (SystemDataModel systemDataModel : systemData) {
+			str = str.replace(systemDataModel.getItemNo(), "");
+		}
+		return str;
+	}
+
+	@Override
+	public Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize, int pageCount) {
+		int number = pageSize * pageCount;
+		List<String> ids = new ArrayList<>();
+		Map<LearnEnglishModel, String> map = new TreeMap<LearnEnglishModel, String>(new Comparator<LearnEnglishModel>() {
+
+			@Override
+			public int compare(LearnEnglishModel o1, LearnEnglishModel o2) {
+				return o2.getDiary().compareTo(o1.getDiary());
+			}
+		});
+		List<LearnEnglishModel> selectListByUser = learnEnglishDao.selectListByUser(usercode, number);
+		for (LearnEnglishModel learnEnglishModel : selectListByUser) {
+			int word = 0, phrase = 0, sentence = 0, article = 0;
+			List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnEnglishModel.getId());
+			for (LearnRelationModel learnRelationModel : selectBylearnid) {
+				if (!ids.contains(learnRelationModel.getWordid())) {
+					ids.add(learnRelationModel.getWordid());
+				}
+			}
+			if (ids.size() == 0) {
+				map.put(learnEnglishModel, "学习的总词汇有<b>" + ids.size() + "</b>个；单词有<b>" + word + "</b>个，" + "词组有<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+
+			} else {
+				List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
+				for (LearnEnglishWordsModel learnEnglishWordsModel : selectByIdsAll) {
+					if (learnEnglishWordsModel.getType().equals("word")) {
+						word++;
+					}
+					if (learnEnglishWordsModel.getType().equals("phrase")) {
+						phrase++;
+					}
+					if (learnEnglishWordsModel.getType().equals("sentence")) {
+						sentence++;
+					}
+					if (learnEnglishWordsModel.getType().equals("article")) {
+						article++;
+					}
+				}
+				map.put(learnEnglishModel, "学习的总词汇有<b>" + ids.size() + "</b>个；单词有<b>" + word + "</b>个，" + "词组有<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+			}
+		}
+		return map;
+	}
 }

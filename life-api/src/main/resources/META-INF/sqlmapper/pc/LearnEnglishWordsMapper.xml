@@ -1,170 +1,190 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.life.pc.dao.LearnEnglishWordsDao" >
-  <resultMap id="BaseResultMap" type="com.life.pc.model.LearnEnglishWordsModel" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="word" property="word" jdbcType="VARCHAR" />
-    <result column="addTime" property="addtime" jdbcType="VARCHAR" />
-    <result column="addUser" property="adduser" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="mp3Path" property="mp3path" jdbcType="VARCHAR" />
-    <result column="mp3Url" property="mp3url" jdbcType="VARCHAR" />
-    <result column="elseUrl" property="elseurl" jdbcType="VARCHAR" />
-    <result column="us_pronunciation" property="usPronunciation" jdbcType="VARCHAR" />
-    <result column="uk_pronunciation" property="ukPronunciation" jdbcType="VARCHAR" />
-    <result column="uk_audio" property="ukAudio" jdbcType="VARCHAR" />
-    <result column="us_audio" property="usAudio" jdbcType="VARCHAR" />
-    <result column="definition" property="definition" jdbcType="VARCHAR" /> 
-  </resultMap>
- 
-  <sql id="Base_Column_List" >
-    id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl,us_pronunciation,uk_pronunciation,uk_audio,us_audio,definition
-  </sql>
-  
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from learn_english_words
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByWord" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select 
-    <include refid="Base_Column_List" />
-    from learn_english_words
-    where word = #{word,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from learn_english_words
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
+<mapper namespace="com.life.pc.dao.LearnEnglishWordsDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.LearnEnglishWordsModel">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="word" property="word" jdbcType="VARCHAR" />
+		<result column="addTime" property="addtime" jdbcType="VARCHAR" />
+		<result column="addUser" property="adduser" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="mp3Path" property="mp3path" jdbcType="VARCHAR" />
+		<result column="mp3Url" property="mp3url" jdbcType="VARCHAR" />
+		<result column="elseUrl" property="elseurl" jdbcType="VARCHAR" />
+		<result column="us_pronunciation" property="usPronunciation" jdbcType="VARCHAR" />
+		<result column="uk_pronunciation" property="ukPronunciation" jdbcType="VARCHAR" />
+		<result column="uk_audio" property="ukAudio" jdbcType="VARCHAR" />
+		<result column="us_audio" property="usAudio" jdbcType="VARCHAR" />
+		<result column="definition" property="definition" jdbcType="VARCHAR" />
+	</resultMap>
 
-  <insert id="insertSelective" parameterType="com.life.pc.model.LearnEnglishWordsModel" >
-    insert into learn_english_words
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="word != null" >
-        word,
-      </if>
-      <if test="addtime != null" >
-        addTime,
-      </if>
-      <if test="adduser != null" >
-        addUser,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="mp3path != null" >
-        mp3Path,
-      </if>
-      <if test="mp3url != null" >
-        mp3Url,
-      </if>
-      <if test="elseurl != null" >
-        elseUrl,
-      </if>
-       <if test="usPronunciation != null" >
-        us_pronunciation,
-      </if>
-       <if test="ukPronunciation != null" >
-        uk_pronunciation,
-      </if>
-       <if test="ukAudio != null" >
-        uk_audio,
-      </if>
-       <if test="usAudio != null" >
-        us_audio,
-      </if>
-      <if test="definition != null" >
-        definition,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="word != null" >
-        #{word,jdbcType=VARCHAR},
-      </if>
-      <if test="addtime != null" >
-        #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="adduser != null" >
-        #{adduser,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="mp3path != null" >
-        #{mp3path,jdbcType=VARCHAR},
-      </if>
-      <if test="mp3url != null" >
-        #{mp3url,jdbcType=VARCHAR},
-      </if>
-      <if test="elseurl != null" >
-        #{elseurl,jdbcType=VARCHAR},
-      </if>
-       <if test="usPronunciation != null" >
-        #{usPronunciation,jdbcType=VARCHAR},
-      </if>
-       <if test="ukPronunciation != null" >
-        #{ukPronunciation,jdbcType=VARCHAR},
-      </if>
-       <if test="ukAudio != null" >
-        #{ukAudio,jdbcType=VARCHAR},
-      </if>
-       <if test="usAudio != null" >
-   		#{usAudio,jdbcType=VARCHAR},
-      </if>
-      <if test="definition != null" >
-   		#{definition,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  
-  <update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.LearnEnglishWordsModel" >
-    update learn_english_words
-    <set >
-      <if test="word != null" >
-        word = #{word,jdbcType=VARCHAR},
-      </if>
-      <if test="addtime != null" >
-        addTime = #{addtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="adduser != null" >
-        addUser = #{adduser,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="mp3path != null" >
-        mp3Path = #{mp3path,jdbcType=VARCHAR},
-      </if>
-      <if test="mp3url != null" >
-        mp3Url = #{mp3url,jdbcType=VARCHAR},
-      </if>
-      <if test="elseurl != null" >
-        elseUrl = #{elseurl,jdbcType=VARCHAR},
-      </if>
-       <if test="usPronunciation != null" >
-        us_Pronunciation=#{usPronunciation,jdbcType=VARCHAR},
-      </if>
-       <if test="ukPronunciation != null" >
-        uk_Pronunciation=#{ukPronunciation,jdbcType=VARCHAR},
-      </if>
-       <if test="ukAudio != null" >
-       	uk_Audio=#{ukAudio,jdbcType=VARCHAR},
-      </if>
-      <if test="usAudio != null" >
-   		us_Audio=#{usAudio,jdbcType=VARCHAR},
-   	  </if>
-   	  <if test="definition != null" >
-   		definition=#{definition,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+	<sql id="Base_Column_List">
+		id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl,us_pronunciation,uk_pronunciation,uk_audio,us_audio,definition
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_words
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_words
+		where id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		and type in('word','phrase')
+	</select>
+	<select id="selectByIdsAll" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_words
+		where id in
+		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="selectByWord" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_words
+		where word = #{word,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from learn_english_words
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insertSelective" parameterType="com.life.pc.model.LearnEnglishWordsModel">
+		insert into learn_english_words
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="word != null">
+				word,
+			</if>
+			<if test="addtime != null">
+				addTime,
+			</if>
+			<if test="adduser != null">
+				addUser,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="mp3path != null">
+				mp3Path,
+			</if>
+			<if test="mp3url != null">
+				mp3Url,
+			</if>
+			<if test="elseurl != null">
+				elseUrl,
+			</if>
+			<if test="usPronunciation != null">
+				us_pronunciation,
+			</if>
+			<if test="ukPronunciation != null">
+				uk_pronunciation,
+			</if>
+			<if test="ukAudio != null">
+				uk_audio,
+			</if>
+			<if test="usAudio != null">
+				us_audio,
+			</if>
+			<if test="definition != null">
+				definition,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="word != null">
+				#{word,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adduser != null">
+				#{adduser,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="mp3path != null">
+				#{mp3path,jdbcType=VARCHAR},
+			</if>
+			<if test="mp3url != null">
+				#{mp3url,jdbcType=VARCHAR},
+			</if>
+			<if test="elseurl != null">
+				#{elseurl,jdbcType=VARCHAR},
+			</if>
+			<if test="usPronunciation != null">
+				#{usPronunciation,jdbcType=VARCHAR},
+			</if>
+			<if test="ukPronunciation != null">
+				#{ukPronunciation,jdbcType=VARCHAR},
+			</if>
+			<if test="ukAudio != null">
+				#{ukAudio,jdbcType=VARCHAR},
+			</if>
+			<if test="usAudio != null">
+				#{usAudio,jdbcType=VARCHAR},
+			</if>
+			<if test="definition != null">
+				#{definition,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.LearnEnglishWordsModel">
+		update learn_english_words
+		<set>
+			<if test="word != null">
+				word = #{word,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addTime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="adduser != null">
+				addUser = #{adduser,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="mp3path != null">
+				mp3Path = #{mp3path,jdbcType=VARCHAR},
+			</if>
+			<if test="mp3url != null">
+				mp3Url = #{mp3url,jdbcType=VARCHAR},
+			</if>
+			<if test="elseurl != null">
+				elseUrl = #{elseurl,jdbcType=VARCHAR},
+			</if>
+			<if test="usPronunciation != null">
+				us_Pronunciation=#{usPronunciation,jdbcType=VARCHAR},
+			</if>
+			<if test="ukPronunciation != null">
+				uk_Pronunciation=#{ukPronunciation,jdbcType=VARCHAR},
+			</if>
+			<if test="ukAudio != null">
+				uk_Audio=#{ukAudio,jdbcType=VARCHAR},
+			</if>
+			<if test="usAudio != null">
+				us_Audio=#{usAudio,jdbcType=VARCHAR},
+			</if>
+			<if test="definition != null">
+				definition=#{definition,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
 
 </mapper>
