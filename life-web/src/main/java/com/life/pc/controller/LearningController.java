@@ -2,6 +2,7 @@ package com.life.pc.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,9 +81,38 @@ public class LearningController {
 		model.put("wordTypes", systemDataModels);
 		model.put("learn", learnEnglishModelById);
 		model.put("words", wordsByLearn);
+		Map<String, Integer> wordsByType = getWordsByType(wordsByLearn);
+		model.put("word", wordsByType.get("word"));
+		model.put("phrase", wordsByType.get("phrase"));
+		model.put("sentence", wordsByType.get("sentence"));
+		model.put("article", wordsByType.get("article"));
 		return "mobile/dayLearns.jsp";
 	}
 
+	private Map<String, Integer> getWordsByType(List<LearnEnglishWordsModel> list){
+		Map<String, Integer> map=new HashMap<>();
+		int word = 0, phrase = 0, sentence = 0, article = 0;
+		for (LearnEnglishWordsModel learnEnglishWordsModel : list) {
+			if (learnEnglishWordsModel.getType().equals("word")) {
+				word++;
+			}
+			if (learnEnglishWordsModel.getType().equals("phrase")) {
+				phrase++;
+			}
+			if (learnEnglishWordsModel.getType().equals("sentence")) {
+				sentence++;
+			}
+			if (learnEnglishWordsModel.getType().equals("article")) {
+				article++;
+			}
+		}
+		map.put("word", word);
+		map.put("phrase", phrase);
+		map.put("sentence", sentence);
+		map.put("article", article);
+		return map;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/showNow")
 	public String showNow(int number, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

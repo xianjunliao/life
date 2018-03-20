@@ -36,17 +36,21 @@
 				<div>
 					<header>
 						<div class="hh-inner">
-							<span style="font-size: 16px; color: green;">${wt.itemName }</span> <span class="m-badge" style="float: right">26/51</span>
+							<span style="font-size: 16px; color: green;">${wt.itemName }</span>
+							<c:if test="${wt.itemNo=='word' }"> <span class="m-badge" style="float: right">${word}/${words.size()}</span></c:if>
+							<c:if test="${wt.itemNo=='phrase' }"><span class="m-badge" style="float: right">${phrase}/${words.size()}</span></c:if> 
+							<c:if test="${wt.itemNo=='sentence' }"> <span class="m-badge" style="float: right">${sentence}/${words.size()}</span></c:if>
+							<c:if test="${wt.itemNo=='article' }"> <span class="m-badge" style="float: right">${article}/${words.size()}</span></c:if>
 						</div>
 					</header>
 					<ul class="m-list">
 						<c:forEach items="${words}" var="wd">
 							<c:if test="${wd.type==wt.itemNo}">
 								<c:if test="${wd.type=='word'}">
-									<li style="text-align: left;"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;美:${wd.usPronunciation}&nbsp;&nbsp; 英：${wd.ukPronunciation} &nbsp;&nbsp;&nbsp;&nbsp;释义：${wd.definition } </li>
+									<li style="text-align: left;"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;美:${wd.usPronunciation}&nbsp;&nbsp; 英：${wd.ukPronunciation} <span style="float: right;" >更多</span></li>
 								</c:if>
 								<c:if test="${wd.type!='word'}">
-									<li style="text-align: left;"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;释义：${wd.definition }</li>
+									<li style="text-align: left;"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp; ${wd.definition} <span style="float: right;cursor: pointer;" >详情</span></li>
 								</c:if>
 							</c:if>
 						</c:forEach>
