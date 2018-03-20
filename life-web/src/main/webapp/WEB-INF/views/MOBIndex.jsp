@@ -98,7 +98,7 @@ p {
 						</div>
 					</header>
 					<div style="background-color: #f2f6f9;height: auto;padding-top: 15px;">
-						<ul class="m-list" style="background-color:white;">
+						<ul class="m-list" style="background-color:white;border-top: 1px #ddd solid;">
 							<li><a href="javascript:void(0)" onclick=""> <span style="float: left;"> <c:if test="${userInfo.headaddress==null }">
 											<img src='${base}static/mobile/images/NV_MYSEIF.png' width="35px;" height="35px;" />
 										</c:if> <c:if test="${userInfo.headaddress!=null }">
