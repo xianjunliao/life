@@ -54,26 +54,9 @@ function addUserCode(){
 }
 function autoLogin() {
 	var v = getCookie("usercode");
-	if (v == null || v == "" || v == undefined) {
-		$("#dlg1-msg").html('<span style="color: red">请输入身份编码！！！</span>');
-		$('#dlg1').dialog('open').dialog('center');
-	} else {
-		$.ajax({
-			type : 'POST',
-			dataType : "json",
-			url :'${base}enter?code=' + v,
-			success : function(result) {
-				if (result.code == 200) {
-					window.location.replace("${base}learn/mob");
-				} else if (result.code == 202) {
-					$("#dlg1-msg").html('<span style="color: red">' + result.message + '</span>');
-					$('#dlg1').dialog('open').dialog('center');
-				} else {
-					$("#dlg1-msg").html('<span style="color: red">' + result.message + '</span>');
-					$('#dlg1').dialog('open').dialog('center');
-				}
-			}
-		});
+	if(v!=null){
+	$("#usercode").passwordbox("setValue",v);
+	$("#loginButton").click();
 	}
 }
 function getCookie(name) {
@@ -88,7 +71,7 @@ function getCookie(name) {
 <style>
 </style>
 </head>
-<body onload="autoLogin()">
+<body  onload="autoLogin()">
 	<div class="easyui-navpanel">
 		<header>
 			<div class="m-toolbar">
@@ -103,7 +86,7 @@ function getCookie(name) {
 				<input class="easyui-passwordbox" data-options="prompt:'输入网址的身份编码',iconCls:'icon-man'" id="usercode" style="width:100%;height:38px">
 			</div>
 			<div style="text-align:center;margin-top:30px">
-				<a onclick="enter()" class="easyui-linkbutton" style="width:100%;height:40px"><span style="font-size:16px">确定登陆</span></a>
+				<a onclick="enter()" id="loginButton" class="easyui-linkbutton" style="width:100%;height:40px"><span style="font-size:16px">确定登陆</span></a>
 			</div>
 			<div style="text-align:center;margin-top:30px">
 				<a onclick="addUserCode()" class="easyui-linkbutton" plain="true" outline="true" style="width:160px;height:35px"><span style="font-size:16px">点击注册并登陆</span></a> 

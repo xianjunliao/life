@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/metro/easyui.css">
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/mobile.css">
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/color.css">  
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.easyui.mobile.js"></script>

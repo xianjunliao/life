@@ -155,12 +155,18 @@ public class LearningServiceImpl implements LearningService {
 		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
 
 		if (selectBywordIdAndWordType == null) {
+			List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
-			englishInterpretayionModel.setWordtype(learnParamModel.getPartOfSpeech());
-			String wordInterpretayion = toClean(learnParamModel.getWordInterpretayion());
+			String wordInterpretayion2 = learnParamModel.getWordInterpretayion();
+			String wordInterpretayion = toClean(wordInterpretayion2, systemDataModels);
+			if (learnParamModel.getWordType().equals("word")) {
+				String wordType = getWordType(wordInterpretayion2, systemDataModels);
+				englishInterpretayionModel.setWordtype(wordType);
+			}
 			englishInterpretayionModel.setWordinterpretation(wordInterpretayion);
 			englishInterpretayionModel.setWordid(wordId);
+			englishInterpretayionModel.setDefinition(wordInterpretayion2);
 			learnEnglishInterpretayionDao.insertSelective(englishInterpretayionModel);
 		} else {
 			InterpretayionId = selectBywordIdAndWordType.getId();
@@ -287,7 +293,8 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel) {
 		try {
-			String wordInterpretayion = toClean(learnEnglishInterpretayionModel.getWordinterpretation());
+			List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
+			String wordInterpretayion = toClean(learnEnglishInterpretayionModel.getWordinterpretation(), systemDataModels);
 			learnEnglishInterpretayionModel.setWordinterpretation(wordInterpretayion);
 			learnEnglishInterpretayionDao.updateByPrimaryKeySelective(learnEnglishInterpretayionModel);
 		} catch (Exception e) {
@@ -353,10 +360,22 @@ public class LearningServiceImpl implements LearningService {
 		return ids.size();
 	}
 
-	private String toClean(String str) {
-		List<SystemDataModel> systemData = getSystemData("PARTOFSPEECH");
+	private String toClean(String str, List<SystemDataModel> systemData) {
+
 		for (SystemDataModel systemDataModel : systemData) {
-			str = str.replace(systemDataModel.getItemNo(), "");
+			String itemNo = systemDataModel.getItemNo();
+			str = str.replace(itemNo, "");
+		}
+
+		return str;
+	}
+
+	private String getWordType(String str, List<SystemDataModel> systemData) {
+		for (SystemDataModel systemDataModel : systemData) {
+			String itemNo = systemDataModel.getItemNo();
+			if (str.contains(itemNo)) {
+				str = itemNo;
+			}
 		}
 		return str;
 	}
@@ -364,7 +383,7 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize, int pageCount) {
 		int number = pageSize * pageCount;
-	
+
 		Map<LearnEnglishModel, String> map = new TreeMap<LearnEnglishModel, String>(new Comparator<LearnEnglishModel>() {
 
 			@Override
@@ -386,7 +405,7 @@ public class LearningServiceImpl implements LearningService {
 				map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
 
 			} else {
-				
+
 				List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
 				for (LearnEnglishWordsModel learnEnglishWordsModel : selectByIdsAll) {
 					if (learnEnglishWordsModel.getType().equals("word")) {
@@ -402,7 +421,7 @@ public class LearningServiceImpl implements LearningService {
 						article++;
 					}
 				}
-				
+
 			}
 			map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
 		}
@@ -412,5 +431,18 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public LearnEnglishModel getLearnEnglishModelById(String id) {
 		return learnEnglishDao.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId) {
+		List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnId);
+		List<String> ids = new ArrayList<>();
+		for (LearnRelationModel learnRelationModel : selectBylearnid) {
+			if (!ids.contains(learnRelationModel.getWordid())) {
+				ids.add(learnRelationModel.getWordid());
+			}
+		}
+		List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
+		return selectByIdsAll;
 	}
 }

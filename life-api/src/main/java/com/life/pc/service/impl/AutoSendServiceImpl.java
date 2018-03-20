@@ -79,14 +79,15 @@ public class AutoSendServiceImpl implements AutoSendService {
 		List<LifeUserModel> all = lifeUserDao.getAll();
 		for (LifeUserModel lifeUserModel : all) {
 			String now4 = DateUtil.getNow4();
-			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4);
+			String usercode = lifeUserModel.getUsercode();
+			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4,usercode);
 			if (selectByTimeClass==null) {
 				LearnEnglishModel learnEnglishModel=new LearnEnglishModel();
 				learnEnglishModel.setId(Util.getUUId16());
 				learnEnglishModel.setDiary(DateUtil.getNow());
 				learnEnglishModel.setTimeclass(now4);
 				learnEnglishModel.setHeadline(DateUtil.getNow6());
-				learnEnglishModel.setUsercode(lifeUserModel.getUsercode());
+				learnEnglishModel.setUsercode(usercode);
 				learnEnglishDao.insertSelective(learnEnglishModel);
 			}
 			

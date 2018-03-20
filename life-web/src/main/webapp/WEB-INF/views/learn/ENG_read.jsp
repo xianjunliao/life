@@ -206,8 +206,8 @@
 	}
 
 	function ukPlay() {
-		$(".uk-paly-show").hide();
-		$(".us-paly-hide").show();
+		$(".uk-paly-hide").hide();
+		$(".us-paly-show").show();
 		isUs = true;
 	}
 </script>
@@ -351,11 +351,16 @@
 		</div>
 	</div>
 	<div style="width: 180px; height: 35px; position: absolute; bottom: 10px; border-radius: 20px; left: 66px; background-color: white;" align="center">
-		<i title="自动播放" onclick="autoPlayOn()" class="layui-icon auto-paly-show" style="font-size: 35px; color: #333; cursor: pointer; position: absolute; top: 0px; left: 185px;">&#xe645;</i> <i title="手动播放" onclick="autoPlayOff()" class="layui-icon auto-paly-hide" style="font-size: 35px; color: red; cursor: pointer; display: none; position: absolute; top: 0px; left: 185px;">&#xe645;</i> <i title="顺序播放"
-			onclick="randomPlay()" class="layui-icon random-paly-show" style="font-size: 18px; color: #333; cursor: pointer; position: absolute; top: 1px; left: -30px;">&#x1002;</i> <i title="随机播放" onclick="orderPlay()" class="layui-icon random-paly-hide" style="font-size: 18px; color: red; cursor: pointer; display: none; position: absolute; top: 1px; left: -30px;">&#x1002;</i> <i title="美式发音"
-			onclick="usPlay()" class="layui-icon us-paly-show" style="font-size: 12px; color: #333; cursor: pointer; position: absolute; top: 20px; left: -28px;">美</i> <i title="英式发音" onclick="ukPlay()" class="layui-icon uk-paly-hide" style="font-size: 12px; color: #333; cursor: pointer; display: none; position: absolute; top: 20px; left: -28px;">英</i> <i onclick="leftGo()" class="layui-icon"
-			style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-right: 25px; position: absolute; top: 8px; left: 15px;">&#xe603;</i> <i class="layui-icon play-show" style="font-size: 35px; color: #333; cursor: pointer;" onclick="playThis()">&#xe652;</i> <i class="layui-icon play-hide" style="font-size: 35px; color: #333; cursor: pointer; display: none;">&#xe651;</i> <i onclick="rightGo()"
-			class="layui-icon" style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-left: 25px; position: absolute; top: 8px; left: 120px;">&#xe602;</i>
+		<i title="自动播放" onclick="autoPlayOn()" class="layui-icon auto-paly-show" style="font-size: 35px; color: #333; cursor: pointer; position: absolute; top: 0px; left: 185px;">&#xe645;</i> 
+		<i title="手动播放" onclick="autoPlayOff()" class="layui-icon auto-paly-hide" style="font-size: 35px; color: red; cursor: pointer; display: none; position: absolute; top: 0px; left: 185px;">&#xe645;</i> 
+		<i title="顺序播放" onclick="randomPlay()" class="layui-icon random-paly-show" style="font-size: 18px; color: #333; cursor: pointer; position: absolute; top: 1px; left: -30px;">&#x1002;</i> 
+		<i title="随机播放" onclick="orderPlay()" class="layui-icon random-paly-hide" style="font-size: 18px; color: red; cursor: pointer; display: none; position: absolute; top: 1px; left: -30px;">&#x1002;</i>
+		<i title="美式发音" onclick="usPlay()" class="layui-icon us-paly-show" style="font-size: 12px; color: #333; cursor: pointer; position: absolute; top: 20px; left: -28px;">美</i> 
+		<i title="英式发音" onclick="ukPlay()" class="layui-icon uk-paly-hide" style="font-size: 12px; color: #333; cursor: pointer; display: none; position: absolute; top: 20px; left: -28px;">英</i> 
+		<i onclick="leftGo()" class="layui-icon" style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-right: 25px; position: absolute; top: 8px; left: 15px;">&#xe603;</i> 
+		<i class="layui-icon play-show" style="font-size: 35px; color: #333; cursor: pointer;" onclick="playThis()">&#xe652;</i> 
+		<i class="layui-icon play-hide" style="font-size: 35px; color: #333; cursor: pointer; display: none;">&#xe651;</i> 
+		<i onclick="rightGo()"class="layui-icon" style="font-size: 20px; color: #1E9FFF; cursor: pointer; margin-left: 25px; position: absolute; top: 8px; left: 120px;">&#xe602;</i>
 	</div>
 
 	<c:forEach var="wd" varStatus="wdindex" items="${words}">

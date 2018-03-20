@@ -68,7 +68,7 @@
 		var music = document.getElementById('playEnglish');
 		$("#playEnglish").attr("src", "${base}learn/getVoice?id=" + id);
 		$("#" + id).attr("class", "icon-sound-click");
-		$("#" + id).attr("src", "${base}/static/images/sound3.gif");
+		$("#" + id).attr("src", "${base}/static/images/dt.gif");
 		music.play();
 		music.loop = false;
 		music.addEventListener('ended', function() {
@@ -83,7 +83,7 @@
 		var musicSB = document.getElementById('playEnglishSB');
 		$("#playEnglishSB").attr("src", url);
 		$("#" + id).attr("class", "icon-sound-click");
-		$("#" + id).attr("src", "${base}/static/images/sound3.gif");
+		$("#" + id).attr("src", "${base}/static/images/dt.gif");
 		musicSB.play();
 		musicSB.loop = false;
 		musicSB.addEventListener('ended', function() {
@@ -479,16 +479,6 @@ body {
 								<td><input class="easyui-textbox addWordssss addfocus" type="text" id="${wt.itemNo}word" name="word" data-options="required:true" style="width: 290px; height: 30px;"></input></td>
 							</c:if>
 						</tr>
-						<c:if test="${wt.itemNo=='word'}">
-							<tr>
-								<td>词性:</td>
-								<td><select class="easyui-combobox" name="partOfSpeech" style="width: 290px; height: 30px;" data-options="prompt:'请选择'">
-										<c:forEach items="${partOfSpeech }" var="pos">
-											<option value="${pos.itemNo }">${pos.itemName }</option>
-										</c:forEach>
-								</select></td>
-							</tr>
-						</c:if>
 						<c:if test="${wt.itemNo !='article'}">
 							<tr>
 								<td>释义:</td>

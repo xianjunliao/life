@@ -43,4 +43,6 @@ public interface LearningService {
 	
 	LearnEnglishModel getLearnEnglishModelById(String id);
 	
+	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId);
+	
 }

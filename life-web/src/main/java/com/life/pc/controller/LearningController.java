@@ -60,7 +60,7 @@ public class LearningController {
 	}
 
 	@RequestMapping("/mob")
-	public String mob(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String mob(Integer idx,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
 		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 15);
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
@@ -68,6 +68,7 @@ public class LearningController {
 		model.put("wordTypes", systemDataModels);
 		LifeUserModel userModel = lifeUserService.checkEnterCode(userCode);
 		model.put("userInfo", userModel);
+		model.put("idx", idx);
 		return "MOBIndex.jsp";
 	}
 
@@ -75,9 +76,10 @@ public class LearningController {
 	public String dayLearns(String id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
 		LearnEnglishModel learnEnglishModelById = learningService.getLearnEnglishModelById(id);
+		List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
 		model.put("wordTypes", systemDataModels);
 		model.put("learn", learnEnglishModelById);
-		
+		model.put("words", wordsByLearn);
 		return "mobile/dayLearns.jsp";
 	}
 

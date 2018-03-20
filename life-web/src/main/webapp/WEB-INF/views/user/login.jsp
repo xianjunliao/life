@@ -19,7 +19,7 @@
 			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
 		} else {
-	
+
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
@@ -102,25 +102,9 @@
 	}
 	function autoLogin() {
 		var v = getCookie("usercode");
-		if (v == null || v == "" || v == undefined) {
-			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
-			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
-		} else {
-			$.ajax({
-				type : 'POST',
-				dataType : "json",
-				url : basePath + 'enter?code=' + v,
-				success : function(result) {
-					if (result.code == 200) {
-						window.location.replace(basePath + "main");
-					} else if (result.code == 202) {
-						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
-					} else {
-						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
-						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
-					}
-				}
-			});
+		if (v != null) {
+			$("#usercode").val(v);
+			$("#loginButton").click();
 		}
 	}
 </script>
@@ -140,7 +124,7 @@
 					</div>
 				</div>
 				<div>
-					<input type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }regSkip?step=register">账号密码注册</a>
+					<input id="loginButton" type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }regSkip?step=register">账号密码注册</a>
 				</div>
 			</div>
 			<!-- form -->

@@ -18,7 +18,7 @@ public interface LearnEnglishDao {
 
     int insertSelective(LearnEnglishModel record);
     
-    LearnEnglishModel selectByTimeClass(String selectByTimeClass);
+    LearnEnglishModel selectByTimeClass(@Param("timeClass")String timeClass,@Param("usercode")String usercode);
     
     List<LearnEnglishModel> getCountByUser(@Param("usercode")String usercode);
 }

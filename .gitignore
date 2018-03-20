@@ -9,4 +9,5 @@
 /life-common/*.project
 /life-api/.settings
 /life-common/.settings
-/life-web/src/main/resources/db.properties
+
+
