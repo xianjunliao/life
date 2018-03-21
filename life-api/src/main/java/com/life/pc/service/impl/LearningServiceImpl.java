@@ -364,7 +364,18 @@ public class LearningServiceImpl implements LearningService {
 
 		for (SystemDataModel systemDataModel : systemData) {
 			String itemNo = systemDataModel.getItemNo();
-			str = str.replace(itemNo, "");
+			if (str.contains(itemNo)) {
+				if (str.contains("adv.")) {
+					str = str.replace("adv.", "");
+					break;
+				} else if (str.contains("pron.")) {
+					str = str.replace("pron.", "");
+					break;
+				} else {
+					str = str.replace(itemNo, "");
+				}
+			}
+
 		}
 
 		return str;
@@ -373,7 +384,14 @@ public class LearningServiceImpl implements LearningService {
 	private String getWordType(String str, List<SystemDataModel> systemData) {
 		for (SystemDataModel systemDataModel : systemData) {
 			String itemNo = systemDataModel.getItemNo();
-			if (str.contains(itemNo)) {
+			if (str.contains("adv.")) {
+				str ="adv.";
+				break;
+			} else if (str.contains("pron.")) {
+				str ="pron.";
+				break;
+			}
+			else  {
 				str = itemNo;
 			}
 		}
@@ -441,6 +459,9 @@ public class LearningServiceImpl implements LearningService {
 			if (!ids.contains(learnRelationModel.getWordid())) {
 				ids.add(learnRelationModel.getWordid());
 			}
+		}
+		if (ids.size() == 0) {
+			return new ArrayList<>();
 		}
 		List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
 		return selectByIdsAll;

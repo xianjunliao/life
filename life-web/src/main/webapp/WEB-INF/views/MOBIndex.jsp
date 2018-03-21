@@ -22,6 +22,10 @@
 		});
 	}
 	
+// 	function panelClick(){
+// 		alert("11");
+// 		$(".nav-custom").css("height","505px");
+// 	}	
 </script>
 <style>
 .tt-inner {
@@ -33,35 +37,54 @@
 p {
 	line-height: 150%;
 }
+
+body {
+	font-family: "STKaiti";
+	width: 100%;
+	height: 100%;
+	background: url("${base}static/mobile/images/20180321_110947_3856.jpg")
+		no-repeat;
+	background-size: 100%;
+}
+
+.list-ul {
+	padding: 0px;
+	margin: 0px; background-color : white;
+	border: 1px #white solid !important;
+	box-shadow: 1px 1px 20px #333333;
+	-moz-box-shadow: 2px 2px 20px #333333;
+	-webkit-box-shadow: 2px 2px 20px #333333;
+	background-color: white;
+	background-color: white
+}
+
+a {
+	font-weight: 700;
+}
 </style>
 </head>
 <body>
-	<div class="easyui-navpanel">
+	<div class="easyui-navpanel" style="opacity: 0.8;">
 		<div class="easyui-tabs" data-options="tabHeight:60,fit:true,tabPosition:'bottom',border:false,pill:true,narrow:true,justified:true">
-			<div style="padding: 10px; background-color: #f2f6f9;">
+			<div class="list-ul" style="padding: 10px 10px 10px 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_ENGLISH.jpg' width="30px;" height="30px;" /><br>学海无涯
 				</div>
-				<div class="easyui-tabs" data-options="fit:true,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
+				<div class="easyui-tabs list-ul"   data-options="fit:true,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
 					<header>
 						<div class="m-toolbar">
 							<span class="m-title">学海无涯</span>
 						</div>
 					</header>
-					<div title="每日词汇" style="padding: 10px">
-						<div class="easyui-navpanel">
-							<header>
-								<div class="m-toolbar">
-									<span class="m-title">学习记录</span>
-								</div>
-							</header>
-							<ul class="m-list">
+					<div title="每日词汇"  style="padding: 10px 10px 20px 10px;">
+<!-- 						<div class="easyui-navpanel nav-custom"  style="text-align: left;"> -->
+							<ul class="m-list" >
 								<c:forEach items="${dayLearns}" var="dl">
 									<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;${dl.value}</a></li>
 								</c:forEach>
 
 							</ul>
-						</div>
+<!-- 						</div> -->
 					</div>
 					<div title="单词速记" style="padding: 10px">
 						<a href="javascript:void(0)" onclick="openDCSJ(this)">单词速记</a>
@@ -86,19 +109,16 @@ p {
 				</div>
 				<p>备忘录</p>
 			</div>
-			<div style="padding: 10px; background-color: #f2f6f9;">
+			<div style="padding: 10px; background-color: #f2f6f9;" class="list-ul">
 				<div class="panel-header tt-inner">
-					<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" />
-					<br>我
+					<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" /> <br>个人中心
 				</div>
-				<div class="easyui-navpanel" style="background-color: #f2f6f9;">
-					<header >
-						<div class="m-toolbar" >
-							<span class="m-title">我</span>
-						</div>
-					</header>
-					<div style="background-color: #f2f6f9;height: auto;padding-top: 15px;">
-						<ul class="m-list" style="background-color:white;border-top: 1px #ddd solid;">
+				<div class="easyui-navpanel" style="background-color: #f2f6f9; opacity: 0.9; box-shadow: 1px 1px 1px #333333;">
+					<ul class="m-toolbar m-list list-ul">
+						<li>我</li>
+					</ul>
+					<div style="background-color: #f2f6f9; height: auto; padding-top: 15px;">
+						<ul class="m-list list-ul">
 							<li><a href="javascript:void(0)" onclick=""> <span style="float: left;"> <c:if test="${userInfo.headaddress==null }">
 											<img src='${base}static/mobile/images/NV_MYSEIF.png' width="35px;" height="35px;" />
 										</c:if> <c:if test="${userInfo.headaddress!=null }">
@@ -107,16 +127,16 @@ p {
 								</span> <span style="margin-left: 15px; font-size: 12px;">用户名： <c:if test="${userInfo.username!=null }">${ userInfo.username}</c:if></span> <br> <span style="margin-left: 15px; font-size: 12px;">手机号码：${ userInfo.phoneno}</span>
 							</a></li>
 						</ul>
-						<ul class="m-list" style="margin-top: 20px; border-top: 1px #ddd solid;background-color:white;">
+						<ul class="m-list list-ul" style="margin-top: 20px;">
 							<li><a href="javascript:void(0)" onclick="">学习统计</a></li>
 							<li><a href="javascript:void(0)" onclick="">消费统计</a></li>
 							<li><a href="javascript:void(0)" onclick="">收入统计</a></li>
 						</ul>
-						<ul class="m-list" style="margin-top: 20px; border-top: 1px #ddd solid;background-color:white;">
+						<ul class="m-list list-ul" style="margin-top: 120px;">
 							<li><a href="javascript:void(0)" onclick="">设置</a></li>
 						</ul>
 						<div align="center" style="margin-top: 20px;">
-							<a onclick="exit()" class="easyui-linkbutton c5" style="width: 30%">退出登陆</a>
+							<a onclick="exit()" class="easyui-linkbutton c5 list-ul" style="width: 30%">退出登陆</a>
 						</div>
 					</div>
 				</div>
