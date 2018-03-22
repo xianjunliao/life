@@ -75,7 +75,8 @@ public class LearningServiceImpl implements LearningService {
 		for (LearnRelationModel learnRelationModel : relationModels) {
 			LearnEnglishModel learnEnglishModel = learnEnglishDao.selectByPrimaryKey(learnRelationModel.getLearnid());
 			learnEnglishModels.add(learnEnglishModel);
-			List<LearnEnglishInterpretayionModel> selectBywordId = learnEnglishInterpretayionDao.selectBywordId(learnRelationModel.getWordid());
+			List<LearnEnglishInterpretayionModel> selectBywordId = learnEnglishInterpretayionDao
+					.selectBywordId(learnRelationModel.getWordid());
 			map3.put(learnRelationModel.getWordid(), selectBywordId);
 		}
 		for (LearnEnglishModel learnEnglishModel : learnEnglishModels) {
@@ -87,7 +88,8 @@ public class LearningServiceImpl implements LearningService {
 			List<LearnRelationModel> value = entry.getValue();
 			List<LearnEnglishWordsModel> learnEnglishWordsModels = new ArrayList<>();// 英文表
 			for (LearnRelationModel learnRelationModel : value) {
-				LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByPrimaryKey(learnRelationModel.getWordid());
+				LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao
+						.selectByPrimaryKey(learnRelationModel.getWordid());
 				if (!learnEnglishWordsModels.contains(learnEnglishWordsModel)) {
 					learnEnglishWordsModels.add(learnEnglishWordsModel);
 				}
@@ -152,7 +154,8 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String doInterpretayion(LearnParamModel learnParamModel, String wordId, String InterpretayionId) {
-		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
+		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao
+				.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
 
 		if (selectBywordIdAndWordType == null) {
 			List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
@@ -185,7 +188,8 @@ public class LearningServiceImpl implements LearningService {
 			learnEnglishWordsModel.setWord(word);
 			learnEnglishWordsModel.setType(learnParamModel.getWordType());
 			learnEnglishWordsModel.setDefinition(BaiduTranslate.getBaiduTranslateZh(word));
-			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, word, usercode, learnParamModel.getWordType());
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(wordId, word, usercode,
+					learnParamModel.getWordType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
 			if (learnParamModel.getWordType().equals("word")) {
@@ -202,7 +206,8 @@ public class LearningServiceImpl implements LearningService {
 				learnEnglishWordsModel.setDefinition(definition);
 			}
 			HttpServletRequest request = SpringWebUtil.getRequest();
-			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + wordId);
+			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName()
+					+ request.getContextPath() + "/" + "learn/getVoice?id=" + wordId);
 			learnEnglishWordsDao.insertSelective(learnEnglishWordsModel);
 		} else {
 			wordId = selectByWord.getId();
@@ -264,12 +269,14 @@ public class LearningServiceImpl implements LearningService {
 			String id = learnEnglishWordsModel.getId();
 			LearnEnglishWordsModel old = learnEnglishWordsDao.selectByPrimaryKey(id);
 			String word = learnEnglishWordsModel.getWord();
-			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(id, word, learnEnglishWordsModel.getAdduser(), old.getType());
+			Map<String, String> baiduVoice = BaiduVoice.getBaiduVoice(id, word, learnEnglishWordsModel.getAdduser(),
+					old.getType());
 			String path = baiduVoice.get("path");
 			learnEnglishWordsModel.setMp3path(path);
 			HttpServletRequest request = SpringWebUtil.getRequest();
 			learnEnglishWordsModel.setDefinition(BaiduTranslate.getBaiduTranslateZh(word));
-			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "learn/getVoice?id=" + id);
+			learnEnglishWordsModel.setMp3url(request.getScheme() + "://" + request.getServerName()
+					+ request.getContextPath() + "/" + "learn/getVoice?id=" + id);
 			if (old.getType().equals("word")) {
 				Map<String, String> wordMap = WordUtils.getWordMap(word);
 				String usAudio = wordMap.get("usAudio");
@@ -294,7 +301,8 @@ public class LearningServiceImpl implements LearningService {
 	public void updateInterpretayion(LearnEnglishInterpretayionModel learnEnglishInterpretayionModel) {
 		try {
 			List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
-			String wordInterpretayion = toClean(learnEnglishInterpretayionModel.getWordinterpretation(), systemDataModels);
+			String wordInterpretayion = toClean(learnEnglishInterpretayionModel.getWordinterpretation(),
+					systemDataModels);
 			learnEnglishInterpretayionModel.setWordinterpretation(wordInterpretayion);
 			learnEnglishInterpretayionDao.updateByPrimaryKeySelective(learnEnglishInterpretayionModel);
 		} catch (Exception e) {
@@ -331,13 +339,17 @@ public class LearningServiceImpl implements LearningService {
 		for (LearnEnglishWordsModel learnEnglishWordsModel : learnEnglishWordsModels) {
 			StringBuffer buffer = new StringBuffer();
 			int j = 1;
-			List<LearnEnglishInterpretayionModel> interpretayionModels = learnEnglishInterpretayionDao.selectBywordId(learnEnglishWordsModel.getId());
+			List<LearnEnglishInterpretayionModel> interpretayionModels = learnEnglishInterpretayionDao
+					.selectBywordId(learnEnglishWordsModel.getId());
 			for (LearnEnglishInterpretayionModel model : interpretayionModels) {
 				String wordinterpretation = model.getWordinterpretation();
 				if (!Str.isEmpty(model.getWordtype())) {
-					buffer.append("<span style='margin-bottom: 10px;'><b style='color: #666'>" + model.getWordtype() + "&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+					buffer.append("<span style='margin-bottom: 10px;'><b style='color: #666'>" + model.getWordtype()
+							+ "&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
 				} else {
-					buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>" + j + ".&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+					buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>" + j
+							+ ".&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation
+							+ "</span></span><br>");
 					j++;
 				}
 			}
@@ -361,19 +373,19 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String toClean(String str, List<SystemDataModel> systemData) {
-
+		if (str.contains("adv.")) {
+			str = str.replace("adv.", "");
+			return str;
+		}
+		if (str.contains("pron.")) {
+			str = str.replace("pron.", "");
+			return str;
+		}
 		for (SystemDataModel systemDataModel : systemData) {
 			String itemNo = systemDataModel.getItemNo();
 			if (str.contains(itemNo)) {
-				if (str.contains("adv.")) {
-					str = str.replace("adv.", "");
-					break;
-				} else if (str.contains("pron.")) {
-					str = str.replace("pron.", "");
-					break;
-				} else {
-					str = str.replace(itemNo, "");
-				}
+
+				str = str.replace(itemNo, "");
 			}
 
 		}
@@ -382,16 +394,16 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String getWordType(String str, List<SystemDataModel> systemData) {
+		if (str.contains("adv.")) {
+			str = "adv.";
+			return str;
+		} else if (str.contains("pron.")) {
+			str = "pron.";
+			return str;
+		}
 		for (SystemDataModel systemDataModel : systemData) {
 			String itemNo = systemDataModel.getItemNo();
-			if (str.contains("adv.")) {
-				str ="adv.";
-				break;
-			} else if (str.contains("pron.")) {
-				str ="pron.";
-				break;
-			}
-			else  {
+			if (str.contains(itemNo)) {
 				str = itemNo;
 			}
 		}
@@ -402,13 +414,14 @@ public class LearningServiceImpl implements LearningService {
 	public Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize, int pageCount) {
 		int number = pageSize * pageCount;
 
-		Map<LearnEnglishModel, String> map = new TreeMap<LearnEnglishModel, String>(new Comparator<LearnEnglishModel>() {
+		Map<LearnEnglishModel, String> map = new TreeMap<LearnEnglishModel, String>(
+				new Comparator<LearnEnglishModel>() {
 
-			@Override
-			public int compare(LearnEnglishModel o1, LearnEnglishModel o2) {
-				return o2.getDiary().compareTo(o1.getDiary());
-			}
-		});
+					@Override
+					public int compare(LearnEnglishModel o1, LearnEnglishModel o2) {
+						return o2.getDiary().compareTo(o1.getDiary());
+					}
+				});
 		List<LearnEnglishModel> selectListByUser = learnEnglishDao.selectListByUser(usercode, number);
 		for (LearnEnglishModel learnEnglishModel : selectListByUser) {
 			List<String> ids = new ArrayList<>();
@@ -420,7 +433,8 @@ public class LearningServiceImpl implements LearningService {
 				}
 			}
 			if (ids.size() == 0) {
-				map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+				map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence
+						+ "</b>个，文章<b>" + article + "</b>篇。");
 
 			} else {
 
@@ -441,7 +455,8 @@ public class LearningServiceImpl implements LearningService {
 				}
 
 			}
-			map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence + "</b>个，文章<b>" + article + "</b>篇。");
+			map.put(learnEnglishModel, "单词<b>" + word + "</b>个，" + "词组<b>" + phrase + "</b>个，" + "句子<b>" + sentence
+					+ "</b>个，文章<b>" + article + "</b>篇。");
 		}
 		return map;
 	}
