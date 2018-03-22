@@ -466,4 +466,23 @@ public class LearningServiceImpl implements LearningService {
 		List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
 		return selectByIdsAll;
 	}
+
+	@Override
+	public LearnEnglishWordsModel getWordInfo(String word) {
+		LearnEnglishWordsModel learnEnglishWordsModel = learnEnglishWordsDao.selectByWord(word);
+		List<LearnEnglishInterpretayionModel> interpretayionModels = learnEnglishInterpretayionDao.selectBywordId(learnEnglishWordsModel.getId());
+		StringBuffer buffer = new StringBuffer();
+		int j = 1;
+		for (LearnEnglishInterpretayionModel learnEnglishInterpretayionModel : interpretayionModels) {
+			String wordinterpretation = learnEnglishInterpretayionModel.getWordinterpretation();
+			if (!Str.isEmpty(learnEnglishInterpretayionModel.getWordtype())) {
+				buffer.append("<span style='margin-bottom: 10px;'><b style='color: #666'>" +learnEnglishInterpretayionModel.getWordtype() + "&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+			} else {
+				buffer.append("<span style='margin-bottom: 10px;margin-left: 30px;'><b style='color: #666'>" + j + ".&nbsp;&nbsp;</b><span style='color: #333'>" + wordinterpretation + "</span></span><br>");
+				j++;
+			}
+		}
+		learnEnglishWordsModel.setDefinition(buffer.toString());
+		return learnEnglishWordsModel;
+	}
 }

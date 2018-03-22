@@ -167,6 +167,20 @@ public class LearningController {
 	}
 
 	@ResponseBody
+	@RequestMapping("getWordInfo")
+	public ResponseMessage<LearnEnglishWordsModel> getWordInfo(String word, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<LearnEnglishWordsModel> outMSG = new ResponseMessage<>();
+		try {
+			LearnEnglishWordsModel wordInfo = learningService.getWordInfo(word);
+			outMSG.setData(wordInfo);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	
+	@ResponseBody
 	@RequestMapping("addLearn")
 	public ResponseMessage<LearnParamModel> addLearn(LearnParamModel learnParamModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LearnParamModel> outMSG = new ResponseMessage<>();

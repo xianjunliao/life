@@ -79,7 +79,7 @@
 </style>
 </head>
 <body onload="autoLogin()">
-	<div class="easyui-navpanel" style="">
+	<div class="easyui-navpanel">
 		<header>
 			<div class="m-toolbar">
 				<span class="m-title">欢迎来到Free Life网站，请登录或注册。</span>
@@ -90,7 +90,7 @@
 		</div>
 		<div style="padding: 0 20px;">
 			<div style="margin-bottom: 10px;opacity:0.6;">
-				<input class="easyui-passwordbox" data-options="prompt:'请输入网址的身份编码...',iconCls:'icon-man'" id="usercode" style="width: 100%; height: 38px">
+				<input class="easyui-passwordbox" data-options="prompt:'请输入你的身份编码...',iconCls:'icon-man'" id="usercode" style="width: 100%; height: 38px">
 			</div>
 			<div style="opacity:0.8;text-align: center; margin-top: 30px">
 				<a onclick="enter()" id="loginButton" class="easyui-linkbutton" style="width: 100%; height: 40px"><span style="font-size: 16px">确定登陆</span></a>
@@ -99,10 +99,10 @@
 				<a onclick="addUserCode()" class="easyui-linkbutton" plain="true" outline="true" style="width: 160px; height: 35px"><span style="font-size: 16px">点击注册并登陆</span></a>
 			</div>
 			<div style="text-align: left; margin-top: 30px;" >
-				<span>1.本网站需身份编码才可登录，点击‘注册并登陆’按钮可直接注册和进入本网站。 </span><br>
-				<span>2.本着快乐生活，自由生活的憧憬，本网站的主要功能有辅助用户学习英语、消费收入管理、重要事件备忘等等。 </span><br>
-				<span>3.使用过程中遇到任何问题可联系站长；电话：15889303913 邮箱：xianjun_liao@126.com </span><br>
-				<span>4.本网站会一直处于频繁更新版本中（用户产生的数据不会丢失和更改），欢迎随时使用体验。 </span><br>
+				<span>1.本网站需要身份编码才可登录，点击‘注册并登陆’按钮可直接注册和进入本网站。 </span><br>
+				<span>2.本着快乐生活，自由生活的目的，本网站的主要功能有辅助用户学习英语、消费收入管理、重要事件备忘等等。 </span><br>
+				<span>3.使用过程中遇到任何问题可联系站长；电话：15889303913 邮箱：xianjun_liao@126.com . </span><br>
+				<span>4.本网站目前大部分的功能还在开发中，欢迎随时使用体验。 </span><br>
 			</div>
 		</div>
 	</div>

@@ -45,4 +45,6 @@ public interface LearningService {
 	
 	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId);
 	
+	public LearnEnglishWordsModel getWordInfo(String word);
+	
 }

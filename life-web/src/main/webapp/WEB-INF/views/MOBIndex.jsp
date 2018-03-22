@@ -22,10 +22,6 @@
 		});
 	}
 	
-// 	function panelClick(){
-// 		alert("11");
-// 		$(".nav-custom").css("height","505px");
-// 	}	
 </script>
 <style>
 .tt-inner {
@@ -49,7 +45,8 @@ body {
 
 .list-ul {
 	padding: 0px;
-	margin: 0px; background-color : white;
+	margin: 0px;
+	background-color: white;
 	border: 1px #white solid !important;
 	box-shadow: 1px 1px 20px #333333;
 	-moz-box-shadow: 2px 2px 20px #333333;
@@ -70,21 +67,20 @@ a {
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_ENGLISH.jpg' width="30px;" height="30px;" /><br>学海无涯
 				</div>
-				<div class="easyui-tabs list-ul"   data-options="fit:true,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
+				<div class="easyui-tabs list-ul" data-options="fit:true,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
 					<header>
 						<div class="m-toolbar">
 							<span class="m-title">学海无涯</span>
 						</div>
 					</header>
-					<div title="每日词汇"  style="padding: 10px 10px 20px 10px;">
-<!-- 						<div class="easyui-navpanel nav-custom"  style="text-align: left;"> -->
-							<ul class="m-list" >
-								<c:forEach items="${dayLearns}" var="dl">
-									<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;${dl.value}</a></li>
-								</c:forEach>
+					<div title="每日词汇" style="padding: 10px 10px 20px 10px;">
 
-							</ul>
-<!-- 						</div> -->
+						<ul class="m-list">
+							<c:forEach items="${dayLearns}" var="dl">
+								<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;${dl.value}</a></li>
+							</c:forEach>
+						</ul>
+
 					</div>
 					<div title="单词速记" style="padding: 10px">
 						<a href="javascript:void(0)" onclick="openDCSJ(this)">单词速记</a>
