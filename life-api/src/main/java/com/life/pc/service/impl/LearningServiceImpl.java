@@ -144,6 +144,8 @@ public class LearningServiceImpl implements LearningService {
 				if (Str.isEmpty(wordInterpretayion)) {
 					wordInterpretayion = wordMap.get("definition");
 				}
+			}else {
+				wordInterpretayion=BaiduTranslate.getBaiduTranslateZh(learnParamModel.getWord());
 			}
 			String[] split = wordInterpretayion.split("\n");
 			for (int i = 0; i < split.length; i++) {
