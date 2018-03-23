@@ -121,6 +121,11 @@
 	}
 	function confrmAdd(v) {
 		var text = $("#word-someone").textbox("getValue");
+		if(text==null||text==""){
+			addAfter(1,"<span style='color:red;'>请输入需要添加的内容。</span> ");
+			setTimeout("addAfter(2)", 3000)
+			return ;
+		}
 		var timeClass = $('#word-timeClass').text();
 		var typeno = $('#word-type-no').text();
 		$.ajax({
@@ -129,7 +134,7 @@
 			url : '${base}learn/addLearn?word=' + text + "&wordType=" + typeno + "&timeClass=" + timeClass,
 			success : function(result) {
 				if (result.code == 200) {
-					addAfter(1);
+					addAfter(1,"<span style='color:red;'>新增成功。</span> ");
 					if (v == 2) {
 						back1()
 					}
@@ -140,9 +145,9 @@
 
 	}
 
-	function addAfter(v) {
+	function addAfter(v,m) {
 		if (v == 1) {
-			$("#word-ps").html("提示：<span style='color:red;'>新增成功。</span> ");
+			$("#word-ps").html("提示："+m);
 			$("#word-someone").textbox("setValue", null);
 		} else {
 			$("#word-ps").html("提示：新增后会自动获取翻译结果。");
