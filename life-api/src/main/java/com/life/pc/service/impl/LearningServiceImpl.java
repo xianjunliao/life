@@ -142,10 +142,10 @@ public class LearningServiceImpl implements LearningService {
 			if (learnParamModel.getWordType().equals("word")) {
 				Map<String, String> wordMap = WordUtils.getWordMap(learnParamModel.getWord());
 				if (Str.isEmpty(wordInterpretayion)) {
-					wordInterpretayion = wordMap.get("definition");
+					wordInterpretayion = wordMap.get("definition").replace(" ", "");
 				}
-			}else {
-				wordInterpretayion=BaiduTranslate.getBaiduTranslateZh(learnParamModel.getWord());
+			} else {
+				wordInterpretayion = BaiduTranslate.getBaiduTranslateZh(learnParamModel.getWord());
 			}
 			String[] split = wordInterpretayion.split("\n");
 			for (int i = 0; i < split.length; i++) {
@@ -378,6 +378,7 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String toClean(String str, List<SystemDataModel> systemData) {
+		str = str.replace(" ", "");
 		if (str.contains("adv.")) {
 			str = str.replace("adv.", "");
 			return str;
@@ -386,8 +387,8 @@ public class LearningServiceImpl implements LearningService {
 			str = str.replace("pron.", "");
 			return str;
 		}
-		if (str.contains("vt. &vi.")) {
-			str = str.replace("vt. &vi.", "");
+		if (str.contains("vt.&vi.")) {
+			str = str.replace("vt.&vi.", "");
 			return str;
 		}
 		for (SystemDataModel systemDataModel : systemData) {
@@ -401,6 +402,7 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String getWordType(String str, List<SystemDataModel> systemData) {
+		str = str.replace(" ", "");
 		if (str.contains("adv.")) {
 			str = "adv.";
 			return str;
@@ -408,8 +410,8 @@ public class LearningServiceImpl implements LearningService {
 			str = "pron.";
 			return str;
 		}
-		if (str.contains("vt. &vi.")) {
-			str = "vt. &vi.";
+		if (str.contains("vt.&vi.")) {
+			str = "vt.&vi.";
 			return str;
 		}
 		for (SystemDataModel systemDataModel : systemData) {
@@ -508,4 +510,5 @@ public class LearningServiceImpl implements LearningService {
 		learnEnglishWordsModel.setDefinition(buffer.toString());
 		return learnEnglishWordsModel;
 	}
+
 }

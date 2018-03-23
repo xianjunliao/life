@@ -6,10 +6,15 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script type="text/javascript">
 	$(function() {
-		$(".tabs-narrow li:eq(${idx})").addClass("tabs-selected");
+		var index=${idx};
+		 $('#all-tabs').tabs('select',index);
 	})
 	function openit(id) {
 		window.location.replace("${base}learn/dayLearns?id="+id);
+	}
+	
+	function setingUrl() {
+		window.location.replace("${base}mobile/seting");
 	}
 	function exit() {
 		$.ajax({
@@ -62,8 +67,8 @@ a {
 </head>
 <body>
 	<div class="easyui-navpanel" style="opacity: 0.8;">
-		<div class="easyui-tabs" data-options="tabHeight:60,fit:true,tabPosition:'bottom',border:false,pill:true,narrow:true,justified:true">
-			<div class="list-ul" style="padding: 10px 10px 10px 10px; background-color: #f2f6f9;">
+		<div class="easyui-tabs" id="all-tabs" data-options="tabHeight:60,fit:true,tabPosition:'bottom',border:false,pill:true,narrow:true,justified:true">
+			<div id="learnFull" class="list-ul" style="padding: 10px 10px 10px 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_ENGLISH.jpg' width="30px;" height="30px;" /><br>学海无涯
 				</div>
@@ -93,19 +98,19 @@ a {
 					</div>
 				</div>
 			</div>
-			<div style="padding: 10px; background-color: #f2f6f9;">
+			<div id="moneyMore" style="padding: 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MONEY.png' width="30px;" height="30px;" /><br>精打细算
 				</div>
 				<p>精打细算</p>
 			</div>
-			<div style="padding: 10px; background-color: #f2f6f9;">
+			<div id="dontForget" style="padding: 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MEMO.png' width="30px;" height="30px;" /><br>备忘录 <span class="m-badge">0</span>
 				</div>
 				<p>备忘录</p>
 			</div>
-			<div style="padding: 10px; background-color: #f2f6f9;" class="list-ul">
+			<div id="myself" style="padding: 10px; background-color: #f2f6f9;" class="list-ul">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" /> <br>个人中心
 				</div>
@@ -120,7 +125,12 @@ a {
 										</c:if> <c:if test="${userInfo.headaddress!=null }">
 											<img src='${userInfo.headaddress}' width="35px;" height="35px;" />
 										</c:if>
-								</span> <span style="margin-left: 15px; font-size: 12px;">用户名： <c:if test="${userInfo.username!=null }">${ userInfo.username}</c:if></span> <br> <span style="margin-left: 15px; font-size: 12px;">手机号码：${ userInfo.phoneno}</span>
+								</span> 
+								<span style="margin-left: 15px; font-size: 12px;"><c:if test="${userInfo.username!=null }">昵称：${ userInfo.username}</c:if>
+								<c:if test="${userInfo.username==null }"><span style="color: gray;">创建昵称</span></c:if>
+								</span> <br> <span style="margin-left: 15px; font-size: 12px;">
+								 <c:if test="${userInfo.phoneno!=null }">手机号码：${ userInfo.phoneno}</c:if>
+								 <c:if test="${userInfo.phoneno==null }"><span style="color: gray;">添加手机号码</span></c:if></span>
 							</a></li>
 						</ul>
 						<ul class="m-list list-ul" style="margin-top: 20px;">
@@ -129,7 +139,7 @@ a {
 							<li><a href="javascript:void(0)" onclick="">收入统计</a></li>
 						</ul>
 						<ul class="m-list list-ul" style="margin-top: 120px;">
-							<li><a href="javascript:void(0)" onclick="">设置</a></li>
+							<li><a href="javascript:void(0)" onclick="setingUrl()">设置</a></li>
 						</ul>
 						<div align="center" style="margin-top: 20px;">
 							<a onclick="exit()" class="easyui-linkbutton c5 list-ul" style="width: 30%">退出登陆</a>

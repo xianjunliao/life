@@ -43,7 +43,7 @@ public class LearningController {
 
 	@Autowired
 	private LearningService learningService;
-	
+
 	@Autowired
 	private LifeUserService lifeUserService;
 
@@ -61,7 +61,7 @@ public class LearningController {
 	}
 
 	@RequestMapping("/mob")
-	public String mob(Integer idx,ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String mob(Integer idx, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
 		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 15);
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
@@ -69,6 +69,9 @@ public class LearningController {
 		model.put("wordTypes", systemDataModels);
 		LifeUserModel userModel = lifeUserService.checkEnterCode(userCode);
 		model.put("userInfo", userModel);
+		if (idx == null) {
+			idx = 0;
+		}
 		model.put("idx", idx);
 		return "MOBIndex.jsp";
 	}
@@ -89,8 +92,8 @@ public class LearningController {
 		return "mobile/dayLearns.jsp";
 	}
 
-	private Map<String, Integer> getWordsByType(List<LearnEnglishWordsModel> list){
-		Map<String, Integer> map=new HashMap<>();
+	private Map<String, Integer> getWordsByType(List<LearnEnglishWordsModel> list) {
+		Map<String, Integer> map = new HashMap<>();
 		int word = 0, phrase = 0, sentence = 0, article = 0;
 		for (LearnEnglishWordsModel learnEnglishWordsModel : list) {
 			if (learnEnglishWordsModel.getType().equals("word")) {
@@ -112,7 +115,7 @@ public class LearningController {
 		map.put("article", article);
 		return map;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/showNow")
 	public String showNow(int number, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -179,7 +182,7 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("addLearn")
 	public ResponseMessage<LearnParamModel> addLearn(LearnParamModel learnParamModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
