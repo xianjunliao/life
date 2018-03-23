@@ -199,11 +199,11 @@ body {
 		</header>
 		<div style="margin: 50px 0 0; text-align: center" align="center">
 			<div id="word" style="font-size: 32px; font-weight: 700; color: red; height: 50px; line-height: 50px; margin-bottom: 30px;"></div>
-			<div id="pronunciation" style="font-size: 24px; margin-bottom: 160px; padding-left: 50px; padding-right: 50px;">
+			<div id="pronunciation" style="font-size: 14px; margin-bottom: 160px; padding-left: 50px; padding-right: 50px;">
 				<div id="usPronunciation" style="float: left;"></div>
 				<div id="ukPronunciation" style="float: right;"></div>
 			</div>
-			<div id="definition" style="font-size: 28px; margin-bottom: 40px; text-align: left; width: 300px; padding-left: 55px;"></div>
+			<div id="definition" style="font-size: 18px; margin-bottom: 40px; text-align: left; width: 300px; padding-left: 55px;"></div>
 			<div style="position: absolute; bottom: 25px; left: 44%;">
 				<img onclick="playV(1)" class="play-voice" src="${base}static/mobile/images/play.png" width="48px;" height="48px;"> <img onclick="playV(2)" class="pause-voice" src="${base}static/mobile/images/pause.png" width="48px;" height="48px;">
 			</div>
@@ -225,7 +225,7 @@ body {
 			</div>
 		</header>
         <div style="margin:50px 0 0;text-align:center">
-           <input class="easyui-textbox" id="word-someone" data-options="multiline:true,prompt:'请输入需要添加的单词或词组或句子或文章......'" style="width:80%;height: 480px;">
+           <input class="easyui-textbox" id="word-someone" data-options="multiline:true,prompt:'请输入需要添加的单词或词组或句子或文章......'" style="width:80%;height: 380px;">
            <a onclick="confrmAdd(1)" class="easyui-linkbutton" style="width: 40%; height: 40px;margin-top: 15px;"><span style="font-size: 16px">新增</span></a>
            <a onclick="confrmAdd(2)" class="easyui-linkbutton" style="width: 40%; height: 40px;margin-top: 15px;"><span style="font-size: 16px">新增后返回</span></a>
         </div>
