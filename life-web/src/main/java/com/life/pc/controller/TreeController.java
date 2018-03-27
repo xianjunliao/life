@@ -23,6 +23,7 @@ import com.life.common.Str;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
 import com.life.common.util.RSSUtil;
+import com.life.pc.common.WebUtils;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
 import com.life.pc.service.TreeService;
@@ -197,5 +198,12 @@ public class TreeController {
 		LifeUserModel attribute = (LifeUserModel) request.getSession().getAttribute("lifeUserModel");
 		List<TreeModel> treesByLevel = treeService.getTreeByPid(attribute.getUsercode(), pid);
 		return treesByLevel;
+	}
+	
+	@RequestMapping("/getAllUri")
+	public String getAllUri(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<TreeModel> trees = treeService.getTrees(WebUtils.getUserCode(request));
+		model.put("urls",trees);
+		return FTL_DIR + "allUri.jsp";
 	}
 }

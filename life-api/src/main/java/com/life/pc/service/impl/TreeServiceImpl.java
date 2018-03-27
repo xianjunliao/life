@@ -87,4 +87,9 @@ public class TreeServiceImpl implements TreeService {
 	public List<TreeModel> getTreeByUserCode(String userCode) {
 		return treeDao.getTreeByUserCode(userCode);
 	}
+
+	@Override
+	public List<TreeModel> getTrees(String userCode) {
+		return treeDao.getTrees(userCode);
+	}
 }

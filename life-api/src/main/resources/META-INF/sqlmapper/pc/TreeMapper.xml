@@ -48,7 +48,10 @@
 		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
 		userCode=#{userCode} and status='0' and level!='1' and url is not null and readMode='web'
 	</select>
-
+	<select id="getTrees" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		userCode=#{userCode} and (url is not null or url!='') and readMode!='rss' and level!='1' and status='0'
+	</select>
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
 		select case when max(sortNo) is null then 1 else max(sortNo)+1 end maxNo from pc_tree where

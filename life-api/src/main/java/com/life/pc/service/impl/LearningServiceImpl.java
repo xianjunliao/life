@@ -159,7 +159,11 @@ public class LearningServiceImpl implements LearningService {
 					learnRelationModel.setWordid(wordId);
 					learnRelationModel.setInterpertayionid(InterpretayionId);
 					learnRelationModel.setUsercode(usercode);
-					learnRelationDao.insert(learnRelationModel);
+					long selectByAll = learnRelationDao.selectByAll(learnRelationModel);
+					if (selectByAll==0) {
+						
+						learnRelationDao.insert(learnRelationModel);
+					}
 				}
 			}
 
@@ -169,14 +173,14 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	private String doInterpretayion(LearnParamModel learnParamModel, String wordId, String InterpretayionId) {
-		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordIdAndWordType(wordId, learnParamModel.getPartOfSpeech());
-
+		List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
+		String wordInterpretayion2 = learnParamModel.getWordInterpretayion();
+		String wordInterpretayion = toClean(wordInterpretayion2, systemDataModels);
+		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordInterpretation(wordId,wordInterpretayion);
 		if (selectBywordIdAndWordType == null) {
-			List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
-			String wordInterpretayion2 = learnParamModel.getWordInterpretayion();
-			String wordInterpretayion = toClean(wordInterpretayion2, systemDataModels);
+		
 			if (learnParamModel.getWordType().equals("word")) {
 				String wordType = getWordType(wordInterpretayion2, systemDataModels);
 				englishInterpretayionModel.setWordtype(wordType);

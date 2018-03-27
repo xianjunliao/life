@@ -24,6 +24,8 @@ public interface TreeDao {
 	void update(TreeModel treeModel);
 
 	List<TreeModel> getTreeByPid(@Param("userCode") String userCode, @Param("pid") String pid);
-	
+
 	List<TreeModel> getTreeByUserCode(@Param("userCode") String userCode);
+
+	List<TreeModel> getTrees(@Param("userCode") String userCode);
 }

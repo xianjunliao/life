@@ -147,6 +147,7 @@
 		</c:if>
 	</div>
 	<div id="ulMenu" class="easyui-menu" style="width: 150px;">
+		<div id="m-ul0" data-options="iconCls:'tree-life3'">打开</div>
 		<div id="m-ul1" data-options="iconCls:'updateTree'">修改</div>
 		<div id="m-ul2" data-options="iconCls:'deleteTree'">删除</div>
 	</div>

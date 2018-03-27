@@ -24,5 +24,7 @@ public interface LearnEnglishInterpretayionDao {
     List<LearnEnglishInterpretayionModel> selectBywordId(String wordId);
     
     LearnEnglishInterpretayionModel selectBywordIdAndWordType(@Param("wordid")String wordid,@Param("wordType")String wordType);
+    
+    LearnEnglishInterpretayionModel selectBywordInterpretation(@Param("wordid")String wordid,@Param("wordinterpretation")String wordinterpretation);
 
 }

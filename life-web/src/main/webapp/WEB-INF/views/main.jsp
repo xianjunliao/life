@@ -123,7 +123,7 @@ body {
 		});
 	}
 	function initPage() {
-		$("#openWeb").html('<iframe src="${base}house" width="100%" height="100%"></iframe>');
+		$("#openWeb").html('<iframe src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
 		$("#fristOpen").addClass("layui-this");
 	}
 	$(function() {
@@ -135,7 +135,7 @@ body {
 </head>
 <body>
 	<div onmousedown="modelLeave()" style="height: 100%; background-color: #e3efe6; overflow: hidden;">
-		<div class="layui-row" style="width: 100%; height: 8%;">
+		<div class="layui-row" style="width: 100%;">
 			<div class="layui-col-xs12 layui-col-md2">
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
 			</div>
@@ -146,7 +146,7 @@ body {
 			</div>
 			<div class="layui-col-xs6 layui-col-md6">
 				<ul class="layui-nav" lay-filter="demo">
-					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}house')"><a>网站导航</a></li>
+					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
 					<li class="layui-nav-item"><a>学海无涯</a>
 						<dl class="layui-nav-child">
 							<dd>
@@ -159,9 +159,8 @@ body {
 								<a onclick="openWeb('${base}learn/MUC_index')">音乐课堂</a>
 							</dd>
 						</dl></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>上传/下载</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>财务管家</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>随心随性</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>精达细算</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 				</ul>
 			</div>
@@ -170,18 +169,18 @@ body {
 					<li class="layui-nav-item" lay-unselect=""><a href="javascript:;"><img <c:if test="${userInfo.headaddress==null}"> src="${base}/static/images/default_head.png"</c:if> <c:if test="${userInfo.headaddress!=null}"> src="${userInfo.headaddress}"</c:if> class="layui-nav-img"> <c:if test="${userInfo.username!=null}">${userInfo.username}</c:if> <c:if test="${userInfo.username==null}">我</c:if>
 							<c:if test="${userInfo.username==''}">我</c:if> </a>
 						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a>
-							</dd>
+<!-- 							<dd> -->
+<!-- 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a> -->
+<!-- 							</dd> -->
 							<dd>
 								<a onclick="openWeb('${base}update')">完善个人信息</a>
 							</dd>
 							<dd>
 								<a onclick="openWeb('${base}updateHeadImg')">更换头像</a>
 							</dd>
-							<dd>
-								<a href="javascript:;">修改密码</a>
-							</dd>
+<!-- 							<dd> -->
+<!-- 								<a href="javascript:;">修改密码</a> -->
+<!-- 							</dd> -->
 							<dd>
 								<a onclick="exit()">注销登录</a>
 							</dd>

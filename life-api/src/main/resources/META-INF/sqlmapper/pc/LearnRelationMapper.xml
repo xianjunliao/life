@@ -26,6 +26,14 @@
 
 	</select>
 	
+		<select id="selectByAll" resultType="java.lang.Long" parameterType="com.life.pc.model.LearnRelationModel">
+		select
+		count(0)
+		from learn_relation
+		where learnid=#{learnid,jdbcType=VARCHAR} and wordid=#{wordid,jdbcType=VARCHAR} and interpertayionid=#{interpertayionid,jdbcType=VARCHAR} and usercode=#{usercode,jdbcType=VARCHAR}
+
+	</select>
+	
 	<delete id="deleteByLidAndWid" parameterType="java.lang.String">
 	delete from learn_relation where learnid=#{learnid,jdbcType=VARCHAR} and wordid=#{wordid,jdbcType=VARCHAR}
 	</delete>

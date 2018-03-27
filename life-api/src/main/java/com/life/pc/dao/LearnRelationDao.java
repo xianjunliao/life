@@ -15,4 +15,5 @@ public interface LearnRelationDao {
     List<LearnRelationModel> selectBylearnid(String learnid);
     Integer  countBylearnid(String learnid);
     void deleteByLidAndWid(@Param("learnid")String learnid,@Param("wordid")String wordid);
+    long selectByAll(LearnRelationModel learnRelationModel);
 }

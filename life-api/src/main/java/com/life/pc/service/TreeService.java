@@ -26,4 +26,6 @@ public interface TreeService {
 	List<TreeModel> getTreeByPid(String userCode, String pid);
 	
 	List<TreeModel> getTreeByUserCode(String userCode);
+	
+	List<TreeModel> getTrees(String userCode);
 }

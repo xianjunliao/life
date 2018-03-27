@@ -3,7 +3,6 @@ $(function() {
 	$("html").bind("contextmenu", function(e) {
 		return false;
 	});
-	createTab('myMeunTab', '首页', basePath + 'myMeun');
 	// $("#quite").hide();
 	// $("#showTree").hide();
 	// var hideTree = document.getElementById('hideTree');
@@ -131,6 +130,9 @@ $(function() {
 	$("#m-ul1").click(function() {
 		var pid = accordionOptions().id;
 		openUpdateDialog("修改菜单", treeNode.level, treeNode.id, pid);
+	});
+	$("#m-ul0").click(function() {
+		window.open(treeNode.url);   
 	});
 	$("#m-ul2").click(function() {
 		if (treeNode.text == '首页') {

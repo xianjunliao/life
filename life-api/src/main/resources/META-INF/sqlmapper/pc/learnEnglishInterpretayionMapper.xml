@@ -32,6 +32,12 @@
 		from learn_english_interpretayion
 		where wordid = #{wordid,jdbcType=VARCHAR} and wordType = #{wordType,jdbcType=VARCHAR}
 	</select>
+	<select id="selectBywordInterpretation" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from learn_english_interpretayion
+		where wordid = #{wordid,jdbcType=VARCHAR} and wordInterpretation = #{wordinterpretation,jdbcType=VARCHAR}
+	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from learn_english_interpretayion
 		where id = #{id,jdbcType=VARCHAR}
