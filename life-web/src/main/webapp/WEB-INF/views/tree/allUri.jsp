@@ -12,6 +12,7 @@
 		$(".url-go").bind("contextmenu", function() {
 			return false;
 		});
+		$("#deleteButton").hide();
 	});
 
 	function goUrl(id, url) {
@@ -44,12 +45,13 @@
 		$("#url-operation").css("left", Y + yw + 12);
 		$("#url-operation").css("top", X - 1);
 		$("#url-operation").css("position", "absolute");
-		$("#url-operation").html("<div class='url-remove-update' onclick='urlDelete(" + id + ")'>删</div><div class='url-remove-update' onclick='urlUpdate(" + id + ")'>改</div>");
+// 		$("#url-operation").html("<div class='url-remove-update' onclick='urlDelete(" + id + ")'>删</div><div class='url-remove-update' onclick='urlUpdate(" + id + ")'>改</div>");
 		$("#url-preview").html("<span>" + url + "</span>");
 		$("#websiteName").val(text);
 		$("#websiteAddress").val(url);
 		$("#webId").val(id);
 		$("#subAddUrl").val("修改");
+		$("#deleteButton").show();
 	}
 
 	function goOut(id) {
@@ -58,6 +60,7 @@
 	}
 
 	function openAddUrl() {
+		$("#deleteButton").hide();
 		$("#websiteName").val(null);
 		$("#websiteAddress").val(null);
 		$("#webId").val(null);
@@ -211,6 +214,8 @@
 
 .url-remove-update {
 	cursor: pointer;
+	font-size: 12;
+	margin: 2px;
 }
 
 #cut-off-rule {
@@ -269,14 +274,14 @@
 </head>
 <body id="bodyShow" class="easyui-layout" style="width: 100%; height: 100%;" onmouseup="operationGoOut()">
 	<div region="center" border="true" style="width: 100%; height: 100%;">
-		<div class="go-website hot">
-			<c:if test="${hotTrees.size()>0 }">
+		<c:if test="${hotTrees.size()>0 }">
+			<div class="go-website hot">
 				<div class="url-lable">经常访问的</div>
 				<c:forEach items="${hotTrees}" var="hu" varStatus="ui">
 					<div id="${hu.id}" class="url-go" onmouseout="goOut('${hu.id}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
 				</c:forEach>
-			</c:if>
-		</div>
+			</div>
+		</c:if>
 		<div class="go-website rule">
 			<c:if test="${hotTrees.size()>0 }">
 				<div id="cut-off-rule"></div>
@@ -317,7 +322,7 @@
 						<td><input class="url-input" type="text" id="websiteAddress" name="url" /></td>
 					</tr>
 					<tr align="center">
-						<td colspan="2"><input class="url-input-button" type="button" id="subAddUrl" onclick="addOrUpdate()" value="新增" /><input class="url-input-button" type="button" id="closeButton" onclick="$('#url-operation-window').hide(200)"
+						<td colspan="2"><input class="url-input-button" type="button" id="subAddUrl" onclick="addOrUpdate()" value="新增" /><input class="url-input-button" id="deleteButton" type="button"  onclick="urlDelete($('#webId').val())" value="删除" /><input class="url-input-button" type="button" id="closeButton" onclick="$('#url-operation-window').hide(200)"
 							value="关闭" /></td>
 					</tr>
 				</table>
