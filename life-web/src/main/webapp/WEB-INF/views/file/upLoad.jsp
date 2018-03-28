@@ -14,7 +14,7 @@
 }
 </style>
 </head>
-<body style="width: 99%; height: 99%; margin: 5px 5px 5px 5px; overflow: hidden; border-radius: 5px;">
+<body style="width: 100%; height: 100%; overflow: hidden;">
 	<div class="easyui-layout" style="width: 100%; height: 100%; overflow: hidden;">
 		<div data-options="region:'west',split:false,border:true" style="width: 400px; height: 100%;">
 			<form id="upLoadFileForm" class="easyui-form" style="width: 100%;" method="post" enctype="multipart/form-data">

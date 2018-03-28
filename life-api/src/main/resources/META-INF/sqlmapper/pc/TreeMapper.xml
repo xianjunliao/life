@@ -51,12 +51,12 @@
 	</select>
 	<select id="getTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;10 order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;5 order by clickCount desc
 	</select>
 
 	<select id="getHotTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=10 order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=5 order by clickCount desc
 	</select>
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">

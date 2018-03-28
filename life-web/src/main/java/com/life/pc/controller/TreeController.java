@@ -212,6 +212,23 @@ public class TreeController {
 		return outMSG;
 	}
 
+	@RequestMapping(path = { "/deleteNew" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> deleteNew(String id, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			TreeModel treeModel=new TreeModel();
+			treeModel.setId(id);
+			treeService.delete(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("删除成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("删除成功");
+		}
+		return outMSG;
+	}
+	
 	@RequestMapping(path = { "/getTreeByPid" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public List<TreeModel> getTreeByPid(String pid, HttpServletRequest request) throws ServletException, IOException {
@@ -227,5 +244,38 @@ public class TreeController {
 		model.put("urls", trees);
 		model.put("hotTrees", hotTrees);
 		return FTL_DIR + "allUri.jsp";
+	}
+	
+	
+	@RequestMapping(path = { "/addTreeNew" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> addTreeNew(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			String url = treeModel.getUrl();
+			if(url.contains("http://")||url.contains("https://")) {
+				url = treeModel.getUrl();
+			}else {
+				url = "http://"+treeModel.getUrl();
+			}
+			if(Str.isEmpty(treeModel.getText())) {
+				String[] split = url.split("\\.");
+				String text = split[1];
+				treeModel.setText(text);
+			}
+			treeModel.setUrl(url);
+			treeModel.setId(Util.getUUId16());
+			treeModel.setUserCode(WebUtils.getUserCode(request));
+			treeModel.setCreateTime(DateUtil.getNow());
+			treeModel.setLevel("3");
+			treeModel.setReadMode("web");
+			treeModel.setIconCls("tree-life3");
+			treeModel.setStatus("0");
+			treeService.addTree(treeModel);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
 	}
 }

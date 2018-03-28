@@ -188,8 +188,8 @@ body {
 				</ul>
 			</div>
 		</div>
-		<div style="width: 100%; height: 90%;" id="openWeb">
-			<iframe src="${base}house" width="100%" height="auto"></iframe>
+		<div style="width: 100%; height: 95%;" id="openWeb">
+			<iframe src="${base}house" width="100%" height="100%"></iframe>
 		</div>
 	</div>
 	<div id="modelList" onmouseleave="modelLeave()">
