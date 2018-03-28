@@ -35,6 +35,8 @@ public class TreeModel implements java.io.Serializable {
 	private String status;// 状态 0 启用 1 停用
 	private String level;// 菜单级别
 	private String isShare;// 是否分享 默认不分享
+	private String clickCount;// 访问次数
+	private Integer clickCountINT;// 访问次数
 
 	public String getId() {
 		return id;
@@ -172,11 +174,25 @@ public class TreeModel implements java.io.Serializable {
 		this.isShare = isShare;
 	}
 
+	public String getClickCount() {
+		return clickCount;
+	}
+
+	public void setClickCount(String clickCount) {
+		this.clickCount = clickCount;
+	}
+
+	public Integer getClickCountINT() {
+		return Integer.valueOf(getClickCount());
+	}
+
+	public void setClickCountINT(Integer clickCountINT) {
+		this.clickCountINT = clickCountINT;
+	}
+
 	@Override
 	public String toString() {
 		return "TreeModel [id=" + id + ", text=" + text + ", state=" + state + ", checked=" + checked + ", attributes=" + attributes + ", children=" + children + ", iconCls=" + iconCls + ", pid=" + pid + ", url=" + url + ", createTime=" + createTime + ", updateTime=" + updateTime + ", userCode=" + userCode
-				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + ", isShare=" + isShare + "]";
+				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + ", isShare=" + isShare + ", clickCount=" + clickCount + ", clickCountINT=" + clickCountINT + "]";
 	}
-
-
 }

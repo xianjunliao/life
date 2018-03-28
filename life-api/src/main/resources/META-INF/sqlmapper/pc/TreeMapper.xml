@@ -19,38 +19,44 @@
 		<result column="level" property="level" jdbcType="VARCHAR" />
 		<result column="sortNo" property="sortNo" jdbcType="VARCHAR" />
 		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
+		<result column="clickCount" property="clickCount" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<select id="getTree" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
 		pid=#{pid} and userCode=#{userCode} and status='0' order by sortNo
 	</select>
 
 	<select id="getTreeByText" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree
 		where text=#{text} and status='0' order by sortNo
 	</select>
 	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
 		id=#{id} and status='0'
 	</select>
 	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where userCode=#{userCode} and level=#{level} and status='0'
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where userCode=#{userCode} and level=#{level} and status='0'
 		<if test="pid!=null">
 			and id=#{pid,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
 		userCode=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
 	<select id="getTreeByUserCode" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
 		userCode=#{userCode} and status='0' and level!='1' and url is not null and readMode='web'
 	</select>
 	<select id="getTrees" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare from pc_tree where
-		userCode=#{userCode} and (url is not null or url!='') and readMode!='rss' and level!='1' and status='0'
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;10 order by clickCount desc
+	</select>
+
+	<select id="getHotTrees" parameterType="java.lang.String" resultMap="treeMapper">
+		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=10 order by clickCount desc
 	</select>
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
@@ -87,6 +93,9 @@
 			</if>
 			<if test="isShare!=null">
 				isShare = #{isShare,jdbcType=VARCHAR},
+			</if>
+			<if test="clickCount!=null">
+				clickCount = #{clickCount,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}

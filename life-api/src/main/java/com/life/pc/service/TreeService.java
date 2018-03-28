@@ -27,5 +27,5 @@ public interface TreeService {
 	
 	List<TreeModel> getTreeByUserCode(String userCode);
 	
-	List<TreeModel> getTrees(String userCode);
+	List<TreeModel> getTrees(String userCode,boolean isHot);
 }

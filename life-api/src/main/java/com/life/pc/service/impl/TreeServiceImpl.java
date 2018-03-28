@@ -89,7 +89,13 @@ public class TreeServiceImpl implements TreeService {
 	}
 
 	@Override
-	public List<TreeModel> getTrees(String userCode) {
-		return treeDao.getTrees(userCode);
+	public List<TreeModel> getTrees(String userCode,boolean isHot) {
+		List<TreeModel> treeModels=new ArrayList<>();
+		if(isHot){
+			treeModels=treeDao.getHotTrees(userCode);
+		}else{
+			treeModels=treeDao.getTrees(userCode);
+		}
+		return treeModels;
 	}
 }

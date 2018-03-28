@@ -67,15 +67,15 @@ public class LifeUserController {
 		try {
 			LifeUserModel attribute = WebUtils.getUserInfo(request);
 			initData(model, attribute);
-//			if (pageName.contains("test")) {
-//				return "error/" + pageName + ".jsp";
-//			}
-//			if (SystemGet.getNowIp().contains("10.83")) {
-//				return FTL_DIR +"main-false.jsp";
-//			}
-//			if (SystemGet.getNowIp().contains("192.168.1.101")||SystemGet.getNowIp().contains("47.91.252.134")||SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
-//				return FTL_DIR + pageName + ".jsp";
-//			}
+			if (pageName.contains("test")) {
+				return "error/" + pageName + ".jsp";
+			}
+			if (SystemGet.getNowIp().contains("10.83")) {
+				return FTL_DIR +"main-false.jsp";
+			}
+			if (SystemGet.getNowIp().contains("192.168.1.101")||SystemGet.getNowIp().contains("47.91.252.134")||SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
+				return FTL_DIR + pageName + ".jsp";
+			}
 	
 		} catch (Exception e) {
 			return "error/500.jsp";

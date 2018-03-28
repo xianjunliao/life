@@ -121,7 +121,10 @@ div.panel>div.panel-body.accordion-body>div {
 													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title" onclick="aaa('${base}mobLogin')">产品展示</span>
 												</div></li>
 											<li><div id="_easyui_tree_2" class="tree-node">
-													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a  onclick="aaa('${base}house')">图片管理</a></span>
+													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a onclick="aaa('${base}learn/showNow?number=150')">图片管理</a></span>
+												</div></li>
+													<li><div id="_easyui_tree_3" class="tree-node">
+													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a onclick="aaa('${base}tree/getAllUri')">图片管理2</a></span>
 												</div></li>
 										</ul>
 									</div>
@@ -302,7 +305,7 @@ div.panel>div.panel-body.accordion-body>div {
 			<div id="content_tabs" class="easyui-tabs" data-options="plain:true,iconCls:'icon-reload'" style="margin: 0px; padding: 0px; width: 100%; height: 100%;">
 				<div title="主页" id="fasss">
 					<img src="${base}/static/falseimg/workpage.png" />
-					
+
 				</div>
 			</div>
 		</div>
@@ -352,7 +355,7 @@ div.panel>div.panel-body.accordion-body>div {
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
-// 				url : '${base }/sys/resource/getParentMenu',
+				// 				url : '${base }/sys/resource/getParentMenu',
 				success : function(data) {
 					$.each(data, function(i, n) {//加载父类节点即一级菜单  
 						if (i == 0) {//显示第一个一级菜单下的二级菜单  
@@ -382,7 +385,7 @@ div.panel>div.panel-body.accordion-body>div {
 			$('#left_content').accordion({
 				onSelect : function(title, index) {
 					$("ul[name='" + title + "']").tree({
-// 						url : '${base}/sys/resource/getMenuTree',
+						// 						url : '${base}/sys/resource/getMenuTree',
 						queryParams : {
 							title : title
 						},
@@ -505,24 +508,23 @@ div.panel>div.panel-body.accordion-body>div {
 				} ]
 			});
 		}
-		
-		function aaa(url){
-			$("#fasss").html('<iframe id="fasss" width="98%" src="'+url+'" height="98%"></iframe>');
-		
+
+		function aaa(url) {
+			$("#fasss").html('<iframe id="fasss" width="98%" src="' + url + '" height="98%"></iframe>');
+
 		}
-		function bbb(){
+		function bbb() {
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
 				url : '${base}enter?code=123',
 				success : function(result) {
 					if (result.code == 200) {
-						
-					} 
+
+					}
 				}
 			});
 		}
-		
 	</script>
 </body>
 </html>

@@ -95,7 +95,7 @@ public class TreeController {
 				if (treeModel != null) {
 					String id = Long.valueOf(level) == 2 ? "0" : treeModel.getPid();
 					treesByLevel = treeService.getTreesByLevel(userCode, levelL, id);
-					if(treesByLevel==null||treesByLevel.size()==0){
+					if (treesByLevel == null || treesByLevel.size() == 0) {
 						treesByLevel = treeService.getTreesByLevel(userCode, levelL, null);
 					}
 					List<TreeModel> updateModels = treeService.getTreesByLevel(userCode, levelL, pid);
@@ -172,6 +172,26 @@ public class TreeController {
 		return outMSG;
 	}
 
+	@RequestMapping(path = { "/visits" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> visits(String id, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			TreeModel treeModel = treeService.geTreeModelByid(id);
+			Integer clickCount = treeModel.getClickCount()==null?0:Integer.valueOf(treeModel.getClickCount()) ;
+			int i = clickCount + 1;
+			treeModel.setClickCount(String.valueOf(i));
+			treeModel.setUpdateTime(DateUtil.getNow());
+			treeService.update(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("修改成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("修改失败");
+		}
+		return outMSG;
+	}
+
 	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<TreeModel> deleteTree(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
@@ -199,11 +219,13 @@ public class TreeController {
 		List<TreeModel> treesByLevel = treeService.getTreeByPid(attribute.getUsercode(), pid);
 		return treesByLevel;
 	}
-	
+
 	@RequestMapping("/getAllUri")
-	public String getAllUri(ModelMap model,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<TreeModel> trees = treeService.getTrees(WebUtils.getUserCode(request));
-		model.put("urls",trees);
+	public String getAllUri(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<TreeModel> trees = treeService.getTrees(WebUtils.getUserCode(request),false);
+		List<TreeModel> hotTrees = treeService.getTrees(WebUtils.getUserCode(request),true);
+		model.put("urls", trees);
+		model.put("hotTrees", hotTrees);
 		return FTL_DIR + "allUri.jsp";
 	}
 }

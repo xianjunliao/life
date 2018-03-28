@@ -28,4 +28,6 @@ public interface TreeDao {
 	List<TreeModel> getTreeByUserCode(@Param("userCode") String userCode);
 
 	List<TreeModel> getTrees(@Param("userCode") String userCode);
+	
+	List<TreeModel> getHotTrees(@Param("userCode") String userCode);
 }
