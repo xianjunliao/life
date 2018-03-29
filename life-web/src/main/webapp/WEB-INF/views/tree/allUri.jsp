@@ -324,7 +324,7 @@
 	font-size: 18 !important;
 	background-color: #f9f9db !important;
 	left: 50%;
-	bottom: 0;
+	bottom: 30px;
 	position: absolute;
 }
 
