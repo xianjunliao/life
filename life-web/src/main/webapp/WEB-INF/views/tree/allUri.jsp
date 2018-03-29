@@ -8,6 +8,7 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
+var isOpen=false;
 	$(function() {
 		$(".url-go").bind("contextmenu", function() {
 			return false;
@@ -94,6 +95,9 @@
 		if (url == null || url == '') {
 			return;
 		}
+		if(isOpen){
+			return ;
+		}
 		var X = $("#" + id).offset().top;
 		var Y = $("#" + id).offset().left;
 		var yw = $("#" + id).height();
@@ -143,6 +147,7 @@
 	}
 
 	function openAddUrl() {
+		isOpen=true;
 		$("#url-operation-window").removeClass("url-window-toolbar ");
 		$(".url-hide").show();
 		$("#toTop").hide();
@@ -159,6 +164,7 @@
 
 	}
 	function openUpdateWid() {
+		isOpen=true;
 		$(".url-hide").show();
 		$("#toUpdate").hide();
 		$("#subAddUrl").val("修改");
@@ -264,6 +270,10 @@
 		$("#subAddUrl").val("新增");
 		$("#websiteAddress").focus();
 	}
+	function colseWind(){
+		isOpen=false;
+		$('#url-operation-window').hide(200)
+	}
 </script>
 <style>
 .url-go {
@@ -323,7 +333,7 @@
 	font-size: 18 !important;
 	background-color: #f9f9db !important;
 	left: 50%;
-	bottom: 30px;
+	bottom: 20px;
 	position: absolute;
 }
 
@@ -485,7 +495,7 @@
 						<td><input class="url-input" type="text" id="websiteName" name="text" /></td>
 					</tr>
 					<tr align="center">
-						<td colspan="2"><input class="url-input-button" type="button" id="subAddUrl" onclick="addOrUpdate()" value="新增" /> <input class="url-input-button url-hide" type="button" id="toClean" onclick="clearForm()" value="清空" /> <input class="url-input-button url-hide" type="button" id="closeButton" onclick="$('#url-operation-window').hide(200)" value="关闭" /></td>
+						<td colspan="2"><input class="url-input-button" type="button" id="subAddUrl" onclick="addOrUpdate()" value="新增" /> <input class="url-input-button url-hide" type="button" id="toClean" onclick="clearForm()" value="清空" /> <input class="url-input-button url-hide" type="button" id="closeButton" onclick="colseWind()" value="关闭" /></td>
 					</tr>
 				</table>
 			</form>
