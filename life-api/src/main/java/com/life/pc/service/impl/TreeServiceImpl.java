@@ -89,12 +89,19 @@ public class TreeServiceImpl implements TreeService {
 	}
 
 	@Override
-	public List<TreeModel> getTrees(String userCode,boolean isHot) {
+	public List<TreeModel> getTrees(String userCode,String key) {
 		List<TreeModel> treeModels=new ArrayList<>();
-		if(isHot){
+		if(key.equals("hot")){
 			treeModels=treeDao.getHotTrees(userCode);
-		}else{
+		}
+		else if(key.equals("like")){
+			treeModels=treeDao.getLikeTrees(userCode);
+		}
+		else if(key.equals("else")){
 			treeModels=treeDao.getTrees(userCode);
+		}
+		else if(key.equals("top")){
+			treeModels=treeDao.getTopTrees(userCode);
 		}
 		return treeModels;
 	}

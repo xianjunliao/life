@@ -30,4 +30,9 @@ public interface TreeDao {
 	List<TreeModel> getTrees(@Param("userCode") String userCode);
 	
 	List<TreeModel> getHotTrees(@Param("userCode") String userCode);
+	
+	List<TreeModel> getLikeTrees(@Param("userCode") String userCode);
+	
+	List<TreeModel> getTopTrees(@Param("userCode") String userCode);
+	
 }

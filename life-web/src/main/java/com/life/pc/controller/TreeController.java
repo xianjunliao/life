@@ -178,9 +178,45 @@ public class TreeController {
 		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
 		try {
 			TreeModel treeModel = treeService.geTreeModelByid(id);
-			Integer clickCount = treeModel.getClickCount()==null?0:Integer.valueOf(treeModel.getClickCount()) ;
+			Integer clickCount = treeModel.getClickCount() == null ? 0 : Integer.valueOf(treeModel.getClickCount());
 			int i = clickCount + 1;
 			treeModel.setClickCount(String.valueOf(i));
+			treeModel.setUpdateTime(DateUtil.getNow());
+			treeService.update(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("修改成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("修改失败");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/toTop" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> toTop(String id, String isTop, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			TreeModel treeModel = treeService.geTreeModelByid(id);
+			treeModel.setToTop(isTop);
+			treeModel.setUpdateTime(DateUtil.getNow());
+			treeService.update(treeModel);
+			outMSG.setCode("200");
+			outMSG.setMessage("修改成功");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+			outMSG.setMessage("修改失败");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/toLike" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<TreeModel> toLike(String id, String isLike, HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
+		try {
+			TreeModel treeModel = treeService.geTreeModelByid(id);
+			treeModel.setToLike(isLike);
 			treeModel.setUpdateTime(DateUtil.getNow());
 			treeService.update(treeModel);
 			outMSG.setCode("200");
@@ -217,7 +253,7 @@ public class TreeController {
 	public ResponseMessage<TreeModel> deleteNew(String id, HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
 		try {
-			TreeModel treeModel=new TreeModel();
+			TreeModel treeModel = new TreeModel();
 			treeModel.setId(id);
 			treeService.delete(treeModel);
 			outMSG.setCode("200");
@@ -228,7 +264,7 @@ public class TreeController {
 		}
 		return outMSG;
 	}
-	
+
 	@RequestMapping(path = { "/getTreeByPid" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public List<TreeModel> getTreeByPid(String pid, HttpServletRequest request) throws ServletException, IOException {
@@ -239,26 +275,29 @@ public class TreeController {
 
 	@RequestMapping("/getAllUri")
 	public String getAllUri(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<TreeModel> trees = treeService.getTrees(WebUtils.getUserCode(request),false);
-		List<TreeModel> hotTrees = treeService.getTrees(WebUtils.getUserCode(request),true);
+		List<TreeModel> trees = treeService.getTrees(WebUtils.getUserCode(request), "else");
+		List<TreeModel> hotTrees = treeService.getTrees(WebUtils.getUserCode(request), "hot");
+		List<TreeModel> likeTrees = treeService.getTrees(WebUtils.getUserCode(request), "like");
+		List<TreeModel> topTrees = treeService.getTrees(WebUtils.getUserCode(request), "top");
 		model.put("urls", trees);
 		model.put("hotTrees", hotTrees);
+		model.put("likeTrees", likeTrees);
+		model.put("topTrees", topTrees);
 		return FTL_DIR + "allUri.jsp";
 	}
-	
-	
+
 	@RequestMapping(path = { "/addTreeNew" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<TreeModel> addTreeNew(TreeModel treeModel, HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<TreeModel> outMSG = new ResponseMessage<>();
 		try {
 			String url = treeModel.getUrl();
-			if(url.contains("http://")||url.contains("https://")) {
+			if (url.contains("http://") || url.contains("https://")) {
 				url = treeModel.getUrl();
-			}else {
-				url = "http://"+treeModel.getUrl();
+			} else {
+				url = "http://" + treeModel.getUrl();
 			}
-			if(Str.isEmpty(treeModel.getText())) {
+			if (Str.isEmpty(treeModel.getText())) {
 				String[] split = url.split("\\.");
 				String text = split[1];
 				treeModel.setText(text);

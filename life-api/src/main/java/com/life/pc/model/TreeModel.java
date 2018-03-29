@@ -36,6 +36,8 @@ public class TreeModel implements java.io.Serializable {
 	private String level;// 菜单级别
 	private String isShare;// 是否分享 默认不分享
 	private String clickCount;// 访问次数
+	private String toLike;//收藏
+	private String toTop;//收藏
 	private Integer clickCountINT;// 访问次数
 
 	public String getId() {
@@ -190,9 +192,26 @@ public class TreeModel implements java.io.Serializable {
 		this.clickCountINT = clickCountINT;
 	}
 
+	public String getToLike() {
+		return toLike;
+	}
+
+	public void setToLike(String toLike) {
+		this.toLike = toLike;
+	}
+
+	public String getToTop() {
+		return toTop;
+	}
+
+	public void setToTop(String toTop) {
+		this.toTop = toTop;
+	}
+
 	@Override
 	public String toString() {
 		return "TreeModel [id=" + id + ", text=" + text + ", state=" + state + ", checked=" + checked + ", attributes=" + attributes + ", children=" + children + ", iconCls=" + iconCls + ", pid=" + pid + ", url=" + url + ", createTime=" + createTime + ", updateTime=" + updateTime + ", userCode=" + userCode
-				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + ", isShare=" + isShare + ", clickCount=" + clickCount + ", clickCountINT=" + clickCountINT + "]";
+				+ ", readMode=" + readMode + ", sortNo=" + sortNo + ", status=" + status + ", level=" + level + ", isShare=" + isShare + ", clickCount=" + clickCount + ", toLike=" + toLike + ", toTop=" + toTop + ", clickCountINT=" + clickCountINT + "]";
 	}
+
 }

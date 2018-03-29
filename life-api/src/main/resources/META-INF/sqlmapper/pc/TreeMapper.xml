@@ -20,43 +20,75 @@
 		<result column="sortNo" property="sortNo" jdbcType="VARCHAR" />
 		<result column="isShare" property="isShare" jdbcType="VARCHAR" />
 		<result column="clickCount" property="clickCount" jdbcType="VARCHAR" />
+		<result column="toTop" property="toTop" jdbcType="VARCHAR" />
+		<result column="toLike" property="toLike" jdbcType="VARCHAR" />
 	</resultMap>
-
+	<sql id="columns">
+		id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount,toLike,toTop
+	</sql>
 	<select id="getTree" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		select
+		<include refid="columns" />
+		from pc_tree where
 		pid=#{pid} and userCode=#{userCode} and status='0' order by sortNo
 	</select>
 
 	<select id="getTreeByText" parameterType="com.life.pc.model.TreeModel" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree
+		select
+		<include refid="columns" />
+		from pc_tree
 		where text=#{text} and status='0' order by sortNo
 	</select>
 	<select id="geTreeModelByid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		select
+		<include refid="columns" />
+		from pc_tree where
 		id=#{id} and status='0'
 	</select>
 	<select id="getTreesByLevel" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where userCode=#{userCode} and level=#{level} and status='0'
+		select
+		<include refid="columns" />
+		from pc_tree where userCode=#{userCode} and level=#{level} and status='0'
 		<if test="pid!=null">
 			and id=#{pid,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="getTreeByPid" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		select
+		<include refid="columns" />
+		from pc_tree where
 		userCode=#{userCode} and pid=#{pid,jdbcType=VARCHAR}
 	</select>
 	<select id="getTreeByUserCode" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
+		select
+		<include refid="columns" />
+		from pc_tree where
 		userCode=#{userCode} and status='0' and level!='1' and url is not null and readMode='web'
 	</select>
 	<select id="getTrees" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;5 order by clickCount desc
+		select
+		<include refid="columns" />
+		from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;15 and toLike='0' and toTop='0' order by clickCount desc
 	</select>
 
 	<select id="getHotTrees" parameterType="java.lang.String" resultMap="treeMapper">
-		select id,text,iconCls,checked,state,pid,url,readMode,sortNo,status,level,isShare,clickCount from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=5 order by clickCount desc
+		select
+		<include refid="columns" />
+		from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=15 and toLike='0' and toTop='0' order by clickCount desc
+	</select>
+	<select id="getLikeTrees" parameterType="java.lang.String" resultMap="treeMapper">
+		select
+		<include refid="columns" />
+		from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toLike='1' and toTop='0' order by clickCount desc
+	</select>
+	<select id="getTopTrees" parameterType="java.lang.String" resultMap="treeMapper">
+		select
+			<include refid="columns" />
+		from pc_tree where
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toTop='1' and toLike='0' order by clickCount desc
 	</select>
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">
@@ -96,6 +128,12 @@
 			</if>
 			<if test="clickCount!=null">
 				clickCount = #{clickCount,jdbcType=VARCHAR},
+			</if>
+			<if test="toTop!=null">
+				toTop = #{toTop,jdbcType=VARCHAR},
+			</if>
+			<if test="toLike!=null">
+				toLike = #{toLike,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where id = #{id,jdbcType=VARCHAR}
@@ -140,6 +178,15 @@
 			<if test="isShare!=null">
 				isShare,
 			</if>
+			<if test="clickCount!=null">
+				clickCount,
+			</if>
+			<if test="toTop!=null">
+				toTop,
+			</if>
+			<if test="toLike!=null">
+				toLike,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id!=null">
@@ -177,6 +224,15 @@
 			</if>
 			<if test="isShare!=null">
 				#{isShare,jdbcType=VARCHAR},
+			</if>
+			<if test="clickCount!=null">
+				#{clickCount,jdbcType=VARCHAR},
+			</if>
+			<if test="toTop!=null">
+				#{toTop,jdbcType=VARCHAR},
+			</if>
+			<if test="toLike!=null">
+				#{toLike,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
