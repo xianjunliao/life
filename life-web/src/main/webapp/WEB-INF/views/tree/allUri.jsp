@@ -128,7 +128,6 @@
 			$("#toLike").val("不收藏");
 			$("#" + id).removeClass("url-like");
 		}
-		
 
 		$("#" + id).addClass("url-select");
 	}
@@ -204,10 +203,10 @@
 		var left = ($(window).width() - $(divName).width()) / 2;
 		var scrollTop = $(document).scrollTop();
 		var scrollLeft = $(document).scrollLeft();
-		var dh=$(divName).height();
+		var dh = $(divName).height();
 		$(divName).css({
 			position : 'absolute',
-			'top' : top + scrollTop-dh,
+			'top' : top + scrollTop - dh,
 			left : left + scrollLeft
 		}).show(300);
 	}
@@ -423,28 +422,26 @@
 				<div id="cut-off-rule"></div>
 			</div>
 		</c:if>
-		<c:if test="${topTrees.size()>0 }">
+		<c:if test="${hotTrees.size()>0 or topTrees.size()>0  }">
 			<div class="go-website hot">
-				<div class="url-lable">置顶的</div>
-				<c:forEach items="${topTrees}" var="hu" varStatus="ui">
-					<div id="${hu.id}" class="url-go <c:if test="${hu.toTop=='1' }">url-top</c:if>" onmouseout="goOut('${hu.id}','${hu.toTop}','${hu.toLike}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}','${hu.toTop}','${hu.toLike}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
-				</c:forEach>
-			</div>
-			<div class="go-website rule">
-				<div id="cut-off-rule"></div>
-			</div>
-		</c:if>
-		<c:if test="${hotTrees.size()>0 }">
-			<div class="go-website hot">
+
 				<div class="url-lable">经常访问的</div>
-				<c:forEach items="${hotTrees}" var="hu" varStatus="ui">
-					<div id="${hu.id}" class="url-go <c:if test="${hu.toLike=='1' }">url-like</c:if>" onmouseout="goOut('${hu.id}','${hu.toTop}','${hu.toLike}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}','${hu.toTop}','${hu.toLike}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
+				<c:if test="${topTrees.size()>0 }">
+					<c:forEach items="${topTrees}" var="hu" varStatus="ui">
+						<div id="${hu.id}" class="url-go <c:if test="${hu.toTop=='1' }">url-top</c:if>" onmouseout="goOut('${hu.id}','${hu.toTop}','${hu.toLike}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}','${hu.toTop}','${hu.toLike}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
 				</c:forEach>
+				</c:if>
+				<c:if test="${hotTrees.size()>0 }">
+					<c:forEach items="${hotTrees}" var="hu" varStatus="ui">
+						<div id="${hu.id}" class="url-go <c:if test="${hu.toLike=='1' }">url-like</c:if>" onmouseout="goOut('${hu.id}','${hu.toTop}','${hu.toLike}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}','${hu.toTop}','${hu.toLike}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
+					</c:forEach>
+				</c:if>
 			</div>
 			<div class="go-website rule">
 				<div id="cut-off-rule"></div>
 			</div>
 		</c:if>
+
 		<div class="go-website else">
 			<c:if test="${urls.size()>0 }">
 				<c:if test="${hotTrees.size()>0 or topTrees.size()>0  or likeTrees.size()>0  }">
