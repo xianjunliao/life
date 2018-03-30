@@ -8,7 +8,8 @@
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <script type="text/javascript">
-var isOpen=false;
+	var isOpen = false;
+	var time;
 	$(function() {
 		$(".url-go").bind("contextmenu", function() {
 			return false;
@@ -17,6 +18,8 @@ var isOpen=false;
 		$("#toTop").hide();
 		$("#toUpdate").hide();
 		$("#toLike").hide();
+		$("#websiteAddress").focus();
+		setDivofDiv("#url-operation-window","#null-url-add");
 		$("#url-operation-window").mousedown(function(e) { //e鼠标事件  
 			$(this).css("cursor", "move");//改变鼠标指针的形状  
 
@@ -95,9 +98,10 @@ var isOpen=false;
 		if (url == null || url == '') {
 			return;
 		}
-		if(isOpen){
-			return ;
+		if (isOpen) {
+			return;
 		}
+		clearTimeout(time);
 		var X = $("#" + id).offset().top;
 		var Y = $("#" + id).offset().left;
 		var yw = $("#" + id).height();
@@ -134,6 +138,7 @@ var isOpen=false;
 		}
 
 		$("#" + id).addClass("url-select");
+		time = setTimeout("operationGoOut()", 5000)
 	}
 
 	function goOut(id, top, like) {
@@ -147,7 +152,8 @@ var isOpen=false;
 	}
 
 	function openAddUrl() {
-		isOpen=true;
+
+		isOpen = true;
 		$("#url-operation-window").removeClass("url-window-toolbar ");
 		$(".url-hide").show();
 		$("#toTop").hide();
@@ -161,10 +167,11 @@ var isOpen=false;
 		$("#subAddUrl").show();
 		setDivCenter("#url-operation-window");
 		$("#websiteAddress").focus();
+	
 
 	}
 	function openUpdateWid() {
-		isOpen=true;
+		isOpen = true;
 		$(".url-hide").show();
 		$("#toUpdate").hide();
 		$("#subAddUrl").val("修改");
@@ -209,11 +216,26 @@ var isOpen=false;
 		var left = ($(window).width() - $(divName).width()) / 2;
 		var scrollTop = $(document).scrollTop();
 		var scrollLeft = $(document).scrollLeft();
-		var dh = $(divName).height();
+		var dh = $(divName).height() / 2;
 		$(divName).css({
 			position : 'absolute',
 			'top' : top + scrollTop - dh,
 			left : left + scrollLeft
+		}).show(300);
+	}
+
+	function setDivofDiv(divName, fdivName) {
+		if($(fdivName).offset()==undefined){
+			return ;
+		}
+		var scrollTop = $(fdivName).offset().top;
+		var scrollLeft = $(fdivName).offset().left;
+		var dh = $(fdivName).height();
+		var dw = $(fdivName).width();
+		$(divName).css({
+			position : 'absolute',			
+			'top' : scrollTop+dh+10,
+			left : scrollLeft+dw+10
 		}).show(300);
 	}
 
@@ -270,8 +292,8 @@ var isOpen=false;
 		$("#subAddUrl").val("新增");
 		$("#websiteAddress").focus();
 	}
-	function colseWind(){
-		isOpen=false;
+	function colseWind() {
+		isOpen = false;
 		$('#url-operation-window').hide(200)
 	}
 </script>
@@ -416,11 +438,34 @@ var isOpen=false;
 	padding: 2px 2px 2px 5px;
 	float: left;
 }
+
+#null-url-add {
+	width: 105px;
+	height: 100px;
+	font-size: 22;
+	background-color: #a4e8e2 !important;
+	left: 20px;
+	top: 20px;
+	position: absolute;
+	box-shadow: 10px 10px 20px 5px #7aafaa;
+	text-align: center;
+	padding: 5px;
+	border-radius: 20px 20px 0px 20px;
+	cursor: pointer;
+	line-height: 100px;
+}
+
+.url-window-open {
+	display: block !important;
+}
 </style>
 
 </head>
 <body id="bodyShow" class="easyui-layout" style="width: 100%; height: 100%;" onmouseup="operationGoOut()">
 	<div region="center" border="true" style="width: 100%; height: 100%;">
+		<c:if test="${hotTrees.size()==0 and topTrees.size()==0  and likeTrees.size()==0 and urls.size()==0  }">
+			<div id="null-url-add" title="新增网站收藏">请添加</div>
+		</c:if>
 		<c:if test="${likeTrees.size()>0 }">
 			<div class="go-website hot">
 				<div class="url-lable">最喜欢的</div>
@@ -439,7 +484,7 @@ var isOpen=false;
 				<c:if test="${topTrees.size()>0 }">
 					<c:forEach items="${topTrees}" var="hu" varStatus="ui">
 						<div id="${hu.id}" class="url-go <c:if test="${hu.toTop=='1' }">url-top</c:if>" onmouseout="goOut('${hu.id}','${hu.toTop}','${hu.toLike}')" onmouseover="goOver('${hu.id}','${hu.url}','${hu.readMode}','${hu.text}','${hu.toTop}','${hu.toLike}')" onclick="goUrl('${hu.id}','${hu.url}')">${hu.text}</div>
-				</c:forEach>
+					</c:forEach>
 				</c:if>
 				<c:if test="${hotTrees.size()>0 }">
 					<c:forEach items="${hotTrees}" var="hu" varStatus="ui">
@@ -463,13 +508,6 @@ var isOpen=false;
 				<div id="url-go-add" title="新增网站收藏" class="url-go url-add" onclick="openAddUrl()">+</div>
 				<input type="hidden" id="maxClickCount" value="${urls.get(0).clickCount}">
 			</c:if>
-			<c:if test="${urls.size()==0 }">
-				<table class="url-table">
-					<tr>
-						<td><div id="url-go-add" title="新增网站收藏" class="url-go url-add" onclick="openAddUrl()">+</div></td>
-					</tr>
-				</table>
-			</c:if>
 		</div>
 	</div>
 	<div id="url-preview">
@@ -481,7 +519,7 @@ var isOpen=false;
 	</div>
 
 	<div id="url-operation" onmouseout="operationGoOut()"></div>
-	<div id="url-operation-window" class="url-window">
+	<div id="url-operation-window" class="url-window <c:if test="${hotTrees.size()==0 and topTrees.size()==0  and likeTrees.size()==0 and urls.size()==0  }"> url-window-open </c:if>  ">
 		<div>
 			<form action="" method="post" id="url-add-update">
 				<input type="hidden" name="id" id="webId">

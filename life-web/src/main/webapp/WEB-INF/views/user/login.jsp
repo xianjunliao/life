@@ -26,7 +26,7 @@
 				url : basePath + 'enter?code=' + v,
 				success : function(result) {
 					if (result.code == 200) {
-						window.location.replace(basePath + "main");
+						window.location.replace(basePath + result.data);
 					} else if (result.code == 202) {
 						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
 					} else {

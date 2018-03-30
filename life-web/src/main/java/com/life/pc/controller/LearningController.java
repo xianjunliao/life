@@ -63,7 +63,7 @@ public class LearningController {
 	@RequestMapping("/mob")
 	public String mob(Integer idx, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
-		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 15);
+		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 90);
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
 		model.put("dayLearns", dayLearns);
 		model.put("wordTypes", systemDataModels);

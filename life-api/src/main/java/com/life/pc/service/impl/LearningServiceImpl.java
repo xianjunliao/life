@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.life.common.PinyinUtils;
 import com.life.common.Str;
 import com.life.common.Util;
 import com.life.common.baidu.BaiduTranslate;
@@ -252,10 +251,18 @@ public class LearningServiceImpl implements LearningService {
 	@Override
 	public void addLearnTime(LearnEnglishModel learnEnglishModel) {
 		try {
-			learnEnglishModel.setId(Util.getUUId16());
-			learnEnglishModel.setTimeclass(PinyinUtils.getPingYin(learnEnglishModel.getHeadline()));
-			learnEnglishModel.setDiary(DateUtil.getNow());
-			learnEnglishDao.insertSelective(learnEnglishModel);
+			String now4 = DateUtil.getNow4();
+			String usercode = learnEnglishModel.getUsercode();
+			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4,usercode);
+			if (selectByTimeClass==null) {
+				learnEnglishModel.setId(Util.getUUId16());
+				learnEnglishModel.setDiary(DateUtil.getNow());
+				learnEnglishModel.setTimeclass(now4);
+				learnEnglishModel.setHeadline(DateUtil.getNow6());
+				learnEnglishModel.setUsercode(usercode);
+				learnEnglishDao.insertSelective(learnEnglishModel);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

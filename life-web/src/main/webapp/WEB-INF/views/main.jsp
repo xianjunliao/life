@@ -63,40 +63,7 @@ body {
 }
 </style>
 <script type="text/javascript">
-	var isOpen = 1;
-
-	function modelClick() {
-		var X = $('#modelText').offset().top;
-		var Y = $('#modelText').offset().left;
-		var mth = $('#modelText').height();
-		if (isOpen == 1) {
-			isOpen = 2;
-			$("#modelList").css("display", "block");
-			$("#modelList").css("left", Y);
-			$("#modelList").css("top", X + mth);
-			$("#modelList").css("position", "absolute");
-
-		} else {
-			isOpen = 1;
-			$("#modelList").css("display", "none");
-		}
-	}
-	function modelLeave() {
-		isOpen = 1;
-		// 		var e = window.event;
-		// 		var x=e.clientX;
-		// 		var y=e.clientY;
-		// 		console.log(x + ":" + y);
-		$("#modelList").css("display", "none");
-	}
-	function modelLi(li) {
-		$(li).addClass("li_backbround");
-	}
-	function modelLiMouseout(li) {
-		$(li).removeClass("li_backbround");
-	}
 	function openWeb(url) {
-		modelLeave();
 		$("#openWeb").html('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
 	}
 	function autoGetCount() {
@@ -110,7 +77,6 @@ body {
 			}
 		});
 	}
-
 	function exit() {
 
 		$.ajax({
@@ -139,26 +105,12 @@ body {
 			<div class="layui-col-xs12 layui-col-md2">
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
 			</div>
-			<div class="layui-col-xs12 layui-col-md2">
-				<div style="z-index: 2; background-color: rgb(57, 61, 73); height: 45px; padding-top: 15px;">
-					<input id="modelText" style="width: 200px; z-index: 3;" class="layui-input" type="text" placeholder="搜索组件或模块" onclick="modelClick()" />
-				</div>
-			</div>
-			<div class="layui-col-xs6 layui-col-md6">
+			<div class="layui-col-xs6 layui-col-md8">
 				<ul class="layui-nav" lay-filter="demo">
 					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
-					<li class="layui-nav-item"><a>学海无涯</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a onclick="openWeb('${base}learn/showNow?number=5')">英语的听说读写</a>
-							</dd>
-							<dd>
-								<a onclick="openWeb('${base}learn/IT_index')">码农的自强不息</a>
-							</dd>
-							<dd>
-								<a onclick="openWeb('${base}learn/MUC_index')">音乐课堂</a>
-							</dd>
-						</dl></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}learn/showNow?number=5')"><a>每日英语</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}learn/MUC_index')"><a>弹奏谱架</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>精达细算</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
@@ -168,7 +120,7 @@ body {
 				<ul class="layui-nav" lay-filter="demo1" style="margin-left: 25px;">
 					<li class="layui-nav-item" lay-unselect=""><a href="javascript:;"><img <c:if test="${userInfo.headaddress==null}"> src="${base}/static/images/default_head.png"</c:if> <c:if test="${userInfo.headaddress!=null}"> src="${userInfo.headaddress}"</c:if> class="layui-nav-img"> <c:if test="${userInfo.username!=null}">${userInfo.username}</c:if> <c:if test="${userInfo.username==null}">我</c:if>
 							<c:if test="${userInfo.username==''}">我</c:if> </a>
-						<dl class="layui-nav-child">
+							<dl class="layui-nav-child">
 <!-- 							<dd> -->
 <!-- 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a> -->
 <!-- 							</dd> -->
@@ -189,18 +141,7 @@ body {
 			</div>
 		</div>
 		<div style="width: 100%; height: 95%;" id="openWeb">
-			<iframe src="${base}house" width="100%" height="100%"></iframe>
 		</div>
-	</div>
-	<div id="modelList" onmouseleave="modelLeave()">
-		<div>
-			<ul style="position: absolute; max-height: 200px; color: black; font-style: inherit;">
-				<c:forEach items="${trees}" var="tree">
-					<li class="model_li" onclick="openWeb('${tree.url}')" onmouseover="modelLi(this)" onmouseout="modelLiMouseout(this)"><a>${tree.text}</a></li>
-				</c:forEach>
-			</ul>
-		</div>
-
 	</div>
 	<script type="text/javascript" src="${base}static/ui/layui/layui.all.js"></script>
 	<script>

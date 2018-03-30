@@ -2,6 +2,7 @@ package com.life.pc.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -24,9 +25,11 @@ import com.life.common.Str;
 import com.life.common.SystemGet;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
+import com.life.common.util.Base64Util;
 import com.life.common.util.DESUtil;
 import com.life.pc.common.WebUtils;
 import com.life.pc.model.FileUserModel;
+import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.TreeModel;
 import com.life.pc.service.FileUserService;
@@ -67,16 +70,24 @@ public class LifeUserController {
 		try {
 			LifeUserModel attribute = WebUtils.getUserInfo(request);
 			initData(model, attribute);
-			if (pageName.contains("test")) {
-				return "error/" + pageName + ".jsp";
+			try {
+				if (UUID.fromString(pageName) != null) {
+					return FTL_DIR + "main.jsp";
+				}
+			} catch (Exception e) {
+//				if (pageName.contains("test")) {
+//					return "error/" + pageName + ".jsp";
+//				}
+//				if (SystemGet.getNowIp().contains("10.83")) {
+//					return FTL_DIR + "main-false.jsp";
+//				}
+				if (SystemGet.getNowIp().contains("192.168.1.101") || SystemGet.getNowIp().contains("47.91.252.134") || SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
+					return FTL_DIR + pageName + ".jsp";
+				}else{
+					return FTL_DIR + pageName + ".jsp";
+				}
 			}
-			if (SystemGet.getNowIp().contains("10.83")) {
-				return FTL_DIR +"main-false.jsp";
-			}
-			if (SystemGet.getNowIp().contains("192.168.1.101")||SystemGet.getNowIp().contains("47.91.252.134")||SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
-				return FTL_DIR + pageName + ".jsp";
-			}
-	
+
 		} catch (Exception e) {
 			return "error/500.jsp";
 		}
@@ -104,11 +115,12 @@ public class LifeUserController {
 	public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return FTL_DIR + "user/login.jsp";
 	}
+
 	@RequestMapping("/mobLogin")
 	public String mobLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		return "mobile/login.jsp";
 	}
-	
+
 	@RequestMapping("/update")
 	public String update(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LifeUserModel userModel = WebUtils.getUserInfo(request);
@@ -151,8 +163,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("/enter")
-	public ResponseMessage<LifeUserModel> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
+	public ResponseMessage<String> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			code = DESUtil.encryptDES(code);
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
@@ -160,9 +172,14 @@ public class LifeUserController {
 				outMSG.setCode("202");
 				outMSG.setMessage("输入的身份编码不存在，请注册！");
 			} else {
+				LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
+				learnEnglishModel.setUsercode(code);
+				learningService.addLearnTime(learnEnglishModel);
 				WebUtils.newSession(lifeUserModel, request);
 				String decryptDES = DESUtil.decryptDES(code);
 				WebUtils.newCookie(decryptDES, response);
+				String data = UUID.randomUUID().toString();
+				outMSG.setData(data);
 				outMSG.setCode("200");
 				outMSG.setMessage("验证成功！");
 			}
@@ -187,6 +204,9 @@ public class LifeUserController {
 				outMSG.setMessage("用户名或密码错误！");
 			} else {
 				WebUtils.newSession(returnResult, request);
+				LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
+				learnEnglishModel.setUsercode(returnResult.getUsercode());
+				learningService.addLearnTime(learnEnglishModel);
 				outMSG.setCode("200");
 				outMSG.setMessage("登陆成功！");
 			}

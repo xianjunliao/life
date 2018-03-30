@@ -3,6 +3,9 @@ package com.life.common;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+
+import com.life.common.util.Base64Util;
 public class MD5 {
 
 	public MD5() {
@@ -52,8 +55,10 @@ public class MD5 {
 	
 	public static void main(String[] args) {
 		try {
-			String md5 = md5("1gdfghgfhgfh");
+			String md5 = md5("free-life-stephen-201703.html");
+			String base64 = Base64Util.getBase64("4C20BC520B0D0F5D");
 			System.out.println(md5);
+			System.out.println(base64+UUID.randomUUID());
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
