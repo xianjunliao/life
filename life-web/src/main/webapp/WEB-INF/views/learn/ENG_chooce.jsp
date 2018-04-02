@@ -9,17 +9,16 @@
 <meta http-equiv="expires" content="0">
 <style>
 body {
-	width: 99%;
-	height: 99%;
-	margin: 5px 5px 5px 5px;
-	overflow: hidden;
-	border-radius: 5px;
+	/* 	width: 100%; */
+	/* 	height: 100%; */
+	/* 	margin: 5px 5px 5px 5px; */
+	/* 	border-radius: 5px; */
+	
 }
 
 .main-divs {
-	width: 100%;
-	height: 100%;
-	padding: 5px;
+	padding: 20px;
+	margin: 80px;
 }
 
 .divs-dayLearn {
@@ -134,7 +133,7 @@ body {
 							divClass += " divs-dayLearn-today";
 						}
 						$('.main-divs').append('<div id="'+id+'" class="'+divClass+'"><div class="dayLearn-title">' + headline + '</div><div class="dayLearn-total">词汇量：<b>' + wordsSum + '</b></div><div class="dayLearn-operate">' + opt + '</div></div>');
-						
+
 					}
 					if (v == null) {
 						$(".maybe-hide").hide();
@@ -223,18 +222,15 @@ body {
 </script>
 </head>
 <body>
-	<div class="main-divs">
-
-		<div id="word-add-window">
-			<div>
-				单词：<input class="word-input" type="text" id="word" name="word" />
-			</div>
-			<div>
-				<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button"
-					name="word-button" value="关闭" onclick="closeAdd()" />
-			</div>
+	<div class="main-divs"></div>
+	<div id="word-add-window">
+		<div>
+			单词：<input class="word-input" type="text" id="word" name="word" />
+		</div>
+		<div>
+			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button"
+				type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button" name="word-button" value="关闭" onclick="closeAdd()" />
 		</div>
 	</div>
-
 </body>
 </html>

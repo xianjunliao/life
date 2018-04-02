@@ -136,7 +136,7 @@ public class DESUtil {
 		String encryptString =encryptDES("lxj");
 		System.out.println("加密后:" + encryptString);
 		
-		String desencryptString = decryptDES(encryptString);
+		String desencryptString = decryptDES("71014AE32E0B0A73");
 		System.out.println(desencryptString);
 	}
 	// 输出：is张三丰
