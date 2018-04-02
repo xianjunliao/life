@@ -195,7 +195,7 @@ public class LearningController {
 		ResponseMessage<List<LearnEnglishModel>> outMSG = new ResponseMessage<>();
 		try {
 			String usercode = WebUtils.getUserCode(request);
-			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 5);
+			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 365);
 			outMSG.setData(learnsByUserAndNumber);
 			outMSG.setCode("200");
 		} catch (Exception e) {
