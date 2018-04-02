@@ -100,7 +100,7 @@ body {
 </script>
 </head>
 <body>
-	<div onmousedown="modelLeave()" style="height: 100%; background-color: #e3efe6; overflow: hidden;">
+	<div style="height: 100%; background-color: #e3efe6; overflow: hidden;">
 		<div class="layui-row" style="width: 100%;">
 			<div class="layui-col-xs12 layui-col-md2">
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
@@ -108,7 +108,7 @@ body {
 			<div class="layui-col-xs6 layui-col-md8">
 				<ul class="layui-nav" lay-filter="demo">
 					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}learn/showNow?number=5')"><a>每日英语</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}learn/ENG_chooce')"><a>每日英语</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/MUC_index')"><a>弹奏谱架</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>

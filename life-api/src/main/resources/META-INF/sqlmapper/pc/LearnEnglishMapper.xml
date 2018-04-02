@@ -28,6 +28,23 @@
 		<include refid="Base_Column_List" />
 		from learn_english where usercode=#{usercode,jdbcType=VARCHAR}
 	</select>
+	<select id="getDaysByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />, (
+		SELECT
+			count(DISTINCT wordid)
+		FROM
+			learn_relation 
+		WHERE
+		usercode = #{usercode,jdbcType=VARCHAR}
+		AND learnid=id
+		) wordsSum
+		FROM
+		learn_english 
+		WHERE
+		usercode = #{usercode,jdbcType=VARCHAR} order by diary desc LIMIT ${number}
+	</select>
+
 	<select id="selectByTimeClass" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

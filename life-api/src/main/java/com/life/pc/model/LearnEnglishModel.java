@@ -1,6 +1,6 @@
 package com.life.pc.model;
 
-public class LearnEnglishModel implements java.io.Serializable{
+public class LearnEnglishModel  implements java.io.Serializable{
 	/**
 	 * 
 	 */
@@ -15,6 +15,7 @@ public class LearnEnglishModel implements java.io.Serializable{
 	private String headline;// 头部标题
 	private String timeclass;// 时间类（前端jsp html元素class）
 
+	private String wordsSum; //词汇量
 	public String getId() {
 		return id;
 	}
@@ -88,9 +89,17 @@ public class LearnEnglishModel implements java.io.Serializable{
 		this.timeclass = timeclass;
 	}
 
+	public String getWordsSum() {
+		return wordsSum;
+	}
+
+	public void setWordsSum(String wordsSum) {
+		this.wordsSum = wordsSum;
+	}
+
 	@Override
 	public String toString() {
-		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", externallinks=" + externallinks + ", externallinks2=" + externallinks2 + ", externallinks3=" + externallinks3 + ", note=" + note + ", diary=" + diary + ", headline=" + headline + ", timeclass=" + timeclass + "]";
+		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", externallinks=" + externallinks + ", externallinks2=" + externallinks2 + ", externallinks3=" + externallinks3 + ", note=" + note + ", diary=" + diary + ", headline=" + headline + ", timeclass=" + timeclass + ", wordsSum=" + wordsSum + "]";
 	}
 
 }

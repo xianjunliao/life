@@ -144,6 +144,12 @@ public class LearningController {
 		return FTL_DIR + "ENG_read.jsp";
 	}
 
+	@RequestMapping("/wordFast")
+	public String wordFast(String id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = learningService.getWordsByLearnId(id);
+		model.put("words", learnEnglishWordsModels);
+		return FTL_DIR + "ENG_read.jsp";
+	}
 	@RequestMapping(path = { "/getVoice" }, method = { RequestMethod.GET })
 	public void getVoice(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -183,6 +189,22 @@ public class LearningController {
 		return outMSG;
 	}
 
+	@ResponseBody
+	@RequestMapping("getDays")
+	public ResponseMessage<List<LearnEnglishModel>> getDays(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<List<LearnEnglishModel>> outMSG = new ResponseMessage<>();
+		try {
+			String usercode = WebUtils.getUserCode(request);
+			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 5);
+			outMSG.setData(learnsByUserAndNumber);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping("addLearn")
 	public ResponseMessage<LearnParamModel> addLearn(LearnParamModel learnParamModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

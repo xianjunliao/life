@@ -3,6 +3,8 @@ package com.life.pc.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.life.pc.model.LearnEnglishInterpretayionModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LearnEnglishWordsModel;
@@ -37,6 +39,8 @@ public interface LearningService {
 	
 	List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number);
 	
+	List<LearnEnglishWordsModel> getWordsByLearnId(String id);
+	
 	int getWordsCountByUser(String usercode, int number);
 	
 	Map<LearnEnglishModel, String> getDayLearns(String usercode, int pageSize,int pageCount);
@@ -46,5 +50,7 @@ public interface LearningService {
 	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId);
 	
 	public LearnEnglishWordsModel getWordInfo(String word);
+	
+    List<LearnEnglishModel> getDaysByUser(String usercode, int number);
 	
 }

@@ -21,4 +21,6 @@ public interface LearnEnglishDao {
     LearnEnglishModel selectByTimeClass(@Param("timeClass")String timeClass,@Param("usercode")String usercode);
     
     List<LearnEnglishModel> getCountByUser(@Param("usercode")String usercode);
+    
+    List<LearnEnglishModel> getDaysByUser(@Param("usercode")String usercode,@Param("number")int number);
 }

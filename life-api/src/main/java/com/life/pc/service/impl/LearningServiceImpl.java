@@ -159,8 +159,8 @@ public class LearningServiceImpl implements LearningService {
 					learnRelationModel.setInterpertayionid(InterpretayionId);
 					learnRelationModel.setUsercode(usercode);
 					long selectByAll = learnRelationDao.selectByAll(learnRelationModel);
-					if (selectByAll==0) {
-						
+					if (selectByAll == 0) {
+
 						learnRelationDao.insert(learnRelationModel);
 					}
 				}
@@ -175,11 +175,11 @@ public class LearningServiceImpl implements LearningService {
 		List<SystemDataModel> systemDataModels = getSystemData("PARTOFSPEECH");
 		String wordInterpretayion2 = learnParamModel.getWordInterpretayion();
 		String wordInterpretayion = toClean(wordInterpretayion2, systemDataModels);
-		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordInterpretation(wordId,wordInterpretayion);
+		LearnEnglishInterpretayionModel selectBywordIdAndWordType = learnEnglishInterpretayionDao.selectBywordInterpretation(wordId, wordInterpretayion);
 		if (selectBywordIdAndWordType == null) {
 			LearnEnglishInterpretayionModel englishInterpretayionModel = new LearnEnglishInterpretayionModel();
 			englishInterpretayionModel.setId(InterpretayionId);
-		
+
 			if (learnParamModel.getWordType().equals("word")) {
 				String wordType = getWordType(wordInterpretayion2, systemDataModels);
 				englishInterpretayionModel.setWordtype(wordType);
@@ -253,8 +253,8 @@ public class LearningServiceImpl implements LearningService {
 		try {
 			String now4 = DateUtil.getNow4();
 			String usercode = learnEnglishModel.getUsercode();
-			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4,usercode);
-			if (selectByTimeClass==null) {
+			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4, usercode);
+			if (selectByTimeClass == null) {
 				learnEnglishModel.setId(Util.getUUId16());
 				learnEnglishModel.setDiary(DateUtil.getNow());
 				learnEnglishModel.setTimeclass(now4);
@@ -262,7 +262,7 @@ public class LearningServiceImpl implements LearningService {
 				learnEnglishModel.setUsercode(usercode);
 				learnEnglishDao.insertSelective(learnEnglishModel);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -342,8 +342,7 @@ public class LearningServiceImpl implements LearningService {
 
 	@Override
 	public List<LearnEnglishWordsModel> getWordsByUser(String usercode, int number) {
-		List<LearnEnglishWordsModel> learnEnglishWordsModels = new ArrayList<>();
-		List<LearnEnglishWordsModel> newLearnEnglishWordsModels = new ArrayList<>();
+
 		List<String> ids = new ArrayList<>();
 		List<LearnEnglishModel> learns = learnEnglishDao.selectListByUser(usercode, number);
 		for (LearnEnglishModel learnEnglishModel : learns) {
@@ -352,9 +351,16 @@ public class LearningServiceImpl implements LearningService {
 				ids.add(learnRelationModel.getWordid());
 			}
 		}
+		return getWords(ids);
+	}
+
+	private List<LearnEnglishWordsModel> getWords(List<String> ids) {
+		List<LearnEnglishWordsModel> newLearnEnglishWordsModels = new ArrayList<>();
 		if (ids.size() == 0) {
 			return newLearnEnglishWordsModels;
 		}
+		List<LearnEnglishWordsModel> learnEnglishWordsModels = new ArrayList<>();
+
 		learnEnglishWordsModels.addAll(learnEnglishWordsDao.selectByIds(ids));
 		for (LearnEnglishWordsModel learnEnglishWordsModel : learnEnglishWordsModels) {
 			StringBuffer buffer = new StringBuffer();
@@ -520,6 +526,21 @@ public class LearningServiceImpl implements LearningService {
 		}
 		learnEnglishWordsModel.setDefinition(buffer.toString());
 		return learnEnglishWordsModel;
+	}
+
+	@Override
+	public List<LearnEnglishModel> getDaysByUser(String usercode, int number) {
+		return learnEnglishDao.getDaysByUser(usercode, number);
+	}
+
+	@Override
+	public List<LearnEnglishWordsModel> getWordsByLearnId(String id) {
+		List<String> ids = new ArrayList<>();
+		List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(id);
+		for (LearnRelationModel learnRelationModel : selectBylearnid) {
+			ids.add(learnRelationModel.getWordid());
+		}
+		return getWords(ids);
 	}
 
 }
