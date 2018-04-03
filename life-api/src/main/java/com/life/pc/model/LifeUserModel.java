@@ -19,6 +19,9 @@ public class LifeUserModel implements Serializable {
 	private String headaddress;// 头像地址
 	private String password;// 密码
 	private String regStep;//注册步骤
+	
+	private String dailyLearnRow;//每日英语界面显示条数
+
 
 	public String getUsercode() {
 		return usercode;
@@ -115,11 +118,20 @@ public class LifeUserModel implements Serializable {
 	public void setRegStep(String regStep) {
 		this.regStep = regStep;
 	}
+	
+
+	public String getDailyLearnRow() {
+		return dailyLearnRow;
+	}
+
+	public void setDailyLearnRow(String dailyLearnRow) {
+		this.dailyLearnRow = dailyLearnRow;
+	}
 
 	@Override
 	public String toString() {
 		return "LifeUserModel [usercode=" + usercode + ", createtime=" + createtime + ", userrole=" + userrole + ", updatetime=" + updatetime + ", phoneno=" + phoneno + ", emailaddress=" + emailaddress + ", defaultplayaddress=" + defaultplayaddress + ", selfintroduction=" + selfintroduction + ", username=" + username
-				+ ", headaddress=" + headaddress + ", password=" + password + ", regStep=" + regStep + "]";
+				+ ", headaddress=" + headaddress + ", password=" + password + ", regStep=" + regStep + ", dailyLearnRow=" + dailyLearnRow + "]";
 	}
 
 }

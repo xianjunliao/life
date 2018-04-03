@@ -14,9 +14,9 @@
 </style>
 
 </head>
-<body class="easyui-layout" style="width: 100%; height: 100%;">
-	<div region="center" border="true" style="width: 100%; height: 100%;">
-		<h1>写</h1>
+<body>
+	<div>
+	
 	</div>
 </body>
 </html>

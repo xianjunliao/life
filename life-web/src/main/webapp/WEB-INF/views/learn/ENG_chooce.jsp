@@ -17,8 +17,9 @@ body {
 }
 
 .main-divs {
-	padding: 20px;
-	margin: 80px;
+	/* 	padding: 10px; */
+	/* 	margin: 10px 80px 10px 140px; */
+	margin-left: 50px;
 }
 
 .divs-dayLearn {
@@ -30,16 +31,14 @@ body {
 	float: left;
 	box-shadow: 5px 5px 10px #501d1f;
 	padding: 5px;
-	/* 	border-radius: 0px 20px 0px 0px; */
 	border-radius: 5px 5px 5px 5px !important;
 	background-image: url("${base}static/images/20180321_110947_3856.jpg");
 	background-size: 100%;
-	width: 180px;
 }
 
 .divs-dayLearn-today {
 	border-radius: 5px 5px 5px 5px !important;
-	box-shadow: 0px 0px 5px 5px #b75a5e !important;
+	box-shadow: 5px 5px 15px #b75a5e !important;
 }
 
 .dayLearn-title {
@@ -59,7 +58,7 @@ body {
 
 .dayLearn-operate {
 	text-align: center;
-	margin-top: 75px;
+	margin-top: 45%;
 	font-size: 12px !important;
 }
 
@@ -82,15 +81,15 @@ body {
 	display: none;
 	width: 300px;
 	height: 80px;
-	background-color: #c4cdd2;
+	background-color: #eac7bc;
 	text-align: center;
-	opacity: 0.8;
+	opacity: 0.9;
 }
 
 .word-button {
-	height: 22px;
-	margin: 5px;
-	padding: 2px;
+	margin-top: 5px;
+	background-color: #eadcc2;
+	border-radius: 2px;
 }
 
 .maybe-hide {
@@ -103,6 +102,57 @@ body {
 
 .div-select {
 	border: 2px solid red;
+	width: 220px;
+	height: 260px;
+}
+
+.divs-dayLearn-select {
+	border: 2px solid #DE3D3C;
+	box-shadow: 0px 0px 2px 2px #DE3D3C !important;
+}
+
+#word-book-window {
+	display: none;
+	width: 60%;
+	height: 90%;
+	text-align: center;
+	position: absolute;
+	left: 20%;
+	top: 2%;
+	background-image:
+		url(http://127.0.0.1:80/life//static/images/books2.png);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: 20px -50px;
+}
+
+.book-page1 {
+	float: left;
+	width: 48%;
+	height: 72%;
+	margin: 85px 0px 0px 10px;
+	background-color: #d6f5d8;
+	z-index: 999;
+}
+
+.book-page2 {
+	float: left;
+	width: 48%;
+	height: 72%;
+	margin: 85px 0px 0px 10px;
+	background-color: #d6f5d8;
+	z-index: 999;
+}
+
+.book-pages {
+	width: 73%;
+	height: 106%;
+	margin-left: 130px;
+	margin-top: 0px;
+	/*     background-image: url(http://127.0.0.1:80/life//static/images/left-page.gif); */
+	background-size: 100%;
+	background-repeat: no-repeat;
+	/*     display: none; */
 }
 </style>
 <script type="text/javascript">
@@ -122,7 +172,7 @@ body {
 						var headline = days[i].headline;
 						var wordsSum = days[i].wordsSum;
 						var divClass = "divs-dayLearn maybe-hide";
-						var opt = '<a class="dayLearn-operate-button" onClick="wordFast(' + id + ',' + wordsSum + ')">单词速记</a> <a class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a>';
+						var opt = '<a class="dayLearn-operate-button"  onClick="wordFast(' + id + ',' + wordsSum + ')">单词速记</a> <a class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a> <a id="query'+id+'" class="dayLearn-operate-button" onClick="openDetails(' + id + ')">查看</a>';
 						if (v != null && v == id) {
 							divClass += " div-select";
 						}
@@ -132,7 +182,8 @@ body {
 						if (i == 0) {
 							divClass += " divs-dayLearn-today";
 						}
-						$('.main-divs').append('<div id="'+id+'" class="'+divClass+'"><div class="dayLearn-title">' + headline + '</div><div class="dayLearn-total">词汇量：<b>' + wordsSum + '</b></div><div class="dayLearn-operate">' + opt + '</div></div>');
+						$('.main-divs').append(
+								'<div id="' + id + '" class="' + divClass + '" ondblclick="openDetails(' + id + ')" onmouseover="dayKearnSelect(' + id + ')"  onmouseout="dayKearnUnSelect(' + id + ')"><div class="dayLearn-title">' + headline + '</div><div class="dayLearn-total">词汇量：<b>' + wordsSum + '</b></div><div class="dayLearn-operate">' + opt + '</div></div>');
 
 					}
 					if (v == null) {
@@ -145,9 +196,13 @@ body {
 	}
 	function wordFast(id, num) {
 		if (num == 0) {
-			$.messager.alert("提示", "请先添加单词！", "info");
+			$.messager.alert('提示', '请先添加单词！');
 			return;
 		}
+		$("#" + id).removeClass("maybe-hide");
+		$("#" + id).addClass("div-select");
+		$(".maybe-hide").hide(300);
+		$(".div-select").show();
 		layer.open({
 			type : 2,
 			anim : 3,
@@ -158,10 +213,15 @@ body {
 			zIndex : layer.zIndex,
 			success : function(layero) {
 				layer.setTop(layero);
+			},
+			cancel : function() {
+				closeAdd();
+				dayKearnUnSelect(id);
 			}
 		});
 	}
 	function wordAdd(id) {
+		dayKearnUnSelect(id);
 		$("#" + id).removeClass("maybe-hide");
 		$("#" + id).addClass("div-select");
 		$(".maybe-hide").hide(300);
@@ -178,21 +238,23 @@ body {
 		var left = ($(window).width() - $(divName).width()) / 2;
 		var scrollTop = $(document).scrollTop();
 		var scrollLeft = $(document).scrollLeft();
-		var dh = $(divName).height() / 2;
 		$(divName).css({
 			position : 'absolute',
-			'top' : top + scrollTop - dh,
-			left : left + scrollLeft
+			'top' : '40%',
+			left : '30%'
 		}).show();
 	}
 	function confrimAdd(v) {
 		var timeClass = $("#learnId").val();
 		var text = $("#word").val();
-		if ($.trim(text) == null) {
-			$.messager.alert("提示", "请输入需添加的单词！", "info");
+		if (text == null || text == '') {
+			$.messager.alert("提示", "请输入需添加的单词！");
 			return;
 		}
-		$.messager.progress();
+		$.messager.progress({
+			title : '请稍等',
+			msg : '正在新增...'
+		});
 		$.ajax({
 			type : 'POST',
 			dataType : "json",
@@ -203,8 +265,9 @@ body {
 					if (v == 0) {
 						$('.divs-dayLearn').remove();
 						initDays(timeClass);
+						$("#word").val(null);
 					} else {
-						closeAdd()
+						closeAdd();
 					}
 				} else {
 					$.messager.alert("错误", "新增失败！", "woring");
@@ -219,6 +282,28 @@ body {
 		$('.divs-dayLearn').remove();
 		initDays(null);
 	}
+	function dayKearnSelect(id) {
+		$("#" + id).addClass("divs-dayLearn-select");
+
+	}
+	function dayKearnUnSelect(id) {
+		$("#" + id).removeClass("divs-dayLearn-select");
+	}
+
+	function openDetails(id) {
+		var isShow = $("#word-book-window").css("display");
+		if (isShow == 'none') {
+			$("#query"+id).text("关闭");
+			$("#" + id).removeClass("maybe-hide");
+			$("#" + id).addClass("div-select");
+			$(".maybe-hide").hide(300);
+			$(".div-select").show();
+			$("#word-book-window").show();
+		} else {
+			$("#word-book-window").hide();
+			closeAdd();
+		}
+	}
 </script>
 </head>
 <body>
@@ -227,9 +312,15 @@ body {
 		<div>
 			单词：<input class="word-input" type="text" id="word" name="word" />
 		</div>
-		<div>
-			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button"
-				type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button" name="word-button" value="关闭" onclick="closeAdd()" />
+		<div class="word-add-buttons">
+			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button"
+				name="word-button" value="关闭" onclick="closeAdd()" />
+		</div>
+	</div>
+	<div id="word-book-window">
+		<div class="book-pages">
+			<div class="book-page1"></div>
+			<div class="book-page2"></div>
 		</div>
 	</div>
 </body>

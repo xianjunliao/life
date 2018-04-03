@@ -25,7 +25,6 @@ import com.life.common.Str;
 import com.life.common.SystemGet;
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
-import com.life.common.util.Base64Util;
 import com.life.common.util.DESUtil;
 import com.life.pc.common.WebUtils;
 import com.life.pc.model.FileUserModel;

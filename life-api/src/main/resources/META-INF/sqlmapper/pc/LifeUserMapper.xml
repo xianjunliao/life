@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.life.pc.dao.LifeUserDao">
-
 	<resultMap id="lifeMapper" type="com.life.pc.model.LifeUserModel">
 		<result column="userCode" property="usercode" jdbcType="VARCHAR" />
 		<result column="createTime" property="createtime" jdbcType="VARCHAR" />
@@ -14,10 +13,11 @@
 		<result column="userName" property="username" jdbcType="VARCHAR" />
 		<result column="headAddress" property="headaddress" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="dailyLearnRow" property="dailyLearnRow" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		userCode, createTime, userRole, updateTime, phoneNo, emailAddress, defaultPlayAddress,
-		selfIntroduction,userName,password,headAddress
+		selfIntroduction,userName,password,headAddress,dailyLearnRow
 	</sql>
 	<select id="checkEnterCode" parameterType="java.lang.String" resultType="com.life.pc.model.LifeUserModel">
 		select
@@ -78,6 +78,9 @@
 			<if test="password != null">
 				password,
 			</if>
+			<if test="dailyLearnRow != null">
+				dailyLearnRow,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="usercode != null">
@@ -112,6 +115,9 @@
 			</if>
 			<if test="password != null">
 				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="dailyLearnRow != null">
+				#{dailyLearnRow,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -148,6 +154,9 @@
 			<if test="password != null">
 				password = #{password,jdbcType=VARCHAR},
 			</if>
+			<if test="dailyLearnRow != null">
+				dailyLearnRow = #{dailyLearnRow,jdbcType=VARCHAR},
+			</if>		
 		</set>
 		where userCode = #{usercode,jdbcType=VARCHAR}
 	</update>
