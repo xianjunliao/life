@@ -117,8 +117,7 @@ body {
 
 #word-book-window {
 	display: none;
-	width: 60%;
-	height: 90%;
+	width: 840px; height : 600px;
 	text-align: center;
 	position: absolute;
 	left: 20%;
@@ -127,29 +126,29 @@ body {
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: 20px -50px;
+	height: 600px;
+	height: 600px;
 }
 
 .book-page1 {
 	float: left;
-	width: 48%;
-	height: 72%;
-	margin: 85px 0px 0px 10px;
-	/* 	background-color: #d6f5d8; */
+	width: 300px;
+	height: 435px;
+	margin: 85px 0px 0px 5px;
 	z-index: 999;
 }
 
 .book-page2 {
 	float: left;
-	width: 48%;
-	height: 72%;
-	margin: 85px 0px 0px 10px;
-	/* 	background-color: #d6f5d8; */
+	width: 300px;
+	height: 435px;
+	margin: 85px 0px 0px 15px;
 	z-index: 999;
 }
 
 .book-pages {
-	width: 73%;
-	height: 106%;
+	width: 80%;
+	height: 100%;
 	margin-left: 130px;
 	margin-top: 0px;
 	/*     background-image: url(http://127.0.0.1:80/life//static/images/left-page.gif); */
@@ -203,7 +202,8 @@ body {
 	overflow: auto;
 	height: 90%;
 }
-.book-content{
+
+.book-content {
 	overflow: auto;
 	height: 90%;
 }
@@ -257,7 +257,7 @@ body {
 	color: #5a1313;
 	/* 	border: 1px solid #a5a1a1; */
 	cursor: pointer;
-	height: 15px;
+	height: 25px;
 	text-decoration: underline;
 }
 
@@ -299,7 +299,6 @@ body {
 	margin-top: 50px;
 	font-weight: 900;
 	font-size: 24px;
-	text-decoration: underline;
 	cursor: pointer;
 }
 
@@ -307,6 +306,10 @@ body {
 	pointer-events: none;
 	cursor: default;
 	opacity: 0.6;
+}
+
+.word-pru {
+	margin: 5px 25px 5px 5px;
 }
 </style>
 <script type="text/javascript">
@@ -344,7 +347,8 @@ body {
 						var articleSum = days[i].articleSum;
 						var count = wordSum + phraseSum;
 						var divClass = "divs-dayLearn maybe-hide";
-						var opt = '<a id="wordFast' + id + '" class="dayLearn-operate-button"  onClick="wordFast(' + id + ',' + count + ')">词汇速记</a> <a id="wordAdd' + id + '" class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a> <a id="query' + id + '" class="dayLearn-operate-button" onClick="openDetails(' + id + ')">详情</a>';
+						var opt = '<a id="wordFast' + id + '" class="dayLearn-operate-button"  onClick="wordFast(' + id + ',' + count + ')">词汇速记</a> <a id="wordAdd' + id + '" class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a> <a id="query' + id
+								+ '" class="dayLearn-operate-button" onClick="openDetails(' + id + ')">详情</a>';
 						if (v != null && v == id) {
 							divClass += " div-select";
 						}
@@ -526,8 +530,14 @@ body {
 							var mp3url = words[i].mp3url;
 							var usAudio = words[i].usAudio;
 							var ukAudio = words[i].ukAudio;
+							var usPronunciation = words[i].usPronunciation;
+							var ukPronunciation = words[i].ukPronunciation;
+							usPronunciation = usPronunciation.replace("[", "BBB");
+							usPronunciation = usPronunciation.replace("]", "CCC").replace("'", "AAA");
+							ukPronunciation = ukPronunciation.replace("[", "BBB");
+							ukPronunciation = ukPronunciation.replace("]", "CCC").replace("'", "AAA");
 							if (type == 'word') {
-								var div1 = '<div id=' + id + ' onclick="wordQuery(' + id + ',\'' + usAudio + '\')" class="book-word">' + word + '</div>';
+								var div1 = '<div id=' + id + ' onclick="wordQuery(' + id + ',\'' + usAudio + '\',\'' + usPronunciation + '\',\'' + ukPronunciation + '\')" class="book-word">' + word + '</div>';
 								$(".book-content-word").append(div1);
 							} else if (type == 'phrase') {
 								var div1 = '<div id=' + id + ' onclick="phraseQuery(' + id + ',\'' + mp3url + '\')" class="book-phrase">' + word + '</div>';
@@ -553,15 +563,20 @@ body {
 		}
 	}
 
-	function wordQuery(id, url) {
+	function wordQuery(id, url, usPronunciation, ukPronunciation) {
 		var cl = $("#" + id).attr("class");
 		if (cl == 'book-word') {
+			usPronunciation = usPronunciation.replace("BBB", "[");
+			usPronunciation = usPronunciation.replace("CCC", "]").replace("AAA", "'");
+			ukPronunciation = ukPronunciation.replace("BBB", "[");
+			ukPronunciation = ukPronunciation.replace("CCC", "]").replace("AAA", "'");
 			$(".book-word").hide();
 			$(".book-content-phrase").hide();
 			$(".book-content-sentence").hide();
 			$("#" + id).show(300);
 			$(".word-interp").remove();
 			$(".book-content-article").addClass("div-disabled");
+			$(".book-content-word").append("<span class='word-pru'>美:" + usPronunciation + "</span>   <span class='word-pru'>英:" + ukPronunciation + "</span>")
 			$("#" + id).removeClass("book-word").addClass("book-word-select");
 			getIniterp(id, "book-content-word");
 			pauseAutio();
@@ -571,8 +586,10 @@ body {
 			$(".book-content-phrase").show(300);
 			$(".book-content-sentence").show(300);
 			$("#" + id).removeClass("book-word-select").addClass("book-word");
+			$(".word-pru").remove();
 			$(".word-interp").remove();
 			$(".book-play").hide();
+			
 			pauseAutio();
 			$(".book-content-article").removeClass("div-disabled");
 
@@ -590,6 +607,7 @@ body {
 			$(".book-content-article").addClass("div-disabled");
 			$("#" + id).removeClass("book-phrase").addClass("book-word-select");
 			getIniterp(id, "book-content-phrase");
+
 			pauseAutio();
 			playAutio(url);
 		} else {
@@ -712,6 +730,7 @@ body {
 		$(".book-content-article").show();
 		$(".book-content-article").removeClass("div-disabled");
 		$(".book-content").removeClass("div-disabled");
+		$(".word-pru").remove();
 	}
 </script>
 </head>
@@ -730,8 +749,8 @@ body {
 			</div>
 		</div>
 		<div class="word-add-buttons">
-			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button"
-				name="word-button" value="关闭" onclick="closeAdd()" />
+			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button"
+				type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button" name="word-button" value="关闭" onclick="closeAdd()" />
 		</div>
 	</div>
 	<div id="word-book-window">
