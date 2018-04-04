@@ -15,7 +15,10 @@ public class LearnEnglishModel  implements java.io.Serializable{
 	private String headline;// 头部标题
 	private String timeclass;// 时间类（前端jsp html元素class）
 
-	private String wordsSum; //词汇量
+	private String wordSum; //单词数量
+	private String phraseSum; //单词数量
+	private String sentenceSum; //单词数量
+	private String articleSum; //单词数量
 	public String getId() {
 		return id;
 	}
@@ -89,17 +92,42 @@ public class LearnEnglishModel  implements java.io.Serializable{
 		this.timeclass = timeclass;
 	}
 
-	public String getWordsSum() {
-		return wordsSum;
+	public String getWordSum() {
+		return wordSum;
 	}
 
-	public void setWordsSum(String wordsSum) {
-		this.wordsSum = wordsSum;
+	public void setWordSum(String wordSum) {
+		this.wordSum = wordSum;
+	}
+
+	public String getPhraseSum() {
+		return phraseSum;
+	}
+
+	public void setPhraseSum(String phraseSum) {
+		this.phraseSum = phraseSum;
+	}
+
+	public String getSentenceSum() {
+		return sentenceSum;
+	}
+
+	public void setSentenceSum(String sentenceSum) {
+		this.sentenceSum = sentenceSum;
+	}
+
+	public String getArticleSum() {
+		return articleSum;
+	}
+
+	public void setArticleSum(String articleSum) {
+		this.articleSum = articleSum;
 	}
 
 	@Override
 	public String toString() {
-		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", externallinks=" + externallinks + ", externallinks2=" + externallinks2 + ", externallinks3=" + externallinks3 + ", note=" + note + ", diary=" + diary + ", headline=" + headline + ", timeclass=" + timeclass + ", wordsSum=" + wordsSum + "]";
+		return "LearnEnglishModel [id=" + id + ", usercode=" + usercode + ", externallinks=" + externallinks + ", externallinks2=" + externallinks2 + ", externallinks3=" + externallinks3 + ", note=" + note + ", diary=" + diary + ", headline=" + headline + ", timeclass=" + timeclass + ", wordSum=" + wordSum
+				+ ", phraseSum=" + phraseSum + ", sentenceSum=" + sentenceSum + ", articleSum=" + articleSum + "]";
 	}
 
 }

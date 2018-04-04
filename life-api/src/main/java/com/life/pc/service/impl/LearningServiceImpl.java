@@ -543,4 +543,10 @@ public class LearningServiceImpl implements LearningService {
 		return getWords(ids);
 	}
 
+	@Override
+	public List<LearnEnglishInterpretayionModel> selectBywordId(String wordId) {
+		List<LearnEnglishInterpretayionModel> selectBywordId = learnEnglishInterpretayionDao.selectBywordId(wordId);
+		return selectBywordId;
+	}
+
 }

@@ -195,7 +195,7 @@ public class LearningController {
 		ResponseMessage<List<LearnEnglishModel>> outMSG = new ResponseMessage<>();
 		try {
 			String usercode = WebUtils.getUserCode(request);
-			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 10);
+			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 21);
 			outMSG.setData(learnsByUserAndNumber);
 			outMSG.setCode("200");
 		} catch (Exception e) {
@@ -204,7 +204,33 @@ public class LearningController {
 		return outMSG;
 	}
 	
+	@ResponseBody
+	@RequestMapping("getWords")
+	public ResponseMessage<List<LearnEnglishWordsModel>> getWords(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<List<LearnEnglishWordsModel>> outMSG = new ResponseMessage<>();
+		try {
+			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
+			outMSG.setData(wordsByLearn);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
 	
+	@ResponseBody
+	@RequestMapping("getInts")
+	public ResponseMessage<List<LearnEnglishInterpretayionModel>> getInts(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<List<LearnEnglishInterpretayionModel>> outMSG = new ResponseMessage<>();
+		try {
+			List<LearnEnglishInterpretayionModel> selectBywordId = learningService.selectBywordId(id);
+			outMSG.setData(selectBywordId);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
 	@ResponseBody
 	@RequestMapping("addLearn")
 	public ResponseMessage<LearnParamModel> addLearn(LearnParamModel learnParamModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

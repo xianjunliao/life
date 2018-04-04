@@ -29,20 +29,21 @@
 		from learn_english where usercode=#{usercode,jdbcType=VARCHAR}
 	</select>
 	<select id="getDaysByUser" parameterType="java.lang.String" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />, (
-		SELECT
-			count(DISTINCT wordid)
+		select
+		sum(case when type='word' then 1 else 0 end) wordSum,
+		sum(case when type='phrase' then 1 else 0 end) phraseSum,
+		sum(case when type='sentence' then 1 else 0 end) sentenceSum,
+		sum(case when type='article' then 1 else 0 end) articleSum,
+		id,usercode,headline from (SELECT
+		DISTINCT b.wordid,
+		a.id,
+		a.usercode,
+		a.headline,
+		c.type
 		FROM
-			learn_relation 
+		learn_english a LEFT JOIN learn_relation b on a.id=b.learnid left JOIN learn_english_words c on b.wordid=c.id
 		WHERE
-		usercode = #{usercode,jdbcType=VARCHAR}
-		AND learnid=id
-		) wordsSum
-		FROM
-		learn_english 
-		WHERE
-		usercode = #{usercode,jdbcType=VARCHAR} order by diary desc LIMIT ${number}
+		a.usercode = #{usercode,jdbcType=VARCHAR}) abc group by id,usercode,headline order by headline desc LIMIT ${number}
 	</select>
 
 	<select id="selectByTimeClass" parameterType="java.lang.String" resultMap="BaseResultMap">

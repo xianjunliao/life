@@ -150,7 +150,6 @@ body {
 
 			//监听导航点击
 			element.on('nav(demo)', function(elem) {
-				console.log(elem);
 			});
 		});
 	</script>

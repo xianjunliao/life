@@ -18,7 +18,7 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl,us_pronunciation,uk_pronunciation,uk_audio,us_audio,definition
+		DISTINCT id, word, addTime, addUser, type, mp3Path, mp3Url, elseUrl,us_pronunciation,uk_pronunciation,uk_audio,us_audio,definition
 	</sql>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
