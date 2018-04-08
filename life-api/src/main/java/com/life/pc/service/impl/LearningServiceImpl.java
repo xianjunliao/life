@@ -498,9 +498,7 @@ public class LearningServiceImpl implements LearningService {
 		List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnId);
 		List<String> ids = new ArrayList<>();
 		for (LearnRelationModel learnRelationModel : selectBylearnid) {
-			if (!ids.contains(learnRelationModel.getWordid())) {
-				ids.add(learnRelationModel.getWordid());
-			}
+			ids.add(learnRelationModel.getWordid());
 		}
 		if (ids.size() == 0) {
 			return new ArrayList<>();

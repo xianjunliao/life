@@ -61,10 +61,13 @@ body {
 .li_backbround {
 	background-color: #f2f2f2;
 }
+
+
 </style>
 <script type="text/javascript">
 	function openWeb(url) {
-		$("#openWeb").html('<iframe src="' + url + '" width="100%" height="100%"></iframe>');
+
+		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="100%"></iframe>');
 	}
 	function autoGetCount() {
 
@@ -89,7 +92,7 @@ body {
 		});
 	}
 	function initPage() {
-		$("#openWeb").html('<iframe src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
+		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
 		$("#fristOpen").addClass("layui-this");
 	}
 	$(function() {
@@ -100,7 +103,7 @@ body {
 </script>
 </head>
 <body>
-	<div style="height: 100%; background-color: #e3efe6; overflow: hidden;">
+	<div style="height: 100%; background-color: #ffffff; overflow: hidden;">
 		<div class="layui-row" style="width: 100%;">
 			<div class="layui-col-xs12 layui-col-md2">
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
@@ -120,19 +123,19 @@ body {
 				<ul class="layui-nav" lay-filter="demo1" style="margin-left: 25px;">
 					<li class="layui-nav-item" lay-unselect=""><a href="javascript:;"><img <c:if test="${userInfo.headaddress==null}"> src="${base}/static/images/default_head.png"</c:if> <c:if test="${userInfo.headaddress!=null}"> src="${userInfo.headaddress}"</c:if> class="layui-nav-img"> <c:if test="${userInfo.username!=null}">${userInfo.username}</c:if> <c:if test="${userInfo.username==null}">我</c:if>
 							<c:if test="${userInfo.username==''}">我</c:if> </a>
-							<dl class="layui-nav-child">
-<!-- 							<dd> -->
-<!-- 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a> -->
-<!-- 							</dd> -->
+						<dl class="layui-nav-child">
+							<!-- 							<dd> -->
+							<!-- 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a> -->
+							<!-- 							</dd> -->
 							<dd>
 								<a onclick="openWeb('${base}update')">完善个人信息</a>
 							</dd>
 							<dd>
 								<a onclick="openWeb('${base}updateHeadImg')">更换头像</a>
 							</dd>
-<!-- 							<dd> -->
-<!-- 								<a href="javascript:;">修改密码</a> -->
-<!-- 							</dd> -->
+							<!-- 							<dd> -->
+							<!-- 								<a href="javascript:;">修改密码</a> -->
+							<!-- 							</dd> -->
 							<dd>
 								<a onclick="exit()">注销登录</a>
 							</dd>
@@ -140,8 +143,8 @@ body {
 				</ul>
 			</div>
 		</div>
-		<div style="width: 100%; height: 95%;" id="openWeb">
-		</div>
+		<div style="width: 100%; height: 95%;" id="openWeb"></div>
+
 	</div>
 	<script type="text/javascript" src="${base}static/ui/layui/layui.all.js"></script>
 	<script>

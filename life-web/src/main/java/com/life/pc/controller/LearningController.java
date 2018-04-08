@@ -150,6 +150,7 @@ public class LearningController {
 		model.put("words", learnEnglishWordsModels);
 		return FTL_DIR + "ENG_read.jsp";
 	}
+
 	@RequestMapping(path = { "/getVoice" }, method = { RequestMethod.GET })
 	public void getVoice(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -203,10 +204,10 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("getWords")
-	public ResponseMessage<List<LearnEnglishWordsModel>> getWords(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<List<LearnEnglishWordsModel>> getWords(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<List<LearnEnglishWordsModel>> outMSG = new ResponseMessage<>();
 		try {
 			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
@@ -217,10 +218,10 @@ public class LearningController {
 		}
 		return outMSG;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("getInts")
-	public ResponseMessage<List<LearnEnglishInterpretayionModel>> getInts(String id,HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<List<LearnEnglishInterpretayionModel>> getInts(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<List<LearnEnglishInterpretayionModel>> outMSG = new ResponseMessage<>();
 		try {
 			List<LearnEnglishInterpretayionModel> selectBywordId = learningService.selectBywordId(id);
@@ -231,6 +232,7 @@ public class LearningController {
 		}
 		return outMSG;
 	}
+
 	@ResponseBody
 	@RequestMapping("addLearn")
 	public ResponseMessage<LearnParamModel> addLearn(LearnParamModel learnParamModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -338,7 +340,11 @@ public class LearningController {
 			String translateAfter = text;
 			if (type.equals("bd")) {
 				translateAfter = BaiduTranslate.getBaiduTranslateZh(text);
-			} else if (type.equals("sb")) {
+			} else if (type.equals("CN")) {
+				translateAfter = BaiduTranslate.getBaiduTranslateZh(text);
+			} else if (type.equals("EN")) {
+				translateAfter = BaiduTranslate.getBaiduTranslateEn(text);
+			} else if (type.equals("SB")) {
 				translateAfter = WordUtils.getWordMap(text).get("definition");
 			}
 			outMSG.setData(translateAfter);

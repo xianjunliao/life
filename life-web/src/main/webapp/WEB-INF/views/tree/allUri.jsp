@@ -209,7 +209,6 @@
 		setDivCenter("#url-operation-window");
 		$("#websiteAddress").focus();
 		$("#subAddUrl").val("修改");
-		console.log(id);
 	}
 	function setDivCenter(divName) {
 		var top = ($(window).height() - $(divName).height()) / 2;

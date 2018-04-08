@@ -117,7 +117,8 @@ body {
 
 #word-book-window {
 	display: none;
-	width: 840px; height : 600px;
+	width: 840px;
+	height: 600px;
 	text-align: center;
 	position: absolute;
 	left: 20%;
@@ -311,11 +312,69 @@ body {
 .word-pru {
 	margin: 5px 25px 5px 5px;
 }
+
+.div-seting {
+	left: 0px;
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 40px;
+}
+
+.div-seting {
+	right: 15px;
+	position: fixed;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 40px;
+}
+
+.seting-botton {
+	font-weight: 900;
+	margin: 25px 5px 5px 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 2px 2px #ccc !important;
+	cursor: pointer;
+	font-size: 6px;
+	padding: 2px;
+}
+
+.div-fanyi {
+	width: 605px;
+	height: 165px;
+	background-color: #f9f4f4;
+	top: 30%;
+	left: 35%;
+	border-radius: 12px;
+	box-shadow: 0px 0px 5px 5px #ccc !important;
+	position: absolute;
+	display: none;
+}
+
+.fanyi-text {
+	margin: 5px;
+	float: left;
+	background-color: #eee;
+}
+
+.fanyi-to {
+	margin-top: 75px;
+	font-size: 14px;
+	background-color: #bfb8b8;
+	color: red;
+}
+
+textarea {
+	font-weight: 700;
+	font-family: sans-serif;
+	color: maroon;
+}
 </style>
 <script type="text/javascript">
 	var bookOpen = false;
 	var addOpen = false;
 	var fastOpen = false;
+	var todayLearnId;
 	$(function() {
 		initDays(null);
 		$("#wordType").change(function() {
@@ -338,6 +397,7 @@ body {
 			success : function(result) {
 				if (result.code == 200) {
 					var days = result.data;
+					todayLearnId = days[0].id;
 					for (var i = 0; i < days.length; i++) {
 						var id = days[i].id;
 						var headline = days[i].headline;
@@ -347,8 +407,7 @@ body {
 						var articleSum = days[i].articleSum;
 						var count = wordSum + phraseSum;
 						var divClass = "divs-dayLearn maybe-hide";
-						var opt = '<a id="wordFast' + id + '" class="dayLearn-operate-button"  onClick="wordFast(' + id + ',' + count + ')">词汇速记</a> <a id="wordAdd' + id + '" class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a> <a id="query' + id
-								+ '" class="dayLearn-operate-button" onClick="openDetails(' + id + ')">详情</a>';
+						var opt = '<a id="wordFast' + id + '" class="dayLearn-operate-button"  onClick="wordFast(' + id + ',' + count + ')">词汇速记</a> <a id="wordAdd' + id + '" class="dayLearn-operate-button" onClick="wordAdd(' + id + ')">新增</a> <a id="query' + id + '" class="dayLearn-operate-button" onClick="openDetails(' + id + ')">详情</a>';
 						if (v != null && v == id) {
 							divClass += " div-select";
 						}
@@ -505,52 +564,59 @@ body {
 	function openDetails(id) {
 		var isShow = $("#word-book-window").css("display");
 		if (isShow == 'none') {
-			bookOpen = true;
-			clearBookContent();
-			$("#query" + id).text("关闭窗口");
-			$("#wordFast" + id).hide();
-			$("#wordAdd" + id).hide();
-			$("#" + id).removeClass("maybe-hide");
-			$("#" + id).addClass("div-select");
-			$(".maybe-hide").hide(300);
-			$(".div-select").show();
-			$("#word-book-window").show(100);
+			var idd = id;
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
-				url : '${base}learn/getWords?id=' + id,
+				url : '${base}learn/getWords?id=' + idd,
 				success : function(result) {
 					if (result.code == 200) {
 						var words = result.data;
 						var a = 1;
-						for (var i = 0; i < words.length; i++) {
-							var id = words[i].id;
-							var type = words[i].type;
-							var word = words[i].word;
-							var mp3url = words[i].mp3url;
-							var usAudio = words[i].usAudio;
-							var ukAudio = words[i].ukAudio;
-							var usPronunciation = words[i].usPronunciation;
-							var ukPronunciation = words[i].ukPronunciation;
-							usPronunciation = usPronunciation.replace("[", "BBB");
-							usPronunciation = usPronunciation.replace("]", "CCC").replace("'", "AAA");
-							ukPronunciation = ukPronunciation.replace("[", "BBB");
-							ukPronunciation = ukPronunciation.replace("]", "CCC").replace("'", "AAA");
-							if (type == 'word') {
-								var div1 = '<div id=' + id + ' onclick="wordQuery(' + id + ',\'' + usAudio + '\',\'' + usPronunciation + '\',\'' + ukPronunciation + '\')" class="book-word">' + word + '</div>';
-								$(".book-content-word").append(div1);
-							} else if (type == 'phrase') {
-								var div1 = '<div id=' + id + ' onclick="phraseQuery(' + id + ',\'' + mp3url + '\')" class="book-phrase">' + word + '</div>';
-								$(".book-content-phrase").append(div1);
-							} else if (type == 'sentence') {
-								var div1 = '<div id=' + id + ' onclick="sentenceQuery(' + id + ',\'' + mp3url + '\')" class="book-sentence">' + word + '</div>';
-								$(".book-content-sentence").append(div1);
-							} else {
-								var div1 = '<div id=' + id + ' onclick="articleQuery(' + id + ',\'' + mp3url + '\')" class="book-article">' + a + '. ' + word + '</div>';
-								$(".book-content-article").append(div1);
-								a++;
+						if (words.length > 0) {
+							bookOpen = true;
+							clearBookContent();
+							$("#query" + idd).text("关闭窗口");
+							$("#wordFast" + idd).hide();
+							$("#wordAdd" + idd).hide();
+							$("#" + idd).removeClass("maybe-hide");
+							$("#" + idd).addClass("div-select");
+							$(".maybe-hide").hide(300);
+							$(".div-select").show();
+							$("#word-book-window").show(100);
+							for (var i = 0; i < words.length; i++) {
+								var id = words[i].id;
+								var type = words[i].type;
+								var word = words[i].word;
+								var mp3url = words[i].mp3url;
+								if (type == 'word') {
+									var usAudio = words[i].usAudio;
+									var ukAudio = words[i].ukAudio;
+									var usPronunciation = words[i].usPronunciation;
+									var ukPronunciation = words[i].ukPronunciation;
+									usPronunciation = replace(usPronunciation, "[", "BBB");
+									usPronunciation = replace(usPronunciation, "]", "CCC");
+									usPronunciation = replace(usPronunciation, "'", "AAA");
+									ukPronunciation = replace(ukPronunciation, "[", "BBB");
+									ukPronunciation = replace(ukPronunciation, "]", "CCC");
+									ukPronunciation = replace(ukPronunciation, "'", "AAA");
+									var div1 = '<div id=' + id + ' onclick="wordQuery(' + id + ',\'' + usAudio + '\',\'' + usPronunciation + '\',\'' + ukPronunciation + '\')" class="book-word">' + word + '</div>';
+									$(".book-content-word").append(div1);
+								} else if (type == 'phrase') {
+									var div1 = '<div id=' + id + ' onclick="phraseQuery(' + id + ',\'' + mp3url + '\')" class="book-phrase">' + word + '</div>';
+									$(".book-content-phrase").append(div1);
+								} else if (type == 'sentence') {
+									var div1 = '<div id=' + id + ' onclick="sentenceQuery(' + id + ',\'' + mp3url + '\')" class="book-sentence">' + word + '</div>';
+									$(".book-content-sentence").append(div1);
+								} else {
+									var div1 = '<div id=' + id + ' onclick="articleQuery(' + id + ',\'' + mp3url + '\')" class="book-article">' + a + '. ' + word + '</div>';
+									$(".book-content-article").append(div1);
+									a++;
 
+								}
 							}
+						} else {
+							alert("请添加单词或其他内容！");
 						}
 					} else {
 
@@ -566,10 +632,12 @@ body {
 	function wordQuery(id, url, usPronunciation, ukPronunciation) {
 		var cl = $("#" + id).attr("class");
 		if (cl == 'book-word') {
-			usPronunciation = usPronunciation.replace("BBB", "[");
-			usPronunciation = usPronunciation.replace("CCC", "]").replace("AAA", "'");
-			ukPronunciation = ukPronunciation.replace("BBB", "[");
-			ukPronunciation = ukPronunciation.replace("CCC", "]").replace("AAA", "'");
+			usPronunciation = replace(usPronunciation, "BBB", "[");
+			usPronunciation = replace(usPronunciation, "CCC", "]");
+			usPronunciation = replace(usPronunciation, "AAA", "'");
+			ukPronunciation = replace(ukPronunciation, "BBB", "[");
+			ukPronunciation = replace(ukPronunciation, "CCC", "]");
+			ukPronunciation = replace(ukPronunciation, "AAA", "'");
 			$(".book-word").hide();
 			$(".book-content-phrase").hide();
 			$(".book-content-sentence").hide();
@@ -589,7 +657,7 @@ body {
 			$(".word-pru").remove();
 			$(".word-interp").remove();
 			$(".book-play").hide();
-			
+
 			pauseAutio();
 			$(".book-content-article").removeClass("div-disabled");
 
@@ -732,6 +800,54 @@ body {
 		$(".book-content").removeClass("div-disabled");
 		$(".word-pru").remove();
 	}
+	function replace(fullStr, oldStr, newStr) {
+		if (fullStr.indexOf(oldStr) >= 0) {
+			fullStr.replace(oldStr, newStr);
+		}
+		return fullStr;
+	}
+	function fanyiTo() {
+		var obj = $("#fanyi-word").val();
+		var type = "bdc";
+		if (obj == null || obj == "") {
+			$("#fanyi-result").val(null);
+			$("#fanyi-result").attr("placeholder", "请输入需要翻译的内容。。。");
+		} else {
+			$("#fanyi-result").attr("placeholder", "正在获取翻译结果。。。。。。");
+			type = $(".fanyi-to").text();
+			getFanyiResult(type, obj);
+		}
+	}
+	function getFanyiResult(type, text) {
+
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}learn/translate?type=' + type + '&text=' + text,
+			success : function(result) {
+				if (result.code == 200) {
+					var obj = $("#fanyi-word").val();
+					if (obj != null || obj != "") {
+						$("#fanyi-result").val(result.data);
+					}
+				}
+			}
+		});
+	}
+
+	function openFanyi(type) {
+		$("#fanyi-result").val(null);
+		$("#fanyi-word").val(null);
+		$(".fanyi-to").text(type);
+		$(".div-fanyi").hide(300);
+		$(".div-fanyi").show(100);
+		$(".main-divs").hide(800);
+		$("#fanyi-word").focus();
+	}
+	function closeFanyi() {
+		$(".main-divs").show(800);
+		$(".div-fanyi").hide(300);
+	}
 </script>
 </head>
 <body>
@@ -749,8 +865,8 @@ body {
 			</div>
 		</div>
 		<div class="word-add-buttons">
-			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button"
-				type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button" name="word-button" value="关闭" onclick="closeAdd()" />
+			<input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增" onclick="confrimAdd(0)" /> <input type="hidden" id="learnId"> <input class="word-button" type="button" id="word-button" name="word-button" value="新增后关闭" onclick="confrimAdd(1)" /> <input class="word-button" type="button" id="close-button"
+				name="word-button" value="关闭" onclick="closeAdd()" />
 		</div>
 	</div>
 	<div id="word-book-window">
@@ -777,5 +893,20 @@ body {
 	<audio id="playEnglish" hidden>
 		<source type="audio/mpeg">
 	</audio>
+	<div class="div-seting">
+		<div class="seting-botton" onclick="openFanyi('CN')">英译</div>
+		<div class="seting-botton" onclick="openFanyi('EN')">汉译</div>
+		<div class="seting-botton" onclick="openFanyi('SB')">扇贝单词</div>
+		<div class="seting-botton" onclick="closeFanyi()">关闭</div>
+	</div>
+	<div class="div-fanyi">
+		<div class="fanyi-text">
+			<textarea oninput="fanyiTo()" onchange="fanyiTo()" style="resize: none" id="fanyi-word" placeholder="请输入需要翻译的内容..." contenteditable="false" name="fanyi-word" rows="8" cols="32"></textarea>
+		</div>
+		<div class="fanyi-text fanyi-to">CN</div>
+		<div class="fanyi-text ">
+			<textarea style="resize: none" id="fanyi-result" readonly="readonly" name="fanyi-result" rows="8" cols="32"></textarea>
+		</div>
+	</div>
 </body>
 </html>
