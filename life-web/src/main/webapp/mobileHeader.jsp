@@ -12,6 +12,7 @@
 %>
 
 <title>Free Life</title>
+<link rel="shortcut icon" href="${base}/static/images/lifehead.png" />
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/metro/easyui.css">
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/mobile.css">
 <link rel="stylesheet" type="text/css" href="${base}static/ui/easyui1.5/themes/icon.css">

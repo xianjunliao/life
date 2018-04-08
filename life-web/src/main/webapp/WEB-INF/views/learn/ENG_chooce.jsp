@@ -69,6 +69,7 @@ body {
 	padding: 5px;
 	line-height: 20px;
 	border-radius: 5px;
+
 }
 
 .word-input {
@@ -106,6 +107,8 @@ body {
 	border: 2px solid red !important;
 	width: 220px !important;
 	height: 240px !important;
+	transition:all 1s;
+/* 	transform: translate(10px,20px) scale(2,2) rotate(60deg);  */
 }
 
 .divs-dayLearn-select {
@@ -594,12 +597,10 @@ textarea {
 									var ukAudio = words[i].ukAudio;
 									var usPronunciation = words[i].usPronunciation;
 									var ukPronunciation = words[i].ukPronunciation;
-									usPronunciation = replace(usPronunciation, "[", "BBB");
-									usPronunciation = replace(usPronunciation, "]", "CCC");
-									usPronunciation = replace(usPronunciation, "'", "AAA");
-									ukPronunciation = replace(ukPronunciation, "[", "BBB");
-									ukPronunciation = replace(ukPronunciation, "]", "CCC");
-									ukPronunciation = replace(ukPronunciation, "'", "AAA");
+									usPronunciation = usPronunciation.replace("[", "BBB");
+									usPronunciation = usPronunciation.replace("]", "CCC").replace("'", "AAA");
+									ukPronunciation = ukPronunciation.replace("[", "BBB");
+									ukPronunciation = ukPronunciation.replace("]", "CCC").replace("'", "AAA");
 									var div1 = '<div id=' + id + ' onclick="wordQuery(' + id + ',\'' + usAudio + '\',\'' + usPronunciation + '\',\'' + ukPronunciation + '\')" class="book-word">' + word + '</div>';
 									$(".book-content-word").append(div1);
 								} else if (type == 'phrase') {
@@ -632,12 +633,10 @@ textarea {
 	function wordQuery(id, url, usPronunciation, ukPronunciation) {
 		var cl = $("#" + id).attr("class");
 		if (cl == 'book-word') {
-			usPronunciation = replace(usPronunciation, "BBB", "[");
-			usPronunciation = replace(usPronunciation, "CCC", "]");
-			usPronunciation = replace(usPronunciation, "AAA", "'");
-			ukPronunciation = replace(ukPronunciation, "BBB", "[");
-			ukPronunciation = replace(ukPronunciation, "CCC", "]");
-			ukPronunciation = replace(ukPronunciation, "AAA", "'");
+			usPronunciation = usPronunciation.replace("BBB", "[");
+			usPronunciation = usPronunciation.replace("CCC", "]").replace("AAA", "'");
+			ukPronunciation = ukPronunciation.replace("BBB", "[");
+			ukPronunciation = ukPronunciation.replace("CCC", "]").replace("AAA", "'");
 			$(".book-word").hide();
 			$(".book-content-phrase").hide();
 			$(".book-content-sentence").hide();
@@ -800,10 +799,12 @@ textarea {
 		$(".book-content").removeClass("div-disabled");
 		$(".word-pru").remove();
 	}
-	function replace(fullStr, oldStr, newStr) {
+	function replaceStr(fullStr, oldStr, newStr) {
 		if (fullStr.indexOf(oldStr) >= 0) {
 			fullStr.replace(oldStr, newStr);
 		}
+		fullStr.replace(oldStr, newStr);
+		console.log(fullStr);
 		return fullStr;
 	}
 	function fanyiTo() {
@@ -811,9 +812,10 @@ textarea {
 		var type = "bdc";
 		if (obj == null || obj == "") {
 			$("#fanyi-result").val(null);
-			$("#fanyi-result").attr("placeholder", "请输入需要翻译的内容。。。");
+			$("#fanyi-result").attr("placeholder", "");
+			$("#fanyi-word").attr("placeholder", "请输入需要翻译的内容...");
 		} else {
-			$("#fanyi-result").attr("placeholder", "正在获取翻译结果。。。。。。");
+			$("#fanyi-result").attr("placeholder", "正在获取翻译结果......");
 			type = $(".fanyi-to").text();
 			getFanyiResult(type, obj);
 		}
@@ -829,6 +831,9 @@ textarea {
 					var obj = $("#fanyi-word").val();
 					if (obj != null || obj != "") {
 						$("#fanyi-result").val(result.data);
+					}else{
+						$("#fanyi-result").val(null);
+						$("#fanyi-word").attr("placeholder", "请输入需要翻译的内容...");
 					}
 				}
 			}
@@ -836,6 +841,7 @@ textarea {
 	}
 
 	function openFanyi(type) {
+		$("#fanyi-result").attr("placeholder", "");
 		$("#fanyi-result").val(null);
 		$("#fanyi-word").val(null);
 		$(".fanyi-to").text(type);
@@ -901,7 +907,7 @@ textarea {
 	</div>
 	<div class="div-fanyi">
 		<div class="fanyi-text">
-			<textarea oninput="fanyiTo()" onchange="fanyiTo()" style="resize: none" id="fanyi-word" placeholder="请输入需要翻译的内容..." contenteditable="false" name="fanyi-word" rows="8" cols="32"></textarea>
+			<textarea oninput="fanyiTo()" style="resize: none" id="fanyi-word" placeholder="请输入需要翻译的内容..." contenteditable="false" name="fanyi-word" rows="8" cols="32"></textarea>
 		</div>
 		<div class="fanyi-text fanyi-to">CN</div>
 		<div class="fanyi-text ">

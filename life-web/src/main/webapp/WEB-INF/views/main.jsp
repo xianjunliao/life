@@ -67,7 +67,7 @@ body {
 <script type="text/javascript">
 	function openWeb(url) {
 
-		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="100%"></iframe>');
+		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="95%"></iframe>');
 	}
 	function autoGetCount() {
 
@@ -92,7 +92,7 @@ body {
 		});
 	}
 	function initPage() {
-		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
+		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="95%"></iframe>');
 		$("#fristOpen").addClass("layui-this");
 	}
 	$(function() {
@@ -104,19 +104,19 @@ body {
 </head>
 <body>
 	<div style="height: 100%; background-color: #ffffff; overflow: hidden;">
-		<div class="layui-row" style="width: 100%;">
+		<div class="layui-row" style="width: 100%;background-color: #393d49;">
 			<div class="layui-col-xs12 layui-col-md2">
-				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;"></div>
+				<div  style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;cursor: pointer;"></div>
 			</div>
 			<div class="layui-col-xs6 layui-col-md8">
 				<ul class="layui-nav" lay-filter="demo">
 					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/ENG_chooce')"><a>每日英语</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>精达细算</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/MUC_index')"><a>弹奏谱架</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>精达细算</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 				</ul>
 			</div>
 			<div class="layui-col-xs12 layui-col-md2 layui-bg-black">

@@ -12,7 +12,7 @@
 	// 	response.setHeader("X-Frame-Options", "ALLOW-FROM");
 %>
 <title>Free Life</title>
-<link rel="shortcut icon" href="${base}/static/images/webaddress2.png" />
+<link rel="shortcut icon" href="${base}/static/images/lifehead.png" />
 <link href="${base}static/ui/easyui1.5/themes/bootstrap/easyui.css" rel="stylesheet" type="text/css">
 <%-- <link href="${base}static/ui/insdep/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css"> --%>
 <link href="${base}static/ui/insdep/themes/insdep/icon.css" rel="stylesheet" type="text/css">
