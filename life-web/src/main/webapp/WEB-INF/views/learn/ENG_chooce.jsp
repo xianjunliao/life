@@ -69,7 +69,6 @@ body {
 	padding: 5px;
 	line-height: 20px;
 	border-radius: 5px;
-
 }
 
 .word-input {
@@ -107,8 +106,8 @@ body {
 	border: 2px solid red !important;
 	width: 220px !important;
 	height: 240px !important;
-	transition:all 1s;
-/* 	transform: translate(10px,20px) scale(2,2) rotate(60deg);  */
+	transition: all 1s;
+	/* 	transform: translate(10px,20px) scale(2,2) rotate(60deg);  */
 }
 
 .divs-dayLearn-select {
@@ -380,6 +379,7 @@ textarea {
 	var todayLearnId;
 	$(function() {
 		initDays(null);
+		$("#closeFanyi").hide();
 		$("#wordType").change(function() {
 			var v = $("#wordType").val();
 			if (v == 'article') {
@@ -446,6 +446,9 @@ textarea {
 			$("#word-fast-window").empty();
 			closeAdd();
 		} else {
+			$('html,body').animate({
+				scrollTop : 0
+			}, 'slow');
 			$("#wordAdd" + id).hide();
 			$("#query" + id).hide();
 			$("#wordFast" + id).text('关闭窗口')
@@ -468,6 +471,9 @@ textarea {
 			// 			$("#word-add-window").hide();
 			closeAdd();
 		} else {
+			$('html,body').animate({
+				scrollTop : 0
+			}, 'slow');
 			addOpen = true;
 			$("#query" + id).hide();
 			$("#wordFast" + id).hide();
@@ -580,6 +586,9 @@ textarea {
 							bookOpen = true;
 							clearBookContent();
 							$("#query" + idd).text("关闭窗口");
+							$('html,body').animate({
+								scrollTop : 0
+							}, 'slow');
 							$("#wordFast" + idd).hide();
 							$("#wordAdd" + idd).hide();
 							$("#" + idd).removeClass("maybe-hide");
@@ -831,7 +840,7 @@ textarea {
 					var obj = $("#fanyi-word").val();
 					if (obj != null || obj != "") {
 						$("#fanyi-result").val(result.data);
-					}else{
+					} else {
 						$("#fanyi-result").val(null);
 						$("#fanyi-word").attr("placeholder", "请输入需要翻译的内容...");
 					}
@@ -848,11 +857,32 @@ textarea {
 		$(".div-fanyi").hide(300);
 		$(".div-fanyi").show(100);
 		$(".main-divs").hide(800);
+		$("#closeFanyi").show(100);
+		
+		$("#word-book-window").hide(800);
+		$("#word-fast-window").hide(800);
+		$("#word-add-window").hide(800);
 		$("#fanyi-word").focus();
 	}
 	function closeFanyi() {
 		$(".main-divs").show(800);
 		$(".div-fanyi").hide(300);
+		$("#closeFanyi").hide(100);
+		if (bookOpen) {
+			$("#word-book-window").show(300);
+		}
+		if (addOpen) {
+			$("#word-add-window").show(300);
+		}
+		if (fastOpen) {
+			$("#word-fast-window").show(300);
+		}
+
+	}
+	function toTop() {
+		$('html,body').animate({
+			scrollTop : 0
+		}, 'slow');
 	}
 </script>
 </head>
@@ -900,16 +930,17 @@ textarea {
 		<source type="audio/mpeg">
 	</audio>
 	<div class="div-seting">
+		<div class="seting-botton" onclick="toTop()">顶部</div>
 		<div class="seting-botton" onclick="openFanyi('CN')">英译</div>
 		<div class="seting-botton" onclick="openFanyi('EN')">汉译</div>
 		<div class="seting-botton" onclick="openFanyi('SB')">扇贝单词</div>
-		<div class="seting-botton" onclick="closeFanyi()">关闭</div>
+		<div id="closeFanyi" class="seting-botton" onclick="closeFanyi()">关闭</div>
 	</div>
 	<div class="div-fanyi">
 		<div class="fanyi-text">
 			<textarea oninput="fanyiTo()" style="resize: none" id="fanyi-word" placeholder="请输入需要翻译的内容..." contenteditable="false" name="fanyi-word" rows="8" cols="32"></textarea>
 		</div>
-		<div class="fanyi-text fanyi-to">CN</div>
+		<div class="fanyi-text fanyi-to"></div>
 		<div class="fanyi-text ">
 			<textarea style="resize: none" id="fanyi-result" readonly="readonly" name="fanyi-result" rows="8" cols="32"></textarea>
 		</div>

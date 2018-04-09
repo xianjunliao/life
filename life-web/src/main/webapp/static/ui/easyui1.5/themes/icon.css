@@ -67,7 +67,15 @@
 .icon-more{
 	background:url('icons/more.png') no-repeat center center;
 }
-
+.icon-add-self{
+	background:url('icons/add.png') no-repeat center center;
+}
+.icon-play-self{
+	background:url('icons/play.png') no-repeat center center;
+}
+.icon-fast-self{
+	background:url('icons/fast.png') no-repeat center center;
+}
 
 .icon-mini-add{
 	background:url('icons/mini_add.png') no-repeat center center;

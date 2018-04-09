@@ -10,7 +10,7 @@
 		 $('#all-tabs').tabs('select',index);
 	})
 	function openit(id) {
-		window.location.replace("${base}learn/dayLearns?id="+id);
+		window.location.replace("${base}learn/dayLearns?id="+id+"&tabIndex=0");
 	}
 	
 	function setingUrl() {
@@ -53,7 +53,7 @@ body {
 	margin: 0px;
 	background-color: white;
 	border: 1px #white solid !important;
-	box-shadow: 1px 1px 20px #333333;
+	box-shadow: inset 1px 1px 20px #333333;
 	-moz-box-shadow: 2px 2px 20px #333333;
 	-webkit-box-shadow: 2px 2px 20px #333333;
 	background-color: white;
@@ -70,31 +70,23 @@ a {
 		<div class="easyui-tabs" id="all-tabs" data-options="tabHeight:60,fit:true,tabPosition:'bottom',border:false,pill:true,narrow:true,justified:true">
 			<div id="learnFull" class="list-ul" style="padding: 10px 10px 10px 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
-					<img src='${base}static/mobile/images/NV_ENGLISH.jpg' width="30px;" height="30px;" /><br>学海无涯
+					<img src='${base}static/mobile/images/NV_ENGLISH.jpg' width="30px;" height="30px;" /><br>每日英语
 				</div>
-				<div class="easyui-tabs list-ul" data-options="fit:true,border:false,pill:true,justified:true,tabWidth:80,tabHeight:35">
-					<header>
-						<div class="m-toolbar">
-							<span class="m-title">学海无涯</span>
+				<div class="easyui-navpanel" data-options="fit:true,border:false" style="background-color: white !important;">
+					<div>
+						<header>
+							<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
+								<span class="m-title">每日英语</span>
+							</div>
+						</header>
+						<div>
+							<ul class="m-list">
+								<c:forEach items="${dayLearns}" var="dl">
+									<li><a href="javascript:void(0)" onclick="openit(${dl.id})">${dl.headline} &nbsp;&nbsp;单词<b>${dl.wordSum}</b>个,词组<b>${dl.phraseSum}</b>个,句子<b>${dl.sentenceSum}</b>个,文章<b>${dl.articleSum}</b>篇
+									</a></li>
+								</c:forEach>
+							</ul>
 						</div>
-					</header>
-					<div title="每日词汇" style="padding: 10px 10px 20px 10px;">
-
-						<ul class="m-list">
-							<c:forEach items="${dayLearns}" var="dl">
-								<li><a href="javascript:void(0)" onclick="openit(${dl.key.id})">${dl.key.headline} &nbsp;&nbsp;${dl.value}</a></li>
-							</c:forEach>
-						</ul>
-
-					</div>
-					<div title="单词速记" style="padding: 10px">
-						<a href="javascript:void(0)" onclick="openDCSJ(this)">单词速记</a>
-					</div>
-					<div title="句子常读" style="padding: 10px">
-						<a href="javascript:void(0)" onclick="openDCSJ(this)">句子常读</a>
-					</div>
-					<div title="美文欣赏" style="padding: 10px">
-						<a href="javascript:void(0)" onclick="openDCSJ(this)">美文欣赏</a>
 					</div>
 				</div>
 			</div>
@@ -102,20 +94,34 @@ a {
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MONEY.png' width="30px;" height="30px;" /><br>精打细算
 				</div>
-				<p>精打细算</p>
+				<div class="easyui-navpanel" data-options="fit:true,border:false">
+					<header>
+						<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
+							<span class="m-title">精打细算</span>
+						</div>
+						<div></div>
+					</header>
+				</div>
 			</div>
 			<div id="dontForget" style="padding: 10px; background-color: #f2f6f9;">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MEMO.png' width="30px;" height="30px;" /><br>备忘录 <span class="m-badge">0</span>
 				</div>
-				<p>备忘录</p>
+				<div class="easyui-navpanel" data-options="fit:true,border:false,selected:0">
+					<header>
+						<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
+							<span class="m-title">备忘录</span>
+						</div>
+						<div></div>
+					</header>
+				</div>
 			</div>
 			<div id="myself" style="padding: 10px; background-color: #f2f6f9;" class="list-ul">
 				<div class="panel-header tt-inner">
 					<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" /> <br>个人中心
 				</div>
 				<div class="easyui-navpanel" style="background-color: #f2f6f9; opacity: 0.9; box-shadow: 1px 1px 1px #333333;">
-					<ul class="m-toolbar m-list list-ul">
+					<ul class="m-toolbar m-list list-ul" >
 						<li>我</li>
 					</ul>
 					<div style="background-color: #f2f6f9; height: auto; padding-top: 15px;">
@@ -125,12 +131,11 @@ a {
 										</c:if> <c:if test="${userInfo.headaddress!=null }">
 											<img src='${userInfo.headaddress}' width="35px;" height="35px;" />
 										</c:if>
-								</span> 
-								<span style="margin-left: 15px; font-size: 12px;"><c:if test="${userInfo.username!=null }">昵称：${ userInfo.username}</c:if>
-								<c:if test="${userInfo.username==null }"><span style="color: gray;">创建昵称</span></c:if>
-								</span> <br> <span style="margin-left: 15px; font-size: 12px;">
-								 <c:if test="${userInfo.phoneno!=null }">手机号码：${ userInfo.phoneno}</c:if>
-								 <c:if test="${userInfo.phoneno==null }"><span style="color: gray;">添加手机号码</span></c:if></span>
+								</span> <span style="margin-left: 15px; font-size: 12px;"><c:if test="${userInfo.username!=null }">昵称：${ userInfo.username}</c:if> <c:if test="${userInfo.username==null }">
+											<span style="color: gray;">创建昵称</span>
+										</c:if> </span> <br> <span style="margin-left: 15px; font-size: 12px;"> <c:if test="${userInfo.phoneno!=null }">手机号码：${ userInfo.phoneno}</c:if> <c:if test="${userInfo.phoneno==null }">
+											<span style="color: gray;">添加手机号码</span>
+										</c:if></span>
 							</a></li>
 						</ul>
 						<ul class="m-list list-ul" style="margin-top: 20px;">

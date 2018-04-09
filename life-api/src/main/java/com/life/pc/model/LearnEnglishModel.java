@@ -16,9 +16,9 @@ public class LearnEnglishModel  implements java.io.Serializable{
 	private String timeclass;// 时间类（前端jsp html元素class）
 
 	private String wordSum; //单词数量
-	private String phraseSum; //单词数量
-	private String sentenceSum; //单词数量
-	private String articleSum; //单词数量
+	private String phraseSum; //词组数量
+	private String sentenceSum; //句子数量
+	private String articleSum; //文章数量
 	public String getId() {
 		return id;
 	}

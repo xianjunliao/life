@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.Str;
 import com.life.common.baidu.BaiduTranslate;
 import com.life.common.baidu.BaiduVoice;
 import com.life.common.file.FileUtils;
@@ -63,9 +64,11 @@ public class LearningController {
 	@RequestMapping("/mob")
 	public String mob(Integer idx, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String userCode = WebUtils.getUserCode(request);
-		Map<LearnEnglishModel, String> dayLearns = learningService.getDayLearns(userCode, 1, 90);
+		LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(userCode);
+		int dailyLearnRow = Str.isEmpty(checkEnterCode.getDailyLearnRow()) ? 365 * 3 : Integer.parseInt(checkEnterCode.getDailyLearnRow());
+		List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(userCode, dailyLearnRow);
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
-		model.put("dayLearns", dayLearns);
+		model.put("dayLearns", learnsByUserAndNumber);
 		model.put("wordTypes", systemDataModels);
 		LifeUserModel userModel = lifeUserService.checkEnterCode(userCode);
 		model.put("userInfo", userModel);
@@ -77,7 +80,7 @@ public class LearningController {
 	}
 
 	@RequestMapping("/dayLearns")
-	public String dayLearns(String id, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String dayLearns(String id,String tabIndex, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
 		LearnEnglishModel learnEnglishModelById = learningService.getLearnEnglishModelById(id);
 		List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
@@ -89,6 +92,8 @@ public class LearningController {
 		model.put("phrase", wordsByType.get("phrase"));
 		model.put("sentence", wordsByType.get("sentence"));
 		model.put("article", wordsByType.get("article"));
+		model.put("tabIndex", tabIndex);
+		model.put("id", id);
 		return "mobile/dayLearns.jsp";
 	}
 
@@ -196,7 +201,9 @@ public class LearningController {
 		ResponseMessage<List<LearnEnglishModel>> outMSG = new ResponseMessage<>();
 		try {
 			String usercode = WebUtils.getUserCode(request);
-			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, 21);
+			LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(usercode);
+			int dailyLearnRow = Str.isEmpty(checkEnterCode.getDailyLearnRow()) ? 365 * 3 : Integer.parseInt(checkEnterCode.getDailyLearnRow());
+			List<LearnEnglishModel> learnsByUserAndNumber = learningService.getDaysByUser(usercode, dailyLearnRow);
 			outMSG.setData(learnsByUserAndNumber);
 			outMSG.setCode("200");
 		} catch (Exception e) {

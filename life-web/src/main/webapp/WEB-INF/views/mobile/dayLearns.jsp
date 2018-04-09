@@ -6,11 +6,13 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script type="text/javascript">
 	var isError = false;
+	var acc_index=0;
 	$(function() {
+		var id="${id}";
 		$(".pause-voice").hide();
 		$(".play-voice").show();
 		$('#switchbutton').switchbutton({
-			onChange: function(param){
+			onChange : function(param) {
 				wayChange(param);
 			}
 		});
@@ -19,21 +21,31 @@
 		window.location.replace("${base}learn/mob?idx=0");
 	}
 
-	
 	function back1() {
+		var id="${id}";
+		window.location.replace("${base}learn/dayLearns?id="+id+"&tabIndex="+acc_index);
+		$('#acc-items').accordion('select',acc_index);
+	}
+	function back2() {
 		$.mobile.go('#words');
-		location.reload();
+		$('#acc-items').accordion('select',acc_index);
 	}
 	function addWord(type, timeClass, typeNo) {
+		var pp = $('#acc-items').accordion('getSelected');
+		acc_index=$('#acc-items').accordion('getPanelIndex', pp);
 		$('#word-add-title').text("添加" + type);
 		$('#word-timeClass').text(timeClass);
 		$('#word-type-no').text(typeNo);
-		var msg="请输入需要添加的"+type+"......";
-		$('#word-someone').textbox({prompt:msg});
+		var msg = "请输入需要添加的" + type + "......";
+		$('#word-someone').textbox({
+			prompt : msg
+		});
 		$.mobile.go('#word-add');
 	}
-	function openit(target,wordType) {
+	function openit(target, wordType) {
 		var text = $(target).find("b").text();
+		var pp = $('#acc-items').accordion('getSelected');
+		acc_index=$('#acc-items').accordion('getPanelIndex', pp);
 		$('#switchbutton').switchbutton("check");
 		wayChange(true);
 		$(".pause-voice").hide();
@@ -43,8 +55,8 @@
 			dataType : "json",
 			url : '${base}learn/getWordInfo?word=' + text,
 			success : function(result) {
-				$("#word").css("text-align","center");
-				$("#word").css("padding-left"," 0px");
+				$("#word").css("text-align", "center");
+				$("#word").css("padding-left", " 0px");
 				$("#word").text(result.data.word);
 				$("#usPronunciation").html("美：" + result.data.usPronunciation);
 				$("#ukPronunciation").html("英：" + result.data.ukPronunciation);
@@ -55,10 +67,10 @@
 				if (result.data.type != 'word') {
 					$("#wordType").hide();
 					$("#pronunciation").html("");
-					$("#word").css("text-align","left");
-					$("#word").css("padding-left"," 50px");
+					$("#word").css("text-align", "left");
+					$("#word").css("padding-left", " 50px");
 				}
-				$('#word-info-title').text(wordType+"详情");
+				$('#word-info-title').text(wordType + "详情");
 				$.mobile.go('#word-info');
 			}
 		});
@@ -68,17 +80,17 @@
 		var tx = $('#switchbutton').switchbutton("options").checked;
 		return tx;
 	}
-	
-	function wayChange(param){
-		if(param){
-			$("#usPronunciation").css("color","green");
-			$("#ukPronunciation").css("color","black");
-		}else{
-			$("#ukPronunciation").css("color","green");
-			$("#usPronunciation").css("color","black");
+
+	function wayChange(param) {
+		if (param) {
+			$("#usPronunciation").css("color", "green");
+			$("#ukPronunciation").css("color", "black");
+		} else {
+			$("#ukPronunciation").css("color", "green");
+			$("#usPronunciation").css("color", "black");
 		}
 	}
-	
+
 	function playAudio() {
 		$(".pause-voice").show();
 		$(".play-voice").hide();
@@ -121,10 +133,10 @@
 	}
 	function confrmAdd(v) {
 		var text = $("#word-someone").textbox("getValue");
-		if(text==null||text==""){
-			addAfter(1,"<span style='color:red;'>请输入需要添加的内容。</span> ");
+		if (text == null || text == "") {
+			addAfter(1, "<span style='color:red;'>请输入需要添加的内容。</span> ");
 			setTimeout("addAfter(2)", 3000)
-			return ;
+			return;
 		}
 		var timeClass = $('#word-timeClass').text();
 		var typeno = $('#word-type-no').text();
@@ -134,7 +146,7 @@
 			url : '${base}learn/addLearn?word=' + text + "&wordType=" + typeno + "&timeClass=" + timeClass,
 			success : function(result) {
 				if (result.code == 200) {
-					addAfter(1,"<span style='color:red;'>新增成功。</span> ");
+					addAfter(1, "<span style='color:red;'>新增成功。</span> ");
 					if (v == 2) {
 						back1()
 					}
@@ -145,9 +157,9 @@
 
 	}
 
-	function addAfter(v,m) {
+	function addAfter(v, m) {
 		if (v == 1) {
-			$("#word-ps").html("提示："+m);
+			$("#word-ps").html("提示：" + m);
 			$("#word-someone").textbox("setValue", null);
 		} else {
 			$("#word-ps").html("提示：新增后会自动获取翻译结果。");
@@ -192,11 +204,11 @@ body {
 			<div class="m-toolbar">
 				<span class="m-title">${learn.headline}的学习情况</span>
 				<div class="m-left">
-					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick=" back()">返回</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick="back()">返回</a>
 				</div>
 			</div>
 		</header>
-		<div class="easyui-accordion" data-options="fit:true,border:false,selected:0">
+		<div id="acc-items" class="easyui-accordion" data-options="fit:true,border:false">
 			<c:forEach items="${wordTypes}" var="wt">
 				<div>
 					<header>
@@ -216,11 +228,14 @@ body {
 							</c:if>
 						</div>
 					</header>
+					<div style="text-align: left; margin-bottom: 10px; border-bottom: 1px solid #e4caca;">
+						<a href="javascript:void(0)" onclick="addWord('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-add-self',plain:true">添加${wt.itemName }</a> <a href="javascript:void(0)" onclick="fastRead('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-fast-self',plain:true">速记${wt.itemName }</a>
+					</div>
 					<ul class="m-list">
 						<c:forEach items="${words}" var="wd">
 							<c:if test="${wd.type==wt.itemNo}">
 								<c:if test="${wd.type=='word'}">
-									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;美:${wd.usPronunciation}&nbsp;&nbsp; 英：${wd.ukPronunciation} </a></li>
+									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;${wd.definition}</a></li>
 								</c:if>
 								<c:if test="${wd.type!='word'}">
 									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp; ${wd.definition}</a></li>
@@ -228,9 +243,7 @@ body {
 							</c:if>
 						</c:forEach>
 					</ul>
-					<div style="text-align: center;">
-						<a href="javascript:void(0)" onclick="addWord('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加${wt.itemName }</a>
-					</div>
+
 				</div>
 			</c:forEach>
 		</div>
@@ -240,12 +253,12 @@ body {
 			<div class="m-toolbar">
 				<span id="word-info-title" class="m-title">单词详情</span>
 				<div class="m-left">
-					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick="$.mobile.back()">返回</a>
+					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick="back2()">返回</a>
 				</div>
 			</div>
 		</header>
 		<div style="margin: 50px 0 0; text-align: center" align="center">
-			<div id="word" style="font-size: 32px; font-weight: 700; color:red; height: 50px; line-height: 50px; margin-bottom: 30px;"></div>
+			<div id="word" style="font-size: 32px; font-weight: 700; color: red; height: 50px; line-height: 50px; margin-bottom: 30px;"></div>
 			<div id="pronunciation" style="font-size: 16px; margin-bottom: 180px; padding-left: 20px; padding-right: 20px;">
 				<div id="usPronunciation" style="float: left;"></div>
 				<div id="ukPronunciation" style="float: right;"></div>
@@ -272,9 +285,8 @@ body {
 			</div>
 		</header>
 		<div style="margin: 50px 0 0; text-align: center">
-			<input class="easyui-textbox" id="word-someone" data-options="multiline:true" style="width: 80%; height: 380px;">
-			<a onclick="confrmAdd(1)" class="easyui-linkbutton" style="width: 40%; height: 40px; margin-top: 15px;"><span style="font-size: 16px">新增</span></a> <a onclick="confrmAdd(2)" class="easyui-linkbutton"
-				style="width: 40%; height: 40px; margin-top: 15px;"><span style="font-size: 16px">新增后返回</span></a>
+			<input class="easyui-textbox" id="word-someone" data-options="multiline:true" style="width: 80%; height: 380px;"> <a onclick="confrmAdd(1)" class="easyui-linkbutton" style="width: 40%; height: 40px; margin-top: 15px;"><span style="font-size: 16px">新增</span></a> <a onclick="confrmAdd(2)" class="easyui-linkbutton" style="width: 40%; height: 40px; margin-top: 15px;"><span
+				style="font-size: 16px">新增后返回</span></a>
 			<div id="word-ps" style="">提示：新增后会自动获取翻译结果。</div>
 		</div>
 
