@@ -92,8 +92,6 @@ public class LearningController {
 		model.put("phrase", wordsByType.get("phrase"));
 		model.put("sentence", wordsByType.get("sentence"));
 		model.put("article", wordsByType.get("article"));
-		model.put("tabIndex", tabIndex);
-		model.put("id", id);
 		return "mobile/dayLearns.jsp";
 	}
 

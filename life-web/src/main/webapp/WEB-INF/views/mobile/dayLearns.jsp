@@ -22,9 +22,8 @@
 	}
 
 	function back1() {
-		var id="${id}";
-		window.location.replace("${base}learn/dayLearns?id="+id+"&tabIndex="+acc_index);
-		$('#acc-items').accordion('select',acc_index);
+		$.mobile.go('#words');
+		location.reload();
 	}
 	function back2() {
 		$.mobile.go('#words');
