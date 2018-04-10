@@ -25,5 +25,5 @@ public interface LearnEnglishWordsDao {
     
     List<LearnEnglishWordsModel>  selectByIds(@Param("ids")List<String> ids);
     
-    List<LearnEnglishWordsModel>  selectByIdsAll(@Param("ids")List<String> ids);
+    List<LearnEnglishWordsModel>  selectByIdsAll(@Param("ids")List<String> ids,@Param("type")String type);
 }

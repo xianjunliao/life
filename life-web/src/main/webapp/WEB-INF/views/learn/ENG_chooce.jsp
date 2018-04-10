@@ -227,7 +227,7 @@ body {
 
 .book-word-select {
 	text-align: left;
-	height: 20px;
+	min-height: 40px;
 	font-size: 18px;
 	margin: 5px 2px 2px 2px;
 	line-height: 15px;
@@ -542,6 +542,7 @@ textarea {
 		addOpen = false;
 		fastOpen = false;
 		clearBookContent();
+		pauseAutio();
 
 	}
 	function dayKearnSelect(id) {

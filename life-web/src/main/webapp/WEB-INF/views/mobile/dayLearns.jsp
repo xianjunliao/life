@@ -6,10 +6,11 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script type="text/javascript">
 	var isError = false;
-	var acc_index=0;
+	var acc_index = 0;
 	$(function() {
-		var id="${id}";
+		var id = "${id}";
 		$(".pause-voice").hide();
+		$("#stop-read").hide();
 		$(".play-voice").show();
 		$('#switchbutton').switchbutton({
 			onChange : function(param) {
@@ -17,6 +18,7 @@
 			}
 		});
 	})
+
 	function back() {
 		window.location.replace("${base}learn/mob?idx=0");
 	}
@@ -27,11 +29,11 @@
 	}
 	function back2() {
 		$.mobile.go('#words');
-		$('#acc-items').accordion('select',acc_index);
+		$('#acc-items').accordion('select', acc_index);
 	}
 	function addWord(type, timeClass, typeNo) {
 		var pp = $('#acc-items').accordion('getSelected');
-		acc_index=$('#acc-items').accordion('getPanelIndex', pp);
+		acc_index = $('#acc-items').accordion('getPanelIndex', pp);
 		$('#word-add-title').text("添加" + type);
 		$('#word-timeClass').text(timeClass);
 		$('#word-type-no').text(typeNo);
@@ -41,10 +43,48 @@
 		});
 		$.mobile.go('#word-add');
 	}
+
+	function fastRead(type, learnId, typeNo) {
+		$('#word-fast-title').text(type + "速记");
+		$.mobile.go('#fast-reading');
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}learn/getWordsByType?id=' + learnId + "&type=" + typeNo,
+			success : function(result) {
+				if (result.code == 200) {
+					$('.fast-one-by-one').remove();
+					var words = result.data;
+					if (words.length > 0) {
+						for (var i = 0; i < words.length; i++) {
+							var cls = "fast-one-by-one";
+							if (i == 0) {
+								cls = cls + " fast-one-by-one-first";
+							}
+							var word = words[i].word;
+							var definition = words[i].definition;
+							var wtype = words[i].type;
+							var usAudio = words[i].usAudio;
+							var ukAudio = words[i].ukAudio;
+							var usPronunciation = words[i].usPronunciation;
+							var ukPronunciation = words[i].ukPronunciation;
+							$('#words-type').append('<div id="'+i+'" class="'+cls+'"><div class="fast-content"><div class="fast-word-content">' + word + '</div><div style="float: left;margin-right:15px;">美:' + usPronunciation + '</div><div>英:' + ukPronunciation + '</div><div>' + definition + '</div></div></div>');
+						}
+					} else {
+						var cls = "icon-add-self";
+						$('#words-type').html('<a href="javascript:void(0)" onclick="addWord(\'' + type + '\',\'' + learnId + '\',\'' + learnId + '\')" class="easyui-linkbutton" data-options="iconCls:' + cls + ',plain:true">添加</a>');
+					}
+				} else {
+					$('#words-type').html("<h3>查询出现异常！</h3>");
+				}
+			}
+		});
+	}
+
 	function openit(target, wordType) {
-		var text = $(target).find("b").text();
+		var text = $(target).find("span").text();
 		var pp = $('#acc-items').accordion('getSelected');
-		acc_index=$('#acc-items').accordion('getPanelIndex', pp);
+		acc_index = $('#acc-items').accordion('getPanelIndex', pp);
 		$('#switchbutton').switchbutton("check");
 		wayChange(true);
 		$(".pause-voice").hide();
@@ -166,6 +206,32 @@
 	}
 </script>
 <style>
+#fast-buttons {
+	background-color: #aedff1;
+	width: 100%;
+	height: 27px;
+}
+
+.fast-one-by-one {
+	display: none;
+	height: 65%;
+	background-color: #c2e6f7;
+}
+
+.fast-one-by-one-first {
+	display: block;
+}
+
+.fast-content {
+	padding-top: 50px;
+}
+
+.fast-word-content {
+	padding-top: 80px;
+	padding-left: 37%;
+	padding-bottom: 45px;
+}
+
 .hh-inner {
 	position: relative;
 	line-height: 20px;
@@ -195,6 +261,40 @@ body {
 	background-color: white;
 	background-color: white
 }
+
+.words-text {
+	/* 	width: 60px; */
+	min-width: 35px;
+	padding: 2px;
+	/* 	border: 1px solid #d9e5f7; */
+	display: inline-block;
+	color: #e82954;
+	font-weight: 700;
+}
+
+.words-opt-buttons {
+	text-align: right;
+}
+
+.read-buttons-div {
+	float: left;
+}
+
+#last-read {
+	position: absolute;
+	left: 10px;
+}
+
+#next-read {
+	position: absolute;
+	right: 10px;
+}
+
+#play-read, #stop-read {
+	position: absolute;
+	right: 50%;
+	transform: translateX(50%);
+}
 </style>
 </head>
 <body>
@@ -211,8 +311,8 @@ body {
 			<c:forEach items="${wordTypes}" var="wt">
 				<div>
 					<header>
-						<div class="hh-inner">
-							<span style="font-size: 16px; color: green;">${wt.itemName }</span>
+						<div class="hh-inner" id="words-title">
+							<span style="font-size: 24px; color: green;">${wt.itemName }</span>
 							<c:if test="${wt.itemNo=='word' }">
 								<span class="m-badge" style="float: right">${word}/${words.size()}</span>
 							</c:if>
@@ -226,18 +326,18 @@ body {
 								<span class="m-badge" style="float: right">${article}/${words.size()}</span>
 							</c:if>
 						</div>
+						<div class="hh-inner words-opt-buttons">
+							<a href="javascript:void(0)" onclick="addWord('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-add-self',plain:true">添加</a> <a href="javascript:void(0)" onclick="fastRead('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-fast-self',plain:true">速记</a>
+						</div>
 					</header>
-					<div style="text-align: left; margin-bottom: 10px; border-bottom: 1px solid #e4caca;">
-						<a href="javascript:void(0)" onclick="addWord('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-add-self',plain:true">添加${wt.itemName }</a> <a href="javascript:void(0)" onclick="fastRead('${wt.itemName}','${learn.id}','${wt.itemNo}')" class="easyui-linkbutton" data-options="iconCls:'icon-fast-self',plain:true">速记${wt.itemName }</a>
-					</div>
 					<ul class="m-list">
 						<c:forEach items="${words}" var="wd">
 							<c:if test="${wd.type==wt.itemNo}">
 								<c:if test="${wd.type=='word'}">
-									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp;${wd.definition}</a></li>
+									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><span class="words-text">${wd.word}</span>&nbsp;&nbsp;${wd.usPronunciation}&nbsp;&nbsp;&nbsp;&nbsp;${wd.definition}</a></li>
 								</c:if>
 								<c:if test="${wd.type!='word'}">
-									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><b>${wd.word}</b>&nbsp;&nbsp;&nbsp;&nbsp; ${wd.definition}</a></li>
+									<li style="text-align: left;"><a onclick="openit(this,'${wt.itemName}')"><span class="words-text">${wd.word}</span>&nbsp;&nbsp;${wd.usPronunciation}&nbsp;&nbsp;&nbsp;&nbsp; ${wd.definition}</a></li>
 								</c:if>
 							</c:if>
 						</c:forEach>
@@ -292,6 +392,40 @@ body {
 		<div id="word-timeClass" style="display: none;"></div>
 		<div id="word-type-no" style="display: none;"></div>
 
+	</div>
+	<div id="fast-reading" class="easyui-navpanel" style="opacity: 0.8;">
+		<header>
+			<div class="m-toolbar">
+				<span id="word-fast-title" class="m-title"></span>
+				<div class="m-left">
+					<a href="javascript:void(0)" class="easyui-linkbutton m-back" plain="true" outline="true" onclick="back1()">返回</a>
+				</div>
+			</div>
+		</header>
+		<div>
+			<div id="words-type">
+				<div id="sound-div" style="position: absolute; top: 120px; right: 5px;">
+					<div>美式发音</div>
+				</div>
+				<div id="play-div" style="position: absolute; top: 150px; right: 5px;">
+					<div>顺序播放</div>
+				</div>
+			</div>
+			<div id="fast-buttons">
+				<div id="last-read" class="read-buttons-div">
+					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-last-self',plain:true"></a>
+				</div>
+				<div id="play-read" class="read-buttons-div">
+					<a class="easyui-linkbutton" data-options="iconCls:'icon-play-self',plain:true"></a>
+				</div>
+				<div id="stop-read" class="read-buttons-div">
+					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-stop-self',plain:true"></a>
+				</div>
+				<div id="next-read" class="read-buttons-div">
+					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-next-self',plain:true"></a>
+				</div>
+			</div>
+		</div>
 	</div>
 	<audio id="audioVus" hidden></audio>
 	<audio id="audioVuk" hidden></audio>

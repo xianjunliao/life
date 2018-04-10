@@ -83,7 +83,7 @@ public class LearningController {
 	public String dayLearns(String id,String tabIndex, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<SystemDataModel> systemDataModels = learningService.getSystemData("WORDTYPE");
 		LearnEnglishModel learnEnglishModelById = learningService.getLearnEnglishModelById(id);
-		List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
+		List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id,null);
 		model.put("wordTypes", systemDataModels);
 		model.put("learn", learnEnglishModelById);
 		model.put("words", wordsByLearn);
@@ -215,7 +215,7 @@ public class LearningController {
 	public ResponseMessage<List<LearnEnglishWordsModel>> getWords(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<List<LearnEnglishWordsModel>> outMSG = new ResponseMessage<>();
 		try {
-			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id);
+			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id,null);
 			outMSG.setData(wordsByLearn);
 			outMSG.setCode("200");
 		} catch (Exception e) {
@@ -224,6 +224,19 @@ public class LearningController {
 		return outMSG;
 	}
 
+	@ResponseBody
+	@RequestMapping("getWordsByType")
+	public ResponseMessage<List<LearnEnglishWordsModel>> getWordsByType(String id,String type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<List<LearnEnglishWordsModel>> outMSG = new ResponseMessage<>();
+		try {
+			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id,type);
+			outMSG.setData(wordsByLearn);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
 	@ResponseBody
 	@RequestMapping("getInts")
 	public ResponseMessage<List<LearnEnglishInterpretayionModel>> getInts(String id, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

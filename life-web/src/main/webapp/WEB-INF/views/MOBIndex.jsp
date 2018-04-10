@@ -6,13 +6,22 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script type="text/javascript">
 	$(function() {
-		var index=${idx};
-		 $('#all-tabs').tabs('select',index);
+		var idx = "${idx}";
+		initDays();
+		$('#all-tabs').tabs('select', idx);
+		$('#all-tabs').tabs({
+			onSelect : function(title, index) {
+				if (index == 0) {
+					initDays();
+				}
+			}
+		});
+
 	})
 	function openit(id) {
-		window.location.replace("${base}learn/dayLearns?id="+id+"&tabIndex=0");
+		window.location.replace("${base}learn/dayLearns?id=" + id + "&tabIndex=0");
 	}
-	
+
 	function setingUrl() {
 		window.location.replace("${base}mobile/seting");
 	}
@@ -26,9 +35,44 @@
 			}
 		});
 	}
-	
+	function initDays(v) {
+		$("#word-days").empty();
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}learn/getDays',
+			success : function(result) {
+				if (result.code == 200) {
+					$("#word-days").hide(300);
+					var days = result.data;
+					for (var i = 0; i < days.length; i++) {
+						var id = days[i].id;
+						var headline = days[i].headline;
+						var wordSum = days[i].wordSum;
+						var phraseSum = days[i].phraseSum;
+						var sentenceSum = days[i].sentenceSum;
+						var articleSum = days[i].articleSum;
+						$("#word-days").append('<li class="word-li" id="word-li'+id+'"><a href="javascript:void(0)" onclick="openit(' + id + ')">' + headline + ' &nbsp;&nbsp;单词<b style="color: red;">' + wordSum + '</b>个,词组<b style="color: red;">' + phraseSum + '</b>个,句子<b style="color: red;">' + sentenceSum + '</b>个,文章<b style="color: red;">' + articleSum + '</b>篇</a></li>');
+					}
+					if (v == null) {
+
+					}
+					$("#word-days").show(800);
+				}
+			}
+		});
+	}
 </script>
 <style>
+.word-li{
+
+
+}
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
 .tt-inner {
 	display: inline-block;
 	line-height: 12px;
@@ -63,6 +107,25 @@ body {
 a {
 	font-weight: 700;
 }
+
+.subjct-tip {
+	box-shadow: inset 0px 0px 3px 3px #eab2b2;
+	position: absolute;
+	top: 0px;
+	width: 100%;
+	height: 40px !important;
+	line-height: 30px;
+	z-index: 9999;
+	background-color: #c1f3e7;
+}
+
+.content-panel {
+	margin-top: 40px;
+}
+
+.subjct-title {
+	line-height: 40px !important;
+}
 </style>
 </head>
 <body>
@@ -74,17 +137,13 @@ a {
 				</div>
 				<div class="easyui-navpanel" data-options="fit:true,border:false" style="background-color: white !important;">
 					<div>
-						<header>
-							<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
-								<span class="m-title">每日英语</span>
+						<header class="subjct-tip">
+							<div class="m-toolbar">
+								<span class="m-title subjct-title">每日英语</span>
 							</div>
 						</header>
-						<div>
-							<ul class="m-list">
-								<c:forEach items="${dayLearns}" var="dl">
-									<li><a href="javascript:void(0)" onclick="openit(${dl.id})">${dl.headline} &nbsp;&nbsp;单词<b>${dl.wordSum}</b>个,词组<b>${dl.phraseSum}</b>个,句子<b>${dl.sentenceSum}</b>个,文章<b>${dl.articleSum}</b>篇
-									</a></li>
-								</c:forEach>
+						<div class="content-panel">
+							<ul class="m-list" id="word-days">
 							</ul>
 						</div>
 					</div>
@@ -95,12 +154,14 @@ a {
 					<img src='${base}static/mobile/images/NV_MONEY.png' width="30px;" height="30px;" /><br>精打细算
 				</div>
 				<div class="easyui-navpanel" data-options="fit:true,border:false">
-					<header>
-						<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
-							<span class="m-title">精打细算</span>
-						</div>
-						<div></div>
-					</header>
+					<div>
+						<header class="subjct-tip">
+							<div class="m-toolbar">
+								<span class="m-title subjct-title">精打细算</span>
+							</div>
+						</header>
+						<div class="content-panel"></div>
+					</div>
 				</div>
 			</div>
 			<div id="dontForget" style="padding: 10px; background-color: #f2f6f9;">
@@ -108,12 +169,15 @@ a {
 					<img src='${base}static/mobile/images/NV_MEMO.png' width="30px;" height="30px;" /><br>备忘录 <span class="m-badge">0</span>
 				</div>
 				<div class="easyui-navpanel" data-options="fit:true,border:false,selected:0">
-					<header>
-						<div class="m-toolbar" style="opacity: 0.9; box-shadow: inset 0px 0px 3px 3px #eab2b2;">
-							<span class="m-title">备忘录</span>
-						</div>
-						<div></div>
-					</header>
+					<div>
+						<header class="subjct-tip">
+							<div class="m-toolbar">
+								<span class="m-title subjct-title">备忘录</span>
+							</div>
+
+						</header>
+						<div class="content-panel"></div>
+					</div>
 				</div>
 			</div>
 			<div id="myself" style="padding: 10px; background-color: #f2f6f9;" class="list-ul">
@@ -121,7 +185,7 @@ a {
 					<img src='${base}static/mobile/images/NV_MYSEIF.png' width="30px;" height="30px;" /> <br>个人中心
 				</div>
 				<div class="easyui-navpanel" style="background-color: #f2f6f9; opacity: 0.9; box-shadow: 1px 1px 1px #333333;">
-					<ul class="m-toolbar m-list list-ul" >
+					<ul class="m-toolbar m-list list-ul">
 						<li>我</li>
 					</ul>
 					<div style="background-color: #f2f6f9; height: auto; padding-top: 15px;">

@@ -466,7 +466,7 @@ public class LearningServiceImpl implements LearningService {
 
 			} else {
 
-				List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
+				List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids,null);
 				for (LearnEnglishWordsModel learnEnglishWordsModel : selectByIdsAll) {
 					if (learnEnglishWordsModel.getType().equals("word")) {
 						word++;
@@ -494,7 +494,7 @@ public class LearningServiceImpl implements LearningService {
 	}
 
 	@Override
-	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId) {
+	public List<LearnEnglishWordsModel> getWordsByLearn(String learnId,String type) {
 		List<LearnRelationModel> selectBylearnid = learnRelationDao.selectBylearnid(learnId);
 		List<String> ids = new ArrayList<>();
 		for (LearnRelationModel learnRelationModel : selectBylearnid) {
@@ -503,7 +503,7 @@ public class LearningServiceImpl implements LearningService {
 		if (ids.size() == 0) {
 			return new ArrayList<>();
 		}
-		List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids);
+		List<LearnEnglishWordsModel> selectByIdsAll = learnEnglishWordsDao.selectByIdsAll(ids,type);
 		return selectByIdsAll;
 	}
 

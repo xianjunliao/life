@@ -46,6 +46,9 @@
 		<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
 			#{item}
 		</foreach>
+		<if test="type != null">
+			and type=#{type,jdbcType=VARCHAR}
+		</if>
 	</select>
 	<select id="selectByWord" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
