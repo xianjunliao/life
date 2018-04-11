@@ -3,10 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <script type="text/javascript">
 	var isError = false;
 	var acc_index = 0;
+	var wordSize = 0;
+	var tindex = 0;
+	var playUrl;
+	var dataList;
 	$(function() {
 		var id = "${id}";
 		$(".pause-voice").hide();
@@ -15,6 +19,90 @@
 		$('#switchbutton').switchbutton({
 			onChange : function(param) {
 				wayChange(param);
+			}
+		});
+		var startX, startY;
+		$("#words-type").on("touchstart", function(e) {
+			// 判断默认行为是否可以被禁用
+			if (e.cancelable) {
+				// 判断默认行为是否已经被禁用
+				if (!e.defaultPrevented) {
+					e.preventDefault();
+				}
+			}
+			startX = e.originalEvent.changedTouches[0].pageX, startY = e.originalEvent.changedTouches[0].pageY;
+		});
+		$("#words-type").on("touchend", function(e) {
+			// 判断默认行为是否可以被禁用
+			if (e.cancelable) {
+				// 判断默认行为是否已经被禁用
+				if (!e.defaultPrevented) {
+					e.preventDefault();
+				}
+			}
+			var moveEndX = e.originalEvent.changedTouches[0].pageX;
+			var moveEndY = e.originalEvent.changedTouches[0].pageY;
+			var X = moveEndX - startX;
+			var Y = moveEndY - startY;
+			//左滑
+			if (X > 100) {
+				// 				console.log("1");
+				// 				console.log(tindex);
+				// 				if(tindex==wordSize){
+				// 					tindex=0;
+				// 				}else{
+				// 					tindex++;
+				// 				}
+
+			}
+			//右滑
+			else if (X < -100) {
+				var getI = tindex - 1;
+				var getII = tindex - 2;
+				var getIII = tindex + 1;
+				if (tindex == 0) {
+					getI = 0;
+					getII = 0;
+				}
+				if (tindex == (wordSize - 1)) {
+					tindex = 0;
+					getIII = 0;
+					getII = 0;
+				}
+
+				// 				if(getIII>=wordSize){
+				// 					getIII=0;
+				// 				}
+				$("#" + getI).addClass("fast-one-by-one-left");
+				$("#" + getI).removeClass("fast-one-by-one");
+				$("#" + getI).removeClass("fast-one-by-one-first");
+				$("#" + getI).animate({
+					left : '-230px',
+					right : '0px'
+				}, 1000);
+
+				$("#" + getIII).addClass("fast-one-by-one-right");
+				$("#" + getIII).removeClass("fast-one-by-one");
+				$("#" + getIII).removeClass("fast-one-by-one-left");
+				// 				$("#"+getIII).animate({
+				// 					right : '-235px',
+				// 					left : '0px',
+				// 				}, 1000);
+
+				$("#" + tindex).addClass("fast-one-by-one");
+				$("#" + tindex).addClass("fast-one-by-one-first");
+				$("#" + tindex).removeClass("fast-one-by-one-right");
+				$("#" + tindex).removeClass("fast-one-by-one-left");
+
+				$("#" + getII).addClass("fast-one-by-one");
+				$("#" + getII).removeClass("fast-one-by-one-left");
+
+				$("#" + tindex).animate({
+					right : '0px',
+					left : '-230px',
+				}, 1000);
+				playFast(dataList[tindex].mp3Url);
+				tindex++;
 			}
 		});
 	})
@@ -55,11 +143,20 @@
 				if (result.code == 200) {
 					$('.fast-one-by-one').remove();
 					var words = result.data;
+					dataList = result.data;
+					wordSize = words.length;
 					if (words.length > 0) {
 						for (var i = 0; i < words.length; i++) {
-							var cls = "fast-one-by-one";
+							var cls = "fast-all fast-one-by-one";
 							if (i == 0) {
 								cls = cls + " fast-one-by-one-first";
+								playUrl = words[i].usAudio;
+							}
+							if (i == 1 && words.length >= 2) {
+								cls = "fast-all fast-one-by-one-right";
+							}
+							if (i == (words.length - 1) && words.length >= 2) {
+								cls = "fast-all fast-one-by-one-left";
 							}
 							var word = words[i].word;
 							var definition = words[i].definition;
@@ -68,7 +165,16 @@
 							var ukAudio = words[i].ukAudio;
 							var usPronunciation = words[i].usPronunciation;
 							var ukPronunciation = words[i].ukPronunciation;
-							$('#words-type').append('<div id="'+i+'" class="'+cls+'"><div class="fast-content"><div class="fast-word-content">' + word + '</div><div style="float: left;margin-right:15px;">美:' + usPronunciation + '</div><div>英:' + ukPronunciation + '</div><div>' + definition + '</div></div></div>');
+							var porDIV = '<div class="div-pro"><div class="pronunciation" style="float: left;margin-right:15px;">美:' + usPronunciation + '</div><div class="pronunciation" style="margin-right:15px;">英:' + ukPronunciation + '</div>';
+							if (wtype == 'word') {
+								$('#words-type').append('<div id="'+i+'" class="'+cls+'"><div class="fast-content"><div class="fast-word-content">' + word + '</div><div>' + porDIV + '</div><div class="definition">' + definition + '</div></div>');
+							} else {
+								$('#words-type').append('<div id="'+i+'" class="'+cls+'"><div class="fast-content"><div class="fast-word-content">' + word + '</div><div class="definition">' + definition + '</div></div>');
+							}
+						}
+						if (words.length == 2) {
+							$('#words-type').append('<div id="1" class="fast-all fast-one-by-one-right"><div class="fast-content"><div class="fast-word-content">' + words[1].word + '</div><div class="definition">' + words[1].definition + '</div></div>');
+
 						}
 					} else {
 						var cls = "icon-add-self";
@@ -161,7 +267,12 @@
 		}
 
 	}
-
+	function playFast(url) {
+		var audioVus = document.getElementById('audioVFast');
+		$("#audioVFast").attr("src", url);
+		audioVus.play();
+		audioVus.loop = false;
+	}
 	function pauseAudio(id) {
 		$(".pause-voice").hide();
 		$(".play-voice").show();
@@ -204,32 +315,89 @@
 			$("#word-ps").html("提示：新增后会自动获取翻译结果。");
 		}
 	}
+	function pageTo() {
+
+	}
 </script>
 <style>
+.pronunciation {
+	font-size: 10px;
+	color: #1f804b;
+	font-weight: 700;
+	margin-left: 15px;
+}
+
+.definition {
+	margin-left: 15px;
+	margin-top: 15px;
+	font-size: 14px;
+	color: #595561;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.div-pro {
+	text-align: right;
+}
+
 #fast-buttons {
 	background-color: #aedff1;
 	width: 100%;
 	height: 27px;
 }
 
+#words-type {
+	width: 100%;
+}
+
 .fast-one-by-one {
 	display: none;
-	height: 65%;
+	height: 96%;
+	width: 270px;
 	background-color: #c2e6f7;
+	margin: 10px 55px 10px 55px;
+	box-shadow: 1px 1px 20px #333333;
+	float: left;
 }
 
 .fast-one-by-one-first {
 	display: block;
 }
 
+.fast-one-by-one-left {
+	display: block;
+	position: absolute;
+	background-color: #c2e6f7;
+	left: -230px;
+	width: 270px;
+	float: left;
+	height: 87%;
+	top: 60px;
+}
+
+.fast-one-by-one-right {
+	display: block;
+	position: absolute;
+	background-color: #c2e6f7;
+	right: -235px;
+	width: 270px;
+	float: left;
+	height: 87%;
+	top: 60px;
+}
+
 .fast-content {
-	padding-top: 50px;
+	padding-top: 20px;
 }
 
 .fast-word-content {
 	padding-top: 80px;
-	padding-left: 37%;
+	font-size: 28px;
+	text-align: center;
+	font-weight: 900;
+	color: red;
 	padding-bottom: 45px;
+	font-weight: 900;
 }
 
 .hh-inner {
@@ -403,31 +571,32 @@ body {
 			</div>
 		</header>
 		<div>
-			<div id="words-type">
-				<div id="sound-div" style="position: absolute; top: 120px; right: 5px;">
-					<div>美式发音</div>
-				</div>
-				<div id="play-div" style="position: absolute; top: 150px; right: 5px;">
-					<div>顺序播放</div>
-				</div>
+			<div id="words-type" ondblclick="pageTo()">
+				<!-- 				<div id="sound-div" style="position: absolute; top: 120px; right: 5px;"> -->
+				<!-- 					<div>美式发音</div> -->
+				<!-- 				</div> -->
+				<!-- 				<div id="play-div" style="position: absolute; top: 150px; right: 5px;"> -->
+				<!-- 					<div>顺序播放</div> -->
+				<!-- 				</div> -->
 			</div>
-			<div id="fast-buttons">
-				<div id="last-read" class="read-buttons-div">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-last-self',plain:true"></a>
-				</div>
-				<div id="play-read" class="read-buttons-div">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-play-self',plain:true"></a>
-				</div>
-				<div id="stop-read" class="read-buttons-div">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-stop-self',plain:true"></a>
-				</div>
-				<div id="next-read" class="read-buttons-div">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-next-self',plain:true"></a>
-				</div>
-			</div>
+			<!-- 			<div id="fast-buttons"> -->
+			<!-- 				<div id="last-read" class="read-buttons-div"> -->
+			<!-- 					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-last-self',plain:true"></a> -->
+			<!-- 				</div> -->
+			<!-- 				<div id="play-read" class="read-buttons-div"> -->
+			<!-- 					<a class="easyui-linkbutton" data-options="iconCls:'icon-play-self',plain:true"></a> -->
+			<!-- 				</div> -->
+			<!-- 				<div id="stop-read" class="read-buttons-div"> -->
+			<!-- 					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-stop-self',plain:true"></a> -->
+			<!-- 				</div> -->
+			<!-- 				<div id="next-read" class="read-buttons-div"> -->
+			<!-- 					<a class="easyui-linkbutton" data-options="iconCls:'icon-fast-next-self',plain:true"></a> -->
+			<!-- 				</div> -->
+			<!-- 			</div> -->
 		</div>
 	</div>
 	<audio id="audioVus" hidden></audio>
 	<audio id="audioVuk" hidden></audio>
+	<audio id="audioVFast" hidden></audio>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <script type="text/javascript">
 	$(function() {
 		var idx = "${idx}";
@@ -16,7 +16,6 @@
 				}
 			}
 		});
-
 	})
 	function openit(id) {
 		window.location.replace("${base}learn/dayLearns?id=" + id + "&tabIndex=0");
@@ -64,10 +63,10 @@
 	}
 </script>
 <style>
-.word-li{
-
-
+.word-li {
+	
 }
+
 html, body {
 	height: 100%;
 	overflow: hidden;
@@ -142,7 +141,7 @@ a {
 								<span class="m-title subjct-title">每日英语</span>
 							</div>
 						</header>
-						<div class="content-panel">
+						<div class="content-panel" id="big-div">
 							<ul class="m-list" id="word-days">
 							</ul>
 						</div>

@@ -229,8 +229,13 @@ public class LearningController {
 	public ResponseMessage<List<LearnEnglishWordsModel>> getWordsByType(String id,String type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<List<LearnEnglishWordsModel>> outMSG = new ResponseMessage<>();
 		try {
+			List<LearnEnglishWordsModel> newList=new ArrayList<LearnEnglishWordsModel>();
 			List<LearnEnglishWordsModel> wordsByLearn = learningService.getWordsByLearn(id,type);
-			outMSG.setData(wordsByLearn);
+			for (LearnEnglishWordsModel learnEnglishWordsModel : wordsByLearn) {
+				learnEnglishWordsModel.setDefinition(learnEnglishWordsModel.getDefinition().replace("\n","<br>"));
+				newList.add(learnEnglishWordsModel);
+			}
+			outMSG.setData(newList);
 			outMSG.setCode("200");
 		} catch (Exception e) {
 			outMSG.setCode("209");

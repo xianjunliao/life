@@ -20,3 +20,4 @@
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.easyui.mobile.js"></script>
+
