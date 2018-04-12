@@ -6,33 +6,6 @@
 <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <script type="text/javascript">
 	$(function() {
-		var startX, startY;
-		$("#big-div").on("touchstart", function(e) { // 判断默认行为是否可以被禁用
-			if (e.cancelable) {
-				// 判断默认行为是否已经被禁用
-				if (!e.defaultPrevented) {
-					e.preventDefault();
-				}
-			}
-			startX = e.originalEvent.changedTouches[0].pageX;
-			startY = e.originalEvent.changedTouches[0].pageY;
-		});
-		$("#big-div").on("touchend", function(e) { // 判断默认行为是否可以被禁用
-			if (e.cancelable) {
-				// 判断默认行为是否已经被禁用
-				if (!e.defaultPrevented) {
-					e.preventDefault();
-				}
-			}
-			var moveEndX = e.originalEvent.changedTouches[0].pageX;
-			var moveEndY = e.originalEvent.changedTouches[0].pageY;
-			var X = moveEndX - startX;
-			var Y = moveEndY - startY;
-			
-			$(e.target).focus();
-			$(e.target).click();
-			e.defaultPrevented();
-		});
 
 	});
 	function enter() {
