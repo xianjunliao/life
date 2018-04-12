@@ -63,9 +63,9 @@
 
 	function leftGo() {
 		if(isOrder){
-			tindex=randomNum();
-		}else{
 			tindex++;
+		}else{
+			tindex=randomNum();
 		}
 		var length = maxIndex - 1;
 		if (tindex >= maxIndex) {
@@ -90,9 +90,9 @@
 	function rightGo() {
 		
 		if(isOrder){
-			tindex=randomNum();
-		}else{
 			tindex--;
+		}else{
+			tindex=randomNum();
 		}
 		var length = maxIndex - 1;
 		if (tindex < 0) {
@@ -112,6 +112,7 @@
 		setReadingValue(words[first], "first");
 		setReadingValue(words[leftIndex], "left");
 		setReadingValue(words[rightIndex], "right");
+		
 	}
 	function back() {
 		window.location.replace("${base}learn/mob?idx=0");
@@ -363,10 +364,10 @@
 	function playRandom(target) {
 		var t = $(target).text();
 		if (t == "顺序播放") {
-			isOrder=true;
+			isOrder=false;
 			$(target).text("随机播放");
 		} else {
-			isOrder=false;
+			isOrder=true;
 			$(target).text("顺序播放");
 		}
 
