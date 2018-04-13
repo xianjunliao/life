@@ -62,10 +62,10 @@
 	})
 
 	function leftGo() {
-		if(isOrder){
+		if (isOrder) {
 			tindex++;
-		}else{
-			tindex=randomNum();
+		} else {
+			tindex = randomNum();
 		}
 		var length = maxIndex - 1;
 		if (tindex >= maxIndex) {
@@ -85,14 +85,15 @@
 		setReadingValue(words[first], "first");
 		setReadingValue(words[leftIndex], "left");
 		setReadingValue(words[rightIndex], "right");
+		$(".first-total").html("<b>" + (tindex + 1) + "</b>/" + maxIndex);
 
 	}
 	function rightGo() {
-		
-		if(isOrder){
+
+		if (isOrder) {
 			tindex--;
-		}else{
-			tindex=randomNum();
+		} else {
+			tindex = randomNum();
 		}
 		var length = maxIndex - 1;
 		if (tindex < 0) {
@@ -112,7 +113,8 @@
 		setReadingValue(words[first], "first");
 		setReadingValue(words[leftIndex], "left");
 		setReadingValue(words[rightIndex], "right");
-		
+		$(".first-total").html("<b>" + (tindex + 1) + "</b>/" + maxIndex);
+
 	}
 	function back() {
 		window.location.replace("${base}learn/mob?idx=0");
@@ -166,10 +168,11 @@
 							setReadingValue(words[1], "left");
 							setReadingValue(words[maxIndex - 1], "right");
 						}
-						time = setInterval("rightGo()", 3000);
+						$(".first-total").html("<b>1</b>/" + maxIndex);
 					} else {
-						var cls = "icon-add-self";
-						$('#words-type').html('<a href="javascript:void(0)" onclick="addWord(\'' + type + '\',\'' + learnId + '\',\'' + learnId + '\')" class="easyui-linkbutton" data-options="iconCls:' + cls + ',plain:true">添加</a>');
+						$('#words-type').empty();
+
+						$('#words-type').html('<div class="icon-add-self-word"  onclick="addWord(\'' + type + '\',\'' + learnId + '\',\'' + learnId + '\')">添加</div>');
 					}
 				} else {
 					$('#words-type').html("<h3>查询出现异常！</h3>");
@@ -190,7 +193,6 @@
 
 	}
 
-
 	function randomNum() {
 		var x = maxIndex;
 		var y = 0;
@@ -199,23 +201,27 @@
 	}
 	function setReadingValue(obj, target) {
 
+		var url;
 		$("#" + target + "-word-text").text(obj.word);
 		$("#" + target + "-definition").html(obj.definition);
-		if (target == 'first') {
-			if (isUs) {
-				playFast(obj.usAudio);
-			} else {
-				playFast(obj.ukAudio);
-			}
-		}
 		if (obj.type == 'word') {
+			if (target == 'first') {
+				if (isUs) {
+					url = obj.usAudio;
+				} else {
+					url = obj.ukAudio;
+				}
+			}
 			$("#" + target + "-usPronunciation").text("美:" + obj.usPronunciation);
 			$("#" + target + "-ukPronunciation").text("英:" + obj.ukPronunciation);
 			$("#" + target + "-div-pro").show();
 		} else {
 			$("#" + target + "-div-pro").hide();
+			if (target == 'first') {
+				url = obj.mp3url;
+			}
 		}
-
+		playFast(url);
 	}
 
 	function openit(target, wordType) {
@@ -349,12 +355,12 @@
 	function playSound(target) {
 		var t = $(target).text();
 		if (t == "美式发音") {
-			isUs=false;
+			isUs = false;
 			$("#first-usPronunciation").css("color", "#47474a");
 			$("#first-ukPronunciation").css("color", "green");
 			$(target).text("英式发音");
 		} else {
-			isUs=true;
+			isUs = true;
 			$("#first-ukPronunciation").css("color", "#47474a");
 			$("#first-usPronunciation").css("color", "green");
 			$(target).text("美式发音");
@@ -364,16 +370,26 @@
 	function playRandom(target) {
 		var t = $(target).text();
 		if (t == "顺序播放") {
-			isOrder=false;
+			isOrder = false;
 			$(target).text("随机播放");
 		} else {
-			isOrder=true;
+			isOrder = true;
 			$(target).text("顺序播放");
 		}
 
 	}
 </script>
 <style>
+.icon-add-self-word {
+	background-color: #aedff1;
+	width: 100%;
+	position: absolute;
+	top: 50%;
+	text-align: center;
+	font-size: 20px;
+	box-shadow: 1px 1px 5px #333333;
+}
+
 #first-usPronunciation {
 	color: green;
 }
@@ -433,7 +449,7 @@
 	display: block;
 	position: absolute;
 	background-color: #c2e6f7;
-	box-shadow:inset 20px 0px 50px 20px #3a3838;
+	box-shadow: inset 20px 0px 50px 20px #3a3838;
 	left: -100px;
 	width: 270px;
 	float: left;
@@ -447,7 +463,7 @@
 	display: block;
 	position: absolute;
 	background-color: #c2e6f7;
-	box-shadow:inset -20px 0px 20px 20px #3a3838;
+	box-shadow: inset -20px 0px 20px 20px #3a3838;
 	right: -100px;
 	width: 270px;
 	float: left;
@@ -543,6 +559,15 @@ body {
 	text-align: center;
 	font-size: 20px;
 	box-shadow: 1px 1px 5px #333333;
+}
+
+.first-total {
+	position: absolute;
+	bottom: 28px;
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	color: red;
 }
 
 .first-sound {
@@ -688,7 +713,8 @@ body {
 					</div>
 					<div class="first-sound" onclick="playSound(this)">美式发音</div>
 					<div class="first-autoOrNot" onclick="playRandom(this)">顺序播放</div>
-					<div class="first-opter" onclick="autoPlayStop(this)">暂停</div>
+					<div class="first-total">0/0</div>
+					<div class="first-opter" onclick="autoPlayStop(this)">播放</div>
 				</div>
 				<div id="left-div" class="fast-all fast-one-by-one-left">
 					<div class="fast-content">
@@ -717,9 +743,9 @@ body {
 			</div>
 		</div>
 	</div>
-	
 
-	
+
+
 	<audio id="audioVus" hidden></audio>
 	<audio id="audioVuk" hidden></audio>
 	<audio id="audioVFast" hidden></audio>
