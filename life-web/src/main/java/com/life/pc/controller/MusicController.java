@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("musicPlayer")
-public class MusicPlayerController {
+@RequestMapping("music")
+public class MusicController {
 	/**
 	 * 模板存放目录
 	 */
-	private final static String FTL_DIR = "musicPlayer/";
+	private final static String FTL_DIR = "file/";
 
 	@RequestMapping("/{pageName}")
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request)

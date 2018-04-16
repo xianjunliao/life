@@ -187,8 +187,8 @@
 			$(target).text("播放");
 		} else {
 			$(target).text("暂停");
-			rightGo();
-			time = setInterval("rightGo()", 3000);
+			leftGo();
+			time = setInterval("leftGo()", 3000);
 		}
 
 	}
@@ -211,6 +211,7 @@
 				} else {
 					url = obj.ukAudio;
 				}
+				playFast(url);
 			}
 			$("#" + target + "-usPronunciation").text("美:" + obj.usPronunciation);
 			$("#" + target + "-ukPronunciation").text("英:" + obj.ukPronunciation);
@@ -219,9 +220,10 @@
 			$("#" + target + "-div-pro").hide();
 			if (target == 'first') {
 				url = obj.mp3url;
+				playFast(url);
 			}
 		}
-		playFast(url);
+	
 	}
 
 	function openit(target, wordType) {
