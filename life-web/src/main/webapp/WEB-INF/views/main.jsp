@@ -116,7 +116,7 @@ body {
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}learn/MUC_index')"><a>弹奏谱架</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}music/music_stand')"><a>弹奏谱架</a></li>
 				</ul>
 			</div>
 			<div class="layui-col-xs12 layui-col-md2 layui-bg-black">

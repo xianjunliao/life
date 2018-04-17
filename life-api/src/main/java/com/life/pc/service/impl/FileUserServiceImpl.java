@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.life.common.Util;
 import com.life.common.file.FileUtils;
 import com.life.pc.dao.FileUserDao;
 import com.life.pc.model.FileUserModel;
@@ -20,13 +21,7 @@ public class FileUserServiceImpl implements FileUserService {
 	@Override
 	public void save(MultipartFile file, FileUserModel fileUserModel) {
 		try {
-			String filePath = "D:/life_files/";
-			String os = System.getProperty("os.name");
-			if (os.toLowerCase().startsWith("win")) {
-				filePath = "D:/life_files/";
-			} else {
-				filePath = "/usr/life/files/";
-			}
+			String filePath =Util.getPathBySys();
 			String filesUpload_stream = FileUtils.FilesUpload_stream(file, filePath, fileUserModel.getUploadUser(), fileUserModel.getFileType(), fileUserModel.getFileName().replace(",", " and "));
 			fileUserModel.setFilePath(filesUpload_stream);
 			fileUserDao.save(fileUserModel);

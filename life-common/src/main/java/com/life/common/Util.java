@@ -11,6 +11,17 @@ import java.util.*;
  */
 public class Util {
 
+	public static String getPathBySys() {
+		String filePath = "D:/life_files/";
+		String os = System.getProperty("os.name");
+		if (os.toLowerCase().startsWith("win")) {
+			filePath = "D:/life_files/";
+		} else {
+			filePath = "/usr/life/files/";
+		}
+		return filePath;
+	}
+
 	public static Timestamp getNowDate() {
 		Date date = new Date();// 获得系统时间.
 		String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);// 将时间格式转换成符合Timestamp要求的格式.
@@ -69,6 +80,7 @@ public class Util {
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.toString();
 	}
+
 	public static Double getKB(Double double1) {
 		double size = double1;
 		double l = size / 1024;
@@ -76,6 +88,7 @@ public class Util {
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
+
 	public static void main(String[] args) {
 		System.out.println(getUUId16());
 	}

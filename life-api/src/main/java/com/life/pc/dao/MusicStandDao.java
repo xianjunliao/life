@@ -1,5 +1,7 @@
 package com.life.pc.dao;
 
+import java.util.List;
+
 import com.life.pc.model.MusicStandModel;
 
 public interface MusicStandDao {
@@ -13,4 +15,6 @@ public interface MusicStandDao {
     int updateByPrimaryKeySelective(MusicStandModel record);
 
     int updateByPrimaryKey(MusicStandModel record);
+    
+    List<MusicStandModel>  selectByName(String musicname);
 }

@@ -100,7 +100,6 @@ body {
 	-moz-box-shadow: 2px 2px 20px #333333;
 	-webkit-box-shadow: 2px 2px 20px #333333;
 	background-color: white;
-	background-color: white
 }
 
 a {

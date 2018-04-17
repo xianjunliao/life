@@ -124,7 +124,7 @@ div.panel>div.panel-body.accordion-body>div {
 													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a onclick="aaa('${base}learn/showNow?number=150')">图片管理</a></span>
 												</div></li>
 													<li><div id="_easyui_tree_3" class="tree-node">
-													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a onclick="aaa('${base}tree/getAllUri')">图片管理2</a></span>
+													<span class="tree-indent"></span><span class="tree-icon tree-file "></span><span class="tree-title"><a onclick="aaa('${base}music/music_stand')">图片管理2</a></span>
 												</div></li>
 										</ul>
 									</div>

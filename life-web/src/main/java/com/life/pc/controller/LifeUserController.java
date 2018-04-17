@@ -68,18 +68,18 @@ public class LifeUserController {
 	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = WebUtils.getUserInfo(request);
-			initData(model, attribute);
 			try {
+				initData(model, attribute);
+				if (pageName.contains("test")) {
+					return "error/" + pageName + ".jsp";
+				}
+//				if (SystemGet.getNowIp().contains("10.81")) {
+//					return FTL_DIR + "main-false.jsp";
+//				}
 				if (UUID.fromString(pageName) != null) {
 					return FTL_DIR + "main.jsp";
 				}
 			} catch (Exception e) {
-//				if (pageName.contains("test")) {
-//					return "error/" + pageName + ".jsp";
-//				}
-//				if (SystemGet.getNowIp().contains("10.83")) {
-//					return FTL_DIR + "main-false.jsp";
-//				}
 				if (SystemGet.getNowIp().contains("192.168.1.101") || SystemGet.getNowIp().contains("47.91.252.134") || SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
 					return FTL_DIR + pageName + ".jsp";
 				}else{

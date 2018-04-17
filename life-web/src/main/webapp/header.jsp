@@ -24,3 +24,4 @@
 <script type="text/javascript" src="${base}static/ui/layui/layui.js"></script>
 <script type="text/javascript" src="${base}static/ui/layui/layui.all.js"></script>
 <script type="text/javascript" src="${base}static/js/common-utils.js"></script>
+<script type="text/javascript" src="${base}static/life-js/common.js"></script>
