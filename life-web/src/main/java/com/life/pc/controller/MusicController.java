@@ -36,7 +36,8 @@ public class MusicController {
 	private MusicStandService musicStandService;
 
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request) throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request)
+			throws ServletException, IOException {
 		try {
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,9 +45,31 @@ public class MusicController {
 		return FTL_DIR + pageName + ".jsp";
 	}
 
+	@RequestMapping("/openScore")
+	public String openPage(String name, ModelMap model, HttpServletRequest request)
+			throws ServletException, IOException {
+		try {
+			if (name.equals("top")) {
+				String userCode = WebUtils.getUserCode(request);
+				List<MusicStandModel> models = musicStandService.selectByTop(userCode);
+				int len = models.size();
+				if (len == 0) {
+					name = null;
+				} else {
+					name = models.get(0).getMusicname();
+				}
+			}
+			model.put("musicname",  name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return FTL_DIR + "open_stand.jsp";
+	}
+
 	@RequestMapping(path = { "/getScore" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<List<MusicStandModel>> getScore(String name, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<List<MusicStandModel>> getScore(String name, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<List<MusicStandModel>> outMSG = new ResponseMessage<>();
 		try {
 			if (Str.isEmpty(name)) {
@@ -74,7 +97,8 @@ public class MusicController {
 
 	@RequestMapping(path = { "/getTop" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<List<MusicStandModel>> getTop(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<List<MusicStandModel>> getTop(HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		ResponseMessage<List<MusicStandModel>> outMSG = new ResponseMessage<>();
 		try {
 
@@ -97,7 +121,8 @@ public class MusicController {
 
 	@RequestMapping(path = { "/getAll" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<List<MusicStandModel>> getAll(HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<List<MusicStandModel>> getAll(HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		ResponseMessage<List<MusicStandModel>> outMSG = new ResponseMessage<>();
 		try {
 
@@ -120,7 +145,9 @@ public class MusicController {
 
 	@RequestMapping(path = { "/addScore" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<String[]> uploadFile(@RequestParam("file") MultipartFile file, MusicStandModel musicStandModel, String nextname, String index, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<String[]> uploadFile(@RequestParam("file") MultipartFile file,
+			MusicStandModel musicStandModel, String nextname, String index, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<String[]> outMSG = new ResponseMessage<>();
 		musicStandModel.setUsercode(WebUtils.getUserCode(request));
 		int insertSelective = musicStandService.insertSelective(file, musicStandModel);
@@ -137,14 +164,16 @@ public class MusicController {
 	}
 
 	@RequestMapping(path = { "/score" }, method = { RequestMethod.GET })
-	public void fileDownload(String id, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public void fileDownload(String id, HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		MusicStandModel model = musicStandService.selectByPrimaryKey(id);
 		FileUtils.FilesDownload_stream(request, response, model.getFilename(), model.getFilepath(), "image/jpeg");
 	}
 
 	@RequestMapping(path = { "/toTop" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<String> toTop(String name, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<String> toTop(String name, HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			String userCode = WebUtils.getUserCode(request);
@@ -166,7 +195,8 @@ public class MusicController {
 
 	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<String> delete(String id, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<String> delete(String id, HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			int deleteByPrimaryKey = musicStandService.deleteByPrimaryKey(id);
@@ -186,7 +216,8 @@ public class MusicController {
 
 	@RequestMapping(path = { "/deleteByName" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<String> deleteByName(String name, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<String> deleteByName(String name, HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			String userCode = WebUtils.getUserCode(request);

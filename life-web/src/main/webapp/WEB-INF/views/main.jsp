@@ -67,7 +67,7 @@ body {
 <script type="text/javascript">
 	function openWeb(url) {
 
-		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="95%"></iframe>');
+		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="100%"></iframe>');
 	}
 	function autoGetCount() {
 
@@ -92,7 +92,7 @@ body {
 		});
 	}
 	function initPage() {
-		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="95%"></iframe>');
+		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
 		$("#fristOpen").addClass("layui-this");
 	}
 	$(function() {
@@ -116,7 +116,7 @@ body {
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}music/music_stand')"><a>弹奏谱架</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}music/music_stand')"><a>乐谱谱架</a></li>
 				</ul>
 			</div>
 			<div class="layui-col-xs12 layui-col-md2 layui-bg-black">
