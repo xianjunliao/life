@@ -20,7 +20,14 @@
 		id, musicname, filename, pagenumber, filepath, filesize, url, createtime, updatetime,
 		usercode,isTop
 	</sql>
-
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from music_stand where id= #{id,jdbcType=VARCHAR}
+	</delete>
+	
+		<delete id="deleteByName" parameterType="java.lang.String">
+		delete from music_stand where musicname= #{musicname,jdbcType=VARCHAR} and usercode= #{usercode,jdbcType=VARCHAR}
+	</delete>
+	
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
@@ -32,8 +39,29 @@
 		select
 		<include refid="Base_Column_List" />
 		from music_stand
-		where musicname = #{musicname,jdbcType=VARCHAR}
+		where musicname = #{musicname,jdbcType=VARCHAR} and usercode= #{usercode,jdbcType=VARCHAR} order by pagenumber asc
 	</select>
+	<select id="selectByTop" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from music_stand
+		where usercode= #{usercode,jdbcType=VARCHAR} and isTop=1 order by pagenumber asc
+	</select>
+
+	<select id="selectByUser" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		musicname,count(pagenumber) pagenumber,ROUND(sum(filesize),2) filesize,max(url) url,max(isTop) isTop
+		from music_stand
+		where usercode= #{usercode,jdbcType=VARCHAR} group by musicname
+	</select>
+
+	<update id="toTopAfter" parameterType="java.lang.String">
+		update music_stand set isTop=1 where musicname = #{musicname,jdbcType=VARCHAR} and usercode= #{usercode,jdbcType=VARCHAR}
+	</update>
+
+	<update id="toTopBefore">
+		update music_stand set isTop=0 where isTop =1 and usercode= #{usercode,jdbcType=VARCHAR}
+	</update>
 
 	<insert id="insertSelective" parameterType="com.life.pc.model.MusicStandModel">
 		insert into music_stand

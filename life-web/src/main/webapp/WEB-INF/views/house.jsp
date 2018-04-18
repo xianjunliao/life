@@ -124,7 +124,7 @@
 	<!-- 		</div> -->
 	<div id="menu" class="easyui-menu" style="width: 150px;">
 		<div id="m-refresh">刷新</div>
-<!-- 		<div id="m-full-screen">全屏</div> -->
+		<div id="m-full-screen">全屏</div>
 		<div class="menu-sep"></div>
 		<div id="m-closeall">全部关闭</div>
 		<div id="m-closeother">除此之外全部关闭</div>

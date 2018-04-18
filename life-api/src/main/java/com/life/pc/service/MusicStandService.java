@@ -18,5 +18,13 @@ public interface MusicStandService {
 
 	int updateByPrimaryKey(MusicStandModel record);
 	
-    List<MusicStandModel>  selectByName(String musicname);
+    List<MusicStandModel>  selectByName(String musicname,String usercode);
+    
+    void toTopAfter(String musicname,String usercode);
+    
+	List<MusicStandModel> selectByTop( String usercode);
+	
+	List<MusicStandModel> selectByUser( String usercode);
+	
+	void deleteByName(String musicname, String usercode);
 }

@@ -4,8 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String path = request.getContextPath();
-	request.getSession().setAttribute("base",
-			request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/");
+	request.getSession().setAttribute("base", request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/");
 	response.setDateHeader("Expires", 0);
 	response.setHeader("Cache-Control", "no-cache");
 	response.setHeader("Pragma", "no-cache");
@@ -18,6 +17,7 @@
 <link href="${base}static/ui/insdep/themes/insdep/icon.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/insdep/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <link href="${base}static/ui/layui/css/layui.css" rel="stylesheet" type="text/css">
+<link href="${base}static/css/main.css" type="text/css" rel="stylesheet" />
 <script type="text/javascript" src="${base}static/ui/easyui1.5//jquery.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${base}static/ui/insdep/themes/insdep/jquery.insdep-extend.min.js"></script>
@@ -25,3 +25,4 @@
 <script type="text/javascript" src="${base}static/ui/layui/layui.all.js"></script>
 <script type="text/javascript" src="${base}static/js/common-utils.js"></script>
 <script type="text/javascript" src="${base}static/life-js/common.js"></script>
+
