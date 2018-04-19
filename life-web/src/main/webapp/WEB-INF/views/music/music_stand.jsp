@@ -74,9 +74,10 @@ body {
 
 .operation-main {
 	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	left: 5px;
+	top: 5px;
+	transform: translateX(-50%);
+	font-size: 24px;
+	left: 50%;
 }
 
 .print-img {
@@ -121,7 +122,7 @@ body {
 	padding: 2px;
 	cursor: pointer;
 	border-radius: 2px;
-	background-color: #f7eaec;
+	background-color: #e87788;
 	opacity: 0.8;
 }
 
@@ -177,7 +178,7 @@ body {
 	float: left;
 	width: 180px;
 	height: 200px;
-	margin: 5px 5px 5px 85px;
+	margin: 50px 10px 10px 10px;
 	border: 1px #988b8b solid;
 	box-shadow: 5px 5px 10px #171516;
 	background-image: url("${base}static/images/20180321_110947_3856.jpg");

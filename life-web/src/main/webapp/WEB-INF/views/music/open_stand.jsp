@@ -54,7 +54,7 @@ body {
 
 .full-div2 {
 	position: absolute;
-	top: 55%;
+	top: 52%;
 	left: 10px;
 	background-color: #e7e7ef;
 	border-radius: 2px;
