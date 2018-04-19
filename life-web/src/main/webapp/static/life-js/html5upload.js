@@ -26,7 +26,6 @@ ZhangHongyang.html5upload = (function() {
 		_uploadEle.ondragleave = _onDragLeave;
 		_uploadEle.ondrop = _onDrop;
 		_setStatusNoDrag();
-		
 
 	}
 	;
@@ -41,7 +40,7 @@ ZhangHongyang.html5upload = (function() {
 			return;
 		$(".empty-add").text(_tip_drag_over);
 		$("#msg-upload").html("");
-		
+
 	}
 
 	/**
@@ -54,6 +53,9 @@ ZhangHongyang.html5upload = (function() {
 			return;
 		$(".empty-add").text(_tip_no_drag);
 		$("#msg-upload").html("");
+		$("#musicname").css({
+			"border" : "1px #a9a9a9 solid"
+		});
 	}
 
 	/**
@@ -86,6 +88,8 @@ ZhangHongyang.html5upload = (function() {
 	 * @private
 	 */
 	function _onDragEnter(ev) {
+		if (_checkContatinsElements())
+			return;
 		_setDragOverStatus();
 	}
 	/**
@@ -95,8 +99,13 @@ ZhangHongyang.html5upload = (function() {
 	 */
 	function _onDragOver(ev) {
 		// ondragover中必须组织事件的默认行为，默认地，无法将数据/元素放置到其他元素中。
+		if (_checkContatinsElements())
+			return;
 		ev.preventDefault();
 		$("#msg-upload").html("");
+		$("#musicname").css({
+			"border" : "1px #a9a9a9 solid"
+		});
 
 	}
 	/**
@@ -107,6 +116,9 @@ ZhangHongyang.html5upload = (function() {
 	function _onDragLeave(ev) {
 		_setStatusNoDrag();
 		$("#msg-upload").html("");
+		$("#musicname").css({
+			"border" : "1px #a9a9a9 solid"
+		});
 	}
 
 	/**
@@ -115,6 +127,8 @@ ZhangHongyang.html5upload = (function() {
 	 * @private
 	 */
 	function _onDrop(ev) {
+		if (_checkContatinsElements())
+			return;
 		// drop 事件的默认行为是以链接形式打开，所以也需要阻止其默认行为。
 		ev.preventDefault();
 		_setDropStatus();
@@ -132,12 +146,15 @@ ZhangHongyang.html5upload = (function() {
 	 * @private
 	 */
 	function _showUploadFile(file) {
+		if (_checkContatinsElements())
+			return;
 		var reader = new FileReader();
 		// 判断文件类型
 		if (file.type.match(/image*/)) {
 			fileList[file.name] = file;
 			reader.onload = function(e) {
-				var textHtml = "<div id=" + file.lastModified + " title=" + file.name + " class='stand-img-add newpage'><img  name='attachment' src='" + e.target.result + "'width='100%' height='100%'/><div title='删除' onclick='deleteImg(" + file.lastModified + ")' class='delete-img'></div></div>";
+				var textHtml = "<div id=" + file.lastModified + " title=" + file.name + " class='stand-img-add newpage'><img  name='attachment' src='" + e.target.result
+						+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImg(" + file.lastModified + ")' class='delete-img'></div></div>";
 				$("#first-socre").after(textHtml);
 				initWH(".stand-img-add");
 				// 上传文件到服务器

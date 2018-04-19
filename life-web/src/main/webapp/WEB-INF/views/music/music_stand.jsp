@@ -29,10 +29,7 @@ body {
 
 .stand-img:hover {
 	/* 	width: 22%; */
-	background-color: white;
 	cursor: pointer;
-	margin: 5px;
-	float: left;
 	border: 1px red solid;
 }
 
@@ -41,6 +38,14 @@ body {
 	margin: 5px;
 	float: left;
 	border: 1px #ecdada dashed;
+	text-align: center;
+}
+
+.stand-msg {
+	background-color: white;
+	margin: 5px;
+	float: left;
+	border: 2px red solid;
 	text-align: center;
 }
 
@@ -57,6 +62,14 @@ body {
 	font-size: 28px;
 	cursor: pointer;
 	margin-top: 40%;
+}
+
+.empty-stand-msg {
+	text-align: center;
+	font-size: 28px;
+	margin-top: 35%;
+	font-weight:900;
+	text-decoration: underline;
 }
 
 .operation-main {
@@ -95,25 +108,12 @@ body {
 	width: 20px;
 	height: 20px;
 	bottom: 100%;
-	left: 94%;
-	cursor: pointer;
-	position: relative;
-	background-image: url("${base}static/images/print.png");
-	background-repeat: no-repeat;
-	bottom: 100%;
 }
 
 .delete-img:HOVER {
 	margin-top: 5px;
 	width: 20px;
 	height: 20px;
-	bottom: 100%;
-	left: 94%;
-	cursor: pointer;
-	position: relative;
-	background-image: url("${base}static/images/delete.png");
-	background-repeat: no-repeat;
-	bottom: 100%;
 }
 
 .stand-button {
@@ -138,22 +138,11 @@ body {
 }
 
 .stand-button-self:HOVER {
-	margin: 2px;
-	padding: 2px;
-	cursor: pointer;
-	border-radius: 2px;
 	background-color: #252424;
-	float: left;
 	color: white;
-	text-align: center;
-	padding: 2px;
 }
 
 .stand-button:HOVER {
-	margin: 2px;
-	padding: 2px;
-	cursor: pointer;
-	border-radius: 2px;
 	background-color: #252424;
 	color: white;
 	font-weight: 700;
@@ -174,8 +163,8 @@ body {
 }
 
 #msg-upload {
-	color: #e0656f;
-	font-weight: 700;
+	color: red;
+	font-weight: 900;
 	font-size: 12px;
 }
 
@@ -186,27 +175,19 @@ body {
 
 .all-div {
 	float: left;
-	width: 240px;
-	height: 300px;
-	margin: 5px;
-	box-shadow: 5px 5px 10px #a59fa0;
+	width: 180px;
+	height: 200px;
+	margin: 5px 5px 5px 85px;
+	border: 1px #988b8b solid;
+	box-shadow: 5px 5px 10px #171516;
 	background-image: url("${base}static/images/20180321_110947_3856.jpg");
 	background-size: 100%;
 	text-align: center;
-	height: 220px;
-	height: 300px;
 }
 
 .all-div:HOVER {
-	float: left;
-	width: 240px;
-	height: 300px;
 	border: 1px red solid;
-	margin: 5px;
 	box-shadow: 5px 5px 10px #a59fa0;
-	background-image: url("${base}static/images/20180321_110947_3856.jpg");
-	background-size: 100%;
-	text-align: center;
 }
 
 .all-items {
@@ -217,9 +198,8 @@ body {
 .all-buttons {
 	width: 100%;
 	position: relative;
-	top: 50%;
-	left: 10%;
-	position: relative;
+	top: 23%;
+	left: 15px;
 }
 </style>
 <script type="text/javascript" src="${base}static/life-js/html5upload.js"></script>
@@ -228,13 +208,16 @@ body {
 	var ww = window.screen.width;
 	var ary = new Array();
 	$(function() {
-		ZhangHongyang.html5upload.init();
 		$("#add-stand-div").hide();
 		$("#add-model").hide();
 		initWH(".stand-img");
 		initWH(".stand-img-add");
-		initTop();
-
+		initWH(".stand-msg");
+		$("#toTop").hide();
+		$('#first-socre').hide();
+		$('#stand-msg').show();
+		initAll();
+		disableDrop();
 		$("#musicname").keyup(function(e) {
 			$("#musicname").css({
 				"border" : "1px #a9a9a9 solid"
@@ -244,14 +227,19 @@ body {
 			if (name == "" || name == null) {
 				$(".newpage").remove();
 				$(".oldpage").remove();
-				$("#msg-upload").html("请输入乐谱名！");
-				$("#toTop").text("置顶");
+				$('#stand-msg').show();
+				$("#msg-upload").html("必须先输入乐谱名！");
+				disableDrop();
+				$('#first-socre').hide();
+				$("#toTop").hide();
 				return;
 			}
+			ZhangHongyang.html5upload.init();
+			$('#first-socre').show();
+			$('#stand-msg').hide();
 			initScore(name);
 		});
 	});
-
 	function initWH(target) {
 		var w, h;
 		if (ww >= 1366) {
@@ -269,43 +257,42 @@ body {
 		});
 	}
 	function initScore(name) {
-		$
-				.ajax({
-					type : 'POST',
-					dataType : "json",
-					url : '${base}music/getScore?name=' + name,
-					success : function(result) {
-						$(".newpage").remove();
-						$(".oldpage").remove();
-						$("#toTop").text("置顶");
-						var data = result.data;
-						if (result.code = "200" && data != null) {
-							var len = data.length;
-							for (var d = 0; d < len; d++) {
-								var sf = data[d];
-								if (sf.isTop == "1") {
-									$("#toTop").text("已置顶");
-								} else {
-									$("#toTop").text("置顶");
-								}
-								var textHtml = "<div id=" + sf.id + " title="+sf.filename+" class='stand-img-add-old oldpage'><img  name='attachment' src='"
-										+ sf.url
-										+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImgReal("
-										+ sf.id
-										+ ")' class='delete-img'></div></div>";
-								$("#first-socre").after(textHtml);
-								initWH(".stand-img-add-old");
-							}
-							$("#msg-upload").html(result.message);
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}music/getScore?name=' + name,
+			success : function(result) {
+				$(".newpage").remove();
+				$(".oldpage").remove();
+				$("#toTop").text("置顶");
+				var data = result.data;
+				if (result.code = "200" && data != null) {
+					$("#toTop").show();
+					var len = data.length;
+					for (var d = 0; d < len; d++) {
+						var sf = data[d];
+						if (sf.isTop == "1") {
+							$("#toTop").text("已置顶");
 						} else {
-							$(".newpage").remove();
-							$(".oldpage").remove();
 							$("#toTop").text("置顶");
-							$("#msg-upload").html(result.message);
 						}
+						var textHtml = "<div id=" + sf.id + " title="+sf.filename+" class='stand-img-add-old oldpage'><img  name='attachment' src='" + sf.url
+								+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImgReal(" + sf.id + ")' class='delete-img'></div></div>";
+						$("#first-socre").after(textHtml);
+						initWH(".stand-img-add-old");
 					}
-				});
+					$("#msg-upload").html(result.message);
+				} else {
+					$(".newpage").remove();
+					$(".oldpage").remove();
+					$("#toTop").text("置顶");
+					$("#toTop").hide();
+					$("#msg-upload").html(result.message);
+				}
+			}
+		});
 	}
+
 	function initTop(v) {
 		var url = '${base}music/getTop';
 		if (v != null) {
@@ -319,11 +306,9 @@ body {
 				var data = result.data;
 				if (result.code = "200" && data != null) {
 					$("#stand-main").empty();
-					toPlay(data);
+					toPlay(data, "#stand-main");
 				} else {
-					$("#stand-main")
-					.html(
-							"<h1>目前一个置顶的乐谱都没有！</h1>");
+					$("#stand-main").html("<h1>目前一个置顶的乐谱都没有！</h1>");
 				}
 			}
 		});
@@ -331,15 +316,8 @@ body {
 	}
 
 	function openStand(name) {
-		window
-				.open(
-						'${base}music/openScore?name=' + name,
-						"ss",
-						'height='
-								+ wh
-								+ ', width='
-								+ ww
-								+ ', top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		window.open('${base}music/openScore?name=' + name, name, 'height=' + wh + ', width=' + ww
+				+ ', top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 
 	}
 	function fullOpen(name) {
@@ -353,7 +331,7 @@ body {
 				var data = result.data;
 				if (result.code = "200" && data != null) {
 					$("#stand-main").empty();
-					toPlay(data);
+					toPlay(data, "#stand-main");
 				} else {
 					$("#stand-main").text("查无此谱！！！");
 				}
@@ -363,52 +341,36 @@ body {
 	}
 
 	function initAll() {
-		$
-				.ajax({
-					type : 'POST',
-					dataType : "json",
-					url : '${base}music/getAll',
-					success : function(result) {
-						var data = result.data;
-						if (result.code = "200" && data != null) {
-							$("#stand-main").empty();
-							var len = data.length;
-							for (var d = 0; d < len; d++) {
-								var sf = data[d];
-								var isTop = sf.isTop;
-								var t = "置顶";
-								if (isTop == "1") {
-									t = "已置顶";
-								}
-								var textHtml = "<div class='all-div'><div class='all-items'>谱名："
-										+ sf.musicname
-										+ "</div><div class='all-items'>共"
-										+ sf.pagenumber
-										+ "页</div><div class='all-items'>总大小："
-										+ sf.filesize
-										+ "KB</div><div class='all-buttons'><div class='stand-button-self' onclick='fullOpen(\""
-										+ sf.musicname
-										+ "\")'>全屏</div><div class='stand-button-self' onclick='openStand(\""
-										+ sf.musicname
-										+ "\")'>窗口</div><div class='stand-button-self' onclick='toTopByName(\""
-										+ sf.musicname
-										+ "\",\""
-										+ t
-										+ "\")'>"
-										+ t
-										+ "</div><div class='stand-button-self' onclick='addStand(\""
-										+ sf.musicname
-										+ "\")'>编辑</div><div class='stand-button-self' onclick='deleteByName(\""
-										+ sf.musicname
-										+ "\")'>删除</div></div></div>";
-								$("#stand-main").append(textHtml);
-								// 						initWH(".stand-img");
-							}
-						} else {
-							addStand();
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}music/getAll',
+			success : function(result) {
+				var data = result.data;
+				if (result.code = "200" && data != null) {
+					$("#stand-main").empty();
+					var len = data.length;
+					for (var d = 0; d < len; d++) {
+						var sf = data[d];
+						var isTop = sf.isTop;
+						var t = "置顶";
+						if (isTop == "1") {
+							t = "已置顶";
 						}
+						var textHtml = "<div class='all-div'><div class='all-items'>谱名：" + sf.musicname + "</div><div class='all-items'>共" + sf.pagenumber
+								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'><!-- <div class='stand-button-self' onclick='fullOpen(\""
+								+ sf.musicname + "\")'>全屏</div>--><div class='stand-button-self' onclick='openStand(\"" + sf.musicname
+								+ "\")'>窗口</div><div class='stand-button-self' onclick='toTopByName(\"" + sf.musicname + "\",\"" + t + "\")'>" + t
+								+ "</div><div class='stand-button-self' onclick='addStand(\"" + sf.musicname
+								+ "\")'>编辑</div><div class='stand-button-self' onclick='deleteByName(\"" + sf.musicname + "\")'>删除</div></div></div>";
+						$("#stand-main").append(textHtml);
+						// 						initWH(".stand-img");
 					}
-				});
+				} else {
+					addStand();
+				}
+			}
+		});
 
 	}
 
@@ -417,15 +379,8 @@ body {
 		if (bt != "Chrome") {
 			alert("请使用谷歌或含有谷歌内核的浏览器来获取最佳使用体验！");
 		}
-		window
-				.open(
-						'${base}music/music_stand',
-						"ss",
-						'height='
-								+ wh
-								+ ', width='
-								+ ww
-								+ ', top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+		window.open('${base}music/music_stand', "ss", 'height=' + wh + ', width=' + ww
+				+ ', top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
 	}
 	function openFullScreen() {
 		var bt = getBrowserType();
@@ -437,9 +392,7 @@ body {
 	function printSome(path) {
 		//传入文件路径  
 		$("#to_print").show();
-		$("#to_print").html(
-				'<iframe width="100%" height="100%" src=' + path
-						+ ' id="FILEtoPrint"></iframe>');
+		$("#to_print").html('<iframe width="100%" height="100%" src=' + path + ' id="FILEtoPrint"></iframe>');
 		setTimeout(function() {
 			$("#print_button").click();
 			$("#to_print").hide();
@@ -468,12 +421,23 @@ body {
 		$("#play-model").show();
 		$("#add-stand-div").hide();
 		$("#add-model").hide();
-		initTop();
+		initAll();
 	}
 	function getPhoto(node) {
 		// 		$('#path').val($('#attachment').val());
 		var imgURL = "";
+		var musicname = $("#musicname").val();
+		if (musicname == null || musicname == "") {
+			$("#musicname").css({
+				"border" : "2px red solid"
+			});
+			$("#msg-upload").html("谱名不能为空！");
+			return;
+		}
 		$("#msg-upload").html("");
+		$("#musicname").css({
+			"border" : "1px #a9a9a9 solid"
+		});
 		try {
 			if (node.files && node.files[0]) {
 				file = node.files[0];
@@ -503,7 +467,7 @@ body {
 		var musicname = $("#musicname").val();
 		if (musicname == null || musicname == "") {
 			$("#musicname").css({
-				"border" : "1px red solid"
+				"border" : "2px red solid"
 			});
 			$("#msg-upload").html("请输入乐谱名！");
 			return;
@@ -512,10 +476,8 @@ body {
 	}
 	function creatImg(imgRUL, file) {
 		// 		fname = "\'" + fname + "\'";
-		var textHtml = "<div id=" + file.lastModified + " title="+file.name+" class='stand-img-add newpage'><img  name='attachment' src='"
-				+ imgRUL
-				+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImg("
-				+ file.lastModified + ")' class='delete-img'></div></div>";
+		var textHtml = "<div id=" + file.lastModified + " title="+file.name+" class='stand-img-add newpage'><img  name='attachment' src='" + imgRUL
+				+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImg(" + file.lastModified + ")' class='delete-img'></div></div>";
 		$("#first-socre").after(textHtml);
 		initWH(".stand-img-add");
 	}
@@ -523,7 +485,7 @@ body {
 		var musicname = $("#musicname").val();
 		if (musicname == null || musicname == "") {
 			$("#musicname").css({
-				"border" : "1px red solid"
+				"border" : "2px red solid"
 			});
 			$("#msg-upload").html("谱名不能为空！");
 			return;
@@ -538,7 +500,7 @@ body {
 			} else if (len > 1) {
 				createForm(ary[0].name, ary[1].name, 2, musicname);
 			} else {
-				$("#msg-upload").html("曲谱文件不能为空！");
+				$("#msg-upload").html("新上传的乐谱图片文件不能为空！");
 			}
 		}
 		console.log(ary);
@@ -678,8 +640,7 @@ body {
 	}
 
 	function confirmToTop(musicname, v) {
-		if (confirm("置顶后会在主页面显示，并且只能置顶一个乐谱，置顶后之前置顶的都将取消置顶，确定将乐谱【" + musicname
-				+ "】置顶吗？")) {
+		if (confirm("置顶后会在主页面显示，并且只能置顶一个乐谱，置顶后之前置顶的都将取消置顶，确定将乐谱【" + musicname + "】置顶吗？")) {
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
@@ -687,7 +648,7 @@ body {
 				success : function(result) {
 					if (result.code = 200) {
 						if (v == 1) {
-							initTop(musicname);
+							initAll();
 						}
 						$("#msg-upload").html(result.message);
 					} else {
@@ -719,8 +680,7 @@ body {
 			return "Safari";
 		}
 		// 判断是否IE浏览器
-		if (userAgent.indexOf("compatible") > -1
-				&& userAgent.indexOf("MSIE") > -1 && !isOpera) {
+		if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
 			return "IE";
 		}
 		// 判断是否Edge浏览器
@@ -728,14 +688,30 @@ body {
 			return "Edge";
 		}
 	}
-	function toPlay(data) {
+
+	function disableDrop() {
+		document.addEventListener("dragenter", function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}, false);
+		document.addEventListener("dragover", function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}, false);
+		document.addEventListener("drop", function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+
+		}, false);
+	}
+
+	function toPlay(data, id) {
 		var len = data.length;
 		for (var d = 0; d < len; d++) {
 			var sf = data[d];
-			var textHtml = "<div  class='stand-img'><img id=" + sf.id
-					+ " title=" + sf.filename + "  name='attachment' src='"
-					+ sf.url + "'width='100%' height='100%'/></div></div>";
-			$("#stand-main").append(textHtml);
+			var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
+					+ "'width='100%' height='100%'/></div></div>";
+			$(id).append(textHtml);
 			initWH(".stand-img");
 		}
 	}
@@ -744,11 +720,11 @@ body {
 </head>
 <body>
 	<div class="operation-main" id="play-model">
-		<div title="显示所有的乐谱信息" class="stand-button" id="change-stand" onclick="initAll()">更多</div>
-		<div title="显示置顶的乐谱" class="stand-button" id="change-stand" onclick="initTop()">显示</div>
-		<div title="上传一个乐谱或添加乐谱图片文件" class="stand-button" id="add-stand" onclick="addStand()">添加</div>
-		<div title="全屏显示乐谱" class="stand-button" id="full-stand" onclick="openFullScreen()">全屏</div>
-		<div title="窗口化显示乐谱" class="stand-button" id="window-stand" onclick="openStand('top')">窗口</div>
+		<!-- 		<div title="显示所有的乐谱信息" class="stand-button" id="change-stand" onclick="initAll()">更多</div> -->
+		<!-- 		<div title="显示置顶的乐谱" class="stand-button" id="change-stand" onclick="initTop()">显示</div> -->
+		<div title="上传一个乐谱或添加乐谱图片文件" class="stand-button" id="add-stand" onclick="addStand()">上传乐谱</div>
+		<!-- 		<div title="全屏显示乐谱" class="stand-button" id="full-stand" onclick="openFullScreen()">全屏</div> -->
+		<!-- 		<div title="窗口化显示乐谱" class="stand-button" id="window-stand" onclick="openStand('top')">窗口</div> -->
 		<input type="hidden" id="print_button" value="Print" onclick="document.getElementById('FILEtoPrint').focus(); document.getElementById('FILEtoPrint').contentWindow.print();" />
 	</div>
 	<div class="operation-main" id="add-model">
@@ -760,12 +736,14 @@ body {
 	<div id="to_print" style="display: none;"></div>
 	<div id="add-stand-div">
 		<div class="add-musicname">
-			<label>谱名：</label> <input type="text" placeholder="请输入乐谱名..." autofocus="autofocus" id="musicname" name="musicname" style="margin-top: 10px;"> <a class="stand-button" onclick="UpladFile()">确认上传</a>
-			<input type="file" id="attachment" style="display: none;" onchange="getPhoto(this)" accept="image/*" /> <a class="stand-button" id="toTop" onclick="toTop()">置顶</a> <span id="msg-upload"></span>
+			<label>乐谱名：</label> <input type="text" placeholder="请输入..." autofocus="autofocus" id="musicname" name="musicname" style="margin-top: 10px;"> <a class="stand-button" onclick="UpladFile()">确认上传</a> <input type="file" id="attachment" style="display: none;" onchange="getPhoto(this)" accept="image/*" /> <a class="stand-button" id="toTop" onclick="toTop()">置顶</a> <span id="msg-upload"></span>
 		</div>
 		<div id="add-imgs">
 			<div class="stand-img-add" id="first-socre">
-				<div class="empty-add" onClick="ahclick()">点击此处或拖拽图片文件到此处</div>
+				<div class="empty-add" id="empty-add" onClick="ahclick()">点击选择或拖拽图片文件到此处！</div>
+			</div>
+			<div class="stand-msg" id="stand-msg">
+				<div class="empty-stand-msg" id="stand-msg-name">上传乐谱图片前，请先输入乐谱名。输入谱名后即可拖拽或点击选择文件到此处！</div>
 			</div>
 			<div title="乐谱文件显示处" class="stand-img-add" id="second-socre"></div>
 		</div>
