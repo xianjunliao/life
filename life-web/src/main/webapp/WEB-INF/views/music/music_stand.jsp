@@ -770,9 +770,6 @@ body {
 					if (len == 1) {
 						$(".stand-img").css("margin-left", "50%");
 					}
-					if (len == 2) {
-						$(".stand-img").css("margin-left", "25%");
-					}
 				}
 			});
 			$("#" + id).show();
