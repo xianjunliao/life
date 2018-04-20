@@ -204,7 +204,6 @@ body {
 	font-weight: 900;
 	top: 0px;
 	left: 0px;
-	opacity: 0.8;
 	top: 0px;
 }
 
@@ -389,8 +388,9 @@ body {
 							t = "已置顶";
 						}
 						var textHtml = "<div class='all-div' id=" + d + " ><div class='all-items'>谱名：" + sf.musicname + "</div><div class='all-items'>共" + sf.pagenumber
-								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'> <div class='stand-button-self' title='点击将图片显示在界面上' id='stand-see"+d+"'  onclick='standOverDiv("
-								+ d + ",\"" + sf.musicname + "\")'>查看</div><div title='窗口打开显示乐谱' class='stand-button-self' onclick='openStand(\"" + sf.musicname
+								+ "页</div><div class='all-items'>总大小：" + sf.filesize
+								+ "KB</div><div class='all-buttons'> <div class='stand-button-self' title='点击将图片显示在界面上' id='stand-see" + d + "'  onclick='standOverDiv(" + d
+								+ ",\"" + sf.musicname + "\")'>查看</div><div title='窗口打开显示乐谱' class='stand-button-self' onclick='openStand(\"" + sf.musicname
 								+ "\")'>窗口</div><div class='stand-button-self' onclick='toTopByName(\"" + sf.musicname + "\",\"" + t + "\")'>" + t
 								+ "</div><div class='stand-button-self' onclick='addStand(\"" + sf.musicname
 								+ "\")'>编辑</div><div class='stand-button-self' onclick='deleteByName(\"" + sf.musicname + "\")'>删除</div></div>";
@@ -745,8 +745,10 @@ body {
 	function standOverDiv(id, name) {
 		if (!isShow) {
 			isShow = true;
-			$("#stand-see"+id).text("取消");
+			$("#stand-see" + id).text("取消");
 			$(".all-div").hide();
+			$("#play-model").hide();
+
 			$("#" + id).removeClass("all-div").addClass("all-div-this");
 			var url = '${base}music/getScore?name=' + name;
 			$.ajax({
@@ -765,12 +767,19 @@ body {
 						$("#stand-main").append(textHtml);
 						initWH(".stand-img");
 					}
+					if (len == 1) {
+						$(".stand-img").css("margin-left", "50%");
+					}
+					if (len == 2) {
+						$(".stand-img").css("margin-left", "25%");
+					}
 				}
 			});
 			$("#" + id).show();
 		} else {
 			isShow = false;
-			$("#stand-see"+id).text("查看");
+			$("#stand-see" + id).text("查看");
+			$("#play-model").show();
 			backPlay();
 		}
 	}
