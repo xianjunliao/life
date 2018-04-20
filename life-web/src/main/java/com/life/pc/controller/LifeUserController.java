@@ -57,7 +57,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("enterCode")
-	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public LifeUserModel enterCode(String code, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		code = DESUtil.encryptDES(code);
 		LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 		WebUtils.newSession(lifeUserModel, request);
@@ -65,7 +66,9 @@ public class LifeUserController {
 	}
 
 	@RequestMapping("/{pageName}")
-	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String page(@PathVariable("pageName") String pageName, @ModelAttribute("params") LifeUserModel params,
+			ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			LifeUserModel attribute = WebUtils.getUserInfo(request);
 			try {
@@ -73,16 +76,17 @@ public class LifeUserController {
 				if (pageName.contains("test")) {
 					return "error/" + pageName + ".jsp";
 				}
-//				if (SystemGet.getNowIp().contains("10.81")) {
-//					return FTL_DIR + "main-false.jsp";
-//				}
+				// if (SystemGet.getNowIp().contains("10.81")) {
+				// return FTL_DIR + "main-false.jsp";
+				// }
 				if (UUID.fromString(pageName) != null) {
 					return FTL_DIR + "main.jsp";
 				}
 			} catch (Exception e) {
-				if (SystemGet.getNowIp().contains("192.168.1.101") || SystemGet.getNowIp().contains("47.91.252.134") || SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
+				if (SystemGet.getNowIp().contains("192.168.1.101") || SystemGet.getNowIp().contains("47.91.252.134")
+						|| SystemGet.getNowIp().contains("www.liaoxianjun.com")) {
 					return FTL_DIR + pageName + ".jsp";
-				}else{
+				} else {
 					return FTL_DIR + pageName + ".jsp";
 				}
 			}
@@ -116,12 +120,14 @@ public class LifeUserController {
 	}
 
 	@RequestMapping("/mobLogin")
-	public String mobLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String mobLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		return "mobile/login.jsp";
 	}
 
 	@RequestMapping("/update")
-	public String update(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String update(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		LifeUserModel userModel = WebUtils.getUserInfo(request);
 		LifeUserModel checkEnterCode = lifeUserService.checkEnterCode(userModel.getUsercode());
 		String password = checkEnterCode.getPassword();
@@ -132,7 +138,8 @@ public class LifeUserController {
 	}
 
 	@RequestMapping("/regSkip")
-	public String register(String step, String str, ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String register(String step, String str, ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		if (!Str.isEmpty(str)) {
 			String[] user = DESUtil.decryptDES(str).split(":");
 			model.put("usercode", DESUtil.encryptDES(user[0]));
@@ -149,12 +156,14 @@ public class LifeUserController {
 	}
 
 	@RequestMapping("/fullLogin")
-	public String fullLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String fullLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		return FTL_DIR + "user/fullLogin.jsp";
 	}
 
 	@RequestMapping("/updateHeadImg")
-	public String updateHeadImg(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String updateHeadImg(ModelMap model, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		LifeUserModel userInfo = WebUtils.getUserInfo(request);
 		model.put("userModel", userInfo);
 		return FTL_DIR + "user/updateHead.jsp";
@@ -162,21 +171,24 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("/enter")
-	public ResponseMessage<String> enter(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<String> enter(String code, Boolean isAuto, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			code = DESUtil.encryptDES(code);
 			LifeUserModel lifeUserModel = lifeUserService.checkEnterCode(code);
 			if (lifeUserModel == null) {
 				outMSG.setCode("202");
-				outMSG.setMessage("输入的身份编码不存在，请注册！");
+				outMSG.setMessage("输入的身份编码不存在");
 			} else {
 				LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
 				learnEnglishModel.setUsercode(code);
 				learningService.addLearnTime(learnEnglishModel);
 				WebUtils.newSession(lifeUserModel, request);
 				String decryptDES = DESUtil.decryptDES(code);
-				WebUtils.newCookie(decryptDES, response);
+				if (isAuto) {
+					WebUtils.newCookie(decryptDES, response);
+				}
 				String data = UUID.randomUUID().toString();
 				outMSG.setData(data);
 				outMSG.setCode("200");
@@ -191,7 +203,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("user/checkUserLogin")
-	public ResponseMessage<LifeUserModel> checkUserLogin(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> checkUserLogin(LifeUserModel lifeUserModel, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			String username = lifeUserModel.getUsername();
@@ -218,7 +231,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("/exit")
-	public ResponseMessage<LifeUserModel> exit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> exit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			WebUtils.deleteSession(request);
@@ -234,7 +248,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("user/update")
-	public ResponseMessage<LifeUserModel> update(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> update(LifeUserModel lifeUserModel, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			String username = lifeUserModel.getUsername();
@@ -259,7 +274,8 @@ public class LifeUserController {
 
 	@RequestMapping("user/getDES")
 	@ResponseBody
-	public ResponseMessage<String> getDES(String str, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<String> getDES(String str, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			String[] userinfo = str.split(":");
@@ -290,7 +306,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("user/checkUser")
-	public ResponseMessage<LifeUserModel> checkUserIsExist(String code, String name, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> checkUserIsExist(String code, String name, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			LifeUserModel userInfo = WebUtils.getUserInfo("add", request);
@@ -320,7 +337,8 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("/add")
-	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> addCode(String code, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		try {
 			code = DESUtil.encryptDES(code);
@@ -358,14 +376,16 @@ public class LifeUserController {
 
 	@ResponseBody
 	@RequestMapping("/getAll")
-	public List<LifeUserModel> getAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public List<LifeUserModel> getAll(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		List<LifeUserModel> all = lifeUserService.getAll();
 		return all;
 	}
 
 	@ResponseBody
 	@RequestMapping("user/fullUser")
-	public ResponseMessage<LifeUserModel> addFullInfo(LifeUserModel lifeUserModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ResponseMessage<LifeUserModel> addFullInfo(LifeUserModel lifeUserModel, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		ResponseMessage<LifeUserModel> outMSG = new ResponseMessage<>();
 		String usercode = "";
 
@@ -394,7 +414,8 @@ public class LifeUserController {
 					lifeUserModel.setUserrole("2");
 					lifeUserService.add(lifeUserModel);
 					TreeModel defalutTreeLevel1 = WebUtils.getDefalutTreeLevel1(usercode);
-					TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(), request);
+					TreeModel defalutTreeLevel2 = WebUtils.getDefalutTreeLevel2(usercode, defalutTreeLevel1.getId(),
+							request);
 					treeService.addTree(defalutTreeLevel1);
 					treeService.addTree(defalutTreeLevel2);
 					learningService.addLearnTime(WebUtils.getDefalutTimeClass(usercode));
@@ -425,7 +446,8 @@ public class LifeUserController {
 
 	@RequestMapping(path = { "user/uploadImg" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<FileUserModel> uploadFile(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<FileUserModel> uploadFile(@RequestParam("file") MultipartFile file,
+			HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<FileUserModel> outMSG = new ResponseMessage<>();
 		try {
 			if (null == file || 0 == file.getSize()) {
@@ -447,7 +469,8 @@ public class LifeUserController {
 
 	@RequestMapping(path = { "user/updateUploadImg" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<FileUserModel> updateUploadImg(@RequestParam("file") MultipartFile file, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	public ResponseMessage<FileUserModel> updateUploadImg(@RequestParam("file") MultipartFile file,
+			HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<FileUserModel> outMSG = new ResponseMessage<>();
 		try {
 			if (null == file || 0 == file.getSize()) {
@@ -475,8 +498,10 @@ public class LifeUserController {
 			originalFilename = originalFilename + "_" + id;
 		}
 		fileUserModel.setFileName(originalFilename);
-		fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/" + "file/download?id=" + id);
-		fileUserModel.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
+		fileUserModel.setFileUrl(request.getScheme() + "://" + request.getServerName() + request.getContextPath() + "/"
+				+ "file/download?id=" + id);
+		fileUserModel
+				.setFileType(file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1));
 		fileUserModel.setContentType(file.getContentType());
 		fileUserModel.setFileOriginalFilename(file.getOriginalFilename().replace(",", " and "));
 		fileUserModel.setFileSize(Util.getM((double) file.getSize()) + "");

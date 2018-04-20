@@ -15,6 +15,7 @@
 	function enter() {
 		var index = layer.load();
 		var v = $("#usercode").val();
+		var isAuto=$("#autoLogin").is(':checked');
 		if (v == null || v == "" || v == undefined) {
 			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
@@ -23,12 +24,19 @@
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
-				url : basePath + 'enter?code=' + v,
+				url : basePath + 'enter?code=' + v+'&isAuto='+isAuto,
 				success : function(result) {
 					if (result.code == 200) {
 						window.location.replace(basePath + result.data);
 					} else if (result.code == 202) {
-						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
+						layer.confirm(result.message + '，确定注册吗？', {
+							btn : [ '确定注册', '取消' ],
+							btn3 : function(index, layero) {
+								//按钮【按钮三】的回调
+							}
+						}, function(index, layero) {
+							addUserCode();
+						});
 					} else {
 						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
 						$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
@@ -51,16 +59,12 @@
 					if (result.code == 200) {
 						layer.close(index);
 						layer.confirm('注册成功，确定直接登入吗？', {
-							btn : [ '确定', '继续注册', '取消' ],
+							btn : [ '确定', '取消' ],
 							btn3 : function(index, layero) {
 								//按钮【按钮三】的回调
 							}
 						}, function(index, layero) {
 							enter();
-						}, function(index) {
-							var s = "register";
-							var url = basePath + "regSkip?step=" + s;
-							window.location.replace(url);
 						});
 					} else {
 						$("#errorMsg").html('<span style="color: red">' + result.message + '</span>');
@@ -113,7 +117,9 @@
 	<div class="container">
 		<section id="content">
 			<div class="form">
-				<h1>身份编码登录</h1>
+				<h2>
+					欢迎来到<b style="font-weight: 900; color: black !important;">Free Life</b>网站
+				</h2>
 				<div>
 					<!--<input type="text" placeholder="Username" required="" id="username" />-->
 				</div>
@@ -124,11 +130,16 @@
 					</div>
 				</div>
 				<div>
-					<input id="loginButton" type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" /><a href="${base }fullLogin">账号密码登录</a> <a href="${base }regSkip?step=register">账号密码注册</a>
+					<input id="loginButton" type="submit" value="登录" onclick="enter()" /> <input type="submit" value="快速注册" onclick="addUserCode()" />
+					<%-- 					<a href="${base }fullLogin">账号密码登录</a> <a href="${base }regSkip?step=register">账号密码注册</a> --%>
+					<input type="checkbox" id="autoLogin" style="margin-top:-1px; vertical-align: middle;padding-top: 10px;" />自动登陆(有效期10天)</input>
 				</div>
 			</div>
 			<!-- form -->
 			<div id="errorMsg" class="button"></div>
+			<div style="text-align: left; margin-top: 5px; padding-left: 30px; padding-right: 40px; margin-bottom: 5px; font-weight: 700;">
+				<span>1.本网站需要身份编码才可登录，点击‘快速注册’按钮可直接注册和进入本网站。 </span><br> <span>2.本网站目前可使用的功能有【网址导航】、【每日英语】、【乐谱谱架】、【自由云】、【备忘录】。 </span><br> <span>3.使用过程中遇到任何问题可联系站长,联系邮箱：xianjun_liao@126.com。</span><br> <span>4.本网站目前大部分的功能还在开发或优化，欢迎随时使用体验。 </span><br>
+			</div>
 			<!-- button -->
 		</section>
 		<!-- content -->
