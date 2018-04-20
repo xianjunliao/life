@@ -19,6 +19,7 @@
 		if (v == null || v == "" || v == undefined) {
 			$("#usercodeImg").html('<img src="${base}static/images/wrong.png"/>');
 			$("#errorMsg").html('<span style="color: red">身份编码不能为空！</span>');
+			layer.close(index);
 		} else {
 
 			$.ajax({
