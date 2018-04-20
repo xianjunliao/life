@@ -389,7 +389,7 @@ body {
 							t = "已置顶";
 						}
 						var textHtml = "<div class='all-div' id=" + d + " ><div class='all-items'>谱名：" + sf.musicname + "</div><div class='all-items'>共" + sf.pagenumber
-								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'> <div class='stand-button-self' title='点击将图片显示在界面上' id='stand-see'  onclick='standOverDiv("
+								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'> <div class='stand-button-self' title='点击将图片显示在界面上' id='stand-see"+d+"'  onclick='standOverDiv("
 								+ d + ",\"" + sf.musicname + "\")'>查看</div><div title='窗口打开显示乐谱' class='stand-button-self' onclick='openStand(\"" + sf.musicname
 								+ "\")'>窗口</div><div class='stand-button-self' onclick='toTopByName(\"" + sf.musicname + "\",\"" + t + "\")'>" + t
 								+ "</div><div class='stand-button-self' onclick='addStand(\"" + sf.musicname
@@ -745,7 +745,7 @@ body {
 	function standOverDiv(id, name) {
 		if (!isShow) {
 			isShow = true;
-			$("#stand-see").text("取消");
+			$("#stand-see"+id).text("取消");
 			$(".all-div").hide();
 			$("#" + id).removeClass("all-div").addClass("all-div-this");
 			var url = '${base}music/getScore?name=' + name;
@@ -770,7 +770,7 @@ body {
 			$("#" + id).show();
 		} else {
 			isShow = false;
-			$("#stand-see").text("查看");
+			$("#stand-see"+id).text("查看");
 			backPlay();
 		}
 	}
