@@ -10,6 +10,7 @@
 	});
 	function enter() {
 		var v = $("#usercode").val();
+		var isAuto=$("#autoLogin").is(':checked');
 		if (v == null || v == "" || v == undefined) {
 			$("#dlg1-msg").html('<span style="color: red">请输入身份编码！！！</span>');
 			$('#dlg1').dialog('open').dialog('center');
@@ -17,7 +18,7 @@
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
-				url : '${base}enter?code=' + v,
+				url : '${base}enter?code=' + v+'&isAuto='+isAuto,
 				success : function(result) {
 					if (result.code == 200) {
 						window.location.replace("${base}learn/mob");
@@ -96,7 +97,8 @@
 				<input class="easyui-passwordbox" data-options="prompt:'请输入你的身份编码...',iconCls:'icon-man'" id="usercode" style="width: 100%; height: 38px">
 			</div>
 			<div style="opacity: 0.8; text-align: center; margin-top: 30px">
-				<a onclick="enter()" id="loginButton" class="easyui-linkbutton" style="width: 100%; height: 40px"><span style="font-size: 16px">确定登陆</span></a>
+				<a onclick="enter()" id="loginButton" class="easyui-linkbutton" style="width: 58%; height: 40px"><span style="font-size: 16px">确定登陆</span></a>
+				<input type="checkbox" id="autoLogin" style="margin-top:-1px; vertical-align: middle;padding-top: 10px;" /><b style="color: #f8fbf8 !important;">自动登陆(有效期10天)</b></input>
 			</div>
 			<div style="opacity: 0.8; text-align: center; margin-top: 30px">
 				<a onclick="addUserCode()" class="easyui-linkbutton" plain="true" outline="true" style="width: 160px; height: 35px"><span style="font-size: 16px">快速注册</span></a>
