@@ -65,6 +65,18 @@ public class MusicController {
 		}
 		return FTL_DIR + "open_stand.jsp";
 	}
+	
+	@RequestMapping("/printScore")
+	public String printScore(String id, ModelMap model, HttpServletRequest request)
+			throws ServletException, IOException {
+		try {
+			MusicStandModel musicStandModel = musicStandService.selectByPrimaryKey(id);
+			model.put("sf",  musicStandModel);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return FTL_DIR + "print_stand.jsp";
+	}
 
 	@RequestMapping(path = { "/getScore" }, method = { RequestMethod.POST })
 	@ResponseBody

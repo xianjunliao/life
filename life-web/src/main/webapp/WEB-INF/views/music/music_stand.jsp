@@ -68,16 +68,16 @@ body {
 	text-align: center;
 	font-size: 28px;
 	margin-top: 35%;
-	font-weight:900;
+	font-weight: 900;
 	text-decoration: underline;
 }
 
 .operation-main {
-	position: absolute;
-	top: 5px;
+	position: fixed;
 	transform: translateX(-50%);
 	font-size: 24px;
 	left: 50%;
+	top: 2px;
 }
 
 .print-img {
@@ -118,12 +118,15 @@ body {
 }
 
 .stand-button {
-	margin: 2px;
+	margin-right: 5px;
+	margin-left: 20px;
+	float: left;
 	padding: 2px;
 	cursor: pointer;
 	border-radius: 2px;
 	background-color: #e87788;
-	opacity: 0.8;
+	padding: 2px;
+	box-shadow: -1px 1px 11px 5px #eaa0a0;
 }
 
 .stand-button-self {
@@ -176,14 +179,33 @@ body {
 
 .all-div {
 	float: left;
-	width: 180px;
-	height: 200px;
+	width: 210px;
+	height: 210px;
 	margin: 50px 10px 10px 10px;
 	border: 1px #988b8b solid;
 	box-shadow: 5px 5px 10px #171516;
 	background-image: url("${base}static/images/20180321_110947_3856.jpg");
 	background-size: 100%;
 	text-align: center;
+	cursor: pointer;
+}
+
+.all-div-this {
+	float: left;
+	width: 210px;
+	height: 210px;
+	border: 1px #988b8b solid;
+	box-shadow: 5px 5px 10px #171516;
+	background-image: url("${base}static/images/20180321_110947_3856.jpg");
+	background-size: 100%;
+	text-align: center;
+	position: absolute;
+	cursor: pointer;
+	font-weight: 900;
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+	top: 0px;
 }
 
 .all-div:HOVER {
@@ -200,7 +222,13 @@ body {
 	width: 100%;
 	position: relative;
 	top: 23%;
-	left: 15px;
+	left: 10px;
+}
+
+.stand-button-add {
+	cursor: pointer;
+	border-radius: 2px;
+	background-color: #e87788;
 }
 </style>
 <script type="text/javascript" src="${base}static/life-js/html5upload.js"></script>
@@ -208,12 +236,14 @@ body {
 	var wh = window.screen.height;
 	var ww = window.screen.width;
 	var ary = new Array();
+	var isShow = false;
 	$(function() {
 		$("#add-stand-div").hide();
 		$("#add-model").hide();
 		initWH(".stand-img");
 		initWH(".stand-img-add");
 		initWH(".stand-msg");
+
 		$("#toTop").hide();
 		$('#first-socre').hide();
 		$('#stand-msg').show();
@@ -225,12 +255,12 @@ body {
 			});
 			$("#msg-upload").html();
 			var name = $(this).val();
-			if (name == "" || name == null) {
+			if ($.trim(name) == "" || $.trim(name) == null) {
 				$(".newpage").remove();
 				$(".oldpage").remove();
-				$('#stand-msg').show();
 				$("#msg-upload").html("必须先输入乐谱名！");
 				disableDrop();
+				$('#stand-msg').show();
 				$('#first-socre').hide();
 				$("#toTop").hide();
 				return;
@@ -358,12 +388,12 @@ body {
 						if (isTop == "1") {
 							t = "已置顶";
 						}
-						var textHtml = "<div class='all-div'><div class='all-items'>谱名：" + sf.musicname + "</div><div class='all-items'>共" + sf.pagenumber
-								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'><!-- <div class='stand-button-self' onclick='fullOpen(\""
-								+ sf.musicname + "\")'>全屏</div>--><div class='stand-button-self' onclick='openStand(\"" + sf.musicname
+						var textHtml = "<div class='all-div' id=" + d + " ><div class='all-items'>谱名：" + sf.musicname + "</div><div class='all-items'>共" + sf.pagenumber
+								+ "页</div><div class='all-items'>总大小：" + sf.filesize + "KB</div><div class='all-buttons'> <div class='stand-button-self' title='点击将图片显示在界面上' id='stand-see'  onclick='standOverDiv("
+								+ d + ",\"" + sf.musicname + "\")'>查看</div><div title='窗口打开显示乐谱' class='stand-button-self' onclick='openStand(\"" + sf.musicname
 								+ "\")'>窗口</div><div class='stand-button-self' onclick='toTopByName(\"" + sf.musicname + "\",\"" + t + "\")'>" + t
 								+ "</div><div class='stand-button-self' onclick='addStand(\"" + sf.musicname
-								+ "\")'>编辑</div><div class='stand-button-self' onclick='deleteByName(\"" + sf.musicname + "\")'>删除</div></div></div>";
+								+ "\")'>编辑</div><div class='stand-button-self' onclick='deleteByName(\"" + sf.musicname + "\")'>删除</div></div>";
 						$("#stand-main").append(textHtml);
 						// 						initWH(".stand-img");
 					}
@@ -390,15 +420,7 @@ body {
 		}
 		fullScreen("stand-main");
 	}
-	function printSome(path) {
-		//传入文件路径  
-		$("#to_print").show();
-		$("#to_print").html('<iframe width="100%" height="100%" src=' + path + ' id="FILEtoPrint"></iframe>');
-		setTimeout(function() {
-			$("#print_button").click();
-			$("#to_print").hide();
-		}, 100);
-	}
+
 	function addStand(v) {
 		var bt = getBrowserType();
 		if (bt != "Chrome") {
@@ -412,6 +434,8 @@ body {
 		clearAddInfo();
 		if (v != null) {
 			initScore(v);
+			$('#first-socre').show();
+			$('#stand-msg').hide();
 			$("#musicname").val(v);
 		}
 
@@ -619,6 +643,9 @@ body {
 		$('#attachment').val(null);
 		$("#musicname").val(null);
 		$("#msg-upload").html(null);
+		disableDrop();
+		$('#stand-msg').show();
+		$('#first-socre').hide();
 
 	}
 	function toTopByName(musicname, t) {
@@ -710,10 +737,41 @@ body {
 		var len = data.length;
 		for (var d = 0; d < len; d++) {
 			var sf = data[d];
-			var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
-					+ "'width='100%' height='100%'/></div></div>";
+			var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url + "'width='100%' height='100%'/></div>";
 			$(id).append(textHtml);
 			initWH(".stand-img");
+		}
+	}
+	function standOverDiv(id, name) {
+		if (!isShow) {
+			isShow = true;
+			$("#stand-see").text("取消");
+			$(".all-div").hide();
+			$("#" + id).removeClass("all-div").addClass("all-div-this");
+			var url = '${base}music/getScore?name=' + name;
+			$.ajax({
+				type : 'POST',
+				dataType : "json",
+				url : url,
+				success : function(result) {
+
+					var data = result.data;
+					var len = data.length;
+					$(".stand-img").remove();
+					for (var d = 0; d < len; d++) {
+						var sf = data[d];
+						var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
+								+ "'width='100%' height='100%'/></div>";
+						$("#stand-main").append(textHtml);
+						initWH(".stand-img");
+					}
+				}
+			});
+			$("#" + id).show();
+		} else {
+			isShow = false;
+			$("#stand-see").text("查看");
+			backPlay();
 		}
 	}
 </script>
@@ -721,23 +779,22 @@ body {
 </head>
 <body>
 	<div class="operation-main" id="play-model">
-		<!-- 		<div title="显示所有的乐谱信息" class="stand-button" id="change-stand" onclick="initAll()">更多</div> -->
-		<!-- 		<div title="显示置顶的乐谱" class="stand-button" id="change-stand" onclick="initTop()">显示</div> -->
+		<!-- 		<div title="显示所有的乐谱信息" class="stand-button" id="change-stand" onclick="backPlay()">返回</div> -->
 		<div title="上传一个乐谱或添加乐谱图片文件" class="stand-button" id="add-stand" onclick="addStand()">上传乐谱</div>
+		<div title="窗口显示置顶的乐谱" class="stand-button" id="change-stand" onclick="openStand('top')">打开置顶乐谱</div>
 		<!-- 		<div title="全屏显示乐谱" class="stand-button" id="full-stand" onclick="openFullScreen()">全屏</div> -->
 		<!-- 		<div title="窗口化显示乐谱" class="stand-button" id="window-stand" onclick="openStand('top')">窗口</div> -->
-		<input type="hidden" id="print_button" value="Print" onclick="document.getElementById('FILEtoPrint').focus(); document.getElementById('FILEtoPrint').contentWindow.print();" />
 	</div>
 	<div class="operation-main" id="add-model">
-		<div title="回到乐谱主界面" class="stand-button" id="change-stand" onclick="backPlay()">主界面</div>
+		<div title="回到乐谱主界面" class="stand-button" id="change-stand" onclick="backPlay()">返回乐谱列表</div>
 	</div>
 	<div class="stand-main" id="stand-main">
 		<span>请上传乐谱！</span>
 	</div>
-	<div id="to_print" style="display: none;"></div>
 	<div id="add-stand-div">
 		<div class="add-musicname">
-			<label>乐谱名：</label> <input type="text" placeholder="请输入..." autofocus="autofocus" id="musicname" name="musicname" style="margin-top: 10px;"> <a class="stand-button" onclick="UpladFile()">确认上传</a> <input type="file" id="attachment" style="display: none;" onchange="getPhoto(this)" accept="image/*" /> <a class="stand-button" id="toTop" onclick="toTop()">置顶</a> <span id="msg-upload"></span>
+			<label>乐谱名：</label> <input type="text" placeholder="请输入..." autofocus="autofocus" id="musicname" name="musicname" style="margin-top: 10px;"> <a class="stand-button-add" onclick="UpladFile()">确认上传</a> <input type="file" id="attachment" style="display: none;" onchange="getPhoto(this)" accept="image/*" /> <a class="stand-button-add" id="toTop" onclick="toTop()">置顶</a> <span
+				id="msg-upload"></span>
 		</div>
 		<div id="add-imgs">
 			<div class="stand-img-add" id="first-socre">

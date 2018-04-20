@@ -40,43 +40,54 @@ body {
 }
 
 .full-div {
+	width: 16px;
+	position: absolute;
+	top: 35%;
+	left: 10px;
+	background-color: #e7e7ef;
+	border-radius: 2px;
+	padding: 2px;
+	font-size: 14px;
+	color: #f51111;
+	font-weight: 700;
+	position: absolute;
+}
+
+.full-div2 {
+	width: 16px;
 	position: absolute;
 	top: 50%;
 	left: 10px;
 	background-color: #e7e7ef;
 	border-radius: 2px;
 	padding: 2px;
-	font-size: 10px;
+	font-size: 14px;
 	color: #f51111;
 	font-weight: 700;
-	opacity: 0.6;
-}
-
-.full-div2 {
-	position: absolute;
-	top: 52%;
-	left: 10px;
-	background-color: #e7e7ef;
-	border-radius: 2px;
-	padding: 2px;
-	font-size: 10px;
-	color: #f51111;
-	font-weight: 700;
-	opacity: 0.6;
 }
 
 .full-div:HOVER {
 	background-color: black;
 	color: red;
 	font-weight: 900;
-	opacity: 0.8;
 }
 
 .full-div2:HOVER {
 	background-color: black;
 	color: red;
 	font-weight: 900;
-	opacity: 0.8;
+}
+
+.print-img {
+	width: 16px;
+	height: 16px;
+	bottom: 60%;
+	left: 94%;
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	background-image: url("${base}static/images/print.png");
+	background-repeat: no-repeat;
 }
 </style>
 <script type="text/javascript">
@@ -117,7 +128,7 @@ body {
 					$("#stand-main").empty();
 					toPlay(data);
 				} else {
-					$("#stand-main").html("<h1>请置顶一个乐谱后再使用窗口打开，或点击全部按钮后选择想窗口打开的乐谱。<span id='m'>5</span>秒后自动<a id='wx' onclick='wc()'>关闭</a>该窗口。</h1>");
+					$("#stand-main").html("<h1>请置顶一个乐谱后再使用窗口打开，或点在乐谱列表中选择一个你想要窗口打开的乐谱。<span id='m'>5</span>秒后自动<a id='wx' onclick='wc()'>关闭</a>该窗口。</h1>");
 					time = setInterval("m()", 1000);
 				}
 			}
@@ -126,15 +137,27 @@ body {
 	}
 	function toPlay(data) {
 		var len = data.length;
+		var v = $("#musicname").val();
 		for (var d = 0; d < len; d++) {
 			var sf = data[d];
 			var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
-					+ "'width='100%' height='100%'/></div></div>";
+					+ "'width='100%' height='100%'/><div title='打印这张图片' class='print-img' onclick='printSome(\"" + sf.id + "\")'></div></div>";
 			$("#stand-main").append(textHtml);
 			initWH(".stand-img");
 		}
 		$("#stand-main").append("<div class='full-div' id='full-name'   onclick='toFullShow(this)'>全屏展示</div>");
 		$("#stand-main").append("<div class='full-div2' onclick='wc()'>关闭窗口</div>");
+
+	}
+	function printSome(id) {
+		//传入文件路径  
+		var path = "${base}music/printScore?id=" + id;
+		$("#to_print").show();
+		$("#to_print").html('<iframe width="100%" height="100%" src=' + path + ' id="FILEtoPrint"></iframe>');
+		setTimeout(function() {
+			$("#print_button").click();
+			$("#to_print").hide();
+		}, 1000);
 	}
 	function wc() {
 		clearInterval(time);
@@ -162,8 +185,9 @@ body {
 
 </head>
 <body>
+	<div id="to_print" style="display: none;"></div>
 	<input type="hidden" id="musicname" value="${musicname}">
-
+	<input type="hidden" id="print_button" value="Print" onclick="document.getElementById('FILEtoPrint').focus(); document.getElementById('FILEtoPrint').contentWindow.print();" />
 	<div class="stand-main" id="stand-main"></div>
 </body>
 </html>
