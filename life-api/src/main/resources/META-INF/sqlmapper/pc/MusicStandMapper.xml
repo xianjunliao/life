@@ -52,7 +52,7 @@
 		select
 		musicname,count(pagenumber) pagenumber,ROUND(sum(filesize),2) filesize,max(url) url,max(isTop) isTop
 		from music_stand
-		where usercode= #{usercode,jdbcType=VARCHAR} group by musicname
+		where usercode= #{usercode,jdbcType=VARCHAR} group by musicname order by isTop desc
 	</select>
 
 	<update id="toTopAfter" parameterType="java.lang.String">

@@ -181,7 +181,7 @@ body {
 	float: left;
 	width: 210px;
 	height: 210px;
-	margin: 50px 10px 10px 10px;
+	margin: 50px 10px 10px 44px;
 	border: 1px #988b8b solid;
 	box-shadow: 5px 5px 10px #171516;
 	background-image: url("${base}static/images/20180321_110947_3856.jpg");
@@ -668,7 +668,7 @@ body {
 	}
 
 	function confirmToTop(musicname, v) {
-		if (confirm("置顶后会在主页面显示，并且只能置顶一个乐谱，置顶后之前置顶的都将取消置顶，确定将乐谱【" + musicname + "】置顶吗？")) {
+		if (confirm("置顶后可点击打开置顶按钮直接窗口化显示，只能置顶一个乐谱，置顶后之前置顶的都将取消置顶，确定将乐谱【" + musicname + "】置顶吗？")) {
 			$.ajax({
 				type : 'POST',
 				dataType : "json",
