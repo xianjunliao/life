@@ -10,21 +10,23 @@ public interface MusicStandService {
 
 	int deleteByPrimaryKey(String id);
 
-	int insertSelective(MultipartFile file,MusicStandModel record);
+	int insertSelective(MultipartFile file, MusicStandModel record);
 
 	MusicStandModel selectByPrimaryKey(String id);
 
 	int updateByPrimaryKeySelective(MusicStandModel record);
 
 	int updateByPrimaryKey(MusicStandModel record);
-	
-    List<MusicStandModel>  selectByName(String musicname,String usercode);
-    
-    void toTopAfter(String musicname,String usercode);
-    
-	List<MusicStandModel> selectByTop( String usercode);
-	
-	List<MusicStandModel> selectByUser( String usercode);
-	
+
+	List<MusicStandModel> selectByName(String musicname, String usercode);
+
+	void toTopBefore(String usercode);
+
+	void toTopAfter(String musicname, String usercode);
+
+	List<MusicStandModel> selectByTop(String usercode);
+
+	List<MusicStandModel> selectByUser(String usercode);
+
 	void deleteByName(String musicname, String usercode);
 }

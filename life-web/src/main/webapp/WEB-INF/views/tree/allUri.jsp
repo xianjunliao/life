@@ -19,7 +19,7 @@
 		$("#toUpdate").hide();
 		$("#toLike").hide();
 		$("#websiteAddress").focus();
-		setDivofDiv("#url-operation-window","#null-url-add");
+		setDivofDiv("#url-operation-window", "#null-url-add");
 		$("#url-operation-window").mousedown(function(e) { //e鼠标事件  
 			$(this).css("cursor", "move");//改变鼠标指针的形状  
 
@@ -167,7 +167,6 @@
 		$("#subAddUrl").show();
 		setDivCenter("#url-operation-window");
 		$("#websiteAddress").focus();
-	
 
 	}
 	function openUpdateWid() {
@@ -224,17 +223,17 @@
 	}
 
 	function setDivofDiv(divName, fdivName) {
-		if($(fdivName).offset()==undefined){
-			return ;
+		if ($(fdivName).offset() == undefined) {
+			return;
 		}
 		var scrollTop = $(fdivName).offset().top;
 		var scrollLeft = $(fdivName).offset().left;
 		var dh = $(fdivName).height();
 		var dw = $(fdivName).width();
 		$(divName).css({
-			position : 'absolute',			
-			'top' : scrollTop+dh+10,
-			left : scrollLeft+dw+10
+			position : 'absolute',
+			'top' : scrollTop + dh + 10,
+			left : scrollLeft + dw + 10
 		}).show(300);
 	}
 
@@ -457,10 +456,15 @@
 .url-window-open {
 	display: block !important;
 }
+
+#bodyShow {
+	width: 100%;
+	height: 100%;
+}
 </style>
 
 </head>
-<body id="bodyShow" class="easyui-layout" style="width: 100%; height: 100%;" onmouseup="operationGoOut()">
+<body id="bodyShow" class="easyui-layout" onmouseup="operationGoOut()">
 	<div region="center" border="true" style="width: 100%; height: 100%;">
 		<c:if test="${hotTrees.size()==0 and topTrees.size()==0  and likeTrees.size()==0 and urls.size()==0  }">
 			<div id="null-url-add" title="新增网站收藏">请添加</div>

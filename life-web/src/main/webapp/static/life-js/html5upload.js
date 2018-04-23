@@ -154,7 +154,7 @@ ZhangHongyang.html5upload = (function() {
 			fileList[file.name] = file;
 			reader.onload = function(e) {
 				var textHtml = "<div id=" + file.lastModified + " title=" + file.name + " class='stand-img-add newpage'><img  name='attachment' src='" + e.target.result
-						+ "'width='100%' height='100%'/><div title='删除' onclick='deleteImg(" + file.lastModified + ")' class='delete-img'></div></div>";
+						+ "'width='100%' height='100%'/><div title='该文件尚未上传到服务器，删除的只是临时文件' onclick='deleteImg(" + file.lastModified + ")' class='delete-img-false'>删除</div></div>";
 				$("#first-socre").after(textHtml);
 				initWH(".stand-img-add");
 				// 上传文件到服务器

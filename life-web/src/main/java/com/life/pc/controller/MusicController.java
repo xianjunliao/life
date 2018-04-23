@@ -39,6 +39,12 @@ public class MusicController {
 	public String page(@PathVariable("pageName") String pageName, ModelMap model, HttpServletRequest request)
 			throws ServletException, IOException {
 		try {
+			String userCode = WebUtils.getUserCode(request);
+			List<MusicStandModel> models = musicStandService.selectByTop(userCode);
+			int len = models.size();
+			if (len > 0) {
+				model.put("musicname", models.get(0).getMusicname());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -59,19 +65,19 @@ public class MusicController {
 					name = models.get(0).getMusicname();
 				}
 			}
-			model.put("musicname",  name);
+			model.put("musicname", name);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return FTL_DIR + "open_stand.jsp";
 	}
-	
+
 	@RequestMapping("/printScore")
 	public String printScore(String id, ModelMap model, HttpServletRequest request)
 			throws ServletException, IOException {
 		try {
 			MusicStandModel musicStandModel = musicStandService.selectByPrimaryKey(id);
-			model.put("sf",  musicStandModel);
+			model.put("sf", musicStandModel);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,8 +190,8 @@ public class MusicController {
 
 	@RequestMapping(path = { "/toTop" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<String> toTop(String name, HttpServletResponse response, HttpServletRequest request)
-			throws ServletException, IOException {
+	public ResponseMessage<String> toTop(String name, boolean isTo, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			String userCode = WebUtils.getUserCode(request);
@@ -195,9 +201,15 @@ public class MusicController {
 				outMSG.setMessage("还没有上传过【" + name + "】乐谱，无法置顶！");
 				return outMSG;
 			}
-			musicStandService.toTopAfter(name, userCode);
-			outMSG.setCode("200");
-			outMSG.setMessage("置顶成功");
+			if (isTo) {
+				musicStandService.toTopAfter(name, userCode);
+				outMSG.setCode("200");
+				outMSG.setMessage("置顶成功");
+			}else{
+				musicStandService.toTopBefore(userCode);
+				outMSG.setCode("200");
+				outMSG.setMessage("取消置顶成功");
+			}
 		} catch (Exception e) {
 			outMSG.setCode("209");
 			outMSG.setMessage("置顶出现异常！");

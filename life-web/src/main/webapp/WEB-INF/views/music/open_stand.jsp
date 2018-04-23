@@ -79,15 +79,42 @@ body {
 }
 
 .print-img {
-	width: 16px;
-	height: 16px;
-	bottom: 60%;
-	left: 94%;
+	width: 20px;
+	bottom: 100%;
+	left: 97%;
+	color: white;
 	cursor: pointer;
 	position: relative;
 	text-align: center;
-	background-image: url("${base}static/images/print.png");
-	background-repeat: no-repeat;
+	background-color: maroon;
+}
+
+.only-back {
+	width: 20px;
+	/* 	height: 16px; */
+	bottom: 65%;
+	left: 97%;
+	color: white;
+	cursor: pointer;
+	position: relative;
+	text-align: center;
+	background-color: maroon;
+}
+
+.only-back:HOVER {
+	background-color: black;
+	color: white;
+}
+
+.print-img:HOVER {
+	background-color: black;
+	color: white;
+}
+
+.only-show {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
 }
 </style>
 <script type="text/javascript">
@@ -140,8 +167,9 @@ body {
 		var v = $("#musicname").val();
 		for (var d = 0; d < len; d++) {
 			var sf = data[d];
-			var textHtml = "<div  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
-					+ "'width='100%' height='100%'/><div title='打印这张图片' class='print-img' onclick='printSome(\"" + sf.id + "\")'></div></div>";
+			var textHtml = "<div id='stand-img-"+sf.id+"'   class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
+					+ "'width='100%' height='100%'/><div title='打印这张图片' class='print-img' onclick='printSome(\"" + sf.id + "\")'>打印</div><div id='only-" + sf.id
+					+ "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>只显示这张</div></div>";
 			$("#stand-main").append(textHtml);
 			initWH(".stand-img");
 		}
@@ -179,6 +207,19 @@ body {
 		} else {
 			exitFullScreen("stand-main")
 			$(target).text("全屏展示");
+		}
+	}
+	function onlyShow(id) {
+		var txt = $("#only-" + id).text();
+		if (txt == '只显示这张') {
+			$(".stand-img").hide(300);
+			$("#stand-img-" + id).addClass("only-show");
+			$("#stand-img-" + id).show(800);
+			$("#only-" + id).text("全部显示");
+		} else {
+			$(".stand-img").show(800);
+			$("#stand-img-" + id).removeClass("only-show");
+			$("#only-" + id).text("只显示这张");
 		}
 	}
 </script>

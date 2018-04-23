@@ -1,0 +1,70 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.finance-settings, .finance-record-buttons {
+	width: 100%;
+	height: 32px;
+	margin-top: 2px;
+	margin-left: 2px;
+	background-color: white;
+}
+
+.finance-settings-type {
+	float: left;
+	/* 	border: 1px black solid; */
+	background-color: #ece1e3;
+	border-radius: 3px;
+	margin: 2px;
+	padding: 2px;
+	cursor: pointer;
+}
+
+.finance-settings-type:HOVER, .finance-record-confirm:HOVER {
+	background-color: #fc4743;
+}
+
+.finance-record {
+	width: 100%;
+	height: 55%;
+	/* 	border: 1px red solid; */
+}
+
+.finance-tatal {
+	width: 100%;
+	height: 35%;
+	border: 1px red solid;
+}
+
+.finance-record-confirm {
+	float: left;
+	border-radius: 3px;
+	border: 1px black solid;
+	margin: 2px 28% 2px 5px;
+	background-color: #fef1ef;
+	font-size: 12px;
+	padding: 2px;
+	cursor: pointer;
+	padding: 2px;
+}
+
+.finance-record-tables {
+	float: left;
+	width: 32%;
+	margin-left: 2px;
+}
+
+.record-tables-tr {
+	border: 1px red solid;
+	background-color: #e8e8e8;
+	cursor: pointer;
+}
+
+.record-tables-tr:HOVER {
+	background-color: #d7ffeb;
+}
+
+.finance-record-tables table {
+	border: 1px #dcfcddsolid;
+}

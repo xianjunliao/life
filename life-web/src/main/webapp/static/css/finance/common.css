@@ -1,0 +1,37 @@
+/**Ïû³ýÆ¯¸¡*/
+.eliminate-float {
+	float: none !important;
+}
+
+th, td {
+	width: 100px;
+	height: 25px;
+}
+
+thead {
+	
+}
+
+thead:HOVER {
+	background-color: #95ff95 !important;
+}
+
+td {
+	/* 	border: 1px #777 dashed; */
+	
+}
+
+thead {
+	color: green;
+	font-family: "STKaiti";
+	background-color: #a0a0a0;
+}
+
+tbody {
+	color: blue;
+	height: 50px
+}
+
+tfoot {
+	color: red
+}

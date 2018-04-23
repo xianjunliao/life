@@ -13,6 +13,8 @@ body {
 	/* 	height: 100%; */
 	/* 	margin: 5px 5px 5px 5px; */
 	/* 	border-radius: 5px; */
+	background-color:#f7f5f5;
+	background-size: 100% 100%;
 	
 }
 
@@ -329,6 +331,10 @@ body {
 	top: 50%;
 	transform: translateY(-50%);
 	width: 40px;
+}
+.seting-botton:HOVER {
+	background-color: black;
+	color: white;
 }
 
 .seting-botton {

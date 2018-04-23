@@ -119,4 +119,10 @@ public class MusicStandServiceImpl implements MusicStandService {
 
 	}
 
+	@Override
+	public void toTopBefore(String usercode) {
+		musicStandDao.toTopBefore(usercode);
+		
+	}
+
 }

@@ -61,8 +61,6 @@ body {
 .li_backbround {
 	background-color: #f2f2f2;
 }
-
-
 </style>
 <script type="text/javascript">
 	function openWeb(url) {
@@ -104,15 +102,15 @@ body {
 </head>
 <body>
 	<div style="height: 100%; background-color: #ffffff; overflow: hidden;">
-		<div class="layui-row" style="width: 100%;background-color: #393d49;">
+		<div class="layui-row" style="width: 100%; background-color: #393d49;">
 			<div class="layui-col-xs12 layui-col-md2">
-				<div  style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;cursor: pointer;"></div>
+				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;cursor: pointer;"></div>
 			</div>
 			<div class="layui-col-xs6 layui-col-md8">
 				<ul class="layui-nav" lay-filter="demo">
 					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/ENG_chooce')"><a>每日英语</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}dev_loading')"><a>精达细算</a></li>
+					<li class="layui-nav-item" onclick="openWeb('${base}finance/main')"><a>精达细算</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
 					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
