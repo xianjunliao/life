@@ -710,7 +710,7 @@ body {
 				url : '${base}music/deleteByName?name=' + name,
 				success : function(result) {
 					if (result.code = 200) {
-						initAll();
+						location.reload();
 					} else {
 
 					}
@@ -920,7 +920,7 @@ body {
 				<div class="empty-add" id="empty-add" onClick="ahclick()">点击选择或拖拽图片文件到此处！</div>
 			</div>
 			<div class="stand-msg" id="stand-msg">
-				<div class="empty-stand-msg" id="stand-msg-name">为了避免上传重复的乐谱图片文件，请先输入乐谱名称。</div>
+				<div class="empty-stand-msg" id="stand-msg-name">为了避免上传重复名称的乐谱，请先输入乐谱名称。</div>
 			</div>
 			<div title="乐谱文件显示处" class="stand-img-add" id="second-socre"></div>
 		</div>

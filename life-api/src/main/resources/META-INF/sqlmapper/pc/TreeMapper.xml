@@ -69,26 +69,26 @@
 		select
 		<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;15 and toLike='0' and toTop='0' order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;30 and toLike='0' and toTop='0'
 	</select>
 
 	<select id="getHotTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select
 		<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=15 and toLike='0' and toTop='0' order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=30 and toLike='0' and toTop='0'
 	</select>
 	<select id="getLikeTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select
 		<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toLike='1' and toTop='0' order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toLike='1' and toTop='0'
 	</select>
 	<select id="getTopTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select
 			<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toTop='1' and toLike='0' order by clickCount desc
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and toTop='1' and toLike='0'
 	</select>
 
 	<select id="getMaxSortNo" resultType="java.lang.Long" parameterType="java.lang.String">

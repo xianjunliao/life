@@ -48,12 +48,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="record-tables-tr">
-							<td>2018-04-23</td>
-							<td>固定消费</td>
-							<td>33332.00</td>
-							<td>否</td>
-						</tr>
+<!-- 						<tr class="record-tables-tr"> -->
+<!-- 							<td>2018-04-23</td> -->
+<!-- 							<td>固定消费</td> -->
+<!-- 							<td>33332.00</td> -->
+<!-- 							<td>否</td> -->
+<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<td colspan="4" align="right"><button>添加</button></td>
@@ -71,12 +71,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="record-tables-tr">
-							<td>2018-04-27</td>
-							<td>招商信用卡</td>
-							<td>1500</td>
-							<td>否</td>
-						</tr>
+<!-- 						<tr class="record-tables-tr"> -->
+<!-- 							<td>2018-04-27</td> -->
+<!-- 							<td>招商信用卡</td> -->
+<!-- 							<td>1500</td> -->
+<!-- 							<td>否</td> -->
+<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<td colspan="4" align="right"><button>添加</button></td>
@@ -94,12 +94,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr class="record-tables-tr">
-							<td>2018-04-15</td>
-							<td>工资卡</td>
-							<td>9000</td>
-							<td>否</td>
-						</tr>
+<!-- 						<tr class="record-tables-tr"> -->
+<!-- 							<td>2018-04-15</td> -->
+<!-- 							<td>工资卡</td> -->
+<!-- 							<td>9000</td> -->
+<!-- 							<td>否</td> -->
+<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
 						<td colspan="4" align="right"><button>添加</button></td>
@@ -108,6 +108,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="finance-tatal">统计</div>
+	<div class="finance-tatal"></div>
 </body>
 </html>
