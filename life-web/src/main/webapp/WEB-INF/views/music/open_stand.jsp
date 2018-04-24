@@ -169,11 +169,11 @@ body {
 			var sf = data[d];
 			var textHtml = "<div id='stand-img-"+sf.id+"'   class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
 					+ "'width='100%' height='100%'/><div title='打印这张图片' class='print-img' onclick='printSome(\"" + sf.id + "\")'>打印</div><div id='only-" + sf.id
-					+ "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>只显示这张</div></div>";
+					+ "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>居中显示</div></div>";
 			$("#stand-main").append(textHtml);
 			initWH(".stand-img");
 		}
-		$("#stand-main").append("<div class='full-div' id='full-name'   onclick='toFullShow(this)'>全屏展示</div>");
+		$("#stand-main").append("<div class='full-div' id='full-name' onclick='toFullShow(this)'>全屏展示</div>");
 		$("#stand-main").append("<div class='full-div2' onclick='wc()'>关闭窗口</div>");
 
 	}
@@ -211,15 +211,15 @@ body {
 	}
 	function onlyShow(id) {
 		var txt = $("#only-" + id).text();
-		if (txt == '只显示这张') {
-			$(".stand-img").hide(300);
+		if (txt == '居中显示') {
+			$(".stand-img").hide();
 			$("#stand-img-" + id).addClass("only-show");
-			$("#stand-img-" + id).show(800);
+			$("#stand-img-" + id).show();
 			$("#only-" + id).text("全部显示");
 		} else {
-			$(".stand-img").show(800);
+			$(".stand-img").show();
 			$("#stand-img-" + id).removeClass("only-show");
-			$("#only-" + id).text("只显示这张");
+			$("#only-" + id).text("居中显示");
 		}
 	}
 </script>

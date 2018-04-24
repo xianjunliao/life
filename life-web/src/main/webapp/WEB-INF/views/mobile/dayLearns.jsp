@@ -682,7 +682,7 @@ body {
 			</div>
 		</header>
 		<div style="margin: 50px 0 0; text-align: center">
-			<input class="easyui-textbox" id="word-someone" data-options="multiline:true" style="width: 80%; height: 380px;"> <a onclick="confrmAdd(1)" class="easyui-linkbutton" style="width: 40%; height: 40px; margin-top: 15px;"><span style="font-size: 16px">新增</span></a> <a onclick="confrmAdd(2)" class="easyui-linkbutton" style="width: 40%; height: 40px; margin-top: 15px;"><span
+			<input class="easyui-textbox" id="word-someone" data-options="multiline:true" style="width: 80%; height: 360px;"> <a onclick="confrmAdd(1)" class="easyui-linkbutton" style="width: 38%; height: 40px; margin-top: 15px;"><span style="font-size: 16px">新增</span></a> <a onclick="confrmAdd(2)" class="easyui-linkbutton" style="width: 38%; height: 40px; margin-top: 15px;"><span
 				style="font-size: 16px">新增后返回</span></a>
 			<div id="word-ps" style="">提示：新增后会自动获取翻译结果。</div>
 		</div>

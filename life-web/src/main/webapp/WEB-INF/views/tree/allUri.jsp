@@ -43,7 +43,6 @@
 			$("#url-operation-window").css("cursor", "default");
 			$(this).unbind("mousemove");
 		});
-
 	});
 
 	function goUrl(id, url) {
@@ -353,6 +352,7 @@
 	font-size: 18 !important;
 	background-color: #f9f9db !important;
 	left: 50%;
+	transform: translateX(-50%);
 	bottom: 20px;
 	position: absolute;
 }
@@ -542,5 +542,6 @@
 			</form>
 		</div>
 	</div>
+
 </body>
 </html>

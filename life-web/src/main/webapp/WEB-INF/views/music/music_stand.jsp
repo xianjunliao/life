@@ -294,7 +294,7 @@ body {
 	width: 20px;
 	/* 	height: 16px; */
 	bottom: 70%;
-	left: 95%;
+	left: 97%;
 	color: white;
 	cursor: pointer;
 	position: relative;
@@ -831,7 +831,7 @@ body {
 		var len = data.length;
 		for (var d = 0; d < len; d++) {
 			var sf = data[d];
-			var textHtml = "<div id='stand-img-"+sf.id+"'  class='stand-img '><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url + "'width='100%' height='100%'/><div id='only-" + sf.id + "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>只显示这张</div></div>";
+			var textHtml = "<div id='stand-img-"+sf.id+"'  class='stand-img '><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url + "'width='100%' height='100%'/><div id='only-" + sf.id + "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>居中显示</div></div>";
 			$(id).append(textHtml);
 			initWH(".stand-img");
 		}
@@ -853,7 +853,7 @@ body {
 				for (var d = 0; d < len; d++) {
 					var sf = data[d];
 					var textHtml = "<div id='stand-img-"+sf.id+"'  class='stand-img'><img id=" + sf.id + " title=" + sf.filename + "  name='attachment' src='" + sf.url
-							+ "'width='100%' height='100%'/><div id='only-" + sf.id + "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>只显示这张</div></div>";
+							+ "'width='100%' height='100%'/><div id='only-" + sf.id + "' class='only-back' onclick='onlyShow(\"" + sf.id + "\")'>居中显示</div></div>";
 					$("#stand-main").append(textHtml);
 					initWH(".stand-img");
 				}
@@ -874,15 +874,15 @@ body {
 
 	function onlyShow(id) {
 		var txt = $("#only-" + id).text();
-		if (txt == '只显示这张') {
-			$(".stand-img").hide(300);
-			$("#stand-img-" + id).show(800);
+		if (txt == '居中显示') {
+			$(".stand-img").hide();
+			$("#stand-img-" + id).show();
 			$("#stand-img-" + id).addClass("only-show");
 			$("#only-" + id).text("全部显示");
 		} else {
 			$("#stand-img-" + id).removeClass("only-show");
-			$(".stand-img").show(800);
-			$("#only-" + id).text("只显示这张");
+			$(".stand-img").show();
+			$("#only-" + id).text("居中显示");
 		}
 	}
 </script>
