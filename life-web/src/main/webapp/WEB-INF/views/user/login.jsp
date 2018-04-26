@@ -139,7 +139,7 @@
 			<!-- form -->
 			<div id="errorMsg" class="button"></div>
 			<div style="text-align: left; margin-top: 5px; padding-left: 30px; padding-right: 40px; margin-bottom: 5px; font-weight: 700;">
-				<span>1.本网站需要身份编码才可登录，点击‘快速注册’按钮可直接注册和进入本网站。 </span><br> <span>2.本网站目前可使用的功能有【网址导航】、【每日英语】、【乐谱谱架】、【自由云】、【备忘录】。 </span><br> <span>3.使用过程中遇到任何问题可联系站长,联系邮箱：xianjun_liao@126.com。</span><br> <span>4.本网站目前大部分的功能还在开发或优化，欢迎随时使用体验。 </span><br>
+				<span>1.本网站需要身份编码才可登录，点击‘快速注册’按钮可直接注册和进入本网站。 </span><br> <span>2.本网站目前可使用的功能有【网址导航】、【每日英语】、【乐谱谱架】、【自由云】、【备忘录】。 </span><br> <span>3.本网站目前部分的功能还在开发中,使用过程中遇到任何问题可联系站长,联系邮箱：xianjun_liao@126.com。</span>
 			</div>
 			<!-- button -->
 		</section>

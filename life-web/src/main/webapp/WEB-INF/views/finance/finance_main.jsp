@@ -11,6 +11,8 @@
 <link href="${base}static/css/finance/finance_main.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${base}static/js/finance/common.js"></script>
 <script type="text/javascript" src="${base}static/js/finance/finance_main.js"></script>
+<script type="text/javascript" src="${base}static/js/finance/finance_statistics.js"></script>
+
 
 <style>
 </style>
@@ -20,13 +22,16 @@
 </head>
 <body>
 	<div class="finance-settings">
-		<div class="finance-settings-type">每日固定消费额度设置</div>
-		<div class="finance-settings-type">信用卡每月还款额度设置</div>
-		<div class="finance-settings-type">信用卡设置</div>
-		<div class="finance-settings-type">支付宝管理</div>
-		<div class="finance-settings-type">微信钱包管理</div>
-		<div class="finance-settings-type">工资额度</div>
-		<div class="finance-settings-type">其他收入额度</div>
+		<div class="finance-settings-type" onclick="settingFixed()">每日固定消费设置</div>
+		<div class="finance-settings-type">支付方式设置</div>
+		<div class="finance-settings-type">显示消费明细记录</div>
+		<div class="finance-settings-type">显示消费汇总记录</div>
+		<div class="finance-settings-type">显示统计图</div>
+		<!-- 		<div class="finance-settings-type">信用卡设置</div> -->
+		<!-- 		<div class="finance-settings-type">支付宝管理</div> -->
+		<!-- 		<div class="finance-settings-type">微信钱包管理</div> -->
+		<!-- 		<div class="finance-settings-type">工资额度</div> -->
+		<!-- 		<div class="finance-settings-type">其他收入额度</div> -->
 		<div class="eliminate-float"></div>
 	</div>
 	<div class="finance-record">
@@ -37,77 +42,94 @@
 		<!-- 			<div class="eliminate-float"></div> -->
 		<!-- 		</div> -->
 		<div class="finance-record-table-type">
-			<div class="finance-record-tables">
-				<table>
+			<div>
+				<table class="finance-record-tables">
 					<thead>
 						<tr>
+							<th>年份</th>
+							<th>季度</th>
+							<th>月份</th>
+							<th>星期</th>
 							<th>消费日期</th>
+							<th>消费名称</th>
 							<th>消费类型</th>
+							<th>消费方式</th>
 							<th>消费额度</th>
-							<th>是否确认</th>
+							<th>备注</th>
 						</tr>
 					</thead>
 					<tbody>
-<!-- 						<tr class="record-tables-tr"> -->
-<!-- 							<td>2018-04-23</td> -->
-<!-- 							<td>固定消费</td> -->
-<!-- 							<td>33332.00</td> -->
-<!-- 							<td>否</td> -->
-<!-- 						</tr> -->
-					</tbody>
-					<tfoot>
-						<td colspan="4" align="right"><button>添加</button></td>
-					</tfoot>
-				</table>
-			</div>
-			<div class="finance-record-tables">
-				<table>
-					<thead>
-						<tr>
-							<th>还款日期</th>
-							<th>还款方</th>
-							<th>还款额度</th>
-							<th>是否确认</th>
+						<tr class="record-tables-tr">
+							<td>2018年</td>
+							<td>第一季</td>
+							<td>4月</td>
+							<td>第17周</td>
+							<td>2018-04-23</td>
+							<td>早餐</td>
+							<td>支出</td>
+							<td>微信</td>
+							<td>5.00</td>
+							<td>第二个参数可以指定前面引入的主题.</td>
 						</tr>
-					</thead>
-					<tbody>
-<!-- 						<tr class="record-tables-tr"> -->
-<!-- 							<td>2018-04-27</td> -->
-<!-- 							<td>招商信用卡</td> -->
-<!-- 							<td>1500</td> -->
-<!-- 							<td>否</td> -->
-<!-- 						</tr> -->
-					</tbody>
-					<tfoot>
-						<td colspan="4" align="right"><button>添加</button></td>
-					</tfoot>
-				</table>
-			</div>
-			<div class="finance-record-tables">
-				<table>
-					<thead>
-						<tr>
-							<th>收入日期</th>
-							<th>收入类型</th>
-							<th>收入额度</th>
-							<th>是否确认</th>
+						<tr class="record-tables-tr">
+							<td>2018年</td>
+							<td>第一季</td>
+							<td>4月</td>
+							<td>第17周</td>
+							<td>2018-04-24</td>
+							<td>早餐</td>
+							<td>支出</td>
+							<td>支付宝</td>
+							<td>6.00</td>
+							<td>第二个参数可以指定前面引入的主题.</td>
 						</tr>
-					</thead>
-					<tbody>
-<!-- 						<tr class="record-tables-tr"> -->
-<!-- 							<td>2018-04-15</td> -->
-<!-- 							<td>工资卡</td> -->
-<!-- 							<td>9000</td> -->
-<!-- 							<td>否</td> -->
-<!-- 						</tr> -->
 					</tbody>
 					<tfoot>
-						<td colspan="4" align="right"><button>添加</button></td>
+						<td colspan="1" align="left">合计：</td>
+						<td colspan="9" align="right">￥5.00</td>
 					</tfoot>
 				</table>
 			</div>
 		</div>
 	</div>
-	<div class="finance-tatal"></div>
+	<div class="finance-total" id="finance-total-pie">
+		<!-- 		<div class="finance-total-echart" ></div> -->
+		<!-- 		<div class="finance-total-echart" id="finance-total-line"></div> -->
+	</div>
+	<div class="finance-total" id="finance-total-line">
+		<!-- 		<div class="finance-total-echart" ></div> -->
+		<!-- 		<div class="finance-total-echart" id="finance-total-line"></div> -->
+	</div>
+	<div class="eliminate-float"></div>
+	<div class="finance-operation">
+		<form action="">
+			<div>
+				<label>名称：</label><input type="text" name="fixedname">
+			</div>
+			<div>
+				<label>金额：</label><input type="text" name="fixedmoney">
+			</div>
+			<div>
+				<label>类型：</label><select>
+					<option value="0">支出</option>
+					<option value="1">收入</option>
+					<option value="2">取现</option>
+				</select>
+			</div>
+			<div>
+				<label>方式：</label><select>
+					<option value="0">微信</option>
+					<option value="1">支付宝</option>
+					<option value="2">借记卡</option>
+					<option value="3">信用卡</option>
+					<option value="3">现金</option>
+				</select>
+			</div>
+			<div>
+				<button type="submit">确定添加</button>
+				<button type="reset">清空</button>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

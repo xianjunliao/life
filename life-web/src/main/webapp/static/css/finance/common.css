@@ -4,21 +4,7 @@
 }
 
 th, td {
-	width: 100px;
 	height: 25px;
-}
-
-thead {
-	
-}
-
-thead:HOVER {
-	background-color: #95ff95 !important;
-}
-
-td {
-	/* 	border: 1px #777 dashed; */
-	
 }
 
 thead {
@@ -29,7 +15,7 @@ thead {
 
 tbody {
 	color: blue;
-	height: 50px
+	height: 30px
 }
 
 tfoot {

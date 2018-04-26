@@ -80,13 +80,15 @@ a:hover {
 }
 
 .container {
-	margin: 25px auto;
-	width: 400px;
-	min-width: 500px;;
-	position: relative;
-	top: 18%;
-	opacity: 0.7;
-	/* position: fixed !important;left: 0 !important;bottom: 30% !important; */
+	/* 	margin: 25px auto; */
+	/* 	width: 400px; */
+	/* 	min-width: 500px;; */
+	position: absolute;
+	transform: translateY(-30%);
+	transform: translateX(-50%);
+	left: 50%;
+	top: 30%;
+	opacity: 0.6;
 }
 
 #content {
