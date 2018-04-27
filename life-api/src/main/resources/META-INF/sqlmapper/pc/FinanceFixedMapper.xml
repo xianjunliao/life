@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.FinanceFixedDao" >
+  <resultMap id="BaseResultMap" type="com.life.pc.model.FinanceFixedModel" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="usercode" property="usercode" jdbcType="VARCHAR" />
+    <result column="fixedname" property="fixedname" jdbcType="VARCHAR" />
+    <result column="fixedmoney" property="fixedmoney" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
+    <result column="fixedtype" property="fixedtype" jdbcType="VARCHAR" />
+    <result column="fixedmode" property="fixedmode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+ 
+  <sql id="Base_Column_List" >
+    id, usercode, fixedname, fixedmoney, createtime, updatetime, fixedtype, fixedmode
+  </sql>
+ 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from finance_fixed
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from finance_fixed
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.life.pc.model.FinanceFixedModel" >
+    insert into finance_fixed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="usercode != null" >
+        usercode,
+      </if>
+      <if test="fixedname != null" >
+        fixedname,
+      </if>
+      <if test="fixedmoney != null" >
+        fixedmoney,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="fixedtype != null" >
+        fixedtype,
+      </if>
+      <if test="fixedmode != null" >
+        fixedmode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="usercode != null" >
+        #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedname != null" >
+        #{fixedname,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedmoney != null" >
+        #{fixedmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedtype != null" >
+        #{fixedtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedmode != null" >
+        #{fixedmode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.FinanceFixedModel" >
+    update finance_fixed
+    <set >
+      <if test="usercode != null" >
+        usercode = #{usercode,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedname != null" >
+        fixedname = #{fixedname,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedmoney != null" >
+        fixedmoney = #{fixedmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedtype != null" >
+        fixedtype = #{fixedtype,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedmode != null" >
+        fixedmode = #{fixedmode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

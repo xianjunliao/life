@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.FinanceRecordsDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.FinanceRecordsModel">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="usercode" property="usercode" jdbcType="VARCHAR" />
+		<result column="financename" property="financename" jdbcType="VARCHAR" />
+		<result column="financetype" property="financetype" jdbcType="VARCHAR" />
+		<result column="financemoney" property="financemoney" jdbcType="VARCHAR" />
+		<result column="financetime" property="financetime" jdbcType="VARCHAR" />
+		<result column="financeyear" property="financeyear" jdbcType="VARCHAR" />
+		<result column="financemonth" property="financemonth" jdbcType="VARCHAR" />
+		<result column="financeday" property="financeday" jdbcType="VARCHAR" />
+		<result column="financeweek" property="financeweek" jdbcType="VARCHAR" />
+		<result column="financequarter" property="financequarter" jdbcType="VARCHAR" />
+		<result column="financeremarks" property="financeremarks" jdbcType="VARCHAR" />
+		<result column="financemode" property="financemode" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<sql id="Base_Column_List">
+		id, usercode, financename, financetype, financemoney, financetime, financeyear, financemonth,
+		financeday, financeweek, financequarter, financeremarks, financemode
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from finance_records
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from finance_records
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+
+	<insert id="insertSelective" parameterType="com.life.pc.model.FinanceRecordsModel">
+		insert into finance_records
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="usercode != null">
+				usercode,
+			</if>
+			<if test="financename != null">
+				financename,
+			</if>
+			<if test="financetype != null">
+				financetype,
+			</if>
+			<if test="financemoney != null">
+				financemoney,
+			</if>
+			<if test="financetime != null">
+				financetime,
+			</if>
+			<if test="financeyear != null">
+				financeyear,
+			</if>
+			<if test="financemonth != null">
+				financemonth,
+			</if>
+			<if test="financeday != null">
+				financeday,
+			</if>
+			<if test="financeweek != null">
+				financeweek,
+			</if>
+			<if test="financequarter != null">
+				financequarter,
+			</if>
+			<if test="financeremarks != null">
+				financeremarks,
+			</if>
+			<if test="financemode != null">
+				financemode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="usercode != null">
+				#{usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="financename != null">
+				#{financename,jdbcType=VARCHAR},
+			</if>
+			<if test="financetype != null">
+				#{financetype,jdbcType=VARCHAR},
+			</if>
+			<if test="financemoney != null">
+				#{financemoney,jdbcType=VARCHAR},
+			</if>
+			<if test="financetime != null">
+				#{financetime,jdbcType=VARCHAR},
+			</if>
+			<if test="financeyear != null">
+				#{financeyear,jdbcType=VARCHAR},
+			</if>
+			<if test="financemonth != null">
+				#{financemonth,jdbcType=VARCHAR},
+			</if>
+			<if test="financeday != null">
+				#{financeday,jdbcType=VARCHAR},
+			</if>
+			<if test="financeweek != null">
+				#{financeweek,jdbcType=VARCHAR},
+			</if>
+			<if test="financequarter != null">
+				#{financequarter,jdbcType=VARCHAR},
+			</if>
+			<if test="financeremarks != null">
+				#{financeremarks,jdbcType=VARCHAR},
+			</if>
+			<if test="financemode != null">
+				#{financemode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.life.pc.model.FinanceRecordsModel">
+		update finance_records
+		<set>
+			<if test="usercode != null">
+				usercode = #{usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="financename != null">
+				financename = #{financename,jdbcType=VARCHAR},
+			</if>
+			<if test="financetype != null">
+				financetype = #{financetype,jdbcType=VARCHAR},
+			</if>
+			<if test="financemoney != null">
+				financemoney = #{financemoney,jdbcType=VARCHAR},
+			</if>
+			<if test="financetime != null">
+				financetime = #{financetime,jdbcType=VARCHAR},
+			</if>
+			<if test="financeyear != null">
+				financeyear = #{financeyear,jdbcType=VARCHAR},
+			</if>
+			<if test="financemonth != null">
+				financemonth = #{financemonth,jdbcType=VARCHAR},
+			</if>
+			<if test="financeday != null">
+				financeday = #{financeday,jdbcType=VARCHAR},
+			</if>
+			<if test="financeweek != null">
+				financeweek = #{financeweek,jdbcType=VARCHAR},
+			</if>
+			<if test="financequarter != null">
+				financequarter = #{financequarter,jdbcType=VARCHAR},
+			</if>
+			<if test="financeremarks != null">
+				financeremarks = #{financeremarks,jdbcType=VARCHAR},
+			</if>
+			<if test="financemode != null">
+				financemode = #{financemode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -33,8 +33,8 @@ body {
 
 .finance-total {
 	float: left;
-/* 	height: 35%; */
-/* 	display: none; */
+	/* 	height: 35%; */
+	/* 	display: none; */
 	/* 	border: 1px red solid; */
 }
 
@@ -84,7 +84,33 @@ body {
 
 .finance-operation {
 	width: 300px;
-	height: 450px;
 	float: none;
 	display: none;
+	position: absolute;
+	background-color: #e1f5ec;
+	left: 50%;
+	top: 20%;
+	transform: translateX(-50%);
+	box-shadow: 0px 0px 10px 5px #dad5d5;
+}
+
+#finance-operation-form {
+	margin: 20px;
+}
+
+.operation-form-filed {
+	width: 280px;
+}
+
+.operation-form-filed input, select {
+	width: 215px;
+}
+
+.operation-form-filed button {
+	margin-left: 45px;
+	margin-top: 5px;
+}
+
+.operation-form-title h5 {
+	text-align: center;
 }

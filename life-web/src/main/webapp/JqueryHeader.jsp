@@ -15,6 +15,7 @@
 <title>Free Life</title>
 <link rel="shortcut icon" href="${base}/static/images/lifehead.png" />
 <script type="text/javascript" src="${base}static/ui/easyui1.5/jquery.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${base}static/js/echarts.js"></script>
 <script type="text/javascript" src="${base}static/js/shine.js"></script>
 
