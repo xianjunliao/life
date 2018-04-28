@@ -5,4 +5,6 @@ public interface AutoSendService {
 	public void autoSendTask();
 	
 	public void autoAddLearnLine();
+	
+	public void autoAddFinance();
 }

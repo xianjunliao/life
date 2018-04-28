@@ -15,9 +15,11 @@ import com.life.common.Util;
 import com.life.common.memo.MailUtils;
 import com.life.common.memo.SMSUtils;
 import com.life.common.time.DateUtil;
+import com.life.pc.dao.FinanceRecordsDao;
 import com.life.pc.dao.LearnEnglishDao;
 import com.life.pc.dao.LifeUserDao;
 import com.life.pc.dao.MemosDao;
+import com.life.pc.model.FinanceRecordsModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LifeUserModel;
 import com.life.pc.model.MemosModel;
@@ -34,6 +36,8 @@ public class AutoSendServiceImpl implements AutoSendService {
 	private LearnEnglishDao learnEnglishDao;
 	@Autowired
 	private LifeUserDao lifeUserDao;
+	@Autowired
+	private FinanceRecordsDao financeRecordsDao;
 
 	@Scheduled(cron = "0/15 * * * * ? ")
 	@Override
@@ -73,6 +77,7 @@ public class AutoSendServiceImpl implements AutoSendService {
 		}
 
 	}
+
 	@Scheduled(cron = "0 0 2 * * ?")
 	@Override
 	public void autoAddLearnLine() {
@@ -80,9 +85,9 @@ public class AutoSendServiceImpl implements AutoSendService {
 		for (LifeUserModel lifeUserModel : all) {
 			String now4 = DateUtil.getNow4();
 			String usercode = lifeUserModel.getUsercode();
-			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4,usercode);
-			if (selectByTimeClass==null) {
-				LearnEnglishModel learnEnglishModel=new LearnEnglishModel();
+			LearnEnglishModel selectByTimeClass = learnEnglishDao.selectByTimeClass(now4, usercode);
+			if (selectByTimeClass == null) {
+				LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
 				learnEnglishModel.setId(Util.getUUId16());
 				learnEnglishModel.setDiary(DateUtil.getNow());
 				learnEnglishModel.setTimeclass(now4);
@@ -90,11 +95,42 @@ public class AutoSendServiceImpl implements AutoSendService {
 				learnEnglishModel.setUsercode(usercode);
 				learnEnglishDao.insertSelective(learnEnglishModel);
 			}
-			
+
 		}
-		
-		
+
 	}
 
-	
+	@Scheduled(cron = "0/30 * * * * ? ")
+	@Override
+	public void autoAddFinance() {
+		List<LifeUserModel> all = lifeUserDao.getAll();
+		for (LifeUserModel lifeUserModel : all) {
+			FinanceRecordsModel financeRecordsModel = createRecord("早餐",5.00, lifeUserModel.getUsercode());
+			financeRecordsDao.insertSelective(financeRecordsModel);
+			financeRecordsModel = createRecord("午餐",11.00, lifeUserModel.getUsercode());
+			financeRecordsDao.insertSelective(financeRecordsModel);
+			financeRecordsModel = createRecord("晚餐",15.00, lifeUserModel.getUsercode());
+			financeRecordsDao.insertSelective(financeRecordsModel);
+		}
+	}
+
+	private FinanceRecordsModel createRecord(String name,Double money, String usercode) {
+		FinanceRecordsModel financeRecordsModel = new FinanceRecordsModel();
+		financeRecordsModel.setFinancemonth(DateUtil.getNowMonth());
+		financeRecordsModel.setFinancequarter(DateUtil.getNowQuarter());
+		financeRecordsModel.setFinanceyear(DateUtil.getNowYear());
+		financeRecordsModel.setFinancetime(DateUtil.getNow());
+		financeRecordsModel.setFinancename(name);
+		financeRecordsModel.setFinancemoney(money);
+		financeRecordsModel.setFinancetype("支出");
+		financeRecordsModel.setFinancemode("微信");
+		financeRecordsModel.setFinanceremarks("系统自动生成的记录");
+		financeRecordsModel.setUsercode(usercode);
+		financeRecordsModel.setId(Util.getUUId16());
+		financeRecordsModel.setFinanceweek(DateUtil.getWeekDay());
+		financeRecordsModel.setFinanceday(DateUtil.getNow3());
+		financeRecordsModel.setFinancetime(DateUtil.getNow());
+		return financeRecordsModel;
+	}
+
 }

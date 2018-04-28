@@ -9,7 +9,7 @@ public class FinanceRecordsModel {
 
     private String financetype;
 
-    private String financemoney;
+    private Double financemoney;
 
     private String financetime;
 
@@ -59,12 +59,12 @@ public class FinanceRecordsModel {
         this.financetype = financetype == null ? null : financetype.trim();
     }
 
-    public String getFinancemoney() {
+    public Double getFinancemoney() {
         return financemoney;
     }
 
-    public void setFinancemoney(String financemoney) {
-        this.financemoney = financemoney == null ? null : financemoney.trim();
+    public void setFinancemoney(Double financemoney) {
+        this.financemoney = financemoney == null ? 0.00 :financemoney;
     }
 
     public String getFinancetime() {

@@ -20,7 +20,8 @@
 
 	<sql id="Base_Column_List">
 		id, usercode, financename, financetype, financemoney, financetime, financeyear, financemonth,
-		financeday, financeweek, financequarter, financeremarks, financemode
+		financeday, financeweek, financequarter, financeremarks,
+		financemode
 	</sql>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -29,6 +30,14 @@
 		from finance_records
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from finance_records
+		where usercode = #{usercode,jdbcType=VARCHAR} order by financeday desc
+	</select>
+
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from finance_records
 		where id = #{id,jdbcType=VARCHAR}

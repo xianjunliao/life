@@ -1,6 +1,7 @@
 package com.life.pc.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +41,40 @@ public class FinanceController {
 		return FTL_DIR + "finance_main.jsp";
 	}
 
+	@RequestMapping(path = { "/getList" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<List<FinanceRecordsModel>> getList(HttpServletResponse response, HttpServletRequest request)
+			throws ServletException, IOException {
+		ResponseMessage<List<FinanceRecordsModel>> outMSG = new ResponseMessage<>();
+		try {
+			String userCode = WebUtils.getUserCode(request);
+
+			List<FinanceRecordsModel> list = financeService.getList(userCode);
+			outMSG.setData(list);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/getRow" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<FinanceRecordsModel> getRow(String id, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<FinanceRecordsModel> outMSG = new ResponseMessage<>();
+		try {
+			FinanceRecordsModel row = financeService.getRow(id);
+			outMSG.setData(row);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
 	@RequestMapping(path = { "/addRecord" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<String> addRecord(FinanceRecordsModel financeRecordsModel, HttpServletResponse response,
@@ -63,8 +98,6 @@ public class FinanceController {
 			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
-			String userCode = WebUtils.getUserCode(request);
-			financeRecordsModel.setUsercode(userCode);
 			financeService.updateRecord(financeRecordsModel);
 			outMSG.setCode("200");
 		} catch (Exception e) {

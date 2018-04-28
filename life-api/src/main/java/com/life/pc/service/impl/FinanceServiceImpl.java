@@ -1,5 +1,7 @@
 package com.life.pc.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class FinanceServiceImpl implements FinanceService {
 		recordsModel.setFinancemonth(DateUtil.getNowMonth());
 		recordsModel.setFinancequarter(DateUtil.getNowQuarter());
 		recordsModel.setFinanceyear(DateUtil.getNowYear());
-		recordsModel.setFinanceday(DateUtil.getNow6());
+		recordsModel.setFinancetime(DateUtil.getNow());
 		recordsModel.setFinanceweek(DateUtil.getWeekDay());
 		recordsModel.setId(Util.getUUId16());
 		recordsModel.setFinancetime(DateUtil.getNow());
@@ -30,6 +32,17 @@ public class FinanceServiceImpl implements FinanceService {
 	@Override
 	public void updateRecord(FinanceRecordsModel recordsModel) {
 		financeRecordsDao.updateByPrimaryKeySelective(recordsModel);
+	}
+
+	@Override
+	public List<FinanceRecordsModel> getList(String usercode) {
+		List<FinanceRecordsModel> list = financeRecordsDao.getList(usercode);
+		return list;
+	}
+
+	@Override
+	public FinanceRecordsModel getRow(String id) {
+		return financeRecordsDao.selectByPrimaryKey(id);
 	}
 
 }
