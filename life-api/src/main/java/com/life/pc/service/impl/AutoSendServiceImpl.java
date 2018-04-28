@@ -100,7 +100,7 @@ public class AutoSendServiceImpl implements AutoSendService {
 
 	}
 
-	@Scheduled(cron = "0/30 * * * * ? ")
+	@Scheduled(cron = "0 0 2 * * ?")
 	@Override
 	public void autoAddFinance() {
 		List<LifeUserModel> all = lifeUserDao.getAll();
