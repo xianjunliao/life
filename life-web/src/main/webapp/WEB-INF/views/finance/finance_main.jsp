@@ -20,11 +20,24 @@
 </head>
 <body>
 	<div class="finance-settings">
-		<div class="finance-settings-type" onclick="settingFixed()">每日固定消费设置</div>
-		<div class="finance-settings-type">支付方式设置</div>
-		<div class="finance-settings-type">显示消费明细记录</div>
-		<div class="finance-settings-type">显示消费汇总记录</div>
-		<div class="finance-settings-type">显示统计图</div>
+		<div class="finance-settings-type">
+			<input type="date" placeholder="开始日期..." name="financeday" id="beginday">
+		</div>
+		<div class="finance-settings-type">
+			<input type="date" placeholder="结束日期..." name="financeday" id="endday">
+		</div>
+		<div class="finance-settings-type" onclick="goQuery(0)">确认查询</div>
+		<div class="finance-settings-type" id="finance-order" onclick="goOrder(this)">升序</div>
+		<div class="finance-settings-type interval"></div>
+		<div class="finance-settings-type" id="query1" onclick="goQuery(1)">日汇总</div>
+		<div class="finance-settings-type" id="query2" onclick="goQuery(2)">月汇总</div>
+		<div class="finance-settings-type" id="query3" onclick="goQuery(3)">季汇总</div>
+		<div class="finance-settings-type" id="query4" onclick="goQuery(4)">年汇总</div>
+		<div class="finance-settings-type interval"></div>
+		<div class="finance-settings-type finance-settings-type-this" id="query0" onclick="goQuery(0)">显示明细</div>
+		<div class="finance-settings-type" id="query5" onclick="goQuery(5)">显示统计图</div>
+		<div class="finance-settings-type interval"></div>
+		<div class="finance-settings-type" onclick="showOperation('setting')">每日固定消费设置</div>
 		<div class="finance-settings-type" onclick="showOperation(null)">新增记录</div>
 		<!-- 		<div class="finance-settings-type">信用卡设置</div> -->
 		<!-- 		<div class="finance-settings-type">支付宝管理</div> -->
@@ -41,9 +54,9 @@
 		<!-- 			<div class="eliminate-float"></div> -->
 		<!-- 		</div> -->
 		<div class="finance-record-table-type">
-			<div>
+			<div id="finance-record-items">
 				<table class="finance-record-tables">
-					<thead>
+					<thead id="finance-record-head">
 						<tr>
 							<th>年份</th>
 							<th>季度</th>
@@ -61,7 +74,19 @@
 					</tbody>
 					<tfoot>
 						<td colspan="1" align="left">合计：</td>
-						<td colspan="9" align="right">￥<span id="totalm">0.00</span></td>
+						<td colspan="9" align="right">支出:￥<b><span class="totalm">0.00</span></b>&nbsp;&nbsp;收入:<b>￥<span class="totalo">0.00</span></b>&nbsp;&nbsp;余额:<b>￥<span class="totalb">0.00</span></b></td>
+					</tfoot>
+				</table>
+			</div>
+			<div id="finance-record-total">
+				<table class="finance-record-tables">
+					<thead id="finance-record-total-head">
+					</thead>
+					<tbody id="finance-record-total-rows">
+					</tbody>
+					<tfoot>
+						<td colspan="1" align="left">合计：</td>
+						<td colspan="3" align="right">支出:￥<b><span class="totalm">0.00</span></b>&nbsp;&nbsp;收入:<b>￥<span class="totalo">0.00</span></b>&nbsp;&nbsp;余额:<b>￥<span class="totalb">0.00</span></b></td>
 					</tfoot>
 				</table>
 			</div>
@@ -77,11 +102,11 @@
 	</div>
 	<div class="eliminate-float"></div>
 	<div class="finance-operation">
-		<form  id="finance-operation-form" method="post">
+		<form id="finance-operation-form" method="post">
 			<div class="operation-form-title">
 				<h5 id="record-title">新增记录</h5>
 			</div>
-			<div class="operation-form-filed">
+			<div class="operation-form-filed filed-hide" >
 				<input type="hidden" name="id" id="recordId"> <label>日期：</label><input type="date" placeholder="请选择日期..." required="required" class="life-input-date" name="financeday" id="financeday">
 			</div>
 			<div class="operation-form-filed">
@@ -101,12 +126,13 @@
 					<option selected="selected" value="微信">微信</option>
 					<option value="支付宝">支付宝</option>
 					<option value="借记卡">借记卡</option>
+					<option value="Apply Pay">Apply Pay</option>
 					<option value="信用卡">信用卡</option>
 					<option value="现金">现金</option>
 					<option value="饭卡">饭卡</option>
 				</select>
 			</div>
-			<div class="operation-form-filed">
+			<div class="operation-form-filed filed-hide">
 				<label>备注：</label>
 				<textarea rows="5" placeholder="请输入消费备注..." cols="35" name="financeremarks" id="financeremarks"></textarea>
 			</div>

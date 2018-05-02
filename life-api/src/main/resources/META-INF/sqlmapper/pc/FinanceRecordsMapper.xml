@@ -31,11 +31,59 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
 
-	<select id="getList" resultMap="BaseResultMap" parameterType="java.lang.String">
+	<select id="getToDay" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select
 		<include refid="Base_Column_List" />
 		from finance_records
-		where usercode = #{usercode,jdbcType=VARCHAR} order by financeday desc
+		where financename = #{financename,jdbcType=VARCHAR} and financeday = #{financeday,jdbcType=VARCHAR} and usercode = #{usercode,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getSum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
+		select
+		financemode name,
+		sum(financemoney) value
+		from finance_records
+		where usercode
+		=#{usercode,jdbcType=VARCHAR} GROUP by financemode
+	</select>
+	<select id="getDaySum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
+		select
+		financeday name,
+		sum(financemoney) value
+		from finance_records
+		where usercode
+		=#{usercode,jdbcType=VARCHAR} and financetype='支出' GROUP BY financeday
+
+	</select>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="com.life.pc.model.InParamModel">
+		<if test="param.queryType==0">
+			select
+			<include refid="Base_Column_List" />
+			from finance_records
+			where usercode = #{param.usercode,jdbcType=VARCHAR} and financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} order by financeday
+			${param.order}
+		</if>
+		<if test="param.queryType==1">
+			select sum(financemoney) financemoney,financeday,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			financeday,financetype order by
+			financeday ${param.order}
+		</if>
+		<if test="param.queryType==2">
+			select sum(financemoney) financemoney,financemonth,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			financemonth,financeyear,financetype order by
+			financemonth ${param.order}
+		</if>
+		<if test="param.queryType==3">
+			select sum(financemoney) financemoney,financequarter,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			financequarter,financeyear,financetype order by
+			financequarter ${param.order}
+		</if>
+		<if test="param.queryType==4">
+			select sum(financemoney) financemoney,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			financeyear,financetype order by
+			financeyear ${param.order}
+		</if>
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">

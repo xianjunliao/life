@@ -15,10 +15,12 @@ import com.life.common.Util;
 import com.life.common.memo.MailUtils;
 import com.life.common.memo.SMSUtils;
 import com.life.common.time.DateUtil;
+import com.life.pc.dao.FinanceFixedDao;
 import com.life.pc.dao.FinanceRecordsDao;
 import com.life.pc.dao.LearnEnglishDao;
 import com.life.pc.dao.LifeUserDao;
 import com.life.pc.dao.MemosDao;
+import com.life.pc.model.FinanceFixedModel;
 import com.life.pc.model.FinanceRecordsModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LifeUserModel;
@@ -38,6 +40,8 @@ public class AutoSendServiceImpl implements AutoSendService {
 	private LifeUserDao lifeUserDao;
 	@Autowired
 	private FinanceRecordsDao financeRecordsDao;
+	@Autowired
+	private FinanceFixedDao financeFixedDao;
 
 	@Scheduled(cron = "0/15 * * * * ? ")
 	@Override
@@ -100,35 +104,51 @@ public class AutoSendServiceImpl implements AutoSendService {
 
 	}
 
-	@Scheduled(cron = "0 0 2 * * ?")
+	@Scheduled(cron = "0/10 * * * * ? ")
 	@Override
 	public void autoAddFinance() {
 		List<LifeUserModel> all = lifeUserDao.getAll();
 		for (LifeUserModel lifeUserModel : all) {
-			FinanceRecordsModel financeRecordsModel = createRecord("早餐",5.00, lifeUserModel.getUsercode());
-			financeRecordsDao.insertSelective(financeRecordsModel);
-			financeRecordsModel = createRecord("午餐",11.00, lifeUserModel.getUsercode());
-			financeRecordsDao.insertSelective(financeRecordsModel);
-			financeRecordsModel = createRecord("晚餐",15.00, lifeUserModel.getUsercode());
+			String usercode = lifeUserModel.getUsercode();
+
+			List<FinanceFixedModel> list = financeFixedDao.getList(usercode);
+			for (FinanceFixedModel financeFixedModel : list) {
+
+				getToday(financeFixedModel);
+			}
+
+		}
+	}
+
+	private void getToday(FinanceFixedModel financeFixedModel) {
+		String usercode = financeFixedModel.getUsercode();
+		String financename = financeFixedModel.getFinancename();
+		List<FinanceRecordsModel> toDay = financeRecordsDao.getToDay(usercode, financename, DateUtil.getNow5());
+		if (toDay.size() == 0) {
+			FinanceRecordsModel financeRecordsModel = createRecord(financeFixedModel);
 			financeRecordsDao.insertSelective(financeRecordsModel);
 		}
 	}
 
-	private FinanceRecordsModel createRecord(String name,Double money, String usercode) {
+	private FinanceRecordsModel createRecord(FinanceFixedModel financeFixedModel) {
 		FinanceRecordsModel financeRecordsModel = new FinanceRecordsModel();
-		financeRecordsModel.setFinancemonth(DateUtil.getNowMonth());
-		financeRecordsModel.setFinancequarter(DateUtil.getNowQuarter());
-		financeRecordsModel.setFinanceyear(DateUtil.getNowYear());
+		financeRecordsModel.setFinancemonth(DateUtil.getMonth());
+		financeRecordsModel.setFinancequarter(DateUtil.getQuarter());
+		financeRecordsModel.setFinanceyear(DateUtil.getYear());
 		financeRecordsModel.setFinancetime(DateUtil.getNow());
-		financeRecordsModel.setFinancename(name);
-		financeRecordsModel.setFinancemoney(money);
-		financeRecordsModel.setFinancetype("支出");
-		financeRecordsModel.setFinancemode("微信");
-		financeRecordsModel.setFinanceremarks("系统自动生成的记录");
-		financeRecordsModel.setUsercode(usercode);
+		financeRecordsModel.setFinancename(financeFixedModel.getFinancename());
+		String financetype = financeFixedModel.getFinancetype();
+		financeRecordsModel.setFinancetype(financetype);
+		financeRecordsModel.setFinancemoney(financeFixedModel.getFinancemoney());
+		if (financetype.equals("支出")) {
+			financeRecordsModel.setFinancemoney(financeRecordsModel.getFinancemoney() * -1);
+		}
+		financeRecordsModel.setFinancemode(financeFixedModel.getFinancemode());
+		financeRecordsModel.setFinanceremarks("固定消费记录，系统自动生成的。");
+		financeRecordsModel.setUsercode(financeFixedModel.getUsercode());
 		financeRecordsModel.setId(Util.getUUId16());
 		financeRecordsModel.setFinanceweek(DateUtil.getWeekDay());
-		financeRecordsModel.setFinanceday(DateUtil.getNow3());
+		financeRecordsModel.setFinanceday(DateUtil.getNow5());
 		financeRecordsModel.setFinancetime(DateUtil.getNow());
 		return financeRecordsModel;
 	}

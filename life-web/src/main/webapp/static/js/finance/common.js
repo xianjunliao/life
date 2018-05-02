@@ -1,10 +1,20 @@
 $(function() {
 	$(".life-input-date").val(getNowDateStr());
+	$("#beginday").val(getFirstDateStr());
+	$("#endday").val(getNowDateStr());
+
 });
 
 function getNowDateStr() {
 	var now = new Date().format("yyyy-MM-dd");
 	return now;
+}
+function getFirstDateStr() {
+	var now = new Date();
+	now.setDate(1);
+	var d = 1;
+	var f = now.format("yyyy-MM-dd");
+	return f;
 }
 
 Date.prototype.format = function(fmt) {

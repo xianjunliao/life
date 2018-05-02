@@ -232,14 +232,62 @@ public class DateUtil {
 	}
 
 	/**
+	 * 获取当前日期是星期几 return 星期几
+	 * @throws ParseException 
+	 */
+	public static String getWeekDay(String date) throws ParseException {
+		Calendar c = Calendar.getInstance(Locale.CHINA);
+		Date parse = DateUtil.parse(date,YYYMMDD);
+		c.setTime(parse);
+		int day = c.get(Calendar.DAY_OF_WEEK);
+		String weekDay = "";
+		switch (day) {
+		case 1:
+			weekDay = "星期日";
+			break;
+		case 2:
+			weekDay = "星期一";
+			break;
+		case 3:
+			weekDay = "星期二";
+			break;
+		case 4:
+			weekDay = "星期三";
+			break;
+		case 5:
+			weekDay = "星期四";
+			break;
+		case 6:
+			weekDay = "星期五";
+			break;
+		case 7:
+			weekDay = "星期六";
+			break;
+		default:
+			break;
+		}
+		return weekDay;
+	}
+	/**
 	 * 获取当前日期的月
 	 * 
 	 * @param 之前的第几个月
 	 * @return 前XX个月字符串
 	 */
-	public static String getNowMonth() {
-		String  m= getNow5().substring(5, 7);
-		return m+"月";
+	public static String getMonth() {
+		String m = getNow5().substring(5, 7);
+		return m + "月";
+	}
+
+	/**
+	 * 获取当前日期的月
+	 * 
+	 * @param 之前的第几个月
+	 * @return 前XX个月字符串
+	 */
+	public static String getMonth(String date) {
+		String m = date.substring(5, 7);
+		return m + "月";
 	}
 
 	/**
@@ -248,9 +296,20 @@ public class DateUtil {
 	 * @param 之前的第几个月
 	 * @return 前XX个月字符串
 	 */
-	public static String getNowYear() {
+	public static String getYear() {
 		String y = getNow5().substring(0, 4);
-		return y+"年";
+		return y + "年";
+	}
+
+	/**
+	 * 获取当前日期的年
+	 * 
+	 * @param 之前的第几个月
+	 * @return 前XX个月字符串
+	 */
+	public static String getYear(String date) {
+		String y = date.substring(0, 4);
+		return y + "年";
 	}
 
 	/**
@@ -259,7 +318,7 @@ public class DateUtil {
 	 * @param 之前的第几个月
 	 * @return 前XX个月字符串
 	 */
-	public static String getNowQuarter() {
+	public static String getQuarter() {
 		int m = new Date().getMonth() + 1;
 		if (m >= 1 && m <= 3) {
 			return "第一季度";
@@ -274,7 +333,32 @@ public class DateUtil {
 			return "第四季度";
 		}
 		return null;
-		
+
+	}
+
+	/**
+	 * 获取当前日期的月
+	 * 
+	 * @param 之前的第几个月
+	 * @return 前XX个月字符串
+	 */
+	public static String getQuarter(String date) {
+		String s = date.substring(5, 7);
+		Integer m = Integer.parseInt(s);
+		if (m >= 1 && m <= 3) {
+			return "第一季度";
+		}
+		if (m >= 4 && m <= 6) {
+			return "第二季度";
+		}
+		if (m >= 7 && m <= 9) {
+			return "第三季度";
+		}
+		if (m >= 10 && m <= 12) {
+			return "第四季度";
+		}
+		return null;
+
 	}
 
 	/**

@@ -21,3 +21,16 @@ tbody {
 tfoot {
 	color: red
 }
+
+.interval {
+	background-color: #d9f3e2 !important;
+	width: 1px !important;
+	height: 21px !important;
+	/* margin-right: 15px !important; */
+	/* margin-left: 15px !important; */
+	cursor: default !important;
+}
+
+input {
+	height: 22px;
+}

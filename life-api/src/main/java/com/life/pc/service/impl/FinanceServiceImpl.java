@@ -1,5 +1,6 @@
 package com.life.pc.service.impl;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.life.common.Util;
 import com.life.common.time.DateUtil;
+import com.life.pc.dao.FinanceFixedDao;
 import com.life.pc.dao.FinanceRecordsDao;
+import com.life.pc.model.FinanceFixedModel;
 import com.life.pc.model.FinanceRecordsModel;
+import com.life.pc.model.InParamModel;
+import com.life.pc.model.SumModel;
 import com.life.pc.service.FinanceService;
 
 @Service("financeService")
@@ -17,16 +22,29 @@ public class FinanceServiceImpl implements FinanceService {
 	@Autowired
 	private FinanceRecordsDao financeRecordsDao;
 
+	@Autowired
+	private FinanceFixedDao financeFixedDao;
+
 	@Override
 	public void addRecord(FinanceRecordsModel recordsModel) {
-		recordsModel.setFinancemonth(DateUtil.getNowMonth());
-		recordsModel.setFinancequarter(DateUtil.getNowQuarter());
-		recordsModel.setFinanceyear(DateUtil.getNowYear());
-		recordsModel.setFinancetime(DateUtil.getNow());
-		recordsModel.setFinanceweek(DateUtil.getWeekDay());
-		recordsModel.setId(Util.getUUId16());
-		recordsModel.setFinancetime(DateUtil.getNow());
-		financeRecordsDao.insertSelective(recordsModel);
+		try {
+			String financeday = recordsModel.getFinanceday();
+			String financetype = recordsModel.getFinancetype();
+			if (financetype.equals("支出")) {
+				recordsModel.setFinancemoney(recordsModel.getFinancemoney() * -1);
+			}
+			recordsModel.setFinancemonth(DateUtil.getMonth(financeday));
+			recordsModel.setFinancequarter(DateUtil.getQuarter(financeday));
+			recordsModel.setFinanceyear(DateUtil.getYear(financeday));
+			recordsModel.setFinancetime(DateUtil.getNow());
+			recordsModel.setFinanceweek(DateUtil.getWeekDay(financeday));
+
+			recordsModel.setId(Util.getUUId16());
+			recordsModel.setFinancetime(DateUtil.getNow());
+			financeRecordsDao.insertSelective(recordsModel);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -35,14 +53,31 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 
 	@Override
-	public List<FinanceRecordsModel> getList(String usercode) {
-		List<FinanceRecordsModel> list = financeRecordsDao.getList(usercode);
+	public List<FinanceRecordsModel> getList(InParamModel model) {
+		List<FinanceRecordsModel> list = financeRecordsDao.getList(model);
 		return list;
 	}
 
 	@Override
 	public FinanceRecordsModel getRow(String id) {
 		return financeRecordsDao.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void addFiexd(FinanceFixedModel financeFixedModel) {
+		financeFixedModel.setCreatetime(DateUtil.getNow());
+		financeFixedModel.setId(Util.getUUId16());
+		financeFixedDao.insertSelective(financeFixedModel);
+	}
+
+	@Override
+	public List<SumModel> getSum(String usercode) {
+		return financeRecordsDao.getSum(usercode);
+	}
+
+	@Override
+	public List<SumModel> getDaySum(String usercode) {
+		return financeRecordsDao.getDaySum(usercode);
 	}
 
 }

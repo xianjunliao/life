@@ -5,79 +5,87 @@ public class FinanceFixedModel {
 
     private String usercode;
 
-    private String fixedname;
+    private String financename;
 
-    private String fixedmoney;
+    private Double financemoney;
 
     private String createtime;
 
     private String updatetime;
 
-    private String fixedtype;
+    private String financetype;
 
-    private String fixedmode;
+    private String financemode;
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public String getUsercode() {
-        return usercode;
-    }
+	public String getUsercode() {
+		return usercode;
+	}
 
-    public void setUsercode(String usercode) {
-        this.usercode = usercode == null ? null : usercode.trim();
-    }
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
+	}
 
-    public String getFixedname() {
-        return fixedname;
-    }
+	public String getFinancename() {
+		return financename;
+	}
 
-    public void setFixedname(String fixedname) {
-        this.fixedname = fixedname == null ? null : fixedname.trim();
-    }
+	public void setFinancename(String financename) {
+		this.financename = financename;
+	}
 
-    public String getFixedmoney() {
-        return fixedmoney;
-    }
+	public Double getFinancemoney() {
+		return financemoney;
+	}
 
-    public void setFixedmoney(String fixedmoney) {
-        this.fixedmoney = fixedmoney == null ? null : fixedmoney.trim();
-    }
+	public void setFinancemoney(Double financemoney) {
+		this.financemoney = financemoney;
+	}
 
-    public String getCreatetime() {
-        return createtime;
-    }
+	public String getCreatetime() {
+		return createtime;
+	}
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime == null ? null : createtime.trim();
-    }
+	public void setCreatetime(String createtime) {
+		this.createtime = createtime;
+	}
 
-    public String getUpdatetime() {
-        return updatetime;
-    }
+	public String getUpdatetime() {
+		return updatetime;
+	}
 
-    public void setUpdatetime(String updatetime) {
-        this.updatetime = updatetime == null ? null : updatetime.trim();
-    }
+	public void setUpdatetime(String updatetime) {
+		this.updatetime = updatetime;
+	}
 
-    public String getFixedtype() {
-        return fixedtype;
-    }
+	public String getFinancetype() {
+		return financetype;
+	}
 
-    public void setFixedtype(String fixedtype) {
-        this.fixedtype = fixedtype == null ? null : fixedtype.trim();
-    }
+	public void setFinancetype(String financetype) {
+		this.financetype = financetype;
+	}
 
-    public String getFixedmode() {
-        return fixedmode;
-    }
+	public String getFinancemode() {
+		return financemode;
+	}
 
-    public void setFixedmode(String fixedmode) {
-        this.fixedmode = fixedmode == null ? null : fixedmode.trim();
-    }
+	public void setFinancemode(String financemode) {
+		this.financemode = financemode;
+	}
+
+	@Override
+	public String toString() {
+		return "FinanceFixedModel [id=" + id + ", usercode=" + usercode + ", financename=" + financename
+				+ ", financemoney=" + financemoney + ", createtime=" + createtime + ", updatetime=" + updatetime
+				+ ", financetype=" + financetype + ", financemode=" + financemode + "]";
+	}
+
 }

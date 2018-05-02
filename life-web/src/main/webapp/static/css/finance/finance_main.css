@@ -25,6 +25,10 @@ body {
 	background-color: #fc4743;
 }
 
+.finance-settings-type-this {
+	background-color: red !important;
+}
+
 .finance-record {
 	width: 100%;
 	height: 55%;
@@ -33,13 +37,14 @@ body {
 
 .finance-total {
 	float: left;
-	/* 	height: 35%; */
+	height: 35%;
 	/* 	display: none; */
 	/* 	border: 1px red solid; */
 }
 
 #finance-total-pie {
-	width: 35%;
+	width: 30%;
+/* 	margin-left: 50%; */
 }
 
 #finance-total-line {

@@ -4,12 +4,12 @@
   <resultMap id="BaseResultMap" type="com.life.pc.model.FinanceFixedModel" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="usercode" property="usercode" jdbcType="VARCHAR" />
-    <result column="fixedname" property="fixedname" jdbcType="VARCHAR" />
-    <result column="fixedmoney" property="fixedmoney" jdbcType="VARCHAR" />
+    <result column="fixedname" property="financename" jdbcType="VARCHAR" />
+    <result column="fixedmoney" property="financemoney" jdbcType="VARCHAR" />
     <result column="createtime" property="createtime" jdbcType="VARCHAR" />
     <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
-    <result column="fixedtype" property="fixedtype" jdbcType="VARCHAR" />
-    <result column="fixedmode" property="fixedmode" jdbcType="VARCHAR" />
+    <result column="fixedtype" property="financetype" jdbcType="VARCHAR" />
+    <result column="fixedmode" property="financemode" jdbcType="VARCHAR" />
   </resultMap>
   
  
@@ -22,6 +22,13 @@
     <include refid="Base_Column_List" />
     from finance_fixed
     where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+    <select id="getList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from finance_fixed
+    where usercode = #{usercode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from finance_fixed
@@ -36,10 +43,10 @@
       <if test="usercode != null" >
         usercode,
       </if>
-      <if test="fixedname != null" >
+      <if test="financename != null" >
         fixedname,
       </if>
-      <if test="fixedmoney != null" >
+      <if test="financemoney != null" >
         fixedmoney,
       </if>
       <if test="createtime != null" >
@@ -48,10 +55,10 @@
       <if test="updatetime != null" >
         updatetime,
       </if>
-      <if test="fixedtype != null" >
+      <if test="financetype != null" >
         fixedtype,
       </if>
-      <if test="fixedmode != null" >
+      <if test="financemode != null" >
         fixedmode,
       </if>
     </trim>
@@ -62,11 +69,11 @@
       <if test="usercode != null" >
         #{usercode,jdbcType=VARCHAR},
       </if>
-      <if test="fixedname != null" >
-        #{fixedname,jdbcType=VARCHAR},
+      <if test="financename != null" >
+        #{financename,jdbcType=VARCHAR},
       </if>
-      <if test="fixedmoney != null" >
-        #{fixedmoney,jdbcType=VARCHAR},
+      <if test="financemoney != null" >
+        #{financemoney,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=VARCHAR},
@@ -74,11 +81,11 @@
       <if test="updatetime != null" >
         #{updatetime,jdbcType=VARCHAR},
       </if>
-      <if test="fixedtype != null" >
-        #{fixedtype,jdbcType=VARCHAR},
+      <if test="financetype != null" >
+        #{financetype,jdbcType=VARCHAR},
       </if>
-      <if test="fixedmode != null" >
-        #{fixedmode,jdbcType=VARCHAR},
+      <if test="financemode != null" >
+        #{financemode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -90,10 +97,10 @@
         usercode = #{usercode,jdbcType=VARCHAR},
       </if>
       <if test="fixedname != null" >
-        fixedname = #{fixedname,jdbcType=VARCHAR},
+      	financename = #{fixedname,jdbcType=VARCHAR},
       </if>
       <if test="fixedmoney != null" >
-        fixedmoney = #{fixedmoney,jdbcType=VARCHAR},
+        financemoney = #{fixedmoney,jdbcType=VARCHAR},
       </if>
       <if test="createtime != null" >
         createtime = #{createtime,jdbcType=VARCHAR},
@@ -102,10 +109,10 @@
         updatetime = #{updatetime,jdbcType=VARCHAR},
       </if>
       <if test="fixedtype != null" >
-        fixedtype = #{fixedtype,jdbcType=VARCHAR},
+        financetype = #{fixedtype,jdbcType=VARCHAR},
       </if>
       <if test="fixedmode != null" >
-        fixedmode = #{fixedmode,jdbcType=VARCHAR},
+        financemode = #{fixedmode,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

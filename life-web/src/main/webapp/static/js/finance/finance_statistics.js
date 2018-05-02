@@ -1,10 +1,10 @@
 $(function() {
 	initPie();
-	initLine();
+//	initLine();
 });
 
 function initPie() {
-	var myChart = echarts.init(document.getElementById('finance-total-pie'));
+	var myChart = echarts.init(document.getElementById('finance-total-pie'), "shine");
 
 	// app.title = '堆叠柱状图';
 
@@ -27,79 +27,87 @@ function initPie() {
 			borderColor : '#235894'
 		}
 	};
-	option = {
-		backgroundColor : {
-			image : bgPatternImg,
-			repeat : 'repeat'
-		},
-		title : {
-			text : '消费方式情况',
-			textStyle : {
-				color : '#235894'
+
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : base + "finance/getSum",
+		success : function(result) {
+			if (result.code = 200) {
+				option = {
+					backgroundColor : {
+						image : bgPatternImg,
+						repeat : 'repeat'
+					},
+					title : {
+						text : '消费方式汇总',
+						textStyle : {
+							color : '#235894'
+						}
+					},
+					tooltip : {},
+					series : [ {
+						name : 'pie',
+						type : 'pie',
+						selectedMode : 'single',
+						selectedOffset : 30,
+						clockwise : true,
+						label : {
+							normal : {
+								textStyle : {
+									fontSize : 18,
+									color : '#235894'
+								}
+							}
+						},
+						labelLine : {
+							normal : {
+								lineStyle : {
+									color : '#235894'
+								}
+							}
+						},
+						data : result.data,
+						itemStyle : itemStyle
+					} ]
+				};
+				myChart.setOption(option);
+			} else {
+
 			}
-		},
-		tooltip : {},
-		series : [ {
-			name : 'pie',
-			type : 'pie',
-			selectedMode : 'single',
-			selectedOffset : 30,
-			clockwise : true,
-			label : {
-				normal : {
-					textStyle : {
-						fontSize : 18,
-						color : '#235894'
-					}
-				}
-			},
-			labelLine : {
-				normal : {
-					lineStyle : {
-						color : '#235894'
-					}
-				}
-			},
-			data : [ {
-				value : 335,
-				name : '微信'
-			}, {
-				value : 310,
-				name : '支付宝'
-			}, {
-				value : 234,
-				name : '信用卡'
-			}, {
-				value : 135,
-				name : '现金'
-			}, {
-				value : 1548,
-				name : '借记卡'
-			} ],
-			itemStyle : itemStyle
-		} ]
-	};
+		}
+	});
 
 	// 使用刚指定的配置项和数据显示图表。
-	myChart.setOption(option);
+
 }
 
 function initLine() {
-	var myChart = echarts.init(document.getElementById('finance-total-line'),"shine");
-	var option = {
-		xAxis : {
-			type : 'category',
-			data : [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]
-		},
-		yAxis : {
-			type : 'value'
-		},
-		series : [ {
-			data : [ 20, 25, 30, 35, 50, 80, 100 ],
-			type : 'line',
-			smooth : true
-		} ]
-	};
-	myChart.setOption(option);
+	var myChart = echarts.init(document.getElementById('finance-total-line'), "shine");
+	$.ajax({
+		type : 'POST',
+		dataType : "json",
+		url : base + "finance/getDaySum",
+		success : function(result) {
+			if (result.code = 200) {
+				console.log(result);
+				var option = {
+					xAxis : {
+						type : 'category',
+						data : result.data.key
+					},
+					yAxis : {
+						type : 'value'
+					},
+					series : [ {
+						data : result.data.value,
+						type : 'line',
+						smooth : true
+					} ]
+				};
+				myChart.setOption(option);
+			}
+		}
+	});
 
 }
