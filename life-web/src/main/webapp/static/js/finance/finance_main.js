@@ -2,6 +2,8 @@ var queryType = 0;
 $(function() {
 	$("#finance-record-items").show();
 	$("#finance-record-total").hide();
+	$("#finance-total-pie").hide(200);
+	$("#finance-total-line").hide(200);
 	var b = $("#beginday").val();
 	var e = $("#endday").val();
 	initList(b, e, "desc");
@@ -50,6 +52,7 @@ function initList(b, e, o) {
 
 			}
 			$("#finance-total-pie").hide(200);
+			$("#finance-total-line").hide(200);
 			$("#finance-record-rows").show(300);
 			$("#finance-record-total-rows").show();
 		}
@@ -130,10 +133,9 @@ function goOrder(obj) {
 }
 
 function goQuery(t) {
-	if(t==5){
-		$("#finance-total-pie").show(500);
-		return ;
-	}
+	queryType = t;
+	$(".finance-settings-type").removeClass("finance-settings-type-this");
+	$("#query" + queryType).addClass("finance-settings-type-this");
 	var txt = $("#finance-order").text();
 	var o = "desc";
 	if (txt == '升序') {
@@ -144,9 +146,6 @@ function goQuery(t) {
 	
 	var b = $("#beginday").val();
 	var e = $("#endday").val();
-	queryType = t;
-	$(".finance-settings-type").removeClass("finance-settings-type-this");
-	$("#query" + queryType).addClass("finance-settings-type-this");
 	initList(b, e, o);
 
 }

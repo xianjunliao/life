@@ -41,15 +41,15 @@
 	<select id="getSum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
 		select
 		financemode name,
-		sum(financemoney) value
+		sum(ABS(financemoney)) value
 		from finance_records
 		where usercode
-		=#{usercode,jdbcType=VARCHAR} GROUP by financemode
+		=#{usercode,jdbcType=VARCHAR} and financetype='支出' GROUP by financemode
 	</select>
 	<select id="getDaySum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
 		select
 		financeday name,
-		sum(financemoney) value
+		sum(ABS(financemoney)) value
 		from finance_records
 		where usercode
 		=#{usercode,jdbcType=VARCHAR} and financetype='支出' GROUP BY financeday

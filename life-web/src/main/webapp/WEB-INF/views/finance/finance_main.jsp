@@ -35,7 +35,7 @@
 		<div class="finance-settings-type" id="query4" onclick="goQuery(4)">年汇总</div>
 		<div class="finance-settings-type interval"></div>
 		<div class="finance-settings-type finance-settings-type-this" id="query0" onclick="goQuery(0)">显示明细</div>
-		<div class="finance-settings-type" id="query5" onclick="goQuery(5)">显示统计图</div>
+		<div class="finance-settings-type" id="query5" onclick="showStatistics()">显示统计图</div>
 		<div class="finance-settings-type interval"></div>
 		<div class="finance-settings-type" onclick="showOperation('setting')">每日固定消费设置</div>
 		<div class="finance-settings-type" onclick="showOperation(null)">新增记录</div>

@@ -133,17 +133,17 @@ public class FinanceController {
 
 	@RequestMapping(path = { "/getDaySum" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<Map<String , Double>> getDaySum(HttpServletResponse response, HttpServletRequest request)
+	public ResponseMessage<List<SumModel>> getDaySum(HttpServletResponse response, HttpServletRequest request)
 			throws ServletException, IOException {
-		ResponseMessage<Map<String , Double>> outMSG = new ResponseMessage<>();
+		ResponseMessage<List<SumModel>> outMSG = new ResponseMessage<>();
 		try {
-			Map<String , Double> map=new HashMap<>();
+			Map<String, Double> map = new HashMap<>();
 			String userCode = WebUtils.getUserCode(request);
 			List<SumModel> sum = financeService.getDaySum(userCode);
 			for (SumModel sumModel : sum) {
 				map.put(sumModel.getName(), sumModel.getValue());
 			}
-			outMSG.setData(map);
+			outMSG.setData(sum);
 			outMSG.setCode("200");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,6 +151,7 @@ public class FinanceController {
 		}
 		return outMSG;
 	}
+
 	@RequestMapping(path = { "/updateRecord" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<String> updateRecord(FinanceRecordsModel financeRecordsModel, HttpServletResponse response,
