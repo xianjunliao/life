@@ -64,6 +64,24 @@ public class FinanceController {
 		return outMSG;
 	}
 
+	@RequestMapping(path = { "/getListFixed" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<List<FinanceFixedModel>> getListFixed(HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<List<FinanceFixedModel>> outMSG = new ResponseMessage<>();
+		try {
+			String userCode = WebUtils.getUserCode(request);
+
+			List<FinanceFixedModel> list = financeService.getList(userCode);
+			outMSG.setData(list);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
 	@RequestMapping(path = { "/getRow" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<FinanceRecordsModel> getRow(String id, HttpServletResponse response,
@@ -71,6 +89,22 @@ public class FinanceController {
 		ResponseMessage<FinanceRecordsModel> outMSG = new ResponseMessage<>();
 		try {
 			FinanceRecordsModel row = financeService.getRow(id);
+			outMSG.setData(row);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
+	@RequestMapping(path = { "/getRowFixed" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<FinanceFixedModel> getRowFixed(String id, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<FinanceFixedModel> outMSG = new ResponseMessage<>();
+		try {
+			FinanceFixedModel row = financeService.getRowFiexd(id);
 			outMSG.setData(row);
 			outMSG.setCode("200");
 		} catch (Exception e) {
@@ -114,14 +148,30 @@ public class FinanceController {
 		return outMSG;
 	}
 
+	@RequestMapping(path = { "/delete" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<String> delete(String id, String type, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			financeService.delete(id, type);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
 	@RequestMapping(path = { "/getSum" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<List<SumModel>> getSum(HttpServletResponse response, HttpServletRequest request)
-			throws ServletException, IOException {
+	public ResponseMessage<List<SumModel>> getSum(InParamModel model, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<List<SumModel>> outMSG = new ResponseMessage<>();
 		try {
 			String userCode = WebUtils.getUserCode(request);
-			List<SumModel> sum = financeService.getSum(userCode);
+			model.setUsercode(userCode);
+			List<SumModel> sum = financeService.getSum(model);
 			outMSG.setData(sum);
 			outMSG.setCode("200");
 		} catch (Exception e) {
@@ -133,13 +183,14 @@ public class FinanceController {
 
 	@RequestMapping(path = { "/getDaySum" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public ResponseMessage<List<SumModel>> getDaySum(HttpServletResponse response, HttpServletRequest request)
-			throws ServletException, IOException {
+	public ResponseMessage<List<SumModel>> getDaySum(InParamModel model, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<List<SumModel>> outMSG = new ResponseMessage<>();
 		try {
 			Map<String, Double> map = new HashMap<>();
 			String userCode = WebUtils.getUserCode(request);
-			List<SumModel> sum = financeService.getDaySum(userCode);
+			model.setUsercode(userCode);
+			List<SumModel> sum = financeService.getDaySum(model);
 			for (SumModel sumModel : sum) {
 				map.put(sumModel.getName(), sumModel.getValue());
 			}

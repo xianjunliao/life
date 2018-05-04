@@ -17,6 +17,10 @@ public class FinanceFixedModel {
 
     private String financemode;
 
+    private String executetype;
+    
+    private String executedate;
+    
 	public String getId() {
 		return id;
 	}
@@ -81,11 +85,30 @@ public class FinanceFixedModel {
 		this.financemode = financemode;
 	}
 
+	
+	public String getExecutetype() {
+		return executetype;
+	}
+
+	public void setExecutetype(String executetype) {
+		this.executetype = executetype;
+	}
+
+	public String getExecutedate() {
+		return executedate;
+	}
+
+	public void setExecutedate(String executedate) {
+		this.executedate = executedate;
+	}
+
 	@Override
 	public String toString() {
 		return "FinanceFixedModel [id=" + id + ", usercode=" + usercode + ", financename=" + financename
 				+ ", financemoney=" + financemoney + ", createtime=" + createtime + ", updatetime=" + updatetime
-				+ ", financetype=" + financetype + ", financemode=" + financemode + "]";
+				+ ", financetype=" + financetype + ", financemode=" + financemode + ", executetype=" + executetype
+				+ ", executedate=" + executedate + "]";
 	}
+
 
 }

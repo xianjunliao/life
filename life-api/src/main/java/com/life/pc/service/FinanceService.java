@@ -15,11 +15,18 @@ public interface FinanceService {
 
 	public List<FinanceRecordsModel> getList(InParamModel model);
 	
+	public List<FinanceFixedModel> getList(String usercode);
+	
 	FinanceRecordsModel getRow(String id);
+	
+	FinanceFixedModel getRowFiexd(String id);
 	
 	void addFiexd(FinanceFixedModel financeFixedModel);
 	
-	List<SumModel> getSum(String usercode);
+	List<SumModel> getSum(InParamModel model);
 	
-	List<SumModel> getDaySum(String usercode);
+	List<SumModel> getDaySum(InParamModel model);
+	
+	void delete(String id,String type);
+	
 }

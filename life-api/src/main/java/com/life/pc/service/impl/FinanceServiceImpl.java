@@ -71,13 +71,36 @@ public class FinanceServiceImpl implements FinanceService {
 	}
 
 	@Override
-	public List<SumModel> getSum(String usercode) {
-		return financeRecordsDao.getSum(usercode);
+	public List<SumModel> getSum(InParamModel model) {
+		return financeRecordsDao.getSum(model);
 	}
 
 	@Override
-	public List<SumModel> getDaySum(String usercode) {
-		return financeRecordsDao.getDaySum(usercode);
+	public List<SumModel> getDaySum(InParamModel model) {
+		return financeRecordsDao.getDaySum(model);
+	}
+
+	@Override
+	public List<FinanceFixedModel> getList(String usercode) {
+		List<FinanceFixedModel> list = financeFixedDao.getList(usercode);
+		return list;
+	}
+
+	@Override
+	public FinanceFixedModel getRowFiexd(String id) {
+		return financeFixedDao.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void delete(String id, String type) {
+		if ("0".equals(type)) {
+			financeRecordsDao.deleteByPrimaryKey(id);
+		}
+
+		if ("6".equals(type)) {
+			financeFixedDao.deleteByPrimaryKey(id);
+		}
+
 	}
 
 }

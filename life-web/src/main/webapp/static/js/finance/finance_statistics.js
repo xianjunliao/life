@@ -1,24 +1,25 @@
 $(function() {
-	initPie();
-	initLine();
 });
 
 function showStatistics() {
-	$(".finance-settings-type").removeClass("finance-settings-type-this");
-	$("#query5").addClass("finance-settings-type-this");
 	$("#finance-total-pie").show(500);
 	$("#finance-total-line").show(600);
-	initPie();
-	initLine();
+	getInitValue();
+	initPie(b,e,o);
+	initLine(b,e,o);
 }
 
-function initPie() {
+function initPie(b, e, o) {
 	var myChart = echarts.init(document.getElementById('finance-total-pie'), "shine");
 	// app.title = '堆叠柱状图';
-
 	$.ajax({
 		type : 'POST',
 		dataType : "json",
+		data : {
+			beginday : b,
+			endday : e,
+			order : o
+		},
 		url : base + "finance/getSum",
 		success : function(result) {
 			if (result.code = 200) {
@@ -63,15 +64,19 @@ function initPie() {
 
 }
 
-function initLine() {
+function initLine(b, e, o) {
 	var myChart = echarts.init(document.getElementById('finance-total-line'), "shine");
 	$.ajax({
 		type : 'POST',
 		dataType : "json",
+		data : {
+			beginday : b,
+			endday : e,
+			order : o
+		},
 		url : base + "finance/getDaySum",
 		success : function(result) {
 			if (result.code = 200) {
-				console.log(result);
 				var d = result.data;
 				var len = d.length;
 				var dk = [];
@@ -80,48 +85,41 @@ function initLine() {
 					dk[i] = d[i].name;
 					dv[i] = d[i].value;
 				}
-				
+
 				var option = {
-					    color: ['#3398DB'],
-					    title : {
-							text : '日支出趋势图'
-						},
-					    tooltip : {
-					        trigger: 'axis',
-					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-					            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-					        }
-					    },
-					    grid: {
-					        left: '3%',
-					        right: '4%',
-					        bottom: '3%',
-					        containLabel: true
-					    },
-					    xAxis : [
-					        {
-					            type : 'category',
-					            data : dk,
-					            axisTick: {
-					                alignWithLabel: true
-					            }
-					        }
-					    ],
-					    yAxis : [
-					        {
-					            type : 'value'
-					        }
-					    ],
-					    series : [
-					        {
-					            type:'bar',
-					            barWidth: '60%',
-					            data:dv,
-					        }
-					    ]
-					};
-				
-				
+					color : [ '#3398DB' ],
+					title : {
+						text : '日支出趋势图'
+					},
+					tooltip : {
+						trigger : 'axis',
+						axisPointer : { // 坐标轴指示器，坐标轴触发有效
+							type : 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+						}
+					},
+					grid : {
+						left : '3%',
+						right : '4%',
+						bottom : '3%',
+						containLabel : true
+					},
+					xAxis : [ {
+						type : 'category',
+						data : dk,
+						axisTick : {
+							alignWithLabel : true
+						}
+					} ],
+					yAxis : [ {
+						type : 'value'
+					} ],
+					series : [ {
+						type : 'bar',
+						barWidth : '60%',
+						data : dv,
+					} ]
+				};
+
 				myChart.setOption(option);
 			}
 		}

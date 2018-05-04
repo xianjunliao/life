@@ -26,24 +26,22 @@
 		<div class="finance-settings-type">
 			<input type="date" placeholder="结束日期..." name="financeday" id="endday">
 		</div>
-		<div class="finance-settings-type" onclick="goQuery(0)">确认查询</div>
 		<div class="finance-settings-type" id="finance-order" onclick="goOrder(this)">升序</div>
+		<div class="finance-settings-type" id="query0" onclick="goQuery(0)">查询明细</div>
 		<div class="finance-settings-type interval"></div>
-		<div class="finance-settings-type" id="query1" onclick="goQuery(1)">日汇总</div>
-		<div class="finance-settings-type" id="query2" onclick="goQuery(2)">月汇总</div>
-		<div class="finance-settings-type" id="query3" onclick="goQuery(3)">季汇总</div>
-		<div class="finance-settings-type" id="query4" onclick="goQuery(4)">年汇总</div>
+		<div class="finance-settings-type query" id="query1" onclick="goQuery(1)">日汇总</div>
+		<div class="finance-settings-type query" id="query2" onclick="goQuery(2)">月汇总</div>
+		<div class="finance-settings-type query" id="query3" onclick="goQuery(3)">季汇总</div>
+		<div class="finance-settings-type query" id="query4" onclick="goQuery(4)">年汇总</div>
+		<div class="finance-settings-type" id="query6" onclick="goQuery(6)">固定记录</div>
 		<div class="finance-settings-type interval"></div>
-		<div class="finance-settings-type finance-settings-type-this" id="query0" onclick="goQuery(0)">显示明细</div>
-		<div class="finance-settings-type" id="query5" onclick="showStatistics()">显示统计图</div>
-		<div class="finance-settings-type interval"></div>
-		<div class="finance-settings-type" onclick="showOperation('setting')">每日固定消费设置</div>
-		<div class="finance-settings-type" onclick="showOperation(null)">新增记录</div>
-		<!-- 		<div class="finance-settings-type">信用卡设置</div> -->
-		<!-- 		<div class="finance-settings-type">支付宝管理</div> -->
-		<!-- 		<div class="finance-settings-type">微信钱包管理</div> -->
-		<!-- 		<div class="finance-settings-type">工资额度</div> -->
-		<!-- 		<div class="finance-settings-type">其他收入额度</div> -->
+		<div class="finance-settings-type" id="addFixed" onclick="showOperation('setting')">新增固定记录</div>
+		<div class="finance-settings-type" id="addRecord" onclick="showOperation(null)">新增支出收入记录</div>
+		<div class="finance-settings-type" id="updateFixed" onclick="updateRecord()">修改固定记录</div>
+		<div class="finance-settings-type" id="updateRecord" onclick="updateRecord()">修改支出收入记录</div>
+		<div class="finance-settings-type" id="deleteFixed" onclick="deleteRecord()">删除固定记录</div>
+		<div class="finance-settings-type" id="deleteRecord" onclick="deleteRecord()">删除支出收入</div>
+
 		<div class="eliminate-float"></div>
 	</div>
 	<div class="finance-record">
@@ -57,18 +55,6 @@
 			<div id="finance-record-items">
 				<table class="finance-record-tables">
 					<thead id="finance-record-head">
-						<tr>
-							<th>年份</th>
-							<th>季度</th>
-							<th>月份</th>
-							<th>星期</th>
-							<th>消费日期</th>
-							<th>消费名称</th>
-							<th>消费类型</th>
-							<th>消费方式</th>
-							<th>消费额度</th>
-							<th>备注</th>
-						</tr>
 					</thead>
 					<tbody id="finance-record-rows">
 					</tbody>
@@ -90,6 +76,14 @@
 					</tfoot>
 				</table>
 			</div>
+			<div id="finance-record-fixed">
+				<table class="finance-record-tables">
+					<thead id="finance-record-fixed-head">
+					</thead>
+					<tbody id="finance-record-fixed-rows">
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="finance-total" id="finance-total-pie">
@@ -106,23 +100,23 @@
 			<div class="operation-form-title">
 				<h5 id="record-title">新增记录</h5>
 			</div>
-			<div class="operation-form-filed filed-hide" >
-				<input type="hidden" name="id" id="recordId"> <label>日期：</label><input type="date" placeholder="请选择日期..." required="required" class="life-input-date" name="financeday" id="financeday">
+			<div class="operation-form-filed filed-hide">
+				<input type="hidden" name="id" id="recordId"> <label>记录日期：</label><input type="date" placeholder="请选择日期..." required="required" class="life-input-date" name="financeday" id="financeday">
 			</div>
 			<div class="operation-form-filed">
-				<label>名称：</label><input type="text" autofocus="autofocus" placeholder="输入这笔消费的名称..." required="required" name="financename" id="financename">
+				<label>记录名称：</label><input type="text" autofocus="autofocus" placeholder="输入这笔记录的名称..." required="required" name="financename" id="financename">
 			</div>
 			<div class="operation-form-filed">
-				<label>金额：</label><input type="number" placeholder="输入这笔消费的金额..." step="0.01" required="required" name="financemoney" id="financemoney">
+				<label>记录金额：</label><input type="number" placeholder="输入这笔记录的金额..." step="0.01" required="required" name="financemoney" id="financemoney">
 			</div>
 			<div class="operation-form-filed">
-				<label>类型：</label><select required="required" name="financetype" id="financetype">
+				<label>记录类型：</label><select required="required" name="financetype" id="financetype">
 					<option selected="selected" value="支出">支出</option>
 					<option value="收入">收入</option>
 				</select>
 			</div>
 			<div class="operation-form-filed">
-				<label>方式：</label><select required="required" name="financemode" id="financemode">
+				<label>记录方式：</label><select required="required" name="financemode" id="financemode">
 					<option selected="selected" value="微信">微信</option>
 					<option value="支付宝">支付宝</option>
 					<option value="借记卡">借记卡</option>
@@ -132,9 +126,26 @@
 					<option value="饭卡">饭卡</option>
 				</select>
 			</div>
+			<div class="operation-form-filed filed-show">
+				<label>执行方式：</label><select required="required" name="executetype" id="executetype">
+					<option selected="selected" value="每日">每日</option>
+					<option value="每周">每周</option>
+					<option value="每月">每月</option>
+					<option value="每年">每年</option>
+				</select>
+			</div>
+			<div class="operation-form-filed filed-show">
+				<label>执行时间：</label><select required="required" name="executedate" id="executedate">
+					<option selected="selected" value="凌晨">凌晨</option>
+					<option value="早上">早上</option>
+					<option value="中午">中午</option>
+					<option value="下午">下午</option>
+					<option value="晚上">晚上</option>
+				</select>
+			</div>
 			<div class="operation-form-filed filed-hide">
-				<label>备注：</label>
-				<textarea rows="5" placeholder="请输入消费备注..." cols="35" name="financeremarks" id="financeremarks"></textarea>
+				<label>记录备注：</label>
+				<textarea rows="5" placeholder="请输入消费备注..." cols="39" name="financeremarks" id="financeremarks"></textarea>
 			</div>
 			<div class="operation-form-filed">
 				<button type="button" id="comfrimBut" onclick="recordSubmit()">确定添加</button>

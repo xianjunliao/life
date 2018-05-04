@@ -38,21 +38,23 @@
 		where financename = #{financename,jdbcType=VARCHAR} and financeday = #{financeday,jdbcType=VARCHAR} and usercode = #{usercode,jdbcType=VARCHAR}
 	</select>
 
-	<select id="getSum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
+	<select id="getSum" resultType="com.life.pc.model.SumModel" parameterType="com.life.pc.model.InParamModel">
 		select
 		financemode name,
 		sum(ABS(financemoney)) value
 		from finance_records
 		where usercode
-		=#{usercode,jdbcType=VARCHAR} and financetype='支出' GROUP by financemode
+		=#{param.usercode,jdbcType=VARCHAR} and financetype='支出' and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP by financemode
 	</select>
-	<select id="getDaySum" resultType="com.life.pc.model.SumModel" parameterType="java.lang.String">
+	<select id="getDaySum" resultType="com.life.pc.model.SumModel" parameterType="com.life.pc.model.InParamModel">
 		select
 		financeday name,
 		sum(ABS(financemoney)) value
 		from finance_records
 		where usercode
-		=#{usercode,jdbcType=VARCHAR} and financetype='支出' GROUP BY financeday
+		=#{param.usercode,jdbcType=VARCHAR} and financetype='支出' and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY financeday
 
 	</select>
 
@@ -65,22 +67,26 @@
 			${param.order}
 		</if>
 		<if test="param.queryType==1">
-			select sum(financemoney) financemoney,financeday,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			select sum(financemoney) financemoney,financeday,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY
 			financeday,financetype order by
 			financeday ${param.order}
 		</if>
 		<if test="param.queryType==2">
-			select sum(financemoney) financemoney,financemonth,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			select sum(financemoney) financemoney,financemonth,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY
 			financemonth,financeyear,financetype order by
 			financemonth ${param.order}
 		</if>
 		<if test="param.queryType==3">
-			select sum(financemoney) financemoney,financequarter,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			select sum(financemoney) financemoney,financequarter,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY
 			financequarter,financeyear,financetype order by
 			financequarter ${param.order}
 		</if>
 		<if test="param.queryType==4">
-			select sum(financemoney) financemoney,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} GROUP BY
+			select sum(financemoney) financemoney,financeyear,financetype from finance_records where usercode = #{param.usercode,jdbcType=VARCHAR} and
+			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY
 			financeyear,financetype order by
 			financeyear ${param.order}
 		</if>

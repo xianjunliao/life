@@ -20,9 +20,9 @@ public interface FinanceRecordsDao {
 
 	int updateByPrimaryKeySelective(FinanceRecordsModel record);
 
-	List<SumModel> getSum(@Param("usercode") String usercode);
+	List<SumModel> getSum(@Param("param") InParamModel model);
 
-	List<SumModel> getDaySum(@Param("usercode") String usercode);
+	List<SumModel> getDaySum(@Param("param") InParamModel model);
 
 	List<FinanceRecordsModel> getToDay(@Param("usercode") String usercode, @Param("financename") String financename,
 			@Param("financeday") String financeday);

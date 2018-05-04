@@ -15,11 +15,11 @@ thead {
 
 tbody {
 	color: #2a8c7a;
-	height: 30px
+	overflow: auto;
 }
 
 tfoot {
-	color: red
+	color: red;
 }
 
 .interval {
