@@ -45,16 +45,23 @@
 		from finance_records
 		where usercode
 		=#{param.usercode,jdbcType=VARCHAR} and financetype='支出' and
-			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP by financemode
+		financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP by financemode
 	</select>
 	<select id="getDaySum" resultType="com.life.pc.model.SumModel" parameterType="com.life.pc.model.InParamModel">
 		select
 		financeday name,
-		sum(ABS(financemoney)) value
+		sum(ABS(financemoney)) value0,
+		sum(ABS(case when financemode='支付宝' then financemoney else 0 end)) value1,
+		sum(ABS(case when financemode='微信' then financemoney else 0 end)) value2,
+		sum(ABS(case when financemode='饭卡' then financemoney else 0 end)) value3,
+		sum(ABS(case when financemode='信用卡' then financemoney else 0 end)) value4,
+		sum(ABS(case when financemode='借记卡' then financemoney else 0 end)) value5,
+		sum(ABS(case when financemode='Apply Pay' then financemoney else 0 end)) value6,
+		sum(ABS(case when financemode='现金' then financemoney else 0 end)) value7
 		from finance_records
 		where usercode
 		=#{param.usercode,jdbcType=VARCHAR} and financetype='支出' and
-			financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY financeday
+		financeday&gt;=#{param.beginday} and financeday&lt;=#{param.endday} GROUP BY financeday
 
 	</select>
 

@@ -187,13 +187,9 @@ public class FinanceController {
 			HttpServletRequest request) throws ServletException, IOException {
 		ResponseMessage<List<SumModel>> outMSG = new ResponseMessage<>();
 		try {
-			Map<String, Double> map = new HashMap<>();
 			String userCode = WebUtils.getUserCode(request);
 			model.setUsercode(userCode);
 			List<SumModel> sum = financeService.getDaySum(model);
-			for (SumModel sumModel : sum) {
-				map.put(sumModel.getName(), sumModel.getValue());
-			}
 			outMSG.setData(sum);
 			outMSG.setCode("200");
 		} catch (Exception e) {
