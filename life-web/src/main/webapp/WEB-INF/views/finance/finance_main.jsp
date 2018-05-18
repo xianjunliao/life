@@ -37,8 +37,8 @@
 		<div class="finance-settings-type interval"></div>
 		<div class="finance-settings-type" id="addFixed" onclick="showOperation('setting')">新增固定记录</div>
 		<div class="finance-settings-type" id="addRecord" onclick="showOperation(null)">新增支出收入记录</div>
-		<div class="finance-settings-type" id="updateFixed" onclick="updateRecord()">修改固定记录</div>
-		<div class="finance-settings-type" id="updateRecord" onclick="updateRecord()">修改支出收入记录</div>
+		<div class="finance-settings-type" id="updateFixed" onclick="updateRecord('修改固定记录')">修改固定记录</div>
+		<div class="finance-settings-type" id="updateRecord" onclick="updateRecord('修改支出收入记录')">修改支出收入记录</div>
 		<div class="finance-settings-type" id="deleteFixed" onclick="deleteRecord()">删除固定记录</div>
 		<div class="finance-settings-type" id="deleteRecord" onclick="deleteRecord()">删除支出收入</div>
 
@@ -124,23 +124,6 @@
 					<option value="信用卡">信用卡</option>
 					<option value="现金">现金</option>
 					<option value="饭卡">饭卡</option>
-				</select>
-			</div>
-			<div class="operation-form-filed filed-show">
-				<label>执行方式：</label><select required="required" name="executetype" id="executetype">
-					<option selected="selected" value="每日">每日</option>
-					<option value="每周">每周</option>
-					<option value="每月">每月</option>
-					<option value="每年">每年</option>
-				</select>
-			</div>
-			<div class="operation-form-filed filed-show">
-				<label>执行时间：</label><select required="required" name="executedate" id="executedate">
-					<option selected="selected" value="凌晨">凌晨</option>
-					<option value="早上">早上</option>
-					<option value="中午">中午</option>
-					<option value="下午">下午</option>
-					<option value="晚上">晚上</option>
 				</select>
 			</div>
 			<div class="operation-form-filed filed-hide">

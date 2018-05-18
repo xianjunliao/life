@@ -128,7 +128,7 @@ function initList(b, e, o) {
 	});
 }
 
-function showOperation(id) {
+function showOperation(id,title) {
 	if (id == "setting") {
 		$("#record-title").text("新增固定记录");
 		$(".filed-hide").hide();
@@ -154,7 +154,7 @@ function showOperation(id) {
 			$(".filed-hide").show();
 			$(".filed-show").hide();
 		}
-		$("#record-title").text("修改记录");
+		$("#record-title").text(title);
 		$("#comfrimBut").text("确认修改");
 		$.ajax({
 			type : 'POST',
@@ -176,10 +176,12 @@ function showOperation(id) {
 function recordSubmit() {
 	var title = $("#record-title").text();
 	var actionUrl = base + "finance/addRecord"
-	if (title == '修改记录') {
+	if (title == '修改支出收入记录') {
 		actionUrl = base + "finance/updateRecord"
 	} else if (title == '新增固定记录') {
 		actionUrl = base + "finance/addFixed"
+	}else if (title == '修改固定记录') {
+		actionUrl = base + "finance/updateFixed"
 	}
 	$.ajax({
 		type : 'POST',
@@ -243,8 +245,6 @@ function createFiexdRow(obj) {
 	col += "<td>" + obj.financetype + "</td>";
 	col += "<td>" + obj.financemode + "</td>";
 	col += "<td>" + obj.financemoney.toFixed(2) + "</td>";
-	col += "<td>" + obj.executetype + "</td>";
-	col += "<td>" + obj.executedate + "</td>";
 	var row = "<tr class='record-tables-tr' id='" + obj.id + "' onclick='selectThis(\"" + obj.id + "\")'>" + col + "</tr>";
 	$("#finance-record-fixed-rows").append(row);
 }
@@ -255,15 +255,17 @@ function selectThis(id) {
 
 }
 
-function updateRecord() {
+function updateRecord(title) {
 	var l = $(".record-tables-tr-this").length;
 	if (l >= 1) {
 		var id = $(".record-tables-tr-this").attr("id");
-		showOperation(id);
+		showOperation(id,title);
 	} else {
 		alert("请选择需要修改的记录！");
 	}
 }
+
+
 
 function deleteRecord() {
 
@@ -352,8 +354,6 @@ function createFixedHead() {
 	head += "<th>类型</th>";
 	head += "<th>方式</th>";
 	head += "<th>金额</th>";
-	head += "<th>执行方式</th>";
-	head += "<th>执行时间</th>";
 	$("#finance-record-fixed-head").append(head);
 }
 
@@ -369,10 +369,6 @@ function setValue(obj) {
 	if (queryType == 0) {
 		$("#financeday").val(obj.financeday);
 		$("#financeremarks").val(obj.financeremarks);
-	}
-	if (queryType == 6) {
-		$("#executetype").val(obj.executetype);
-		$("#executedate").val(obj.executedate);
 	}
 	$("#financename").val(obj.financename);
 	$("#financemoney").val(obj.financemoney.toFixed(2));

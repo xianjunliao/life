@@ -63,9 +63,19 @@ body {
 }
 </style>
 <script type="text/javascript">
-	function openWeb(url) {
-
+	function openWeb(url, id) {
 		$("#openWeb").html('<iframe frameborder="0" src="' + url + '" width="100%" height="100%"></iframe>');
+		$(".layui-nav-item").removeClass("layui-this");
+		$("#" + id).addClass("layui-this");
+	}
+
+	function openWondow(url, t, w, h) {
+		layer.open({
+			title : t,
+			type : 2,
+			area : [ w, h ],
+			content : url
+		});
 	}
 	function autoGetCount() {
 
@@ -89,15 +99,40 @@ body {
 			}
 		});
 	}
-	function initPage() {
-		$("#openWeb").html('<iframe frameborder="0" src="${base}tree/getAllUri" width="100%" height="100%"></iframe>');
-		$("#fristOpen").addClass("layui-this");
-	}
 	$(function() {
 		autoGetCount();
 		setInterval("autoGetCount()", 30000);
-		initPage();
+		initMenus();
+
 	});
+	function initMenus() {
+
+		$.ajax({
+			type : 'POST',
+			dataType : "json",
+			url : '${base}menus',
+			success : function(result) {
+				if (result.code == 200) {
+					console.log(result.data);
+					var data = result.data;
+					var len = data.length;
+					for (var i = 0; i < len; i++) {
+						var o = data[i].menuorder;
+						if (i == 0) {
+							$("#menus").append(
+									"<li class='layui-nav-item layui-this' id=" + data[i].id + " onclick='openWeb(\"" + data[i].menuurl + "\"," + data[i].id + ")'><a>"
+											+ data[i].menuname + "</a></li>");
+							$("#openWeb").html("<iframe frameborder='0' src=" + data[i].menuurl + " width='100%' height='100%'></iframe>");
+						} else {
+							$("#menus").append(
+									"<li class='layui-nav-item' id=" + data[i].id + " onclick='openWeb(\"" + data[i].menuurl + "\"," + data[i].id + ")'><a>" + data[i].menuname
+											+ "</a></li>");
+						}
+					}
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -107,14 +142,7 @@ body {
 				<div style="background-image:url('${base }static/images/1517542171_397616.png'); z-index: 999;height:60px;cursor: pointer;"></div>
 			</div>
 			<div class="layui-col-xs6 layui-col-md8">
-				<ul class="layui-nav" lay-filter="demo">
-					<li class="layui-nav-item" id="fristOpen" onclick="openWeb('${base}tree/getAllUri')"><a>网站导航</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}learn/ENG_chooce')"><a>每日英语</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}finance/main')"><a>精达细算</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}file/upLoad')"><a>自由云</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}/memos')"><a>备忘录<span class="layui-badge">0</span></a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}learn/IT_index')"><a>编程技能要点</a></li>
-					<li class="layui-nav-item" onclick="openWeb('${base}music/music_stand')"><a>乐谱谱架</a></li>
+				<ul class="layui-nav" lay-filter="demo" id="menus">
 				</ul>
 			</div>
 			<div class="layui-col-xs12 layui-col-md2 layui-bg-black">
@@ -126,10 +154,13 @@ body {
 							<!-- 								<a href="javascript:;">个人中心<span class="layui-badge-dot"></span></a> -->
 							<!-- 							</dd> -->
 							<dd>
-								<a onclick="openWeb('${base}update')">完善个人信息</a>
+								<a onclick="openWondow('${base}update','个人信息','540px','500px')">个人信息</a>
 							</dd>
 							<dd>
-								<a onclick="openWeb('${base}updateHeadImg')">更换头像</a>
+								<a onclick="openWondow('${base}toMenus','菜单设置','840px','300px')">菜单设置</a>
+							</dd>
+							<dd>
+								<a onclick="openWondow('${base}updateHeadImg','更换头像','310px','200px')">更换头像</a>
 							</dd>
 							<!-- 							<dd> -->
 							<!-- 								<a href="javascript:;">修改密码</a> -->
@@ -146,13 +177,6 @@ body {
 	</div>
 	<script type="text/javascript" src="${base}static/ui/layui/layui.all.js"></script>
 	<script>
-		layui.use('element', function() {
-			var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-
-			//监听导航点击
-			element.on('nav(demo)', function(elem) {
-			});
-		});
 	</script>
 </body>
 </html>

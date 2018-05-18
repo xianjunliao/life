@@ -110,11 +110,11 @@
 			<if test="usercode != null">
 				usercode = #{usercode,jdbcType=VARCHAR},
 			</if>
-			<if test="fixedname != null">
-				financename = #{fixedname,jdbcType=VARCHAR},
+			<if test="financename != null">
+				fixedname = #{financename,jdbcType=VARCHAR},
 			</if>
-			<if test="fixedmoney != null">
-				financemoney = #{fixedmoney,jdbcType=VARCHAR},
+			<if test="financemoney != null">
+				fixedmoney = #{financemoney,jdbcType=VARCHAR},
 			</if>
 			<if test="createtime != null">
 				createtime = #{createtime,jdbcType=VARCHAR},
@@ -122,11 +122,11 @@
 			<if test="updatetime != null">
 				updatetime = #{updatetime,jdbcType=VARCHAR},
 			</if>
-			<if test="fixedtype != null">
-				financetype = #{fixedtype,jdbcType=VARCHAR},
+			<if test="financetype != null">
+				fixedtype = #{financetype,jdbcType=VARCHAR},
 			</if>
-			<if test="fixedmode != null">
-				financemode = #{fixedmode,jdbcType=VARCHAR},
+			<if test="financemode != null">
+				fixedmode = #{financemode,jdbcType=VARCHAR},
 			</if>
 			<if test="executetype != null">
 				executetype = #{executetype,jdbcType=VARCHAR},

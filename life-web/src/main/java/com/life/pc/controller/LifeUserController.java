@@ -1,6 +1,7 @@
 package com.life.pc.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ import com.life.pc.common.WebUtils;
 import com.life.pc.model.FileUserModel;
 import com.life.pc.model.LearnEnglishModel;
 import com.life.pc.model.LifeUserModel;
+import com.life.pc.model.MenuCustomModel;
 import com.life.pc.model.TreeModel;
 import com.life.pc.service.FileUserService;
 import com.life.pc.service.LearningService;
@@ -119,6 +121,12 @@ public class LifeUserController {
 		return FTL_DIR + "user/login.jsp";
 	}
 
+	@RequestMapping("/toMenus")
+	public String toMenus(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		return FTL_DIR + "user/menus.jsp";
+	}
+
 	@RequestMapping("/mobLogin")
 	public String mobLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -184,6 +192,7 @@ public class LifeUserController {
 				LearnEnglishModel learnEnglishModel = new LearnEnglishModel();
 				learnEnglishModel.setUsercode(code);
 				learningService.addLearnTime(learnEnglishModel);
+				lifeUserService.addMenus();
 				WebUtils.newSession(lifeUserModel, request);
 				String decryptDES = DESUtil.decryptDES(code);
 				if (isAuto) {
@@ -244,6 +253,87 @@ public class LifeUserController {
 			outMSG.setMessage("退出失败！");
 		}
 		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/menus")
+	public ResponseMessage<List<MenuCustomModel>> menus(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		ResponseMessage<List<MenuCustomModel>> outMSG = new ResponseMessage<>();
+		try {
+			String userCode = WebUtils.getUserCode(request);
+			List<MenuCustomModel> allByUsercode = lifeUserService.getMenus(userCode);
+			outMSG.setData(allByUsercode);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/toMove")
+	public ResponseMessage<String> toMove(String id, String type, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			String userCode = WebUtils.getUserCode(request);
+			lifeUserService.toMove(type, userCode, id);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/startUser")
+	public ResponseMessage<String> startUser(String id, String status, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			MenuCustomModel model = new MenuCustomModel();
+			model.setId(id);
+			model.setMenustatus(status);
+			model.setUpdatetime(DateUtil.getNow());
+			lifeUserService.updateMenu(model);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateName")
+	public ResponseMessage<String> updateName(String id, String name, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			MenuCustomModel model = new MenuCustomModel();
+			model.setId(id);
+			model.setMenuname(name);
+			model.setUpdatetime(DateUtil.getNow());
+			lifeUserService.updateMenu(model);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+
+	@ResponseBody
+	@RequestMapping("/AllMenus")
+	public List<MenuCustomModel> AllMenus(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		List<MenuCustomModel> allByUsercode = new ArrayList<>();
+		try {
+			String userCode = WebUtils.getUserCode(request);
+			allByUsercode = lifeUserService.getAllMenus(userCode);
+
+		} catch (Exception e) {
+		}
+		return allByUsercode;
 	}
 
 	@ResponseBody

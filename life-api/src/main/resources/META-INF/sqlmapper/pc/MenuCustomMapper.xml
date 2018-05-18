@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.life.pc.dao.MenuCustomDao">
+	<resultMap id="BaseResultMap" type="com.life.pc.model.MenuCustomModel">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="usercode" property="usercode" jdbcType="VARCHAR" />
+		<result column="menuurl" property="menuurl" jdbcType="VARCHAR" />
+		<result column="menustatus" property="menustatus" jdbcType="VARCHAR" />
+		<result column="menuname" property="menuname" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
+		<result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
+		<result column="menuorder" property="menuorder" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, usercode, menuurl, menustatus, menuname, createtime, updatetime,menuorder
+	</sql>
+
+	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from menu_custom where id=#{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getMenuAllByUsercode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from menu_custom where usercode=#{usercode,jdbcType=VARCHAR} order by menuorder asc
+	</select>
+
+	<select id="getOrder" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from menu_custom where usercode=#{usercode,jdbcType=VARCHAR} and menuorder=#{menuorder,jdbcType=VARCHAR} order by menuorder asc
+	</select>
+
+	<select id="getMenus" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from menu_custom where usercode=#{usercode,jdbcType=VARCHAR} and menustatus='0' order by menuorder asc
+	</select>
+
+	<insert id="insertSelective" parameterType="com.life.pc.model.MenuCustomModel">
+		insert into menu_custom
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="usercode != null">
+				usercode,
+			</if>
+			<if test="menuurl != null">
+				menuurl,
+			</if>
+			<if test="menustatus != null">
+				menustatus,
+			</if>
+			<if test="menuname != null">
+				menuname,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="updatetime != null">
+				updatetime,
+			</if>
+			<if test="menuorder != null">
+				menuorder,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="usercode != null">
+				#{usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="menuurl != null">
+				#{menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="menustatus != null">
+				#{menustatus,jdbcType=VARCHAR},
+			</if>
+			<if test="menuname != null">
+				#{menuname,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="menuorder != null">
+				#{menuorder,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByExampleSelective" parameterType="com.life.pc.model.MenuCustomModel">
+		update menu_custom
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.usercode != null">
+				usercode = #{record.usercode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menuurl != null">
+				menuurl = #{record.menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menustatus != null">
+				menustatus = #{record.menustatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menuname != null">
+				menuname = #{record.menuname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				createtime = #{record.createtime,jdbcType=VARCHAR},
+			</if>
+			<if test="record.updatetime != null">
+				updatetime = #{record.updatetime,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menuorder != null">
+				menuorder=#{record.menuorder,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{record.id,jdbcType=VARCHAR}
+	</update>
+</mapper>

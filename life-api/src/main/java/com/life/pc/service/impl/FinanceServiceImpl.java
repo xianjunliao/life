@@ -103,4 +103,9 @@ public class FinanceServiceImpl implements FinanceService {
 
 	}
 
+	@Override
+	public void updateFixed(FinanceFixedModel financeFixedModel) {
+		financeFixedDao.updateByPrimaryKeySelective(financeFixedModel);		
+	}
+
 }

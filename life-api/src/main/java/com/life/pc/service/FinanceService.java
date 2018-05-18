@@ -12,6 +12,8 @@ public interface FinanceService {
 	public void addRecord(FinanceRecordsModel recordsModel);
 
 	public void updateRecord(FinanceRecordsModel recordsModel);
+	
+	public void updateFixed(FinanceFixedModel financeFixedModel);
 
 	public List<FinanceRecordsModel> getList(InParamModel model);
 	

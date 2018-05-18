@@ -1,9 +1,7 @@
 package com.life.pc.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.life.common.ResponseMessage;
+import com.life.common.time.DateUtil;
 import com.life.pc.common.WebUtils;
 import com.life.pc.model.FinanceFixedModel;
 import com.life.pc.model.FinanceRecordsModel;
@@ -198,7 +197,7 @@ public class FinanceController {
 		}
 		return outMSG;
 	}
-
+	
 	@RequestMapping(path = { "/updateRecord" }, method = { RequestMethod.POST })
 	@ResponseBody
 	public ResponseMessage<String> updateRecord(FinanceRecordsModel financeRecordsModel, HttpServletResponse response,
@@ -206,6 +205,22 @@ public class FinanceController {
 		ResponseMessage<String> outMSG = new ResponseMessage<>();
 		try {
 			financeService.updateRecord(financeRecordsModel);
+			outMSG.setCode("200");
+		} catch (Exception e) {
+			e.printStackTrace();
+			outMSG.setCode("209");
+		}
+		return outMSG;
+	}
+	
+	@RequestMapping(path = { "/updateFixed" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public ResponseMessage<String> updateFixed(FinanceFixedModel financeFixedModel, HttpServletResponse response,
+			HttpServletRequest request) throws ServletException, IOException {
+		ResponseMessage<String> outMSG = new ResponseMessage<>();
+		try {
+			financeFixedModel.setUpdatetime(DateUtil.getNow());
+			financeService.updateFixed(financeFixedModel);
 			outMSG.setCode("200");
 		} catch (Exception e) {
 			e.printStackTrace();
