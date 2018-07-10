@@ -69,14 +69,14 @@
 		select
 		<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;30 and toLike='0' and toTop='0'
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount&lt;200 and toLike='0' and toTop='0'
 	</select>
 
 	<select id="getHotTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select
 		<include refid="columns" />
 		from pc_tree where
-		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=30 and toLike='0' and toTop='0'
+		userCode=#{userCode} and readMode!='rss' and level='3' and status='0' and clickCount>=200 and toLike='0' and toTop='0'
 	</select>
 	<select id="getLikeTrees" parameterType="java.lang.String" resultMap="treeMapper">
 		select
